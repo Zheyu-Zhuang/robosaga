@@ -22,15 +22,14 @@ class CustomGroupNorm(nn.Module):
         return self.eval_forward(x)
 
     def eval_forward(self, x):
+        out = self.group_norm(x)
         B, C, H, W = x.size()
         x = x.view(B, self.num_groups, -1)
         # important to detach the mean and var from the graph, ensuring the completeness of fullgrad
         mean = x.mean(dim=-1, keepdim=True).detach()
         var = x.var(dim=-1, unbiased=False, keepdim=True).detach()
-        x = (x - mean) / torch.sqrt(var + self.eps)
         w, b = self.group_norm.weight.view(1, C, 1, 1), self.group_norm.bias.view(1, C, 1, 1)
-        # fullgrad
         m = mean.repeat_interleave(C // self.num_groups, dim=1).view(B, C, 1, 1)
         v = var.repeat_interleave(C // self.num_groups, dim=1).view(B, C, 1, 1)
         self.fullgrad_bias = -(m * w / torch.sqrt(v + self.eps)) + b
-        return x.view(B, C, H, W) * w + b
+        return out

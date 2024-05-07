@@ -18,6 +18,7 @@ from diffusion_policy.model.diffusion.mask_generator import LowdimMaskGenerator
 from diffusion_policy.policy.base_image_policy import BaseImagePolicy
 from robomimic.algo import algo_factory
 from robomimic.algo.algo import PolicyAlgo
+from robosaga.custom_group_norm import CustomGroupNorm
 from robosaga.saliency_guided_augmentation import SaliencyGuidedAugmentation
 
 
@@ -103,7 +104,7 @@ class DiffusionUnetHybridImagePolicy(BaseImagePolicy):
             replace_submodules(
                 root_module=obs_encoder,
                 predicate=lambda x: isinstance(x, nn.BatchNorm2d),
-                func=lambda x: nn.GroupNorm(
+                func=lambda x: CustomGroupNorm(
                     num_groups=x.num_features // 16, num_channels=x.num_features
                 ),
             )
@@ -178,7 +179,7 @@ class DiffusionUnetHybridImagePolicy(BaseImagePolicy):
             "buffer_shape": (84, 84),
             "save_dir": "",
             "save_debug_im_every_n_batches": 1,
-            "background_path": "/proj/berzelius-2023-338/users/x_zhzhu/coco_5k_84x84/",
+            "background_path": "/home/zheyu/Dataset/robomimic_datasets/coco_5k_84x84/",
             "normalizer": self.normalizer,
         }
 

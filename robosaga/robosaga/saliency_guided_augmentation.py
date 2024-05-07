@@ -4,10 +4,11 @@ from math import cos, pi
 
 import cv2
 import numpy as np
-import robomimic.utils.obs_utils as ObsUtils
 import torch
 from PIL import Image
 from torchvision import transforms
+
+import robomimic.utils.obs_utils as ObsUtils
 
 try:
     from robomimic.models.obs_core import VisualCore
@@ -35,6 +36,7 @@ class SaliencyGuidedAugmentation:
         self.save_dir = kwargs.get("save_dir", None)
         self.disable_buffer = kwargs.get("disable_buffer", False)
         self.augmentation_ratio = kwargs.get("augmentation_ratio", None)
+        self.normalizer = kwargs.get("normalizer", None)
         #
         self.epoch_idx = 0  # epoch index
         self.batch_idx = 0  # batch index
@@ -90,7 +92,7 @@ class SaliencyGuidedAugmentation:
 
         return obs_dict, obs_meta
 
-    def _update_saliency_on_batch(self, buffer_ids, obs_dict, obs_meta, validate, normalizer=None):
+    def _update_saliency_on_batch(self, buffer_ids, obs_dict, obs_meta, validate):
         update_ratio = 0 if validate else self.update_ratio_per_batch
         assert update_ratio >= 0 and update_ratio <= 1, "update_ratio should be in [0, 1]"
         if self.mode == "full_policy":
@@ -105,6 +107,7 @@ class SaliencyGuidedAugmentation:
 
         if validate and not save_on_this_batch:
             return out
+        vis_ims = []
         for k in obs_meta["visual_modalities"]:
             augmentation_indices = random.sample(range(n_samples), n_augmentations)
             update_indices = augmentation_indices[:n_updates] if not validate else [0]
@@ -113,42 +116,49 @@ class SaliencyGuidedAugmentation:
             crop_inds_ = None if crop_inds_ is None else crop_inds_[update_indices]
             buffer_shape = obs_meta[k]["raw_shape"][-2:]
             #
+            net_input_dict = None
+            image = obs_dict[k][update_indices]
             if self.mode == "full_policy":
                 net_input_dict = {k: obs_dict[k][update_indices] for k in obs_dict.keys()}
-                image = net_input_dict[k]
-            else:
-                net_input_dict = None
-                image = obs_dict[k][update_indices]
             smaps = self.extractors[k].saliency(image, net_input_dict).detach()
             norm_smaps = self.linear_normalisation(smaps)
             if not validate:
-                if not self.disable_buffer:
-                    self.update_buffer(norm_smaps, updated_ids, k, buffer_shape, crop_inds_)
+                self.update_buffer(norm_smaps, updated_ids, k, buffer_shape, crop_inds_)
             else:
-                if normalizer is not None:
-                    image = normalizer[k].unnormalize(image)
-                im_name = f"batch_{self.batch_idx}_{k}.jpg"
-                self.create_saliency_dir()
-                im_name = os.path.join(self.save_dir, f"epoch_{self.epoch_idx}", im_name)
-                self.save_debug_images([image], norm_smaps, im_name, idx=0)
+                idx = 0
+                vis_ims_ = [self.denormalize_image(image[idx], k)]
+                vis_smap = norm_smaps[idx]
+                vis_ims.append(self.save_debug_images(vis_ims_, vis_smap))
             out[k] = {
                 "augmentations": augmentation_indices,
                 "updates": update_indices,
                 "smaps": norm_smaps,
             }
+        if save_on_this_batch:
+            im_name = f"batch_{self.batch_idx}_saliency.jpg"
+            im_name = os.path.join(self.save_dir, f"epoch_{self.epoch_idx}", im_name)
+            self.create_saliency_dir()
+            cv2.imwrite(im_name, cv2.vconcat(vis_ims))
         return out
+
+    def denormalize_image(self, x, obs_key):
+        if self.normalizer is None:
+            return x
+        if len(x.shape) == 3:
+            x = x.unsqueeze(0)
+        x = self.normalizer[obs_key].unnormalize(x)
+        return x.squeeze(0) if x.shape[0] == 1 else x
 
     # the main function to be called for data augmentation
     def saliency_guided_augmentation_on_batch(
-        self, obs_dict, buffer_ids, epoch_idx, batch_idx, validate, normalizer=None
+        self, obs_dict, buffer_ids, epoch_idx, batch_idx, validate
     ):
         self.epoch_idx, self.batch_idx = epoch_idx, batch_idx
         self.regitration_check()
         obs_dict, obs_meta = self.prepare_obs_dict(obs_dict, validate)
         self.model.eval()
-        update_dict = self._update_saliency_on_batch(
-            buffer_ids, obs_dict, obs_meta, validate, normalizer
-        )
+        update_dict = self._update_saliency_on_batch(buffer_ids, obs_dict, obs_meta, validate)
+        vis_ims = []
         if validate:
             return self.restore_obs_dict_shape(obs_dict, obs_meta)
         for i, obs_key in enumerate(obs_meta["visual_modalities"]):
@@ -170,21 +180,91 @@ class SaliencyGuidedAugmentation:
             )
             bg = obs_meta["randomisers"][i].forward_in(self.background_images[rand_bg_idx])
             x = obs_dict[obs_key][augment_indices]
-            if normalizer is not None:
-                x = normalizer[obs_key].unnormalize(x)  # unnormalize before augmentation
+            bg = self.normalizer[obs_key].normalize(bg) if self.normalizer is not None else bg
             x_aug = x * smaps + bg * (1 - smaps)
-            if self.batch_idx % 50 == 0:
-                im_name = f"augmented_{obs_key}.jpg"
-                self.save_debug_images([x, x_aug, bg], smaps, im_name, idx=0)
-            if normalizer is not None:
-                x_aug = normalizer[obs_key].normalize(x_aug)
             obs_dict[obs_key][augment_indices] = x_aug
+            if self.batch_idx % 50 == 0:
+                idx = 0
+                vis_ims_ = [x[idx], bg[idx]]
+                vis_ims_ = [self.denormalize_image(im, obs_key) for im in vis_ims_]
+                vis_ims.append(self.save_debug_images(vis_ims, smaps[idx]))
+        if len(vis_ims) >= 1:
+            vis_ims = cv2.vconcat(vis_ims)
+            cv2.imwrite("augmentation_vis", vis_ims)
         return self.restore_obs_dict_shape(obs_dict, obs_meta)
 
     # --------------------------------------------------------------------------- #
     #                           Saliency Core Functions                           #
     # --------------------------------------------------------------------------- #
 
+    def update_buffer(self, s_map, buffer_ids, obs_key, buffer_shape=None, crop_inds=None):
+        if self.disable_buffer:
+            return
+        assert obs_key in self.extractors, "obs_key not in extractors"
+        assert s_map.shape[0] == buffer_ids.shape[0], "saliency and ids size mismatch"
+        assert s_map.min() >= 0 and s_map.max() <= 1, "s_map not in [0, 1] range"
+        if crop_inds is not None:
+            assert crop_inds.shape[0] == buffer_ids.shape[0], "crop_inds and ids size mismatch"
+
+        # ids may have repeated values, remove duplicates to avoid repeatitive saliency update
+        unique_ids = self._first_occurrence_indices(buffer_ids)
+        buffer_ids = buffer_ids[unique_ids]
+        crop_inds = crop_inds[unique_ids] if crop_inds is not None else None
+
+        s_map = s_map[unique_ids]
+        s_map = (s_map * 255).to(torch.uint8)
+
+        h_buffer, w_buffer = buffer_shape if buffer_shape is not None else s_map.shape[-2:]
+        device = s_map.device
+
+        # buffers are maintained in [0, 255] range as uint8 for memory efficiency
+        self.check_buffer(obs_key, (h_buffer, w_buffer), device=device)
+
+        map_from_buffer = self.buffer[obs_key][buffer_ids]
+
+        if crop_inds is not None:
+            padded_s_map = torch.zeros_like(map_from_buffer)
+            for i in range(buffer_ids.shape[0]):
+                h_0, w_0 = crop_inds[i, 0, 0], crop_inds[i, 0, 1]
+                h_1, w_1 = h_0 + s_map.shape[-2], w_0 + s_map.shape[-1]
+                padded_s_map[i, :, h_0:h_1, w_0:w_1] = s_map[i]
+            s_map = padded_s_map
+        updated_s_map = self.m * map_from_buffer + (1 - self.m) * s_map
+        self.buffer[obs_key][buffer_ids] = updated_s_map.to(torch.uint8)
+
+    def saliency_from_buffer(
+        self,
+        obs_key,
+        buffer_ids,
+        crop_inds=None,
+        buffer_shape=None,
+        out_shape=(76, 76),
+    ):
+        assert obs_key in self.extractors, "obs_key not in extractors"
+        if crop_inds is not None:
+            assert crop_inds.shape[0] == buffer_ids.shape[0], "crop_inds and ids size mismatch"
+
+        # buffers are maintained in [0, 255] range as uint8 for memory efficiency
+        h_buffer, w_buffer = buffer_shape if buffer_shape is not None else out_shape
+        self.check_buffer(obs_key, (h_buffer, w_buffer))
+
+        # retrieve saliency map from buffer, convert to [0, 1] range
+
+        s_map = self.buffer[obs_key][buffer_ids] / 255.0
+
+        if crop_inds is not None:
+            if out_shape is None:
+                return s_map
+            h_out, w_out = out_shape
+            s_map = ObsUtils.crop_image_from_indices(s_map, crop_inds, h_out, w_out).squeeze(1)
+        else:
+            t_h, t_w = out_shape
+            s_map = ObsUtils.center_crop(s_map, t_h, t_w).squeeze(1)
+        return s_map
+
+    # --------------------------------------------------------------------------- #
+    #                                    Utils                                    #
+    # --------------------------------------------------------------------------- #
     def initialise_extractors(self):
         assert self.mode in ["full_policy", "encoder_only"]
         extractors = {}
@@ -255,73 +335,6 @@ class SaliencyGuidedAugmentation:
                 id_dict[id_] = i
         return torch.tensor([id_dict[id_] for id_ in buffer_ids])
 
-    def update_buffer(self, s_map, buffer_ids, obs_key, buffer_shape=None, crop_inds=None):
-        assert obs_key in self.extractors, "obs_key not in extractors"
-        assert s_map.shape[0] == buffer_ids.shape[0], "saliency and ids size mismatch"
-        assert s_map.min() >= 0 and s_map.max() <= 1, "s_map not in [0, 1] range"
-        if crop_inds is not None:
-            assert crop_inds.shape[0] == buffer_ids.shape[0], "crop_inds and ids size mismatch"
-
-        # ids may have repeated values, remove duplicates to avoid repeatitive saliency update
-        unique_ids = self._first_occurrence_indices(buffer_ids)
-        buffer_ids = buffer_ids[unique_ids]
-        crop_inds = crop_inds[unique_ids] if crop_inds is not None else None
-
-        s_map = s_map[unique_ids]
-        s_map = (s_map * 255).to(torch.uint8)
-
-        h_buffer, w_buffer = buffer_shape if buffer_shape is not None else s_map.shape[-2:]
-        device = s_map.device
-
-        # buffers are maintained in [0, 255] range as uint8 for memory efficiency
-        self.check_buffer(obs_key, (h_buffer, w_buffer), device=device)
-
-        map_from_buffer = self.buffer[obs_key][buffer_ids]
-
-        if crop_inds is not None:
-            padded_s_map = torch.zeros_like(map_from_buffer)
-            for i in range(buffer_ids.shape[0]):
-                h_0, w_0 = crop_inds[i, 0, 0], crop_inds[i, 0, 1]
-                h_1, w_1 = h_0 + s_map.shape[-2], w_0 + s_map.shape[-1]
-                padded_s_map[i, :, h_0:h_1, w_0:w_1] = s_map[i]
-            s_map = padded_s_map
-        updated_s_map = self.m * map_from_buffer + (1 - self.m) * s_map
-        self.buffer[obs_key][buffer_ids] = updated_s_map.to(torch.uint8)
-
-    def saliency_from_buffer(
-        self,
-        obs_key,
-        buffer_ids,
-        crop_inds=None,
-        buffer_shape=None,
-        out_shape=(76, 76),
-    ):
-        assert obs_key in self.extractors, "obs_key not in extractors"
-        if crop_inds is not None:
-            assert crop_inds.shape[0] == buffer_ids.shape[0], "crop_inds and ids size mismatch"
-
-        # buffers are maintained in [0, 255] range as uint8 for memory efficiency
-        h_buffer, w_buffer = buffer_shape if buffer_shape is not None else out_shape
-        self.check_buffer(obs_key, (h_buffer, w_buffer))
-
-        # retrieve saliency map from buffer, convert to [0, 1] range
-
-        s_map = self.buffer[obs_key][buffer_ids] / 255.0
-
-        if crop_inds is not None:
-            if out_shape is None:
-                return s_map
-            h_out, w_out = out_shape
-            s_map = ObsUtils.crop_image_from_indices(s_map, crop_inds, h_out, w_out).squeeze(1)
-        else:
-            t_h, t_w = out_shape
-            s_map = ObsUtils.center_crop(s_map, t_h, t_w).squeeze(1)
-        return s_map
-
-    # --------------------------------------------------------------------------- #
-    #                                    Utils                                    #
-    # --------------------------------------------------------------------------- #
-
     def get_obs_encoder(self):
         if hasattr(self.model, "obs_nets"):
             return self.model
@@ -363,19 +376,19 @@ class SaliencyGuidedAugmentation:
         return obs_dict
 
     @staticmethod
-    def get_debug_image(torch_tensor, idx=0, bgr_to_rgb=False):
-        assert idx < torch_tensor.shape[0], "idx out of bounds"
-        im = torch_tensor[idx].permute(1, 2, 0).detach().cpu().numpy()
+    def get_debug_image(x, idx=0, bgr_to_rgb=False):
+        assert idx < x.shape[0], "idx out of bounds"
+        im = x.permute(1, 2, 0).detach().cpu().numpy()
         im = np.clip(im, 0, 1) * 255
         im = im.astype(np.uint8)
         if bgr_to_rgb:
             im = cv2.cvtColor(im, cv2.COLOR_BGR2RGB)
         return im
 
-    def save_debug_images(self, x: list, smap: torch.Tensor, im_path: str, idx=0):
+    def save_debug_images(self, x: list, smap: torch.Tensor, im_path: str):
         assert isinstance(x, list), "x should be a list of torch tensors"
-        x = [self.get_debug_image(x_, idx=idx, bgr_to_rgb=True) for x_ in x]
-        smap = self.get_debug_image(smap, idx=idx)
+        x = [self.get_debug_image(x_, bgr_to_rgb=True) for x_ in x]
+        smap = self.get_debug_image(smap)
         x.append(cv2.applyColorMap(smap, cv2.COLORMAP_JET))
         im_pad = np.ones((x[0].shape[0], 5, 3), dtype=np.uint8)
         for i in range(len(x) - 1):
