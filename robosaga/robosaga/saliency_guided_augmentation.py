@@ -134,7 +134,7 @@ class SaliencyGuidedAugmentation:
                 "updates": update_indices,
                 "smaps": norm_smaps,
             }
-        if save_on_this_batch:
+        if save_on_this_batch and len(vis_ims) >= 1:
             im_name = f"batch_{self.batch_idx}_saliency.jpg"
             im_name = os.path.join(self.save_dir, f"epoch_{self.epoch_idx}", im_name)
             self.create_saliency_dir()
@@ -185,12 +185,20 @@ class SaliencyGuidedAugmentation:
             obs_dict[obs_key][augment_indices] = x_aug
             if self.batch_idx % 50 == 0:
                 idx = 0
-                vis_ims_ = [x[idx], bg[idx]]
+                vis_ims_ = [x[idx]]
+                if idx in augment_indices:
+                    vis_smap = smaps[idx]
+                    vis_ims_.append(x_aug[idx])
+                    vis_ims_.append(bg[idx])
+                else:
+                    vis_smap = torch.ones_like(smaps[idx])
+                    vis_ims_.append(x[idx])
+                    vis_ims_.append(torch.zeros_like(bg[idx]))
                 vis_ims_ = [self.denormalize_image(im, obs_key) for im in vis_ims_]
-                vis_ims.append(self.save_debug_images(vis_ims, smaps[idx]))
+                vis_ims.append(self.save_debug_images(vis_ims_, vis_smap))
         if len(vis_ims) >= 1:
             vis_ims = cv2.vconcat(vis_ims)
-            cv2.imwrite("augmentation_vis", vis_ims)
+            cv2.imwrite("augmentation_vis.jpg", vis_ims)
         return self.restore_obs_dict_shape(obs_dict, obs_meta)
 
     # --------------------------------------------------------------------------- #
@@ -376,8 +384,7 @@ class SaliencyGuidedAugmentation:
         return obs_dict
 
     @staticmethod
-    def get_debug_image(x, idx=0, bgr_to_rgb=False):
-        assert idx < x.shape[0], "idx out of bounds"
+    def get_debug_image(x, bgr_to_rgb=False):
         im = x.permute(1, 2, 0).detach().cpu().numpy()
         im = np.clip(im, 0, 1) * 255
         im = im.astype(np.uint8)
@@ -385,7 +392,7 @@ class SaliencyGuidedAugmentation:
             im = cv2.cvtColor(im, cv2.COLOR_BGR2RGB)
         return im
 
-    def save_debug_images(self, x: list, smap: torch.Tensor, im_path: str):
+    def save_debug_images(self, x: list, smap: torch.Tensor, im_path: str = None):
         assert isinstance(x, list), "x should be a list of torch tensors"
         x = [self.get_debug_image(x_, bgr_to_rgb=True) for x_ in x]
         smap = self.get_debug_image(smap)
