@@ -119,3 +119,6 @@ venv.bak/
 .mypy_cache/
 *.mp4
 *.pth
+
+diffusion_policy/*.jpg
+diffusion_policy/*.jpg
