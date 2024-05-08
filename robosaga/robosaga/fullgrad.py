@@ -3,6 +3,7 @@
 
 from math import isclose
 
+import torch
 import torch.nn.functional as F
 
 
@@ -69,22 +70,23 @@ class FullGrad:
         self.model.eval()
         input_grad, bias_grad = self.fullGradientDecompose(image, net_input)
 
-        # Input-gradient * image
-        grd = input_grad * image
-        gradient = self._postProcess(grd).sum(1, keepdim=True)
-        cam = gradient
+        with torch.no_grad():
+            # Input-gradient * image
+            grd = input_grad * image
+            gradient = self._postProcess(grd).sum(1, keepdim=True)
+            cam = gradient
 
-        im_size = image.size()
+            im_size = image.size()
 
-        # Aggregate Bias-gradients
-        for i in range(len(bias_grad)):
-            # Select only Conv layers
-            if len(bias_grad[i].size()) == len(im_size):
-                temp = self._postProcess(bias_grad[i])
-                gradient = F.interpolate(
-                    temp, size=(im_size[2], im_size[3]), mode="bilinear", align_corners=True
-                )
-                cam += gradient.sum(1, keepdim=True)
+            # Aggregate Bias-gradients
+            for i in range(len(bias_grad)):
+                # Select only Conv layers
+                if len(bias_grad[i].size()) == len(im_size):
+                    temp = self._postProcess(bias_grad[i])
+                    gradient = F.interpolate(
+                        temp, size=(im_size[2], im_size[3]), mode="bilinear", align_corners=True
+                    )
+                    cam += gradient.sum(1, keepdim=True)
         return cam
 
     def _postProcess(self, layer_grad, eps=1e-6):

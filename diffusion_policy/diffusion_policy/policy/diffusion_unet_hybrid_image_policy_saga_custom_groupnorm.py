@@ -334,11 +334,11 @@ class DiffusionUnetHybridImagePolicy(BaseImagePolicy):
             # reshape B, T, ... to B*T
             this_nobs = dict_apply(nobs, lambda x: x.reshape(-1, *x.shape[2:]))
             if validate:
-                this_nobs = self.saliency.guided_augmentation_on_batch(
+                this_nobs = self.saliency.saliency_guided_augmentation_on_batch(
                     this_nobs, buffer_ids, epoch_idx, batch_idx, validate=validate
                 )
             elif not self.augmentation_off:
-                this_nobs = self.saliency.guided_augmentation_on_batch(
+                this_nobs = self.saliency.saliency_guided_augmentation_on_batch(
                     this_nobs, buffer_ids, epoch_idx, batch_idx, validate=validate
                 )
             nobs_features = self.obs_encoder(this_nobs)

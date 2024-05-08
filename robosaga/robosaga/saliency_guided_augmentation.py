@@ -52,7 +52,7 @@ class SaliencyGuidedAugmentation:
     # --------------------------------------------------------------------------- #
 
     def prepare_obs_dict(self, obs_dict, validate):
-        if not validate:
+        if not validate:  # for returning crop indices
             self.model.train()
         obs_encoder = self.get_obs_encoder()
         # get visual modalities and randomisers
@@ -138,7 +138,7 @@ class SaliencyGuidedAugmentation:
             im_name = f"batch_{self.batch_idx}_saliency.jpg"
             im_name = os.path.join(self.save_dir, f"epoch_{self.epoch_idx}", im_name)
             self.create_saliency_dir()
-            cv2.imwrite(im_name, cv2.vconcat(vis_ims))
+            cv2.imwrite(im_name, self.vstack_images(vis_ims))
         return out
 
     def denormalize_image(self, x, obs_key):
@@ -197,8 +197,9 @@ class SaliencyGuidedAugmentation:
                 vis_ims_ = [self.denormalize_image(im, obs_key) for im in vis_ims_]
                 vis_ims.append(self.save_debug_images(vis_ims_, vis_smap))
         if len(vis_ims) >= 1:
-            vis_ims = cv2.vconcat(vis_ims)
-            cv2.imwrite("augmentation_vis.jpg", vis_ims)
+            cv2.imwrite("augmentation_vis.jpg", self.vstack_images(vis_ims))
+        if not validate:
+            self.model.train()
         return self.restore_obs_dict_shape(obs_dict, obs_meta)
 
     # --------------------------------------------------------------------------- #
@@ -273,6 +274,17 @@ class SaliencyGuidedAugmentation:
     # --------------------------------------------------------------------------- #
     #                                    Utils                                    #
     # --------------------------------------------------------------------------- #
+
+    @staticmethod
+    def vstack_images(images, padding=10):
+        images = [
+            cv2.copyMakeBorder(
+                im, padding, padding, padding, padding, cv2.BORDER_CONSTANT, value=[0, 0, 0]
+            )
+            for im in images
+        ]
+        return cv2.vconcat(images)
+
     def initialise_extractors(self):
         assert self.mode in ["full_policy", "encoder_only"]
         extractors = {}
