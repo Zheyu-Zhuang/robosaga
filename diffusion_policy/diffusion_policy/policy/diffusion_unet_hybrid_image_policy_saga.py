@@ -289,8 +289,6 @@ class DiffusionUnetHybridImagePolicySaGA(BaseImagePolicy):
         self.normalizer.load_state_dict(normalizer.state_dict())
 
     def compute_loss(self, batch, epoch_idx=None, batch_idx=None):
-        print("\n validate: ", self.model.training)
-        print(f"model is training: {self.model.training}")
         # normalize input
         assert "valid_mask" not in batch
         nobs = self.normalizer.normalize(batch["obs"]) if self.normalize_obs else batch["obs"]
