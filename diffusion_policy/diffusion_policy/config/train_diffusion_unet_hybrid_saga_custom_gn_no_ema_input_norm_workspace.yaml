@@ -115,6 +115,8 @@ logging:
   tags: ["${name}", "${task_name}"]
   id: null
   group: null
+  allow_val_change: True
+
 
 checkpoint:
   topk:
@@ -126,14 +128,14 @@ checkpoint:
   save_last_snapshot: False
 
 multi_run:
-  run_dir: experiments/${task_name}
+  run_dir: experiments/diffusion_policy/${task_name}_${exp_name}
   wandb_name_base: ${now:%Y.%m.%d-%H.%M.%S}_${name}_${task_name}
 
 hydra:
   job:
     override_dirname: ${name}
   run:
-    dir: experiments/${task_name}_${exp_name}
+    dir: experiments/diffusion_policy/${task_name}_${exp_name}
   sweep:
-    dir: experiments/${task_name}_${exp_name}
+    dir: experiments/diffusion_policy/${task_name}_${exp_name}
     subdir: ${hydra.job.num}

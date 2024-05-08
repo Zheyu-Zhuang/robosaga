@@ -115,6 +115,7 @@ logging:
   tags: ["${name}", "${task_name}"]
   id: null
   group: null
+  allow_val_change: True
 
 checkpoint:
   topk:
@@ -133,7 +134,7 @@ hydra:
   job:
     override_dirname: ${name}
   run:
-    dir: experiments/${task_name}_${exp_name}
+    dir: experiments/diffusion_policy/${task_name}_${exp_name}
   sweep:
-    dir: experiments/${task_name}_${exp_name}
+    dir: experiments/diffusion_policy/${task_name}_${exp_name}
     subdir: ${hydra.job.num}

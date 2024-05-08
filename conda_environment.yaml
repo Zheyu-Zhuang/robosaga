@@ -4,6 +4,7 @@ channels:
   - pytorch3d
   - nvidia
   - conda-forge
+  - defaults
 dependencies:
   - python=3.8
   - pip=22.2.2
@@ -46,14 +47,13 @@ dependencies:
   - diffusers=0.11.1
   - av=10.0.0
   - cmake=3.24.3
+  - glew
+  - mesalib
+  - menpo::glfw3
   # trick to avoid cpu affinity issue described in https://github.com/pytorch/pytorch/issues/99625
   - llvm-openmp=14
   # trick to force reinstall imagecodecs via pip
   - imagecodecs==2022.8.8
-  - glew
-  - mesalib
-  - menpo 
-  - glfw3
   - pip:
     - ray[default,tune]==2.2.0
     # requires mujoco py dependencies libosmesa6-dev libgl1-mesa-glx libglfw3 patchelf
