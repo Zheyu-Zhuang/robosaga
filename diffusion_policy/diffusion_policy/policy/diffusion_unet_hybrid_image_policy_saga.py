@@ -1,4 +1,5 @@
 import math
+from contextlib import contextmanager
 from typing import Dict
 
 import torch
@@ -38,12 +39,18 @@ class DiffusionUnetHybridImagePolicy(BaseImagePolicy):
         kernel_size=5,
         n_groups=8,
         cond_predict_scale=True,
-        obs_encoder_group_norm=False,
         eval_fixed_crop=False,
+        normalize_obs=True,
+        group_norm={"enable": False, "return_fullgrad_bias": False},
+        saliency_config=None,
         # parameters passed to step
         **kwargs,
     ):
         super().__init__()
+
+        print("\n==================== Double-check the Following Parameters ====================n")
+        print("Group Norm: ", group_norm)
+        print("Normalize Obs: ", normalize_obs)
 
         # parse shape_meta
         action_shape = shape_meta["action"]["shape"]
@@ -99,14 +106,13 @@ class DiffusionUnetHybridImagePolicy(BaseImagePolicy):
 
         obs_encoder = policy.nets["policy"].nets["encoder"].nets["obs"]
 
-        if obs_encoder_group_norm:
+        if group_norm["enable"]:
             # replace batch norm with group norm
+            GN = CustomGroupNorm if group_norm["return_fullgrad_bias"] else nn.GroupNorm
             replace_submodules(
                 root_module=obs_encoder,
                 predicate=lambda x: isinstance(x, nn.BatchNorm2d),
-                func=lambda x: CustomGroupNorm(
-                    num_groups=x.num_features // 16, num_channels=x.num_features
-                ),
+                func=lambda x: GN(num_groups=x.num_features // 16, num_channels=x.num_features),
             )
             # obs_encoder.obs_nets['agentview_image'].nets[0].nets
 
@@ -160,6 +166,7 @@ class DiffusionUnetHybridImagePolicy(BaseImagePolicy):
         self.n_action_steps = n_action_steps
         self.n_obs_steps = n_obs_steps
         self.obs_as_global_cond = obs_as_global_cond
+        self.normalize_obs = normalize_obs
         self.kwargs = kwargs
 
         if num_inference_steps is None:
@@ -169,23 +176,10 @@ class DiffusionUnetHybridImagePolicy(BaseImagePolicy):
         print("Diffusion params: %e" % sum(p.numel() for p in self.model.parameters()))
         print("Vision params: %e" % sum(p.numel() for p in self.obs_encoder.parameters()))
 
-        saliency_config = {
-            "mode": "encoder_only",
-            "momentum": 0.0,
-            "update_ratio_per_batch": 0.1,  # update 10% of the buffer per training batch
-            "augmentation_ratio": 0.5,  # 50% of the time, use augmented data
-            "debug_vis": False,
-            "debug_save": True,
-            "buffer_shape": (84, 84),
-            "save_dir": "",
-            "save_debug_im_every_n_batches": 1,
-            "background_path": "/home/zheyu/Dataset/robomimic_datasets/coco_5k_84x84/",
-            "normalizer": self.normalizer,
-        }
-
+        if self.normalize_obs:
+            saliency_config["normalizer"] = self.normalizer
         self.saliency = SaliencyGuidedAugmentation(obs_encoder, **saliency_config)
         self.saliency.unregister_hooks()
-        self.augmentation_off = False
 
     # ========= inference  ============
     def conditional_sample(
@@ -229,13 +223,14 @@ class DiffusionUnetHybridImagePolicy(BaseImagePolicy):
         return trajectory
 
     def predict_action(self, obs_dict: Dict[str, torch.Tensor]) -> Dict[str, torch.Tensor]:
+        self.saliency.unregister_hooks()
         """
         obs_dict: must include "obs" key
         result: must include "action" key
         """
         assert "past_action" not in obs_dict  # not implemented yet
         # normalize input
-        nobs = self.normalizer.normalize(obs_dict)
+        nobs = self.normalizer.normalize(obs_dict) if self.normalize_obs else obs_dict
         value = next(iter(nobs.values()))
         B, To = value.shape[:2]
         T = self.horizon
@@ -292,9 +287,6 @@ class DiffusionUnetHybridImagePolicy(BaseImagePolicy):
         self.normalizer.load_state_dict(normalizer.state_dict())
 
     def compute_loss(self, batch, epoch_idx=None, batch_idx=None, validate=False):
-
-        if self.augmentation_off:
-            self.saliency.unregister_hooks()
         if validate:
             self.obs_encoder.eval()
             self.model.eval()
@@ -303,7 +295,7 @@ class DiffusionUnetHybridImagePolicy(BaseImagePolicy):
             self.model.train()
         # normalize input
         assert "valid_mask" not in batch
-        nobs = self.normalizer.normalize(batch["obs"])
+        nobs = self.normalizer.normalize(batch["obs"]) if self.normalize_obs else batch["obs"]
         nactions = self.normalizer["action"].normalize(batch["action"])
         buffer_ids = batch["ids"].flatten()
         batch_size = nactions.shape[0]
@@ -319,28 +311,18 @@ class DiffusionUnetHybridImagePolicy(BaseImagePolicy):
             this_nobs = dict_apply(
                 nobs, lambda x: x[:, : self.n_obs_steps, ...].reshape(-1, *x.shape[2:])
             )
-            if validate:
-                this_nobs = self.saliency.saliency_guided_augmentation_on_batch(
-                    this_nobs, buffer_ids, epoch_idx, batch_idx, validate=validate
-                )
-            elif not self.augmentation_off:
-                this_nobs = self.saliency.saliency_guided_augmentation_on_batch(
-                    this_nobs, buffer_ids, epoch_idx, batch_idx, validate=validate
-                )
+            this_nobs = self.saliency.saliency_guided_augmentation_on_batch(
+                this_nobs, buffer_ids, epoch_idx, batch_idx, validate=validate
+            )
             nobs_features = self.obs_encoder(this_nobs)
             # reshape back to B, Do
             global_cond = nobs_features.reshape(batch_size, -1)
         else:
             # reshape B, T, ... to B*T
             this_nobs = dict_apply(nobs, lambda x: x.reshape(-1, *x.shape[2:]))
-            if validate:
-                this_nobs = self.saliency.saliency_guided_augmentation_on_batch(
-                    this_nobs, buffer_ids, epoch_idx, batch_idx, validate=validate
-                )
-            elif not self.augmentation_off:
-                this_nobs = self.saliency.saliency_guided_augmentation_on_batch(
-                    this_nobs, buffer_ids, epoch_idx, batch_idx, validate=validate
-                )
+            this_nobs = self.saliency.saliency_guided_augmentation_on_batch(
+                this_nobs, buffer_ids, epoch_idx, batch_idx, validate=validate
+            )
             nobs_features = self.obs_encoder(this_nobs)
             # reshape back to B, T, Do
             nobs_features = nobs_features.reshape(batch_size, horizon, -1)
@@ -379,9 +361,14 @@ class DiffusionUnetHybridImagePolicy(BaseImagePolicy):
             target = trajectory
         else:
             raise ValueError(f"Unsupported prediction type {pred_type}")
-
-        loss = F.mse_loss(pred, target, reduction="none")
+        #
+        with torch.no_grad() if validate else self.dummy_context():
+            loss = F.mse_loss(pred, target, reduction="none")
         loss = loss * loss_mask.type(loss.dtype)
         loss = reduce(loss, "b ... -> b (...)", "mean")
         loss = loss.mean()
         return loss
+
+    @contextmanager
+    def dummy_context(self):
+        yield

@@ -3,7 +3,7 @@ defaults:
   - task: square_image
 
 name: train_diffusion_unet_hybrid
-exp_name: "saga_custom_gn_no_ema_with_input_norm"
+exp_name: "saga_custom_gn_ema"
 
 _target_: diffusion_policy.workspace.train_saga_diffusion_unet_hybrid_workspace.TrainDiffusionUnetHybridWorkspace
 
@@ -21,11 +21,12 @@ keypoint_visible_rate: 1.0
 obs_as_global_cond: True
 
 # -------------------------- pay attention here !!! ------------------------- #
-use_ema: False
+use_ema: True
 normalize_obs: True
 group_norm:
   enable: True
   return_fullgrad_bias: True
+
 
 saliency:
   mode: "encoder_only"

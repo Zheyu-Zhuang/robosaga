@@ -87,6 +87,7 @@ class FullGrad:
                         temp, size=(im_size[2], im_size[3]), mode="bilinear", align_corners=True
                     )
                     cam += gradient.sum(1, keepdim=True)
+        self.model.zero_grad()
         return cam
 
     def _postProcess(self, layer_grad, eps=1e-6):

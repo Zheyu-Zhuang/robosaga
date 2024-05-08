@@ -37,6 +37,7 @@ class SaliencyGuidedAugmentation:
         self.disable_buffer = kwargs.get("disable_buffer", False)
         self.augmentation_ratio = kwargs.get("augmentation_ratio", None)
         self.normalizer = kwargs.get("normalizer", None)
+        self.augmentation_off = kwargs.get("augmentation_off", False)
         #
         self.epoch_idx = 0  # epoch index
         self.batch_idx = 0  # batch index
@@ -158,9 +159,9 @@ class SaliencyGuidedAugmentation:
         obs_dict, obs_meta = self.prepare_obs_dict(obs_dict, validate)
         self.model.eval()
         update_dict = self._update_saliency_on_batch(buffer_ids, obs_dict, obs_meta, validate)
-        vis_ims = []
-        if validate:
+        if validate or self.augmentation_off:
             return self.restore_obs_dict_shape(obs_dict, obs_meta)
+        vis_ims = []
         for i, obs_key in enumerate(obs_meta["visual_modalities"]):
             if not self.disable_buffer:
                 augment_indices = update_dict[obs_key]["augmentations"]
@@ -371,6 +372,7 @@ class SaliencyGuidedAugmentation:
             "buffer_shape",
             "background_path",
             "save_dir",
+            "augmentation_off",
         ]
         for arg in required_args:
             if arg not in kwargs:

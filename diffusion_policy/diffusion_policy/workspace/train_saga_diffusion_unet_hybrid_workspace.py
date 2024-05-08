@@ -28,7 +28,7 @@ from diffusion_policy.dataset.base_dataset import BaseImageDataset
 from diffusion_policy.env_runner.base_image_runner import BaseImageRunner
 from diffusion_policy.model.common.lr_scheduler import get_scheduler
 from diffusion_policy.model.diffusion.ema_model import EMAModel
-from diffusion_policy.policy.diffusion_unet_hybrid_image_policy import (
+from diffusion_policy.policy.diffusion_unet_hybrid_image_policy_saga import (
     DiffusionUnetHybridImagePolicy,
 )
 from diffusion_policy.workspace.base_workspace import BaseWorkspace
@@ -244,12 +244,11 @@ class TrainDiffusionUnetHybridWorkspace(BaseWorkspace):
                                 batch_idx=batch_idx,
                                 validate=True,
                             )
-                            with torch.no_grad():
-                                val_losses.append(loss)
-                                if (cfg.training.max_val_steps is not None) and batch_idx >= (
-                                    cfg.training.max_val_steps - 1
-                                ):
-                                    break
+                            val_losses.append(loss)
+                            if (cfg.training.max_val_steps is not None) and batch_idx >= (
+                                cfg.training.max_val_steps - 1
+                            ):
+                                break
                     if len(val_losses) > 0:
                         val_loss = torch.mean(torch.tensor(val_losses)).item()
                         # log epoch average validation loss

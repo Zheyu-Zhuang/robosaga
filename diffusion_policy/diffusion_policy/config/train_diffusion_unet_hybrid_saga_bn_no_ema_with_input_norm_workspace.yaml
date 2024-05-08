@@ -20,8 +20,29 @@ past_action_visible: False
 keypoint_visible_rate: 1.0
 obs_as_global_cond: True
 
+# -------------------------- pay attention here !!! ------------------------- #
+use_ema: False
+normalize_obs: True
+group_norm:
+  enable: False
+  return_fullgrad_bias: False
+
+saliency:
+  mode: "encoder_only"
+  momentum: 0.0
+  update_ratio_per_batch: 0.1  # update 10% of the buffer per training batch
+  augmentation_ratio: 0.5  # 50% of the time, use augmented data
+  debug_vis: False
+  debug_save: True
+  buffer_shape: [84, 84]
+  save_dir: ""
+  save_debug_im_every_n_batches: 1
+  background_path: "data/robomimic/coco_5k_84x84/"
+  augmentation_off: False
+# ---------------------------------------------------------------------------- #
+
 policy:
-  _target_: diffusion_policy.policy.diffusion_unet_hybrid_image_policy_saga_no_input_norm.DiffusionUnetHybridImagePolicy
+  _target_: diffusion_policy.policy.diffusion_unet_hybrid_image_policy_saga.DiffusionUnetHybridImagePolicy
 
   shape_meta: ${shape_meta}
   
@@ -47,8 +68,10 @@ policy:
   kernel_size: 5
   n_groups: 8
   cond_predict_scale: True
-  obs_encoder_group_norm: False
+  normalize_obs: ${normalize_obs}
   eval_fixed_crop: True
+  group_norm: ${group_norm}
+  saliency_config: ${saliency}
 
   # scheduler.step params
   # predict_epsilon: True
@@ -94,7 +117,7 @@ training:
   gradient_accumulate_every: 1
   # EMA destroys performance when used with BatchNorm
   # replace BatchNorm with GroupNorm.
-  use_ema: False
+  use_ema: ${use_ema}
   # training loop control
   # in epochs
   rollout_every: 50
@@ -117,6 +140,7 @@ logging:
   group: null
   allow_val_change: True
 
+
 checkpoint:
   topk:
     monitor_key: test_mean_score
@@ -138,3 +162,4 @@ hydra:
   sweep:
     dir: experiments/diffusion_policy/${task_name}_${exp_name}
     subdir: ${hydra.job.num}
+
