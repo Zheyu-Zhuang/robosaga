@@ -23,7 +23,7 @@ from robosaga.custom_group_norm import CustomGroupNorm
 from robosaga.saliency_guided_augmentation import SaliencyGuidedAugmentation
 
 
-class DiffusionUnetHybridImagePolicy(BaseImagePolicy):
+class DiffusionUnetHybridImagePolicySaGA(BaseImagePolicy):
     def __init__(
         self,
         shape_meta: dict,
@@ -178,8 +178,10 @@ class DiffusionUnetHybridImagePolicy(BaseImagePolicy):
 
         if self.normalize_obs:
             saliency_config["normalizer"] = self.normalizer
-        self.saliency = SaliencyGuidedAugmentation(obs_encoder, **saliency_config)
-        self.saliency.unregister_hooks()
+        self.saga = SaliencyGuidedAugmentation(obs_encoder, **saliency_config)
+
+    def set_saga_buffer_depth(self, depth):
+        self.saga.set_buffer_depth(depth)
 
     # ========= inference  ============
     def conditional_sample(
@@ -223,7 +225,7 @@ class DiffusionUnetHybridImagePolicy(BaseImagePolicy):
         return trajectory
 
     def predict_action(self, obs_dict: Dict[str, torch.Tensor]) -> Dict[str, torch.Tensor]:
-        self.saliency.unregister_hooks()
+        self.saga.unregister_hooks()
         """
         obs_dict: must include "obs" key
         result: must include "action" key
@@ -286,13 +288,9 @@ class DiffusionUnetHybridImagePolicy(BaseImagePolicy):
     def set_normalizer(self, normalizer: LinearNormalizer):
         self.normalizer.load_state_dict(normalizer.state_dict())
 
-    def compute_loss(self, batch, epoch_idx=None, batch_idx=None, validate=False):
-        if validate:
-            self.obs_encoder.eval()
-            self.model.eval()
-        else:
-            self.obs_encoder.train()
-            self.model.train()
+    def compute_loss(self, batch, epoch_idx=None, batch_idx=None):
+        print("\n validate: ", self.model.training)
+        print(f"model is training: {self.model.training}")
         # normalize input
         assert "valid_mask" not in batch
         nobs = self.normalizer.normalize(batch["obs"]) if self.normalize_obs else batch["obs"]
@@ -311,18 +309,14 @@ class DiffusionUnetHybridImagePolicy(BaseImagePolicy):
             this_nobs = dict_apply(
                 nobs, lambda x: x[:, : self.n_obs_steps, ...].reshape(-1, *x.shape[2:])
             )
-            this_nobs = self.saliency.saliency_guided_augmentation_on_batch(
-                this_nobs, buffer_ids, epoch_idx, batch_idx, validate=validate
-            )
+            this_nobs = self.saga(this_nobs, buffer_ids, epoch_idx, batch_idx)
             nobs_features = self.obs_encoder(this_nobs)
             # reshape back to B, Do
             global_cond = nobs_features.reshape(batch_size, -1)
         else:
             # reshape B, T, ... to B*T
             this_nobs = dict_apply(nobs, lambda x: x.reshape(-1, *x.shape[2:]))
-            this_nobs = self.saliency.saliency_guided_augmentation_on_batch(
-                this_nobs, buffer_ids, epoch_idx, batch_idx, validate=validate
-            )
+            this_nobs = self.saga(this_nobs, buffer_ids, epoch_idx, batch_idx)
             nobs_features = self.obs_encoder(this_nobs)
             # reshape back to B, T, Do
             nobs_features = nobs_features.reshape(batch_size, horizon, -1)
@@ -362,13 +356,12 @@ class DiffusionUnetHybridImagePolicy(BaseImagePolicy):
         else:
             raise ValueError(f"Unsupported prediction type {pred_type}")
         #
-        with torch.no_grad() if validate else self.dummy_context():
+        if not self.model.training:
+            with torch.no_grad():
+                loss = F.mse_loss(pred, target, reduction="none")
+        else:
             loss = F.mse_loss(pred, target, reduction="none")
         loss = loss * loss_mask.type(loss.dtype)
         loss = reduce(loss, "b ... -> b (...)", "mean")
         loss = loss.mean()
         return loss
-
-    @contextmanager
-    def dummy_context(self):
-        yield

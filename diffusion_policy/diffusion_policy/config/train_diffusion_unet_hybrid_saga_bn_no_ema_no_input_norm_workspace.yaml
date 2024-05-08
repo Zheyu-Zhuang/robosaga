@@ -38,11 +38,11 @@ saliency:
   save_dir: ""
   save_debug_im_every_n_batches: 1
   background_path: "data/robomimic/coco_5k_84x84/"
-  augmentation_off: False
+  disable_during_training: False
 # ---------------------------------------------------------------------------- #
 
 policy:
-  _target_: diffusion_policy.policy.diffusion_unet_hybrid_image_policy_saga.DiffusionUnetHybridImagePolicy
+  _target_: diffusion_policy.policy.diffusion_unet_hybrid_image_policy_saga.DiffusionUnetHybridImagePolicySaGA
 
   shape_meta: ${shape_meta}
   

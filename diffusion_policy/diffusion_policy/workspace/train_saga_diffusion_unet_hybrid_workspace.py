@@ -29,7 +29,7 @@ from diffusion_policy.env_runner.base_image_runner import BaseImageRunner
 from diffusion_policy.model.common.lr_scheduler import get_scheduler
 from diffusion_policy.model.diffusion.ema_model import EMAModel
 from diffusion_policy.policy.diffusion_unet_hybrid_image_policy_saga import (
-    DiffusionUnetHybridImagePolicy,
+    DiffusionUnetHybridImagePolicySaGA,
 )
 from diffusion_policy.workspace.base_workspace import BaseWorkspace
 
@@ -49,9 +49,9 @@ class TrainDiffusionUnetHybridWorkspace(BaseWorkspace):
         random.seed(seed)
 
         # configure model
-        self.model: DiffusionUnetHybridImagePolicy = hydra.utils.instantiate(cfg.policy)
+        self.model: DiffusionUnetHybridImagePolicySaGA = hydra.utils.instantiate(cfg.policy)
 
-        self.ema_model: DiffusionUnetHybridImagePolicy = None
+        self.ema_model: DiffusionUnetHybridImagePolicySaGA = None
         if cfg.training.use_ema:
             self.ema_model = copy.deepcopy(self.model)
 
@@ -84,7 +84,7 @@ class TrainDiffusionUnetHybridWorkspace(BaseWorkspace):
         val_dataset = dataset.get_validation_dataset()
         val_dataloader = DataLoader(val_dataset, **cfg.val_dataloader)
 
-        self.model.saliency.set_buffer_depth(len(dataset) + 100)
+        self.model.set_saga_buffer_depth(len(dataset) + 100)
 
         self.model.set_normalizer(normalizer)
         if cfg.training.use_ema:
@@ -149,6 +149,7 @@ class TrainDiffusionUnetHybridWorkspace(BaseWorkspace):
             cfg.training.val_every = 1
             cfg.training.sample_every = 1
 
+        self.model.saga.save_dir = os.path.join(self.output_dir, "saliency")
         # training loop
         log_path = os.path.join(self.output_dir, "logs.json.txt")
         with JsonLogger(log_path) as json_logger:
@@ -169,9 +170,8 @@ class TrainDiffusionUnetHybridWorkspace(BaseWorkspace):
                             train_sampling_batch = batch
 
                         # compute loss
-                        self.model.saliency.save_dir = os.path.join(self.output_dir, "saliency")
                         raw_loss = self.model.compute_loss(
-                            batch, epoch_idx=self.epoch, batch_idx=batch_idx, validate=False
+                            batch, epoch_idx=self.epoch, batch_idx=batch_idx
                         )
                         loss = raw_loss / cfg.training.gradient_accumulate_every
                         loss.backward()
@@ -219,6 +219,7 @@ class TrainDiffusionUnetHybridWorkspace(BaseWorkspace):
                 if cfg.training.use_ema:
                     policy = self.ema_model
                 policy.eval()
+                self.model.eval()
 
                 # run rollout
                 if (self.epoch % cfg.training.rollout_every) == 0:
@@ -242,7 +243,6 @@ class TrainDiffusionUnetHybridWorkspace(BaseWorkspace):
                                 batch,
                                 epoch_idx=self.epoch,
                                 batch_idx=batch_idx,
-                                validate=True,
                             )
                             val_losses.append(loss)
                             if (cfg.training.max_val_steps is not None) and batch_idx >= (
@@ -298,6 +298,7 @@ class TrainDiffusionUnetHybridWorkspace(BaseWorkspace):
                         self.save_checkpoint(path=topk_ckpt_path)
                 # ========= eval end for this epoch ==========
                 policy.train()
+                self.model.train()
 
                 # end of epoch
                 # log of last step is combined with validation and rollout

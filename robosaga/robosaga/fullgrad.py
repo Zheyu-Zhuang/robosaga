@@ -66,7 +66,6 @@ class FullGrad:
 
     def saliency(self, image, net_input=None):
         # FullGrad saliency
-
         self.model.eval()
         input_grad, bias_grad = self.fullGradientDecompose(image, net_input)
 
