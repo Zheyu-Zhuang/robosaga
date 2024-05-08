@@ -64,6 +64,7 @@ class SaliencyGuidedAugmentation:
         obs_dict, obs_meta = self.prepare_obs_dict(obs_dict)
         for obs_key in obs_meta["visual_modalities"]:
             print(f"Before Aug: {obs_key} is training: {self.model.obs_nets[obs_key].training}")
+        self.model.eval()  # required for saliency computation
         if self.is_training and not self.disable_during_training:
             update_dict = self.update_saliency_buffer(buffer_ids, obs_dict, obs_meta)
             obs_dict = self.saliency_guided_augmentation(
@@ -71,6 +72,11 @@ class SaliencyGuidedAugmentation:
             )
         elif not self.is_training:
             self.save_debug_images(obs_dict, obs_meta)
+        for obs_key in obs_meta["visual_modalities"]:
+            print(
+                f"Before Toggling: {obs_key} is training: {self.model.obs_nets[obs_key].training}"
+            )
+        print("Before Toggling: self.model.training:", self.model.training)
         self.model.train() if self.is_training else self.model.eval()
         for obs_key in obs_meta["visual_modalities"]:
             print(
