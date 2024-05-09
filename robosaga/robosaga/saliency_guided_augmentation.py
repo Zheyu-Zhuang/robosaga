@@ -39,10 +39,8 @@ class SaliencyGuidedAugmentation:
         self.normalizer = kwargs.get("normalizer", None)
         self.disable_during_training = kwargs.get("disable_during_training", False)
         self.disable_for_first_n_epochs = kwargs.get("disable_for_first_n_epochs", 0)
-        self.augment_obs_pairs = kwargs.get(
-            "augment_obs_pairs", False
-        )  # augmentation index fixed across obs pairs
-        #
+        # augmentation index fixed across obs pairs
+        self.augment_obs_pairs = kwargs.get("augment_obs_pairs", False)
         self.epoch_idx = 0  # epoch index
         self.batch_idx = 0  # batch index
         self.extractors = self.initialise_extractors()
@@ -392,6 +390,9 @@ class SaliencyGuidedAugmentation:
             "background_path",
             "save_dir",
             "disable_during_training",
+            "disable_for_first_n_epochs",
+            "disable_buffer",
+            "augment_obs_pairs",
         ]
         for arg in required_args:
             if arg not in kwargs:
