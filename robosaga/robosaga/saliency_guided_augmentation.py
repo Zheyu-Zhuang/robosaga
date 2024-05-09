@@ -38,6 +38,10 @@ class SaliencyGuidedAugmentation:
         self.augmentation_ratio = kwargs.get("augmentation_ratio", None)
         self.normalizer = kwargs.get("normalizer", None)
         self.disable_during_training = kwargs.get("disable_during_training", False)
+        self.disable_for_first_n_epochs = kwargs.get("disable_for_first_n_epochs", 0)
+        self.augment_obs_pairs = kwargs.get(
+            "augment_obs_pairs", False
+        )  # augmentation index fixed across obs pairs
         #
         self.epoch_idx = 0  # epoch index
         self.batch_idx = 0  # batch index
@@ -57,7 +61,9 @@ class SaliencyGuidedAugmentation:
     def __call__(self, obs_dict, buffer_ids, epoch_idx, batch_idx):
         self.is_training = self.model.training
         self.epoch_idx, self.batch_idx = epoch_idx, batch_idx
-        if self.is_training and self.disable_during_training:
+        is_turned_off = self.is_training and self.disable_during_training
+        is_temporarily_disabled = epoch_idx < self.disable_for_first_n_epochs
+        if is_turned_off or is_temporarily_disabled:
             self.unregister_hooks()
             return obs_dict
         self.register_hooks()
@@ -144,9 +150,11 @@ class SaliencyGuidedAugmentation:
         n_updates = int(n_samples * self.update_ratio_per_batch)
         assert n_updates <= n_augmentations, "update ratio should be less than augmentation ratio"
         out = {}
+        augmentation_indices = random.sample(range(n_samples), n_augmentations)
         for k in obs_meta["visual_modalities"]:
-            augmentation_indices = random.sample(range(n_samples), n_augmentations)
-            update_indices = augmentation_indices[:n_updates] if self.is_training else [0]
+            if not self.augment_obs_pairs:
+                augmentation_indices = random.sample(range(n_samples), n_augmentations)
+            update_indices = augmentation_indices[:n_updates]
             updated_ids = buffer_ids[update_indices]
             crop_inds_ = obs_meta[k]["crop_inds"]
             crop_inds_ = None if crop_inds_ is None else crop_inds_[update_indices]
