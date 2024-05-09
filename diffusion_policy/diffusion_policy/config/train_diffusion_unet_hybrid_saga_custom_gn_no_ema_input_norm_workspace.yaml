@@ -3,7 +3,7 @@ defaults:
   - task: square_image
 
 name: train_diffusion_unet_hybrid
-exp_name: "saga_custom_gn_no_ema_with_input_norm"
+exp_name: "saga_custom_gn_no_ema_with_input_norm_run2"
 
 _target_: diffusion_policy.workspace.train_saga_diffusion_unet_hybrid_workspace.TrainDiffusionUnetHybridWorkspace
 

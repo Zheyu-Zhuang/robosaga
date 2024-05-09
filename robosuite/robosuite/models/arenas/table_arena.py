@@ -1,7 +1,39 @@
+import os
+import xml.etree.ElementTree as ET
+
 import numpy as np
+
+import robosuite
 from robosuite.models.arenas import Arena
-from robosuite.utils.mjcf_utils import xml_path_completion
-from robosuite.utils.mjcf_utils import array_to_string, string_to_array
+from robosuite.utils.mjcf_utils import (
+    array_to_string,
+    string_to_array,
+    xml_path_completion,
+)
+
+
+def replace_table_texture(xml_file, new_texture_path, new_texture_name):
+    # Load the XML file
+    tree = ET.parse(xml_file)
+    root = tree.getroot()
+
+    # Define the new texture element
+    new_texture = ET.Element(
+        "texture", attrib={"file": new_texture_path, "type": "2d", "name": new_texture_name}
+    )
+
+    # Insert the new texture element into the <asset> section
+    asset = root.find("asset")
+    asset.append(new_texture)
+
+    # Find the material for the table and update the texture reference
+    for material in asset.findall("material"):
+        if material.get("name") == "table_ceramic":
+            material.set("texture", new_texture_name)
+
+    xml_file = xml_file.replace(".xml", "_temp.xml")
+    # Save the modified XML to a new file or overwrite the existing one
+    tree.write(xml_file)
 
 
 class TableArena(Arena):
@@ -24,15 +56,31 @@ class TableArena(Arena):
         table_friction=(1, 0.005, 0.0001),
         table_offset=(0, 0, 0.8),
         has_legs=True,
+        table_texture=None,
         xml="arenas/table_arena.xml",
     ):
-        super().__init__(xml_path_completion(xml))
+        xml = xml_path_completion(xml)
+        if table_texture is not None:
+            supported_textures = ["clay", "blue-wood", "light-wood", "steel-brushed", "wood-tiles"]
+            assert (
+                table_texture in supported_textures
+            ), "Unsupported table texture specified: {}. " "Supported options are: {}".format(
+                table_texture, supported_textures
+            )
+            table_texture = os.path.join(
+                robosuite.models.assets_root, "textures", table_texture + ".png"
+            )
+            replace_table_texture(xml, table_texture, "custom_table_texture")
+            xml = xml.replace(".xml", "_temp.xml")
+        super().__init__(xml)
 
         self.table_full_size = np.array(table_full_size)
         self.table_half_size = self.table_full_size / 2
         self.table_friction = table_friction
         self.table_offset = table_offset
-        self.center_pos = self.bottom_pos + np.array([0, 0, -self.table_half_size[2]]) + self.table_offset
+        self.center_pos = (
+            self.bottom_pos + np.array([0, 0, -self.table_half_size[2]]) + self.table_offset
+        )
 
         self.table_body = self.worldbody.find("./body[@name='table']")
         self.table_collision = self.table_body.find("./geom[@name='table_collision']")
@@ -58,9 +106,7 @@ class TableArena(Arena):
         self.table_collision.set("friction", array_to_string(self.table_friction))
         self.table_visual.set("size", array_to_string(self.table_half_size))
 
-        self.table_top.set(
-            "pos", array_to_string(np.array([0, 0, self.table_half_size[2]]))
-        )
+        self.table_top.set("pos", array_to_string(np.array([0, 0, self.table_half_size[2]])))
 
         # If we're not using legs, set their size to 0
         if not self.has_legs:
