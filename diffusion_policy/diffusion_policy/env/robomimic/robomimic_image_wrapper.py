@@ -80,7 +80,6 @@ class RobomimicImageWrapper(gym.Env):
 
             # always reset to the same state
             # to be compatible with gym
-            print(self.init_state)
             raw_obs = self.env.reset_to({"states": self.init_state})
         elif self._seed is not None:
             # reset to a specific seed
