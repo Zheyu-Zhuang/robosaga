@@ -47,7 +47,7 @@ class SaliencyGuidedAugmentation:
         self.is_training = True
         #
         if self.disable_buffer:
-            print("Warning: Momentum value not provided, disabling buffer")
+            print("Warning: Saliency Buffer is Disabled")
 
     # --------------------------------------------------------------------------- #
     #                         Training Specific Functions                         #
