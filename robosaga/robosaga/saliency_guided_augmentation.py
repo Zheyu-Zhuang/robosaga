@@ -38,7 +38,7 @@ class SaliencyGuidedAugmentation:
         self.augmentation_ratio = kwargs.get("augmentation_ratio", None)
         self.normalizer = kwargs.get("normalizer", None)
         self.disable_during_training = kwargs.get("disable_during_training", False)
-        self.disable_for_first_n_epochs = kwargs.get("disable_for_first_n_epochs", 0)
+        self.disable_first_n_epochs = kwargs.get("disable_first_n_epochs", 0)
         # augmentation index fixed across obs pairs
         self.augment_obs_pairs = kwargs.get("augment_obs_pairs", False)
         self.epoch_idx = 0  # epoch index
@@ -60,7 +60,7 @@ class SaliencyGuidedAugmentation:
         self.is_training = self.model.training
         self.epoch_idx, self.batch_idx = epoch_idx, batch_idx
         is_turned_off = self.is_training and self.disable_during_training
-        is_temporarily_disabled = epoch_idx < self.disable_for_first_n_epochs
+        is_temporarily_disabled = epoch_idx < self.disable_first_n_epochs
         if is_turned_off or is_temporarily_disabled:
             self.unregister_hooks()
             return obs_dict
@@ -390,7 +390,7 @@ class SaliencyGuidedAugmentation:
             "background_path",
             "save_dir",
             "disable_during_training",
-            # "disable_for_first_n_epochs",
+            # "disable_first_n_epochs",
             # "disable_buffer",
             # "augment_obs_pairs",
         ]
