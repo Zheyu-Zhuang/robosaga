@@ -22,10 +22,9 @@ from robosaga.tensor_extractors import EncoderOnly, FullPolicy
 class SaliencyGuidedAugmentation:
     def __init__(self, model, **kwargs):
         self.model = model
-        self.check_required_args(kwargs, print_args=True)
 
         self.mode = kwargs.get("mode", "encoder_only")  # full_policy or encoder_only
-        self.m = kwargs.get("momentum", None)
+        self.momentum = kwargs.get("momentum", None)
         self.background_images = self.preload_all_backgrounds(kwargs["background_path"])
         self.save_debug_im_every_n_batches = kwargs.get("save_debug_im_every_n_batches", 5)
         self.update_ratio_per_batch = kwargs.get("update_ratio_per_batch", None)
@@ -45,11 +44,13 @@ class SaliencyGuidedAugmentation:
         self.batch_idx = 0  # batch index
         self.extractors = self.initialise_extractors()
         self.buffer = {}
+        self.buffer_watcher = {}  # to keep track of the progress of the updates
         self.is_registered = True
         self.is_training = True
         #
         if self.disable_buffer:
             print("Warning: Saliency Buffer is Disabled")
+        self.check_required_args(print_args=True)
 
     # --------------------------------------------------------------------------- #
     #                         Training Specific Functions                         #
@@ -60,8 +61,7 @@ class SaliencyGuidedAugmentation:
         self.is_training = self.model.training
         self.epoch_idx, self.batch_idx = epoch_idx, batch_idx
         is_turned_off = self.is_training and self.disable_during_training
-        is_temporarily_disabled = epoch_idx < self.disable_first_n_epochs
-        if is_turned_off or is_temporarily_disabled:
+        if is_turned_off or epoch_idx < self.disable_first_n_epochs:
             self.unregister_hooks()
             return obs_dict
         self.register_hooks()
@@ -75,6 +75,8 @@ class SaliencyGuidedAugmentation:
         elif not self.is_training:
             self.save_debug_images(obs_dict, obs_meta)
         self.model.train() if self.is_training else self.model.eval()
+        # n_updated = torch.sum(self.buffer_watcher[obs_meta["visual_modalities"][0]] > 0).item()
+        # print(f"Updated {n_updated/self.buffer_depth*100:.2f}% of buffer")
         return self.restore_obs_dict_shape(obs_dict, obs_meta)
 
     def saliency_guided_augmentation(self, obs_dict, buffer_ids, obs_meta, update_dict):
@@ -82,32 +84,27 @@ class SaliencyGuidedAugmentation:
             return obs_dict
         vis_ims = []
         for i, obs_key in enumerate(obs_meta["visual_modalities"]):
-            if not self.disable_buffer:
-                augment_indices = update_dict[obs_key]["augmentations"]
-                global_ids = buffer_ids[augment_indices]
-                crop_inds = obs_meta[obs_key]["crop_inds"][augment_indices]
-                buffer_shape = obs_meta[obs_key]["raw_shape"][-2:]
-                in_shape = obs_meta[obs_key]["input_shape"][-2:]
-                smaps = self.fetch_saliency_from_buffer(
-                    obs_key, global_ids, crop_inds, buffer_shape, in_shape
-                )
-                smaps = self.linear_normalisation(smaps)
-            else:
-                augment_indices = update_dict[obs_key]["updates"]
+            if self.disable_buffer:
+                aug_inds = update_dict[obs_key]["updates"]
                 smaps = update_dict[obs_key]["smaps"]
-            rand_bg_idx = random.sample(
-                range(self.background_images.shape[0]), len(augment_indices)
-            )
+            if not self.disable_buffer:
+                aug_inds = update_dict[obs_key]["augmentations"]
+                global_ids = buffer_ids[aug_inds]
+                crop_inds = obs_meta[obs_key]["crop_inds"][aug_inds]
+                out_shape = obs_meta[obs_key]["input_shape"][-2:]
+                smaps = self.fetch_saliency_from_buffer(obs_key, global_ids, crop_inds, out_shape)
+                smaps = self.linear_normalisation(smaps)
+            rand_bg_idx = random.sample(range(self.background_images.shape[0]), len(aug_inds))
             bg = obs_meta["randomisers"][i].forward_in(self.background_images[rand_bg_idx])
-            x = obs_dict[obs_key][augment_indices]
+            x = obs_dict[obs_key][aug_inds]
             bg = self.normalizer[obs_key].normalize(bg) if self.normalizer is not None else bg
             x_aug = x * smaps + bg * (1 - smaps)
-            obs_dict[obs_key][augment_indices] = x_aug
+            obs_dict[obs_key][aug_inds] = x_aug
             if self.batch_idx % 50 == 0:
                 idx = 0
                 x_vis, x_aug_vis = x[idx], x[idx]
                 vis_smap, bg_vis = torch.ones_like(smaps[idx]), torch.zeros_like(bg[idx])
-                if idx in augment_indices:
+                if idx in aug_inds:
                     vis_smap, x_aug_vis, bg_vis = smaps[idx], x_aug[idx], bg[idx]
                 vis_ims_ = [x_vis, x_aug_vis, bg_vis]
                 vis_ims_ = [self.denormalize_image(im, obs_key) for im in vis_ims_]
@@ -116,26 +113,20 @@ class SaliencyGuidedAugmentation:
             cv2.imwrite("augmentation_vis.jpg", self.vstack_images(vis_ims))
         return obs_dict
 
-    def save_debug_images(self, obs_dict, obs_meta, sample_idx=0):
-        if not self.debug_save:
-            return
-        save_on_this_batch = self.batch_idx % self.save_debug_im_every_n_batches == 0
-        if not save_on_this_batch:
-            return
-        vis_ims = []
-        for obs_key in obs_meta["visual_modalities"]:
-            image = obs_dict[obs_key][sample_idx].unsqueeze(0)
-            net_input_dict = None
-            if self.mode == "full_policy":
-                net_input_dict = {k: obs_dict[k][sample_idx].unsqueeze(0) for k in obs_dict.keys()}
-            smaps = self.extractors[obs_key].saliency(image, net_input_dict).detach()
-            vis_smap = self.linear_normalisation(smaps)[0]
-            vis_ims_ = [self.denormalize_image(image, obs_key)]
-            vis_ims.append(self.compose_saga_images(vis_ims_, vis_smap))
-        im_name = f"batch_{self.batch_idx}_saliency.jpg"
-        im_name = os.path.join(self.save_dir, f"epoch_{self.epoch_idx}", im_name)
-        self.create_saliency_dir()
-        cv2.imwrite(im_name, self.vstack_images(vis_ims))
+    def frequency_based_sampling(self, n_samples, buffer_ids, obs_key):
+        n_augs = int(n_samples * self.augmentation_ratio)
+        n_updates = int(n_samples * self.update_ratio_per_batch)
+        n_retrivals = n_augs - n_updates
+        assert n_updates <= n_augs, "update ratio should be less than augmentation ratio"
+        update_freq = self.buffer_watcher[obs_key][buffer_ids]
+        _, sorted_inds = torch.sort(update_freq)
+        # augmentation batch indices should be a mix of updates and buffer retrivals
+        # by including the least the most recent updates and the latest updates from the buffer
+        update_batch_inds = sorted_inds[:n_updates]
+        aug_batch_inds = sorted_inds[:n_updates]
+        if n_retrivals > 0:
+            aug_batch_inds = torch.cat((aug_batch_inds, sorted_inds[-n_retrivals:]))
+        return update_batch_inds, aug_batch_inds
 
     def update_saliency_buffer(self, buffer_ids, obs_dict, obs_meta):
         if self.disable_during_training or not self.is_training:
@@ -144,42 +135,34 @@ class SaliencyGuidedAugmentation:
             assert not obs_meta["has_temporal_dim"], "full policy with temporal dim not supported"
         self.model.eval()
         n_samples = obs_meta["n_samples"]
-        n_augmentations = int(n_samples * self.augmentation_ratio)
-        n_updates = int(n_samples * self.update_ratio_per_batch)
-        assert n_updates <= n_augmentations, "update ratio should be less than augmentation ratio"
+        # get update frequency
+        shared_update_inds = None
+        shared_aug_inds = None
         out = {}
-        augmentation_indices = random.sample(range(n_samples), n_augmentations)
         for k in obs_meta["visual_modalities"]:
-            if not self.augment_obs_pairs:
-                augmentation_indices = random.sample(range(n_samples), n_augmentations)
-            update_indices = augmentation_indices[:n_updates]
-            updated_ids = buffer_ids[update_indices]
-            crop_inds_ = obs_meta[k]["crop_inds"]
-            crop_inds_ = None if crop_inds_ is None else crop_inds_[update_indices]
-            buffer_shape = obs_meta[k]["raw_shape"][-2:]
-            #
+            if shared_update_inds is None or not self.augment_obs_pairs:
+                update_inds, aug_inds = self.frequency_based_sampling(n_samples, buffer_ids, k)
+                if shared_update_inds is None:
+                    shared_update_inds, shared_aug_inds = update_inds, aug_inds
+            else:
+                update_inds, aug_inds = shared_update_inds, shared_aug_inds  #
             net_input_dict = None
-            image = obs_dict[k][update_indices]
+            image_for_update = obs_dict[k][update_inds]  # batch indices
             if self.mode == "full_policy":
-                net_input_dict = {k: obs_dict[k][update_indices] for k in obs_dict.keys()}
-            smaps = self.extractors[k].saliency(image, net_input_dict).detach()
+                net_input_dict = {k: obs_dict[k][update_inds] for k in obs_dict.keys()}
+            smaps = self.extractors[k].saliency(image_for_update, net_input_dict).detach()
             norm_smaps = self.linear_normalisation(smaps)
             if not self.disable_buffer:
-                self.update_buffer(norm_smaps, updated_ids, k, buffer_shape, crop_inds_)
+                crop_inds_ = obs_meta[k]["crop_inds"]
+                crop_inds_ = None if crop_inds_ is None else crop_inds_[update_inds]
+                self.update_buffer(norm_smaps, buffer_ids[update_inds], k, crop_inds_)
+                self.buffer_watcher[k][buffer_ids[update_inds]] += 1
             out[k] = {
-                "augmentations": augmentation_indices,
-                "updates": update_indices,
+                "augmentations": aug_inds,
+                "updates": update_inds,
                 "smaps": norm_smaps,
             }
         return out
-
-    def denormalize_image(self, x, obs_key):
-        if self.normalizer is None:
-            return x
-        if len(x.shape) == 3:
-            x = x.unsqueeze(0)
-        x = self.normalizer[obs_key].unnormalize(x)
-        return x.squeeze(0) if x.shape[0] == 1 else x
 
     def prepare_obs_dict(self, obs_dict):
         obs_encoder = self.get_obs_encoder()
@@ -206,6 +189,8 @@ class SaliencyGuidedAugmentation:
 
         for k in obs_encoder.obs_shapes.keys():
             obs_dict[k], raw_shape = flatten_temporal_dim(obs_dict[k])
+            if not self.disable_buffer:
+                self.check_buffer(k, raw_shape[-2:], device=obs_dict[k].device)
             obs_meta[k] = {
                 "raw_shape": raw_shape,
                 "is_visual": k in visual_modalities,
@@ -224,7 +209,7 @@ class SaliencyGuidedAugmentation:
     #                           Saliency Core Functions                           #
     # --------------------------------------------------------------------------- #
 
-    def update_buffer(self, s_map, buffer_ids, obs_key, buffer_shape=None, crop_inds=None):
+    def update_buffer(self, s_map, buffer_ids, obs_key, crop_inds=None):
         if self.disable_buffer:
             return
         assert obs_key in self.extractors, "obs_key not in extractors"
@@ -241,12 +226,6 @@ class SaliencyGuidedAugmentation:
         s_map = s_map[unique_ids]
         s_map = (s_map * 255).to(torch.uint8)
 
-        h_buffer, w_buffer = buffer_shape if buffer_shape is not None else s_map.shape[-2:]
-        device = s_map.device
-
-        # buffers are maintained in [0, 255] range as uint8 for memory efficiency
-        self.check_buffer(obs_key, (h_buffer, w_buffer), device=device)
-
         map_from_buffer = self.buffer[obs_key][buffer_ids]
 
         if crop_inds is not None:
@@ -256,7 +235,9 @@ class SaliencyGuidedAugmentation:
                 h_1, w_1 = h_0 + s_map.shape[-2], w_0 + s_map.shape[-1]
                 padded_s_map[i, :, h_0:h_1, w_0:w_1] = s_map[i]
             s_map = padded_s_map
-        updated_s_map = self.m * map_from_buffer + (1 - self.m) * s_map
+        updated_s_map = s_map
+        if self.momentum > 0:
+            updated_s_map = self.m * map_from_buffer + (1 - self.m) * s_map
         self.buffer[obs_key][buffer_ids] = updated_s_map.to(torch.uint8)
 
     def fetch_saliency_from_buffer(
@@ -264,16 +245,11 @@ class SaliencyGuidedAugmentation:
         obs_key,
         buffer_ids,
         crop_inds=None,
-        buffer_shape=None,
         out_shape=(76, 76),
     ):
         assert obs_key in self.extractors, "obs_key not in extractors"
         if crop_inds is not None:
             assert crop_inds.shape[0] == buffer_ids.shape[0], "crop_inds and ids size mismatch"
-
-        # buffers are maintained in [0, 255] range as uint8 for memory efficiency
-        h_buffer, w_buffer = buffer_shape if buffer_shape is not None else out_shape
-        self.check_buffer(obs_key, (h_buffer, w_buffer))
 
         # retrieve saliency map from buffer, convert to [0, 1] range
 
@@ -292,6 +268,35 @@ class SaliencyGuidedAugmentation:
     # --------------------------------------------------------------------------- #
     #                                    Utils                                    #
     # --------------------------------------------------------------------------- #
+
+    def save_debug_images(self, obs_dict, obs_meta, sample_idx=0):
+        if not self.debug_save:
+            return
+        save_on_this_batch = self.batch_idx % self.save_debug_im_every_n_batches == 0
+        if not save_on_this_batch:
+            return
+        vis_ims = []
+        for obs_key in obs_meta["visual_modalities"]:
+            image = obs_dict[obs_key][sample_idx].unsqueeze(0)
+            net_input_dict = None
+            if self.mode == "full_policy":
+                net_input_dict = {k: obs_dict[k][sample_idx].unsqueeze(0) for k in obs_dict.keys()}
+            smaps = self.extractors[obs_key].saliency(image, net_input_dict).detach()
+            vis_smap = self.linear_normalisation(smaps)[0]
+            vis_ims_ = [self.denormalize_image(image, obs_key)]
+            vis_ims.append(self.compose_saga_images(vis_ims_, vis_smap))
+        im_name = f"batch_{self.batch_idx}_saliency.jpg"
+        im_name = os.path.join(self.save_dir, f"epoch_{self.epoch_idx}", im_name)
+        self.create_saliency_dir()
+        cv2.imwrite(im_name, self.vstack_images(vis_ims))
+
+    def denormalize_image(self, x, obs_key):
+        if self.normalizer is None:
+            return x
+        if len(x.shape) == 3:
+            x = x.unsqueeze(0)
+        x = self.normalizer[obs_key].unnormalize(x)
+        return x.squeeze(0) if x.shape[0] == 1 else x
 
     @staticmethod
     def vstack_images(images, padding=10):
@@ -324,6 +329,7 @@ class SaliencyGuidedAugmentation:
             .mul_(255)
             .to(torch.uint8)
         )
+        self.buffer_watcher[obs_key] = torch.zeros(self.buffer_depth).to(device)
 
     def set_buffer_depth(self, buffer_depth):
         self.buffer_depth = buffer_depth
@@ -381,29 +387,29 @@ class SaliencyGuidedAugmentation:
         else:
             raise ValueError("obs_encoder cannot be found in the model")
 
-    def check_required_args(self, kwargs, print_args=False):
+    def check_required_args(self, print_args=False):
         required_args = [
             "momentum",
             "update_ratio_per_batch",
             "augmentation_ratio",
             "buffer_shape",
-            "background_path",
+            "background_images",
             "save_dir",
             "disable_during_training",
-            # "disable_first_n_epochs",
-            # "disable_buffer",
-            # "augment_obs_pairs",
+            "disable_first_n_epochs",
+            "disable_buffer",
+            "augment_obs_pairs",
         ]
         for arg in required_args:
-            if arg not in kwargs:
+            if arg not in self.__dict__:
                 raise ValueError(f"Argument {arg} is required for MomentumSaliency")
         if print_args:
             print("\n==================== Momentum Saliency Arguments ====================")
             for arg in required_args:
-                if isinstance(kwargs[arg], torch.Tensor):
-                    print(f"{arg} shape: {list(kwargs[arg].shape)}")
+                if isinstance(self.__dict__[arg], torch.Tensor):
+                    print(f"{arg} shape: {list(self.__dict__[arg].shape)}")
                 else:
-                    print(f"{arg}: {kwargs[arg]}")
+                    print(f"{arg}: {self.__dict__[arg]}")
             print("======================================================================\n")
 
     def create_saliency_dir(self):

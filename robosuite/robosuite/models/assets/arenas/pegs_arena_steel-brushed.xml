@@ -20,7 +20,7 @@
     <texture name="textable" builtin="flat" height="512" width="512" rgb1="0.5 0.5 0.5" rgb2="0.5 0.5 0.5" />
     <material name="table_mat" texture="textable" />
 
-  <texture file="/home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/steel-brushed.png" type="2d" name="custom_table_texture" /></asset>
+  <texture file="/home/zheyu/RoboSaGA/robosuite/robosuite/models/assets/textures/steel-brushed.png" type="2d" name="custom_table_texture" /></asset>
   <worldbody>
     
     <geom condim="3" material="floorplane" name="floor" pos="0 0 0" size="3 3 .125" type="plane" />
