@@ -12,7 +12,7 @@ from robosuite.utils.mjcf_utils import (
 )
 
 
-def replace_table_texture(xml_file, new_texture_path, new_texture_name):
+def replace_table_texture(xml_file, texture_name, new_texture_path, new_texture_name):
     # Load the XML file
     tree = ET.parse(xml_file)
     root = tree.getroot()
@@ -31,7 +31,7 @@ def replace_table_texture(xml_file, new_texture_path, new_texture_name):
         if material.get("name") == "table_ceramic":
             material.set("texture", new_texture_name)
 
-    xml_file = xml_file.replace(".xml", "_temp.xml")
+    xml_file = xml_file.replace(".xml", f"_{texture_name}.xml")
     # Save the modified XML to a new file or overwrite the existing one
     tree.write(xml_file)
 
@@ -67,11 +67,15 @@ class TableArena(Arena):
             ), "Unsupported table texture specified: {}. " "Supported options are: {}".format(
                 table_texture, supported_textures
             )
-            table_texture = os.path.join(
-                robosuite.models.assets_root, "textures", table_texture + ".png"
-            )
-            replace_table_texture(xml, table_texture, "custom_table_texture")
-            xml = xml.replace(".xml", "_temp.xml")
+            xml_temp = xml.replace(".xml", f"_{table_texture}.xml")
+            if os.path.exists(xml_temp):
+                xml = xml_temp
+            else:
+                table_texture_path = os.path.join(
+                    robosuite.models.assets_root, "textures", table_texture + ".png"
+                )
+                replace_table_texture(xml, table_texture, table_texture_path, "custom_table_texture")
+            xml = xml_temp
         super().__init__(xml)
 
         self.table_full_size = np.array(table_full_size)
