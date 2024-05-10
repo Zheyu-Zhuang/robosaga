@@ -390,9 +390,9 @@ class SaliencyGuidedAugmentation:
             "background_path",
             "save_dir",
             "disable_during_training",
-            "disable_for_first_n_epochs",
-            "disable_buffer",
-            "augment_obs_pairs",
+            # "disable_for_first_n_epochs",
+            # "disable_buffer",
+            # "augment_obs_pairs",
         ]
         for arg in required_args:
             if arg not in kwargs:
