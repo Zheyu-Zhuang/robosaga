@@ -366,6 +366,8 @@ def env_from_checkpoint(
     render=False,
     render_offscreen=False,
     verbose=False,
+    distractors=None,
+    table_texture=None,
 ):
     """
     Creates an environment using the metadata saved in a checkpoint.
@@ -393,13 +395,15 @@ def env_from_checkpoint(
     # metadata from model dict to get info needed to create environment
     env_meta = ckpt_dict["env_metadata"]
     shape_meta = ckpt_dict["shape_metadata"]
-
+    print(distractors)
     # create env from saved metadata
     env = EnvUtils.create_env_from_metadata(
         env_meta=env_meta,
         render=render,
         render_offscreen=render_offscreen,
         use_image_obs=shape_meta["use_images"],
+        distractors=distractors,
+        table_texture=table_texture,
     )
     if verbose:
         print("============= Loaded Environment =============")

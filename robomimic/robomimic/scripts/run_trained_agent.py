@@ -60,6 +60,7 @@ import h5py
 import imageio
 import numpy as np
 import torch
+from tqdm import tqdm
 
 import diffusion_policy.model.vision.crop_randomizer as dmvc
 import robomimic.models.base_nets as rmbn
@@ -213,7 +214,7 @@ def run_trained_agent(args):
     )
 
     replace_submodules(
-        root_module=policy.nets["policy"].nets["encoder"].nets["obs"],
+        root_module=policy.policy.nets["policy"].nets["encoder"].nets["obs"],
         predicate=lambda x: isinstance(x, rmbn.CropRandomizer),
         func=lambda x: dmvc.CropRandomizer(
             input_shape=x.input_shape,
@@ -239,6 +240,8 @@ def run_trained_agent(args):
         render=args.render,
         render_offscreen=(args.video_path is not None),
         verbose=True,
+        distractors=args.distractors,
+        table_texture=args.table_texture,
     )
 
     # maybe set seed
@@ -259,7 +262,8 @@ def run_trained_agent(args):
         total_samples = 0
 
     rollout_stats = []
-    for i in range(rollout_num_episodes):
+    pbar = tqdm(total=rollout_num_episodes)
+    for i in range(pbar.total):
         stats, traj = rollout(
             policy=policy,
             env=env,
@@ -271,6 +275,10 @@ def run_trained_agent(args):
             camera_names=args.camera_names,
         )
         rollout_stats.append(stats)
+        rollout_stats_temp = TensorUtils.list_of_flat_dict_to_dict_of_list(rollout_stats)
+        success_rate = np.sum(rollout_stats_temp["Success_Rate"])
+        pbar.set_postfix({"Success Rate": success_rate / len(rollout_stats_temp["Success_Rate"])})
+        pbar.update()
 
         if write_dataset:
             # store transitions
@@ -324,6 +332,13 @@ if __name__ == "__main__":
         help="path to saved checkpoint pth file",
     )
 
+    parser.add_argument(
+        "--distractors",
+        nargs="+",
+        default=None,
+    )
+
+    parser.add_argument("--table_texture", type=str, default=None)
     # number of rollouts
     parser.add_argument(
         "--n_rollouts",
