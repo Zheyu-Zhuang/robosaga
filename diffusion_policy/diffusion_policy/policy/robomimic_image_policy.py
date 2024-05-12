@@ -2,8 +2,10 @@ from typing import Dict
 
 import torch
 
+import diffusion_policy.model.vision.crop_randomizer as dmvc
+import robomimic.models.base_nets as rmbn
 import robomimic.utils.obs_utils as ObsUtils
-from diffusion_policy.common.pytorch_util import dict_apply
+from diffusion_policy.common.pytorch_util import dict_apply, replace_submodules
 from diffusion_policy.common.robomimic_config_util import get_robomimic_config
 from diffusion_policy.model.common.normalizer import LinearNormalizer
 from diffusion_policy.policy.base_image_policy import BaseImagePolicy
@@ -75,6 +77,18 @@ class RobomimicImagePolicy(BaseImagePolicy):
             obs_key_shapes=obs_key_shapes,
             ac_dim=action_dim,
             device="cpu",
+        )
+
+        replace_submodules(
+            root_module=model.nets["policy"].nets["encoder"].nets["obs"],
+            predicate=lambda x: isinstance(x, rmbn.CropRandomizer),
+            func=lambda x: dmvc.CropRandomizer(
+                input_shape=x.input_shape,
+                crop_height=x.crop_height,
+                crop_width=x.crop_width,
+                num_crops=x.num_crops,
+                pos_enc=x.pos_enc,
+            ),
         )
 
         self.model = model
