@@ -48,7 +48,7 @@ def train(config, device):
     """
     Train a model using the algorithm.
     """
-
+    ckpt = getattr(args, "ckpt", None)
     # first set seeds
     np.random.seed(config.train.seed)
     torch.manual_seed(config.train.seed)
@@ -111,6 +111,7 @@ def train(config, device):
         log_dir,
         log_tb=config.experiment.logging.log_tb,
     )
+
     model = algo_factory(
         algo_name=config.algo_name,
         config=config,
@@ -118,6 +119,21 @@ def train(config, device):
         ac_dim=shape_meta["ac_dim"],
         device=device,
     )
+
+    if ckpt is not None:
+        model, _ = FileUtils.resume_from_checkpoint(
+            ckpt_path=ckpt,
+            device=device,
+        )
+
+    else:
+        model = algo_factory(
+            algo_name=config.algo_name,
+            config=config,
+            obs_key_shapes=shape_meta["all_shapes"],
+            ac_dim=shape_meta["ac_dim"],
+            device=device,
+        )
 
     replace_submodules(
         root_module=model.nets["policy"].nets["encoder"].nets["obs"],
@@ -414,6 +430,12 @@ def main(args):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
 
+    parser.add_argument(
+        "--ckpt",
+        type=str,
+        default=None,
+        help="(optional) path to a model checkpoint to resume training from",
+    )
     # External config file that overwrites default config
     parser.add_argument(
         "--config",

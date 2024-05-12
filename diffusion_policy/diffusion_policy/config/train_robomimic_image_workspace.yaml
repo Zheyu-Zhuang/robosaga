@@ -1,13 +1,14 @@
 defaults:
   - _self_
-  - task: lift_image
+  - task: square_image
 
 name: train_robomimic_image
+exp_name: "square_image_saga_bc_rnn"
+
 _target_: diffusion_policy.workspace.train_robomimic_image_workspace.TrainRobomimicImageWorkspace
 
 task_name: ${task.name}
 shape_meta: ${task.shape_meta}
-exp_name: "default"
 
 horizon: &horizon 10
 n_obs_steps: 1
@@ -23,8 +24,8 @@ policy:
   algo_name: bc_rnn
   obs_type: image
   # oc.select resolver: key, default
-  task_name: ${oc.select:task.task_name,lift}
-  dataset_type: ${oc.select:task.dataset_type,ph}
+  task_name: ${oc.select:task.task_name, square}
+  dataset_type: ${oc.select:task.dataset_type, ph}
   crop_shape: [76,76]
 
 dataloader:
@@ -61,7 +62,7 @@ training:
   tqdm_interval_sec: 1.0
 
 logging:
-  project: diffusion_policy_debug
+  project: saga
   resume: True
   mode: online
   name: ${now:%Y.%m.%d-%H.%M.%S}_${name}_${task_name}
@@ -79,14 +80,14 @@ checkpoint:
   save_last_snapshot: False
 
 multi_run:
-  run_dir: data/outputs/${now:%Y.%m.%d}/${now:%H.%M.%S}_${name}_${task_name}
+  run_dir: experiments/robomimic/${task_name}_${exp_name}
   wandb_name_base: ${now:%Y.%m.%d-%H.%M.%S}_${name}_${task_name}
 
 hydra:
   job:
     override_dirname: ${name}
   run:
-    dir: data/outputs/${now:%Y.%m.%d}/${now:%H.%M.%S}_${name}_${task_name}
+    dir: experiments/robomimic/${task_name}_${exp_name}
   sweep:
-    dir: data/outputs/${now:%Y.%m.%d}/${now:%H.%M.%S}_${name}_${task_name}
+    dir: experiments/robomimic/${task_name}_${exp_name}
     subdir: ${hydra.job.num}
