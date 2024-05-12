@@ -31,7 +31,7 @@ saliency:
   background_path: "data/robomimic/coco_5k_84x84/"
   disable_during_training: False
   disable_buffer: True
-  
+
 policy:
   _target_: diffusion_policy.policy.robomimic_image_policy.RobomimicImagePolicy
   shape_meta: ${shape_meta}
@@ -41,6 +41,7 @@ policy:
   task_name: ${oc.select:task.task_name, square}
   dataset_type: ${oc.select:task.dataset_type, ph}
   crop_shape: [76,76]
+  saliency_config: ${saliency}
 
 dataloader:
   batch_size: 64
