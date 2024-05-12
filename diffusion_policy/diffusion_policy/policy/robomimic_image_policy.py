@@ -82,7 +82,7 @@ class RobomimicImagePolicy(BaseImagePolicy):
         self.normalizer = LinearNormalizer()
         self.config = config
 
-        if self.normalize_obs:
+        if self.normalizer is not None:
             saliency_config["normalizer"] = self.normalizer
         self.saga = SaliencyGuidedAugmentation(self.nets["policy"], **saliency_config)
 
