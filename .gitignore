@@ -124,3 +124,4 @@ diffusion_policy/*.jpg
 diffusion_policy/*.jpg
 diffusion_policy/experiments/
 **/cluster_jobs
+**/augmentation_vis.jpg
