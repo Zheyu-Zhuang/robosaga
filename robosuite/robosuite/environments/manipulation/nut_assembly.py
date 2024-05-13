@@ -452,12 +452,12 @@ class NutAssembly(SingleArmEnv):
             self.placement_initializer.append_sampler(
                 sampler=UniformRandomSampler(
                     name="f{distractor_._name}ObjectSampler",
-                    x_range=[0.00, 0.1],
-                    y_range=[-0.11, 0.01],
+                    x_range=[-0.10, 0.10],
+                    y_range=[-0.2, 0.05],
                     rotation=0.0,
                     rotation_axis="z",
                     ensure_object_boundary_in_range=False,
-                    ensure_valid_placement=False,
+                    ensure_valid_placement=True,
                     reference_pos=self.table_offset,
                     z_offset=0.05,
                 )
