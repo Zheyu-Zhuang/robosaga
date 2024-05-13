@@ -142,15 +142,17 @@ class SaliencyGuidedAugmentation:
         if n_updates == 0:
             return torch.tensor([]), torch.tensor([])
         n_retrivals = n_augs - n_updates
+        # randomly permute the buffer ids
+        batch_inds = torch.randperm(buffer_ids.shape[0])
+        buffer_ids = buffer_ids[batch_inds]
         update_freq = self.buffer_watcher[obs_key][buffer_ids]
         _, sorted_inds = torch.sort(update_freq)
         # augmentation batch indices should be a mix of updates and buffer retrivals
         # by including the least the most recent updates and the latest updates from the buffer
-        update_batch_inds = sorted_inds[:n_updates]
-        # aug_batch_inds = torch.randperm(n_samples)[:n_augs]
-        aug_batch_inds = sorted_inds[:n_updates]
+        update_batch_inds = batch_inds[sorted_inds[:n_updates]]
+        aug_batch_inds = update_batch_inds
         if n_retrivals > 0:
-            aug_batch_inds = torch.cat((aug_batch_inds, sorted_inds[-n_retrivals:]))
+            aug_batch_inds = torch.cat((aug_batch_inds, batch_inds[sorted_inds[-n_retrivals:]]))
         return update_batch_inds, aug_batch_inds
 
     def update_saliency_buffer(self, buffer_ids, obs_dict, obs_meta):
