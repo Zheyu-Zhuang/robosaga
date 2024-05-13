@@ -38,6 +38,7 @@ class SaliencyGuidedAugmentation:
         self.normalizer = kwargs.get("normalizer", None)
         self.disable_during_training = kwargs.get("disable_during_training", False)
         self.disable_first_n_epochs = kwargs.get("disable_first_n_epochs", 0)
+        self.augment_scheduler = kwargs.get("augment_scheduler", None)
         # augmentation index fixed across obs pairs
         self.augment_obs_pairs = kwargs.get("augment_obs_pairs", False)
         self.epoch_idx = 0  # epoch index
@@ -68,6 +69,7 @@ class SaliencyGuidedAugmentation:
         obs_dict, obs_meta = self.prepare_obs_dict(obs_dict)
         self.model.eval()  # required for saliency computation
         if self.is_training and not self.disable_during_training:
+            self.step_augmentation_scheduler()
             update_dict = self.update_saliency_buffer(buffer_ids, obs_dict, obs_meta)
             obs_dict = self.saliency_guided_augmentation(
                 obs_dict, buffer_ids, obs_meta, update_dict
@@ -78,6 +80,26 @@ class SaliencyGuidedAugmentation:
         # n_updated = torch.sum(self.buffer_watcher[obs_meta["visual_modalities"][0]] > 0).item()
         # print(f"Updated {n_updated/self.buffer_depth*100:.2f}% of buffer")
         return self.restore_obs_dict_shape(obs_dict, obs_meta)
+
+    def step_augmentation_scheduler(self):
+        if self.augment_scheduler is None or self.augment_scheduler["mode"] == "constant":
+            return
+        self.past_augmentation_ratio = self.augmentation_ratio
+        mode = self.augment_scheduler["mode"]
+        end_epoch = self.augment_scheduler["end_epoch"]
+        assert mode in ["linear", "cosine"], "Invalid scheduler mode"
+
+        if mode == "linear":
+            lambda_ = min(self.epoch_idx / end_epoch, 1)
+        elif mode == "cosine":
+            lambda_ = (
+                0.5 * (1 - np.cos(self.epoch_idx * np.pi / end_epoch))
+                if self.epoch_idx < end_epoch
+                else 1
+            )
+        self.augmentation_ratio = lambda_ * self.augment_scheduler["end_ratio"]
+        if self.augmentation_ratio != self.past_augmentation_ratio:
+            print(f"Augmentation Ratio: {self.augmentation_ratio:.2f}")
 
     def saliency_guided_augmentation(self, obs_dict, buffer_ids, obs_meta, update_dict):
         if update_dict == {} or not self.is_training or self.disable_during_training:
@@ -116,8 +138,10 @@ class SaliencyGuidedAugmentation:
     def frequency_based_sampling(self, n_samples, buffer_ids, obs_key):
         n_augs = int(n_samples * self.augmentation_ratio)
         n_updates = int(n_samples * self.update_ratio_per_batch)
+        n_updates = n_augs if n_updates > n_augs else n_updates  # ensure n_updates <= n_augs
+        if n_updates == 0:
+            return torch.tensor([]), torch.tensor([])
         n_retrivals = n_augs - n_updates
-        assert n_updates <= n_augs, "update ratio should be less than augmentation ratio"
         update_freq = self.buffer_watcher[obs_key][buffer_ids]
         _, sorted_inds = torch.sort(update_freq)
         # augmentation batch indices should be a mix of updates and buffer retrivals
@@ -147,6 +171,9 @@ class SaliencyGuidedAugmentation:
                     shared_update_inds, shared_aug_inds = update_inds, aug_inds
             else:
                 update_inds, aug_inds = shared_update_inds, shared_aug_inds  #
+            if len(update_inds) == 0:
+                self.unregister_hooks()
+                continue
             net_input_dict = None
             image_for_update = obs_dict[k][update_inds]  # batch indices
             if self.mode == "full_policy":
@@ -335,25 +362,6 @@ class SaliencyGuidedAugmentation:
     def set_buffer_depth(self, buffer_depth):
         self.buffer_depth = buffer_depth
 
-    def suppress_low_saliency(
-        self, s_map, cutoff_threshold, scheduler="constant", iter=None, saturation_iter=None
-    ):
-        assert scheduler in ["linear", "constant", "cosine"]
-        if scheduler in ["linear", "cosine"]:
-            assert iter is not None, "iter must be provided for linear and cosine scheduler"
-
-        if scheduler == "linear":
-            lambda_ = iter / saturation_iter if iter < saturation_iter else 1
-        elif scheduler == "cosine":
-            lambda_ = 0.5 * (1 - cos(iter * pi / saturation_iter)) if iter < saturation_iter else 1
-        else:
-            lambda_ = 1
-        cutoff_threshold = (
-            torch.tensor(cutoff_threshold).to(s_map.device).view(s_map.shape[0], 1, 1, 1)
-        ) * lambda_
-        s_map[s_map < cutoff_threshold] = 0
-        return s_map
-
     def linear_normalisation(self, s_map, min_delta=0.0):
         in_shape = s_map.shape
         if len(s_map.shape) == 4:
@@ -392,7 +400,6 @@ class SaliencyGuidedAugmentation:
         required_args = [
             "momentum",
             "update_ratio_per_batch",
-            "augmentation_ratio",
             "buffer_shape",
             "background_images",
             "save_dir",
@@ -400,7 +407,16 @@ class SaliencyGuidedAugmentation:
             "disable_first_n_epochs",
             "disable_buffer",
             "augment_obs_pairs",
+            "augmentation_ratio",
+            "augment_scheduler",
         ]
+        if self.augment_scheduler is not None and "end_ratio" in self.augment_scheduler:
+            print(
+                "[SaGA Warning] Property 'augmentation_ratio' is overwriten by the augment_scheduler"
+            )
+        if self.augment_scheduler is None and self.augmentation_ratio is None:
+            raise ValueError("augmentation_ratio is required if augment_scheduler is None")
+
         for arg in required_args:
             if arg not in self.__dict__:
                 raise ValueError(f"Argument {arg} is required for MomentumSaliency")

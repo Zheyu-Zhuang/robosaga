@@ -108,7 +108,6 @@ class BCConfig(BaseConfig):
         self.algo.rnn.kwargs.do_not_lock_keys()
 
     def saliency_config(self):
-        print("hihihi")
         self.saliency.mode = "encoder_only"
         self.saliency.momentum = 0.0
         self.saliency.update_ratio_per_batch = 0.1
@@ -118,7 +117,8 @@ class BCConfig(BaseConfig):
         self.saliency.buffer_shape = [84, 84]
         self.saliency.save_dir = ""
         self.saliency.save_debug_im_every_n_batches = 1
-        self.saliency.background_path = "/home/zheyu/Dataset/robomimic/coco_5k_84x84/"
+        self.saliency.background_path = ""
         self.saliency.disable_during_training = False
         self.saliency.augment_obs_pairs = True
+        self.saliency.augment_scheduler = None
         self.saliency.kwargs.do_not_lock_keys()
