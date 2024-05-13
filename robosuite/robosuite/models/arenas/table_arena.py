@@ -61,7 +61,17 @@ class TableArena(Arena):
     ):
         xml = xml_path_completion(xml)
         if table_texture is not None:
-            supported_textures = ["clay", "blue-wood", "light-wood", "steel-brushed", "wood-tiles"]
+            supported_textures = [
+                "clay",
+                "blue-wood",
+                "light-wood",
+                "steel-brushed",
+                "wood-tiles",
+                "yellow-plaster",
+                "white-plaster",
+                "glass",
+                "white-bricks",
+            ]
             assert (
                 table_texture in supported_textures
             ), "Unsupported table texture specified: {}. " "Supported options are: {}".format(
@@ -74,7 +84,9 @@ class TableArena(Arena):
                 table_texture_path = os.path.join(
                     robosuite.models.assets_root, "textures", table_texture + ".png"
                 )
-                replace_table_texture(xml, table_texture, table_texture_path, "custom_table_texture")
+                replace_table_texture(
+                    xml, table_texture, table_texture_path, "custom_table_texture"
+                )
             xml = xml_temp
         super().__init__(xml)
 
