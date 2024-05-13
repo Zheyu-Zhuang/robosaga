@@ -1,7 +1,7 @@
 {
     "algo_name": "bc",
     "experiment": {
-        "name": "core_bc_rnn_square_ph_image_test",
+        "name": "core_bc_rnn_square_ph_image_not_augment_pair",
         "validate": true,
         "logging": {
             "terminal_output_to_txt": true,
@@ -45,7 +45,7 @@
         "save_debug_im_every_n_batches": 1,
         "background_path": "/home/zheyu/Dataset/robomimic/coco_5k_84x84/",
         "disable_during_training": false,
-        "augment_obs_pairs": true
+        "augment_obs_pairs": false
     },
     "train": {
         "data": "/home/zheyu/Dataset/robomimic/square/ph/image.hdf5",
