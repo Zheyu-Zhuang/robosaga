@@ -116,17 +116,17 @@ class SaliencyGuidedAugmentation:
     def frequency_based_sampling(self, n_samples, buffer_ids, obs_key):
         n_augs = int(n_samples * self.augmentation_ratio)
         n_updates = int(n_samples * self.update_ratio_per_batch)
-        # n_retrivals = n_augs - n_updates
+        n_retrivals = n_augs - n_updates
         assert n_updates <= n_augs, "update ratio should be less than augmentation ratio"
         update_freq = self.buffer_watcher[obs_key][buffer_ids]
         _, sorted_inds = torch.sort(update_freq)
         # augmentation batch indices should be a mix of updates and buffer retrivals
         # by including the least the most recent updates and the latest updates from the buffer
         update_batch_inds = sorted_inds[:n_updates]
-        aug_batch_inds = torch.randperm(n_samples)[:n_augs]
-        # aug_batch_inds = sorted_inds[:n_updates]
-        # if n_retrivals > 0:
-        #     aug_batch_inds = torch.cat((aug_batch_inds, sorted_inds[-n_retrivals:]))
+        # aug_batch_inds = torch.randperm(n_samples)[:n_augs]
+        aug_batch_inds = sorted_inds[:n_updates]
+        if n_retrivals > 0:
+            aug_batch_inds = torch.cat((aug_batch_inds, sorted_inds[-n_retrivals:]))
         return update_batch_inds, aug_batch_inds
 
     def update_saliency_buffer(self, buffer_ids, obs_dict, obs_meta):
