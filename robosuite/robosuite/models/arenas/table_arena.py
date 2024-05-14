@@ -77,7 +77,7 @@ class TableArena(Arena):
             ), "Unsupported table texture specified: {}. " "Supported options are: {}".format(
                 table_texture, supported_textures
             )
-            xml_temp = xml.replace(".xml", f"_{table_texture}.xml")
+            xml_temp = xml.replace(".xml", f"_{table_texture}_temp.xml")
             if os.path.exists(xml_temp):
                 xml = xml_temp
             else:
