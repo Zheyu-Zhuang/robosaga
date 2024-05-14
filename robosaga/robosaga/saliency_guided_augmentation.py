@@ -118,9 +118,8 @@ class SaliencyGuidedAugmentation:
                 smaps = self.linear_normalisation(smaps)
             rand_bg_idx = random.sample(range(self.background_images.shape[0]), len(aug_inds))
             bg = obs_meta["randomisers"][i].forward_in(self.background_images[rand_bg_idx])
-            x = obs_dict[obs_key][aug_inds]
             bg = self.normalizer[obs_key].normalize(bg) if self.normalizer is not None else bg
-            x_aug = x * smaps + bg * (1 - smaps)
+            x_aug = obs_dict[obs_key][aug_inds] * smaps + bg * (1 - smaps)
             if self.batch_idx % 50 == 0:
                 idx = 0
                 x_vis, x_aug_vis = obs_dict[obs_key][idx], obs_dict[obs_key][idx]
