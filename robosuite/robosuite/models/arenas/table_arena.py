@@ -31,7 +31,7 @@ def replace_table_texture(xml_file, texture_name, new_texture_path, new_texture_
         if material.get("name") == "table_ceramic":
             material.set("texture", new_texture_name)
 
-    xml_file = xml_file.replace(".xml", f"_{texture_name}.xml")
+    xml_file = xml_file.replace(".xml", f"_{texture_name}_temp.xml")
     # Save the modified XML to a new file or overwrite the existing one
     tree.write(xml_file)
 
