@@ -453,7 +453,7 @@ class NutAssembly(SingleArmEnv):
                 sampler=UniformRandomSampler(
                     name="f{distractor_._name}ObjectSampler",
                     x_range=[-0.10, 0.10],
-                    y_range=[-0.2, 0.05],
+                    y_range=[-0.2, 0.00],
                     rotation=0.0,
                     rotation_axis="z",
                     ensure_object_boundary_in_range=False,

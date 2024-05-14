@@ -122,4 +122,5 @@ class BCConfig(BaseConfig):
         self.saliency.augment_obs_pairs = True
         self.saliency.augment_scheduler = None
         self.saliency.augment_strategy = "mixup"
+        self.saliency.erase_thresh = None
         self.saliency.kwargs.do_not_lock_keys()

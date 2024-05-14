@@ -40,6 +40,13 @@ class SaliencyGuidedAugmentation:
         self.disable_first_n_epochs = kwargs.get("disable_first_n_epochs", 0)
         self.augment_scheduler = kwargs.get("augment_scheduler", None)
         self.augment_strategy = kwargs.get("augment_strategy", "mixup")
+        assert self.augment_strategy in ["mixup", "erase"], "Invalid augment_strategy"
+        if self.augment_strategy == "erase":
+            assert "erase_thresh" in kwargs, "erase_thresh is required for erase strategy"
+            assert 0 < kwargs["erase_thresh"] <= 1, "erase_thresh should be in (0, 1]"
+            self.erase_thresh = kwargs["erase_thresh"]
+        if self.augment_strategy not in ["mixup", "erase"]:
+            raise ValueError("Invalid augment_strategy")
         # augmentation index fixed across obs pairs
         self.augment_obs_pairs = kwargs.get("augment_obs_pairs", False)
         self.epoch_idx = 0  # epoch index
@@ -123,8 +130,8 @@ class SaliencyGuidedAugmentation:
             if self.augment_strategy == "mixup":
                 x_aug = obs_dict[obs_key][aug_inds] * smaps + bg * (1 - smaps)
             elif self.augment_strategy == "erase":
-                smaps[smaps < 0.5] = 0
-                smaps[smaps >= 0.5] = 1
+                smaps[smaps < self.erase_thresh] = 0
+                smaps[smaps >= self.erase_thresh] = 1
                 x_aug = obs_dict[obs_key][aug_inds] * smaps + bg * (1 - smaps)
             if self.batch_idx % 50 == 0:
                 idx = 0
