@@ -121,4 +121,5 @@ class BCConfig(BaseConfig):
         self.saliency.disable_during_training = False
         self.saliency.augment_obs_pairs = True
         self.saliency.augment_scheduler = None
+        self.saliency.augment_strategy = "mixup"
         self.saliency.kwargs.do_not_lock_keys()

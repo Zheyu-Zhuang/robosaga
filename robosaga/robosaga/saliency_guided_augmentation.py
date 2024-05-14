@@ -39,6 +39,7 @@ class SaliencyGuidedAugmentation:
         self.disable_during_training = kwargs.get("disable_during_training", False)
         self.disable_first_n_epochs = kwargs.get("disable_first_n_epochs", 0)
         self.augment_scheduler = kwargs.get("augment_scheduler", None)
+        self.augment_strategy = kwargs.get("augment_strategy", "mixup")
         # augmentation index fixed across obs pairs
         self.augment_obs_pairs = kwargs.get("augment_obs_pairs", False)
         self.epoch_idx = 0  # epoch index
@@ -119,7 +120,12 @@ class SaliencyGuidedAugmentation:
             rand_bg_idx = random.sample(range(self.background_images.shape[0]), len(aug_inds))
             bg = obs_meta["randomisers"][i].forward_in(self.background_images[rand_bg_idx])
             bg = self.normalizer[obs_key].normalize(bg) if self.normalizer is not None else bg
-            x_aug = obs_dict[obs_key][aug_inds] * smaps + bg * (1 - smaps)
+            if self.augment_strategy == "mixup":
+                x_aug = obs_dict[obs_key][aug_inds] * smaps + bg * (1 - smaps)
+            elif self.augment_strategy == "erase":
+                smaps[smaps < 0.5] = 0
+                smaps[smaps >= 0.5] = 1
+                x_aug = obs_dict[obs_key][aug_inds] * smaps + bg * (1 - smaps)
             if self.batch_idx % 50 == 0:
                 idx = 0
                 x_vis, x_aug_vis = obs_dict[obs_key][idx], obs_dict[obs_key][idx]
@@ -406,6 +412,7 @@ class SaliencyGuidedAugmentation:
             "augment_obs_pairs",
             "augmentation_ratio",
             "augment_scheduler",
+            "augment_strategy",
         ]
         if self.augment_scheduler is not None and "end_ratio" in self.augment_scheduler:
             print(
