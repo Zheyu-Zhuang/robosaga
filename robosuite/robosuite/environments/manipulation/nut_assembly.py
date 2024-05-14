@@ -452,7 +452,7 @@ class NutAssembly(SingleArmEnv):
             self.placement_initializer.append_sampler(
                 sampler=UniformRandomSampler(
                     name="f{distractor_._name}ObjectSampler",
-                    x_range=[-0.10, 0.10],
+                    x_range=[-0.05, 0.15],
                     y_range=[-0.2, 0.00],
                     rotation=0.0,
                     rotation_axis="z",
