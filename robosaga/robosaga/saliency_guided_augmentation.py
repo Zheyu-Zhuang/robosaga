@@ -121,16 +121,17 @@ class SaliencyGuidedAugmentation:
             x = obs_dict[obs_key][aug_inds]
             bg = self.normalizer[obs_key].normalize(bg) if self.normalizer is not None else bg
             x_aug = x * smaps + bg * (1 - smaps)
-            obs_dict[obs_key][aug_inds] = x_aug
             if self.batch_idx % 50 == 0:
                 idx = 0
-                x_vis, x_aug_vis = x[idx], x[idx]
+                x_vis, x_aug_vis = obs_dict[obs_key][idx], obs_dict[obs_key][idx]
                 vis_smap, bg_vis = torch.ones_like(smaps[idx]), torch.zeros_like(bg[idx])
                 if idx in aug_inds:
-                    vis_smap, x_aug_vis, bg_vis = smaps[idx], x_aug[idx], bg[idx]
+                    idx_ = aug_inds.tolist().index(idx)
+                    vis_smap, x_aug_vis, bg_vis = smaps[idx_], x_aug[idx_], bg[idx_]
                 vis_ims_ = [x_vis, x_aug_vis, bg_vis]
                 vis_ims_ = [self.denormalize_image(im, obs_key) for im in vis_ims_]
                 vis_ims.append(self.compose_saga_images(vis_ims_, vis_smap))
+            obs_dict[obs_key][aug_inds] = x_aug
         if len(vis_ims) >= 1:
             cv2.imwrite("augmentation_vis.jpg", self.vstack_images(vis_ims))
         return obs_dict
@@ -141,18 +142,13 @@ class SaliencyGuidedAugmentation:
         n_updates = n_augs if n_updates > n_augs else n_updates  # ensure n_updates <= n_augs
         if n_updates == 0:
             return torch.tensor([]), torch.tensor([])
-        n_retrivals = n_augs - n_updates
-        # randomly permute the buffer ids
-        batch_inds = torch.randperm(buffer_ids.shape[0])
+        batch_inds = torch.randperm(n_samples)
         buffer_ids = buffer_ids[batch_inds]
+        #
         update_freq = self.buffer_watcher[obs_key][buffer_ids]
         _, sorted_inds = torch.sort(update_freq)
-        # augmentation batch indices should be a mix of updates and buffer retrivals
-        # by including the least the most recent updates and the latest updates from the buffer
-        update_batch_inds = batch_inds[sorted_inds[:n_updates]]
-        aug_batch_inds = update_batch_inds
-        if n_retrivals > 0:
-            aug_batch_inds = torch.cat((aug_batch_inds, batch_inds[sorted_inds[-n_retrivals:]]))
+        aug_batch_inds = batch_inds[sorted_inds[:n_augs]]
+        update_batch_inds = aug_batch_inds[:n_updates]
         return update_batch_inds, aug_batch_inds
 
     def update_saliency_buffer(self, buffer_ids, obs_dict, obs_meta):
