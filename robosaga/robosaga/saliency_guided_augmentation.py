@@ -45,8 +45,6 @@ class SaliencyGuidedAugmentation:
             assert "erase_thresh" in kwargs, "erase_thresh is required for erase strategy"
             assert 0 < kwargs["erase_thresh"] <= 1, "erase_thresh should be in (0, 1]"
             self.erase_thresh = kwargs["erase_thresh"]
-        if self.augment_strategy not in ["mixup", "erase"]:
-            raise ValueError("Invalid augment_strategy")
         # augmentation index fixed across obs pairs
         self.augment_obs_pairs = kwargs.get("augment_obs_pairs", False)
         self.epoch_idx = 0  # epoch index

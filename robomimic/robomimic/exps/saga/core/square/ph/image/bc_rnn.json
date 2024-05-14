@@ -1,7 +1,7 @@
 {
     "algo_name": "bc",
     "experiment": {
-        "name": "saga_bc_rnn_square_ph_image_erase",
+        "name": "saga_bc_rnn_square_ph_please_work",
         "validate": true,
         "logging": {
             "terminal_output_to_txt": true,
@@ -45,7 +45,7 @@
         "background_path": "/home/zheyu/Dataset/robomimic/coco_5k_84x84/",
         "disable_during_training": false,
         "augment_obs_pairs": false,
-        "augment_strategy": "erase",
+        "augment_strategy": "mixup",
         "augmentation_ratio": 0.5
     },
     "train": {

@@ -71,6 +71,7 @@ class TableArena(Arena):
                 "white-plaster",
                 "glass",
                 "white-bricks",
+                "can",
             ]
             assert (
                 table_texture in supported_textures
