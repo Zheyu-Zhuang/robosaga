@@ -40,7 +40,7 @@ class SaliencyGuidedAugmentation:
         self.disable_first_n_epochs = kwargs.get("disable_first_n_epochs", 0)
         self.augment_scheduler = kwargs.get("augment_scheduler", None)
         self.augment_strategy = kwargs.get("augment_strategy", "mixup")
-        assert self.augment_strategy in ["mixup", "erase"], "Invalid augment_strategy"
+        assert self.augment_strategy in ["mixup", "erase", "soda"], "Invalid augment_strategy"
         if self.augment_strategy == "erase":
             assert "erase_thresh" in kwargs, "erase_thresh is required for erase strategy"
             assert 0 < kwargs["erase_thresh"] <= 1, "erase_thresh should be in (0, 1]"
@@ -71,15 +71,21 @@ class SaliencyGuidedAugmentation:
         if is_turned_off or epoch_idx < self.disable_first_n_epochs:
             self.unregister_hooks()
             return obs_dict
-        self.register_hooks()
+        if self.augment_strategy == "soda":
+            self.unregister_hooks()        
         obs_dict, obs_meta = self.prepare_obs_dict(obs_dict)
         self.model.eval()  # required for saliency computation
         if self.is_training and not self.disable_during_training:
-            self.step_augmentation_scheduler()
-            update_dict = self.update_saliency_buffer(buffer_ids, obs_dict, obs_meta)
-            obs_dict = self.saliency_guided_augmentation(
-                obs_dict, buffer_ids, obs_meta, update_dict
-            )
+            if self.augment_strategy == "soda":
+                self.unregister_hooks()
+                obs_dict = self.soda_augmentation(obs_dict, obs_meta, lambda_=0.5)
+            else:
+                self.register_hooks()
+                self.step_augmentation_scheduler()
+                update_dict = self.update_saliency_buffer(buffer_ids, obs_dict, obs_meta)
+                obs_dict = self.saliency_guided_augmentation(
+                    obs_dict, buffer_ids, obs_meta, update_dict
+                )
         elif not self.is_training:
             self.save_debug_images(obs_dict, obs_meta)
         self.model.train() if self.is_training else self.model.eval()
@@ -106,6 +112,20 @@ class SaliencyGuidedAugmentation:
         self.augmentation_ratio = lambda_ * self.augment_scheduler["end_ratio"]
         if self.augmentation_ratio != self.past_augmentation_ratio:
             print(f"Augmentation Ratio: {self.augmentation_ratio:.2f}")
+
+    def soda_augmentation(self, obs_dict, obs_meta, lambda_=0.5):
+        if not self.is_training or self.disable_during_training:
+            return obs_dict
+        for i, obs_key in enumerate(obs_meta["visual_modalities"]):
+            n_samples = obs_meta["n_samples"]
+            aug_inds = torch.randperm(n_samples)
+            aug_inds = aug_inds[: int(n_samples * self.augmentation_ratio)]
+            bg = obs_meta["randomisers"][i].forward_in(self.background_images)
+            bg = self.normalizer[obs_key].normalize(bg) if self.normalizer is not None else bg
+            x_aug = obs_dict[obs_key][aug_inds] * lambda_ + bg * (1 - lambda_)
+            obs_dict[obs_key][aug_inds] = x_aug
+        return obs_dict
+        
 
     def saliency_guided_augmentation(self, obs_dict, buffer_ids, obs_meta, update_dict):
         if update_dict == {} or not self.is_training or self.disable_during_training:

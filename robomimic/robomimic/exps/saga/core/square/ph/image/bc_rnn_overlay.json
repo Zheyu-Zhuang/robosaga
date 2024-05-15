@@ -1,7 +1,7 @@
 {
     "algo_name": "bc",
     "experiment": {
-        "name": "saga_bc_rnn_square_ph_image_erase_0.2_thresh",
+        "name": "saga_bc_rnn_square_ph_image_0.5_overlay",
         "validate": true,
         "logging": {
             "terminal_output_to_txt": true,
@@ -42,15 +42,16 @@
         "buffer_shape": [84, 84],
         "save_dir": "",
         "save_debug_im_every_n_batches": 5,
-        "background_path": "/home/zheyu/Dataset/robomimic/coco_5k_84x84/",
+        "background_path": "../data/robomimic/coco_5k_84x84/",
         "disable_during_training": false,
         "augment_obs_pairs": false,
-        "augment_strategy": "erase",
+        "augment_strategy": "soda",
+        "erase_thresh": 0.2,
         "augmentation_ratio": 0.5
     },
     "train": {
-        "data": "/home/zheyu/Dataset/robomimic/square/ph/image.hdf5",
-        "output_dir": "/home/zheyu/Experiments/robosaga/robomimic/core/bc_rnn/square/ph/image/trained_models",
+        "data": "../data/robomimic/square/ph/image.hdf5",
+        "output_dir": "../experiments/robosaga/robomimic/",
         "num_data_workers": 16,
         "hdf5_cache_mode": "low_dim",
         "hdf5_use_swmr": true,
@@ -65,7 +66,7 @@
         "goal_mode": null,
         "cuda": true,
         "batch_size": 16,
-        "num_epochs": 600,
+        "num_epochs": 1000,
         "seed": 1
     },
     "algo": {
