@@ -14,8 +14,9 @@ Args:
 
     debug (bool): set this flag to run a quick training run for debugging purposes    
 """
-import copy
+
 import argparse
+import copy
 import json
 import os
 import shutil
@@ -41,7 +42,7 @@ from diffusion_policy.common.pytorch_util import replace_submodules
 from robomimic.algo import RolloutPolicy, algo_factory
 from robomimic.config import config_factory
 from robomimic.utils.log_utils import DataLogger, PrintLogger
-from robosaga.saliency_guided_augmentation import SaliencyGuidedAugmentation
+from robosaga.soda import SODA
 
 
 def train(config, device):
@@ -119,7 +120,7 @@ def train(config, device):
         ac_dim=shape_meta["ac_dim"],
         device=device,
     )
-    
+
     if ckpt is not None:
         model, _ = FileUtils.resume_from_checkpoint(
             ckpt_path=ckpt,
@@ -199,17 +200,20 @@ def train(config, device):
     # number of learning steps per epoch (defaults to a full dataset pass)
     train_num_steps = config.experiment.epoch_every_n_steps
     valid_num_steps = config.experiment.validation_epoch_every_n_steps
-    
-    
-    ema = copy.deepcopy(model)
+
+    encoder = model.nets["policy"].nets["encoder"].nets["obs"]
+    ema_encoder = copy.deepcopy(encoder)
+
+    soda = SODA(model=encoder, ema_model=ema_encoder, blend_factor=0.5)
 
     for epoch in range(1, config.train.num_epochs + 1):  # epoch numbers start at 1
         model.nets["policy"].disable_low_noise = False
-        step_log = TrainUtils.run_epoch(
+        step_log = TrainUtils.run_epoch_soda(
             model=model,
             data_loader=train_loader,
             epoch=epoch,
             num_steps=train_num_steps,
+            soda=soda,
         )
         model.on_epoch_end(epoch)
 
@@ -252,7 +256,6 @@ def train(config, device):
                 epoch=epoch,
                 validate=True,
                 num_steps=valid_num_steps,
-                saga=saga,
             )
             for k, v in step_log.items():
                 if k.startswith("Time_"):

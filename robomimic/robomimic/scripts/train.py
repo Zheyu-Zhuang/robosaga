@@ -209,12 +209,12 @@ def train(config, device):
 
     for epoch in range(1, config.train.num_epochs + 1):  # epoch numbers start at 1
         model.nets["policy"].disable_low_noise = False
-        step_log = TrainUtils.run_epoch(
+        step_log = TrainUtils.run_epoch_soda(
             model=model,
             data_loader=train_loader,
             epoch=epoch,
             num_steps=train_num_steps,
-            saga=saga,
+            soda=soda,
         )
         model.on_epoch_end(epoch)
 

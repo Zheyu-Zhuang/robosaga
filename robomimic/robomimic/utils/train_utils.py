@@ -516,6 +516,73 @@ def save_model(model, config, env_meta, shape_meta, ckpt_path, obs_normalization
     print("save checkpoint to {}".format(ckpt_path))
 
 
+def run_epoch_soda(model, data_loader, epoch, validate=False, num_steps=None, soda=None):
+    epoch_timestamp = time.time()
+    if validate:
+        model.set_eval()
+    else:
+        model.set_train()
+    if num_steps is None:
+        num_steps = len(data_loader)
+
+    step_log_all = []
+    timing_stats = dict(Data_Loading=[], Process_Batch=[], Train_Batch=[], Log_Info=[], SODA=[])
+    start_time = time.time()
+
+    data_loader_iter = iter(data_loader)
+    for batch_idx in LogUtils.custom_tqdm(range(num_steps)):
+
+        # load next batch from data loader
+        try:
+            t = time.time()
+            batch = next(data_loader_iter)
+        except StopIteration:
+            # reset for next dataset pass
+            data_loader_iter = iter(data_loader)
+            t = time.time()
+            batch = next(data_loader_iter)
+        timing_stats["Data_Loading"].append(time.time() - t)
+
+        # process batch for training
+        t = time.time()
+        input_batch = model.process_batch_for_training(batch)
+        timing_stats["Process_Batch"].append(time.time() - t)
+
+        # augment input images
+
+        if soda is not None:
+            soda.step_train_epoch(input_batch, epoch, batch_idx, validate=validate)
+            timing_stats["SODA"].append(time.time() - t)
+
+        # forward and backward pass
+        t = time.time()
+        info = model.train_on_batch(input_batch, epoch, validate=validate)
+        timing_stats["Train_Batch"].append(time.time() - t)
+
+        # tensorboard logging
+        t = time.time()
+        step_log = model.log_info(info)
+        step_log_all.append(step_log)
+        timing_stats["Log_Info"].append(time.time() - t)
+
+    # flatten and take the mean of the metrics
+    step_log_dict = {}
+    for i in range(len(step_log_all)):
+        for k in step_log_all[i]:
+            if k not in step_log_dict:
+                step_log_dict[k] = []
+            step_log_dict[k].append(step_log_all[i][k])
+    step_log_all = dict((k, float(np.mean(v))) for k, v in step_log_dict.items())
+
+    # add in timing stats
+    for k in timing_stats:
+        # sum across all training steps, and convert from seconds to minutes
+        step_log_all["Time_{}".format(k)] = np.sum(timing_stats[k]) / 60.0
+    step_log_all["Time_Epoch"] = (time.time() - epoch_timestamp) / 60.0
+
+    return step_log_all
+
+
 def run_epoch(model, data_loader, epoch, validate=False, num_steps=None, saga=None):
     """
     Run an epoch of training or validation.
@@ -546,9 +613,7 @@ def run_epoch(model, data_loader, epoch, validate=False, num_steps=None, saga=No
         num_steps = len(data_loader)
 
     step_log_all = []
-    timing_stats = dict(
-        Data_Loading=[], Process_Batch=[], Train_Batch=[], Log_Info=[], Saliency_Augmentation=[]
-    )
+    timing_stats = dict(Data_Loading=[], Process_Batch=[], Train_Batch=[], Log_Info=[], SODA=[])
     start_time = time.time()
 
     data_loader_iter = iter(data_loader)
@@ -572,7 +637,7 @@ def run_epoch(model, data_loader, epoch, validate=False, num_steps=None, saga=No
 
         if saga is not None:
             input_batch["obs"] = saga(input_batch["obs"], batch["ids"].flatten(), epoch, batch_idx)
-            timing_stats["Saliency_Augmentation"].append(time.time() - t)
+            timing_stats["SODA"].append(time.time() - t)
 
         # forward and backward pass
         t = time.time()

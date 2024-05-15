@@ -72,7 +72,7 @@ class SaliencyGuidedAugmentation:
             self.unregister_hooks()
             return obs_dict
         if self.augment_strategy == "soda":
-            self.unregister_hooks()        
+            self.unregister_hooks()
         obs_dict, obs_meta = self.prepare_obs_dict(obs_dict)
         self.model.eval()  # required for saliency computation
         if self.is_training and not self.disable_during_training:
@@ -87,6 +87,7 @@ class SaliencyGuidedAugmentation:
                     obs_dict, buffer_ids, obs_meta, update_dict
                 )
         elif not self.is_training:
+            self.register_hooks()
             self.save_debug_images(obs_dict, obs_meta)
         self.model.train() if self.is_training else self.model.eval()
         # n_updated = torch.sum(self.buffer_watcher[obs_meta["visual_modalities"][0]] > 0).item()
@@ -120,12 +121,11 @@ class SaliencyGuidedAugmentation:
             n_samples = obs_meta["n_samples"]
             aug_inds = torch.randperm(n_samples)
             aug_inds = aug_inds[: int(n_samples * self.augmentation_ratio)]
-            bg = obs_meta["randomisers"][i].forward_in(self.background_images)
-            bg = self.normalizer[obs_key].normalize(bg) if self.normalizer is not None else bg
+            rand_bg_idx = random.sample(range(self.background_images.shape[0]), len(aug_inds))
+            bg = obs_meta["randomisers"][i].forward_in(self.background_images[rand_bg_idx])
             x_aug = obs_dict[obs_key][aug_inds] * lambda_ + bg * (1 - lambda_)
             obs_dict[obs_key][aug_inds] = x_aug
         return obs_dict
-        
 
     def saliency_guided_augmentation(self, obs_dict, buffer_ids, obs_meta, update_dict):
         if update_dict == {} or not self.is_training or self.disable_during_training:
