@@ -63,12 +63,11 @@ class SODA:
         return loss.item()
 
     def prepare_obs_dict(self, obs_dict):
-        obs_encoder = self.get_obs_encoder()
         # get visual modalities and randomisers
         visual_modalities = [
-            k for k, v in obs_encoder.obs_nets.items() if isinstance(v, VisualCore)
+            k for k, v in self.model.obs_nets.items() if isinstance(v, VisualCore)
         ]
-        randomisers = [obs_encoder.obs_randomizers[k] for k in visual_modalities]
+        randomisers = [self.model.obs_randomizers[k] for k in visual_modalities]
 
         vis_obs_dim = obs_dict[visual_modalities[0]].shape
         has_temporal_dim = len(vis_obs_dim) > 4
@@ -85,7 +84,7 @@ class SODA:
             raw_dim = x.shape
             return (x.view(n_samples, *raw_dim[2:]), raw_dim) if has_temporal_dim else (x, raw_dim)
 
-        for k in obs_encoder.obs_shapes.keys():
+        for k in self.model.obs_shapes.keys():
             obs_dict[k], raw_shape = flatten_temporal_dim(obs_dict[k])
             if not self.disable_buffer:
                 self.check_buffer(k, raw_shape[-2:], device=obs_dict[k].device)
@@ -141,14 +140,6 @@ class SODA:
             for im in images
         ]
         return cv2.vconcat(images)
-
-    def get_obs_encoder(self):
-        if hasattr(self.model, "obs_nets"):
-            return self.model
-        elif hasattr(self.model, "nets"):
-            return self.model.nets["encoder"].nets["obs"]
-        else:
-            raise ValueError("obs_encoder cannot be found in the model")
 
     def create_saliency_dir(self):
         saliency_dir = os.path.join(self.save_dir, f"epoch_{self.epoch_idx}")
