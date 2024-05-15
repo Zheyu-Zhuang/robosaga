@@ -204,7 +204,7 @@ def train(config, device):
     encoder = model.nets["policy"].nets["encoder"].nets["obs"]
     ema_encoder = copy.deepcopy(encoder)
 
-    soda = SODA(model=encoder, ema_model=ema_encoder, blend_factor=0.5)
+    soda = SODA(model=encoder, ema_model=ema_encoder, blend_factor=0.5, **config.saliency)
 
     for epoch in range(1, config.train.num_epochs + 1):  # epoch numbers start at 1
         model.nets["policy"].disable_low_noise = False
