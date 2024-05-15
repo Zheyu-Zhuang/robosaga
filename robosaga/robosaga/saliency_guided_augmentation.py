@@ -146,6 +146,7 @@ class SaliencyGuidedAugmentation:
             bg = obs_meta["randomisers"][i].forward_in(self.background_images[rand_bg_idx])
             bg = self.normalizer[obs_key].normalize(bg) if self.normalizer is not None else bg
             if self.augment_strategy == "mixup":
+                smaps *= 0.5
                 x_aug = obs_dict[obs_key][aug_inds] * smaps + bg * (1 - smaps)
             elif self.augment_strategy == "erase":
                 smaps[smaps < self.erase_thresh] = 0
