@@ -203,6 +203,8 @@ def train(config, device):
 
     encoder = model.nets["policy"].nets["encoder"].nets["obs"]
     ema_encoder = copy.deepcopy(encoder)
+    for param in ema_encoder.parameters():
+        param.requires_grad = False
 
     soda = SODA(model=encoder, ema_model=ema_encoder, blend_factor=0.5, **config.saliency)
 

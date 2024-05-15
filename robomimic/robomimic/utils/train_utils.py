@@ -551,7 +551,9 @@ def run_epoch_soda(model, data_loader, epoch, validate=False, num_steps=None, so
         # augment input images
 
         if soda is not None:
-            soda.step_train_epoch(input_batch, epoch, batch_idx, validate=validate)
+            input_batch["obs"] = soda.step_train_epoch(
+                input_batch["obs"], epoch, batch_idx, validate=validate
+            )
             timing_stats["SODA"].append(time.time() - t)
 
         # forward and backward pass

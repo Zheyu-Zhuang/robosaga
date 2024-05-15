@@ -20,7 +20,7 @@ class SODA:
     def __init__(self, model, ema_model, blend_factor=0.5, **kwargs):
         self.model = model
         self.ema_model = ema_model
-        self.porj = nn.Linear(128, 128)
+        self.porj = nn.Linear(128, 128).to("cuda")
         self.background_images = self.preload_all_backgrounds(kwargs["background_path"])
         # augmentation index fixed across obs pairs
         self.blend_factor = blend_factor
@@ -42,25 +42,24 @@ class SODA:
         for i, obs_key in enumerate(obs_meta["visual_modalities"]):
             im = obs_dict[obs_key]
             rand_bg_idx = random.sample(range(self.background_images.shape[0]), len(im))
-            bg = self.background_images[rand_bg_idx]
+            bg = obs_meta["randomisers"][i].forward_in(self.background_images[rand_bg_idx])
             aug_im = im * self.blend_factor + bg * (1 - self.blend_factor)
-            vec_ema.append(self.ema_model.obs_nets[obs_key](obs_dict[obs_key]))
+            vec_ema.append(self.ema_model.obs_nets[obs_key](im))
             vec.append(self.model.obs_nets[obs_key](aug_im))
         vec_ema = torch.cat(vec_ema, dim=1)
         vec = torch.cat(vec, dim=1)
-        vec_ema = torch.nn.functional.normalize(vec_ema, p=2, dim=1).detach()
-        vec = torch.nn.functional.normalize(vec, p=2, dim=1)
-        vec_ema = self.porj(vec_ema)
-        vec = self.porj(vec)
+        vec_ema = self.porj(torch.nn.functional.normalize(vec_ema, p=2, dim=1).detach())
+        vec = self.porj(torch.nn.functional.normalize(vec, p=2, dim=1))
         loss = self.loss(vec, vec_ema)
         if not validate:
+            self.optimizer.zero_grad()
             loss.backward()
             self.optimizer.step()
         with torch.no_grad():
             for p, ema_p in zip(self.model.parameters(), self.ema_model.parameters()):
                 m = 0.995
                 ema_p.data.mul_(m).add_((1 - m) * p.data)
-        return loss.item()
+        return self.restore_obs_dict_shape(obs_dict, obs_meta)
 
     def prepare_obs_dict(self, obs_dict):
         # get visual modalities and randomisers
@@ -86,8 +85,6 @@ class SODA:
 
         for k in self.model.obs_shapes.keys():
             obs_dict[k], raw_shape = flatten_temporal_dim(obs_dict[k])
-            if not self.disable_buffer:
-                self.check_buffer(k, raw_shape[-2:], device=obs_dict[k].device)
             obs_meta[k] = {
                 "raw_shape": raw_shape,
                 "is_visual": k in visual_modalities,
