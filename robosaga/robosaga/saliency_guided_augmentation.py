@@ -259,7 +259,9 @@ class SaliencyGuidedAugmentation:
             aug_inds = aug_inds[: int(n_samples * self.aug_ratio)]
             rand_bg_idx = random.sample(range(self.backgrounds.shape[0]), len(aug_inds))
             bg = obs_meta["randomisers"][i].forward_in(self.backgrounds[rand_bg_idx])
-            blend_factor = torch.rand(aug_inds.shape[0], 1, 1, 1).to(bg.device) * 0.5 + 0.5
+            bg = self.normalizer[obs_key].normalize(bg) if self.normalizer is not None else bg
+            blend_factor = 0.5
+            # blend_factor = torch.rand(aug_inds.shape[0], 1, 1, 1).to(bg.device) * 0.5 + 0.5
             x_aug = obs_dict[obs_key][aug_inds] * blend_factor + bg * (1 - blend_factor)
             obs_dict[obs_key][aug_inds] = x_aug
         return obs_dict
