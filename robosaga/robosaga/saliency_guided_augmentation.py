@@ -135,7 +135,7 @@ class SaliencyGuidedAugmentation:
                 # blending_factor = torch.rand(smaps.shape[0], 1, 1, 1).to(smaps.device) * 0.5 + 0.5
                 # smaps = torch.clip(smaps, 0, blending_factor)
                 # smaps[smaps < 0.3] = 0
-                smaps = torch.clip(smaps, 0, 0.8)
+                # smaps = torch.clip(smaps, 0, 0.8)
                 x_aug = obs_dict[obs_key][aug_inds] * smaps + bg * (1 - smaps)
             elif self.aug_strategy == "saga_erase":
                 smaps[smaps < self.erase_thresh] = 0
@@ -156,19 +156,23 @@ class SaliencyGuidedAugmentation:
             cv2.imwrite("augmentation_vis.jpg", self.vstack_images(vis_ims))
         return obs_dict
 
-    def frequency_based_sampling(self, n_samples, buffer_ids, obs_key):
+    def sample_update_indices(self, n_samples, buffer_ids, obs_key, mode="random"):
         n_augs = int(n_samples * self.aug_ratio)
         n_updates = int(n_samples * self.update_ratio)
-        n_updates = n_augs if n_updates > n_augs else n_updates  # ensure n_updates <= n_augs
+        n_updates = n_augs if n_updates > n_augs else n_updates
         if n_updates == 0:
             return torch.tensor([]), torch.tensor([])
-        batch_inds = torch.randperm(n_samples)
-        buffer_ids = buffer_ids[batch_inds]
-        #
-        update_freq = self.buffer_watcher[obs_key][buffer_ids]
-        _, sorted_inds = torch.sort(update_freq)
-        aug_batch_inds = batch_inds[sorted_inds[:n_augs]]
-        update_batch_inds = aug_batch_inds[:n_updates]
+        if mode == "random":
+            aug_batch_inds = torch.randperm(n_samples)[:n_augs]
+            update_batch_inds = aug_batch_inds[:n_updates]
+        elif mode == "frequency":
+            batch_inds = torch.randperm(n_samples)
+            buffer_ids = buffer_ids[batch_inds]
+            #
+            update_freq = self.buffer_watcher[obs_key][buffer_ids]
+            _, sorted_inds = torch.sort(update_freq)
+            aug_batch_inds = batch_inds[sorted_inds[:n_augs]]
+            update_batch_inds = aug_batch_inds[:n_updates]
         return update_batch_inds, aug_batch_inds
 
     def update_saliency_buffer(self, buffer_ids, obs_dict, obs_meta):
@@ -182,7 +186,7 @@ class SaliencyGuidedAugmentation:
         out = {}
         for k in obs_meta["visual_modalities"]:
             if shared_update_inds is None or not self.aug_obs_pairs:
-                update_inds, aug_inds = self.frequency_based_sampling(n_samples, buffer_ids, k)
+                update_inds, aug_inds = self.sample_update_indices(n_samples, buffer_ids, k)
                 if shared_update_inds is None:
                     shared_update_inds, shared_aug_inds = update_inds, aug_inds
             else:

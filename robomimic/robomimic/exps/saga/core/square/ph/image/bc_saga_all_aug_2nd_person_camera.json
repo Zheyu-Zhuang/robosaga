@@ -1,7 +1,7 @@
 {
     "algo_name": "bc",
     "experiment": {
-        "name": "bc_saga_0.8_aug_2nd_person_camera",
+        "name": "bc_saga_all_aug_2nd_person_camera",
         "validate": true,
         "logging": {
             "terminal_output_to_txt": true,
@@ -35,7 +35,7 @@
     },
     "saliency":{
         "update_ratio": 0.1,
-        "aug_ratio": 0.8,
+        "aug_ratio": 1,
         "debug_vis": false,
         "debug_save": true,
         "buffer_shape": [84, 84],
