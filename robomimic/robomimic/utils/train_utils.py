@@ -615,7 +615,7 @@ def run_epoch(model, data_loader, epoch, validate=False, num_steps=None, saga=No
         num_steps = len(data_loader)
 
     step_log_all = []
-    timing_stats = dict(Data_Loading=[], Process_Batch=[], Train_Batch=[], Log_Info=[], SODA=[])
+    timing_stats = dict(Data_Loading=[], Process_Batch=[], Train_Batch=[], Log_Info=[], SaGA=[])
     start_time = time.time()
 
     data_loader_iter = iter(data_loader)
@@ -639,7 +639,7 @@ def run_epoch(model, data_loader, epoch, validate=False, num_steps=None, saga=No
 
         if saga is not None:
             input_batch["obs"] = saga(input_batch["obs"], batch["ids"].flatten(), epoch, batch_idx)
-            timing_stats["SODA"].append(time.time() - t)
+            timing_stats["SaGA"].append(time.time() - t)
 
         # forward and backward pass
         t = time.time()
