@@ -1,7 +1,7 @@
 {
     "algo_name": "bc",
     "experiment": {
-        "name": "bc_simple_overlay_2nd_person_camera",
+        "name": "bc_simple_saga_full_aug_2nd_person_camera",
         "validate": true,
         "logging": {
             "terminal_output_to_txt": true,
@@ -34,15 +34,16 @@
         }
     },
     "saliency":{
-        "aug_strategy": "simple_overlay",
-        "aug_ratio": 0.5,
-        "update_ratio": 0.1  ,
-        "buffer_shape": [84, 84],
+        "update_ratio": 0.1,
+        "aug_ratio": 1,
         "debug_vis": false,
         "debug_save": true,
+        "buffer_shape": [84, 84],
         "save_dir": "",
         "save_debug_im_every_n_batches": 5,
-        "background_path": "../data/robomimic/coco_5k_84x84/"
+        "background_path": "../data/robomimic/coco_5k_84x84/",
+        "aug_strategy": "saga_mixup",
+        "aug_obs_pairs": false
     },
     "train": {
         "data": "../data/robomimic/square/ph/image.hdf5",
