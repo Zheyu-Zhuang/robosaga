@@ -19,16 +19,16 @@ past_action_visible: False
 keypoint_visible_rate: 1.0
 
 saliency:
-  mode: "encoder_only"
-  momentum: 0.0
+
+ 
   update_ratio_per_batch: 0.1  # update 10% of the buffer per training batch
-  augmentation_ratio: 0.5  # 50% of the time, use augmented data
+  aug_ration: 0.5  # 50% of the time, use augmented data
   debug_vis: False
   debug_save: True
   buffer_shape: [84, 84]
   save_dir: ""
-  save_debug_im_every_n_batches: 1
-  background_path: "data/robomimic/coco_5k_84x84/"
+  save_debug_im_every_n_batches: 5
+  background_path: "../data/robomimic/coco_5k_84x84/"
   disable_during_training: False
   disable_buffer: True
 
@@ -95,14 +95,14 @@ checkpoint:
   save_last_snapshot: False
 
 multi_run:
-  run_dir: experiments/robomimic/${task_name}_${exp_name}
+  run_dir: "../experiments/robomimic/${task_name}_${exp_name}
   wandb_name_base: ${now:%Y.%m.%d-%H.%M.%S}_${name}_${task_name}
 
 hydra:
   job:
     override_dirname: ${name}
   run:
-    dir: experiments/robomimic/${task_name}_${exp_name}
+    dir: "../experiments/robomimic/${task_name}_${exp_name}
   sweep:
-    dir: experiments/robomimic/${task_name}_${exp_name}
+    dir: "../experiments/robomimic/${task_name}_${exp_name}
     subdir: ${hydra.job.num}

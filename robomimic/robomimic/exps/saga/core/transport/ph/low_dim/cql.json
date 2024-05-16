@@ -34,7 +34,7 @@
         }
     },
     "train": {
-        "data": "/home/zheyu/Dataset/robomimic/transport/ph/low_dim.hdf5",
+        "data": "../data/robomimic/transport/ph/low_dim.hdf5",
         "output_dir": "/home/zheyu/Experiments/robosaga/robomimic/core/cql/transport/ph/low_dim/trained_models",
         "num_data_workers": 0,
         "hdf5_cache_mode": "all",

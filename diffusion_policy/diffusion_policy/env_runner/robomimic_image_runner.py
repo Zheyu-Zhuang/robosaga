@@ -81,7 +81,7 @@ class RobomimicImageRunner(BaseImageRunner):
 
         # assert n_obs_steps <= n_action_steps
         # HACK: hard coded dataset path
-        dataset_path = "data/robomimic/square/ph/image.hdf5"
+        dataset_path = "../data/robomimic/square/ph/image.hdf5"
         dataset_path = os.path.expanduser(dataset_path)
         robosuite_fps = 20
         steps_per_render = max(robosuite_fps // fps, 1)

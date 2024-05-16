@@ -28,16 +28,16 @@ group_norm:
   return_fullgrad_bias: False
 
 saliency:
-  mode: "encoder_only"
-  momentum: 0.0
+
+ 
   update_ratio_per_batch: 0.1  # update 10% of the buffer per training batch
-  augmentation_ratio: 0.5  # 50% of the time, use augmented data
+  aug_ration: 0.5  # 50% of the time, use augmented data
   debug_vis: False
   debug_save: True
   buffer_shape: [84, 84]
   save_dir: ""
-  save_debug_im_every_n_batches: 1
-  background_path: "data/robomimic/coco_5k_84x84/"
+  save_debug_im_every_n_batches: 5
+  background_path: "../data/robomimic/coco_5k_84x84/"
   disable_during_training: False
 # ---------------------------------------------------------------------------- #
 

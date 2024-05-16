@@ -149,13 +149,13 @@ class BaseConfig(Config):
         self.saliency.mode = "encoder_only"
         self.saliency.momentum = 0.0
         self.saliency.update_ratio_per_batch = 0.1
-        self.saliency.augmentation_ratio = 0.5
+        self.saliency.aug_ration = 0.5
         self.saliency.debug_vis = False
         self.saliency.debug_save = True
         self.saliency.buffer_shape = [84, 84]
         self.saliency.save_dir = ""
         self.saliency.save_debug_im_every_n_batches = 1
-        self.saliency.background_path = "/home/zheyu/Dataset/robomimic/coco_5k_84x84/"
+        self.saliency.background_path = "../data/robomimic/coco_5k_84x84/"
         self.saliency.disable_during_training = False
 
     def train_config(self):

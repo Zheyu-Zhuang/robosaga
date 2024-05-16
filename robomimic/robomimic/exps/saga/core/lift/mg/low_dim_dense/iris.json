@@ -34,7 +34,7 @@
         }
     },
     "train": {
-        "data": "/home/zheyu/Dataset/robomimic/lift/mg/low_dim_dense.hdf5",
+        "data": "../data/robomimic/lift/mg/low_dim_dense.hdf5",
         "output_dir": "/home/zheyu/Experiments/robosaga/robomimic/core/iris/lift/mg/low_dim_dense/trained_models",
         "num_data_workers": 0,
         "hdf5_cache_mode": "all",

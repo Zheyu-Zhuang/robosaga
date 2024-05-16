@@ -34,7 +34,7 @@
         }
     },
     "train": {
-        "data": "/home/zheyu/Dataset/robomimic/lift/mg/image_sparse.hdf5",
+        "data": "../data/robomimic/lift/mg/image_sparse.hdf5",
         "output_dir": "/home/zheyu/Experiments/robosaga/robomimic/core/bcq/lift/mg/image_sparse/trained_models",
         "num_data_workers": 2,
         "hdf5_cache_mode": "low_dim",
