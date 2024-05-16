@@ -32,7 +32,7 @@ saliency:
 
  
   update_ratio_per_batch: 0.5  # update 10% of the buffer per training batch
-  aug_ration: 0.5  # 50% of the time, use augmented data
+  aug_ratio: 0.5  # 50% of the time, use augmented data
   debug_vis: False
   debug_save: True
   buffer_shape: [84, 84]
