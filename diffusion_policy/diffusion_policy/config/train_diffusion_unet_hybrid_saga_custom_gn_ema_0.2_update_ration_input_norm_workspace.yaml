@@ -31,7 +31,7 @@ group_norm:
 saliency:
 
  
-  update_ratio_per_batch: 0.1  # update 10% of the buffer per training batch
+  update_ratio: 0.1  # update 10% of the buffer per training batch
   aug_ratio: 0.2  # 50% of the time, use augmented data
   debug_vis: False
   debug_save: True
