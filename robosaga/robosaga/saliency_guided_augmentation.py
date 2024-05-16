@@ -28,7 +28,6 @@ class SaliencyGuidedAugmentation:
         self.aug_ratio = self.get_kwarg(kwargs, "aug_ratio", None)
         self.aug_strategy = self.get_kwarg(kwargs, "aug_strategy", "saga_mixup")
         self.aug_obs_pairs = self.get_kwarg(kwargs, "aug_obs_pairs", False)
-        self.check_augmentation_strategy(kwargs)
         self.update_ratio = self.get_kwarg(kwargs, "update_ratio", None)
 
         # Buffer related attributes
@@ -59,6 +58,7 @@ class SaliencyGuidedAugmentation:
         self.is_registered = True
         self.is_training = True
 
+        self.check_augmentation_strategy(kwargs)
         self.check_required_args(print_args=True)
 
     def get_kwarg(self, kwargs, key, default):
