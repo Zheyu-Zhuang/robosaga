@@ -132,6 +132,9 @@ class SaliencyGuidedAugmentation:
             bg = obs_meta["randomisers"][i].forward_in(self.backgrounds[rand_bg_idx])
             bg = self.normalizer[obs_key].normalize(bg) if self.normalizer is not None else bg
             if self.aug_strategy == "saga_mixup":
+                # blending_factor = torch.rand(smaps.shape[0], 1, 1, 1).to(smaps.device) * 0.5 + 0.5
+                # smaps = torch.clip(smaps, 0, blending_factor)
+                # smaps[smaps < 0.3] = 0
                 smaps = torch.clip(smaps, 0, 0.8)
                 x_aug = obs_dict[obs_key][aug_inds] * smaps + bg * (1 - smaps)
             elif self.aug_strategy == "saga_erase":
