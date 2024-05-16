@@ -98,7 +98,7 @@ class SaliencyGuidedAugmentation:
         if self.is_training and not self.disable_during_training:
             if self.aug_strategy == "simple_overlay":
                 self.unregister_hooks()
-                obs_dict = self.simple_overlay(obs_dict, obs_meta, blend_factor=0.5)
+                obs_dict = self.simple_overlay(obs_dict, obs_meta)
             else:
                 self.register_hooks()
                 update_dict = self.update_saliency_buffer(buffer_ids, obs_dict, obs_meta)
@@ -250,7 +250,7 @@ class SaliencyGuidedAugmentation:
 
         return obs_dict, obs_meta
 
-    def simple_overlay(self, obs_dict, obs_meta, blend_factor):
+    def simple_overlay(self, obs_dict, obs_meta):
         if not self.is_training or self.disable_during_training:
             return obs_dict
         for i, obs_key in enumerate(obs_meta["visual_modalities"]):
@@ -259,6 +259,7 @@ class SaliencyGuidedAugmentation:
             aug_inds = aug_inds[: int(n_samples * self.aug_ratio)]
             rand_bg_idx = random.sample(range(self.backgrounds.shape[0]), len(aug_inds))
             bg = obs_meta["randomisers"][i].forward_in(self.backgrounds[rand_bg_idx])
+            blend_factor = torch.rand(aug_inds.shape[0], 1, 1, 1).to(bg.device) * 0.5 + 0.5
             x_aug = obs_dict[obs_key][aug_inds] * blend_factor + bg * (1 - blend_factor)
             obs_dict[obs_key][aug_inds] = x_aug
         return obs_dict
