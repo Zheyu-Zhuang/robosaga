@@ -148,8 +148,8 @@ class BaseConfig(Config):
         """
         self.saliency.mode = "encoder_only"
         self.saliency.momentum = 0.0
-        self.saliency.update_ratio_per_batch = 0.1
-        self.saliency.aug_ration = 0.5
+        self.saliency.update_ratio = 0.1
+        self.saliency.aug_ratio = 0.5
         self.saliency.debug_vis = False
         self.saliency.debug_save = True
         self.saliency.buffer_shape = [84, 84]

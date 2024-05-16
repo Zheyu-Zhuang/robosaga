@@ -35,7 +35,7 @@
     },
     "train": {
         "data": "../data/robomimic/can/mg/low_dim_dense.hdf5",
-        "output_dir": "/home/zheyu/Experiments/robosaga/robomimic/core/bc/can/mg/low_dim_dense/trained_models",
+        "output_dir": "../experiments/robosaga/robomimic/core/bc/can/mg/low_dim_dense/trained_models",
         "num_data_workers": 0,
         "hdf5_cache_mode": "all",
         "hdf5_use_swmr": true,

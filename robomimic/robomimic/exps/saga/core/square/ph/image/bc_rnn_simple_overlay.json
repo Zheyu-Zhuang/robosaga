@@ -36,7 +36,7 @@
     "saliency":{
         "aug_strategy": "simple_overlay",
         "aug_ratio": 0.5,
-        "update_ratio_per_batch": 0.1  ,
+        "update_ratio": 0.1  ,
         "buffer_shape": [84, 84],
         "debug_vis": false,
         "debug_save": true,
@@ -46,7 +46,7 @@
     },
     "train": {
         "data": "../data/robomimic/square/ph/image.hdf5",
-        "output_dir": "../"../experiments/robosaga/robomimic/",
+        "output_dir": "../experiments/robosaga/robomimic/",
         "num_data_workers": 16,
         "hdf5_cache_mode": "low_dim",
         "hdf5_use_swmr": true,

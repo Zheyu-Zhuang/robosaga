@@ -108,7 +108,7 @@ class BCConfig(BaseConfig):
         self.algo.rnn.kwargs.do_not_lock_keys()
 
     def saliency_config(self):
-        self.saliency.update_ratio_per_batch = None
+        self.saliency.update_ratio = None
         self.saliency.aug_ratio = None
         self.saliency.debug_vis = None
         self.saliency.debug_save = None
