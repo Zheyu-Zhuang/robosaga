@@ -3,7 +3,7 @@ defaults:
   - task: square_image
 
 name: train_diffusion_unet_hybrid
-exp_name: "saga_randomly_sampled_buffer"
+exp_name: "saga_freq_sampled_buffer"
 
 _target_: diffusion_policy.workspace.train_saga_diffusion_unet_hybrid_workspace.TrainDiffusionUnetHybridWorkspace
 

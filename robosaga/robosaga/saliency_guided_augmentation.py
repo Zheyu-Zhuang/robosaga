@@ -135,7 +135,7 @@ class SaliencyGuidedAugmentation:
                 # blending_factor = torch.rand(smaps.shape[0], 1, 1, 1).to(smaps.device) * 0.5 + 0.5
                 # smaps = torch.clip(smaps, 0, blending_factor)
                 # smaps[smaps < 0.3] = 0
-                smaps *= 0.8
+                smaps = torch.clip(smaps, 0, 0.8)
                 x_aug = obs_dict[obs_key][aug_inds] * smaps + bg * (1 - smaps)
             elif self.aug_strategy == "saga_erase":
                 smaps[smaps < self.erase_thresh] = 0
@@ -186,7 +186,9 @@ class SaliencyGuidedAugmentation:
         out = {}
         for k in obs_meta["visual_modalities"]:
             if shared_update_inds is None or not self.aug_obs_pairs:
-                update_inds, aug_inds = self.sample_update_indices(n_samples, buffer_ids, k)
+                update_inds, aug_inds = self.sample_update_indices(
+                    n_samples, buffer_ids, k, "frequency"
+                )
                 if shared_update_inds is None:
                     shared_update_inds, shared_aug_inds = update_inds, aug_inds
             else:
