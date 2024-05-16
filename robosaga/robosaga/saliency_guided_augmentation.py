@@ -421,10 +421,6 @@ class SaliencyGuidedAugmentation:
             "disable_during_training",
             "save_dir",
         ]
-        if self.augment_scheduler is not None and "end_ratio" in self.augment_scheduler:
-            print("[SaGA Warning] Property 'aug_ratio' is overwriten by the augment_scheduler")
-        if self.augment_scheduler is None and self.augmentation_ratio is None:
-            raise ValueError("augmentation_ratio is required if augment_scheduler is None")
 
         for arg in required_args:
             if arg not in self.__dict__:
