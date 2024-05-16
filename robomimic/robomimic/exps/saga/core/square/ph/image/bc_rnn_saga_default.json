@@ -1,7 +1,7 @@
 {
     "algo_name": "bc",
     "experiment": {
-        "name": "bc_rnn_square_saga_default",
+        "name": "bc_rnn_square_ph_saga_default",
         "validate": true,
         "logging": {
             "terminal_output_to_txt": true,
