@@ -69,6 +69,7 @@ class SaliencyGuidedAugmentation:
             "saga_mixup",
             "saga_erase",
             "simple_overlay",
+            "hybrid",
         ], "Invalid aug_strategy"
         assert self.aug_ratio is not None, "aug_ratio is required"
         if self.aug_strategy == "saga_erase":
@@ -131,11 +132,16 @@ class SaliencyGuidedAugmentation:
             rand_bg_idx = random.sample(range(self.backgrounds.shape[0]), len(aug_inds))
             bg = obs_meta["randomisers"][i].forward_in(self.backgrounds[rand_bg_idx])
             bg = self.normalizer[obs_key].normalize(bg) if self.normalizer is not None else bg
-            if self.aug_strategy == "saga_mixup":
+            if self.aug_strategy == "hybrid":
+                im = obs_dict[obs_key][aug_inds]
+                erase_thresh = 0.5
+                smaps[smaps < erase_thresh] = 0
+                smaps[smaps >= erase_thresh] = 0.5
+                x_aug = im * smaps + bg * (1 - smaps)
+            elif self.aug_strategy == "saga_mixup":
                 # blending_factor = torch.rand(smaps.shape[0], 1, 1, 1).to(smaps.device) * 0.5 + 0.5
                 # smaps = torch.clip(smaps, 0, blending_factor)
                 # smaps[smaps < 0.3] = 0
-                smaps = torch.clip(smaps, 0, 0.8)
                 x_aug = obs_dict[obs_key][aug_inds] * smaps + bg * (1 - smaps)
             elif self.aug_strategy == "saga_erase":
                 smaps[smaps < self.erase_thresh] = 0
@@ -156,7 +162,7 @@ class SaliencyGuidedAugmentation:
             cv2.imwrite("augmentation_vis.jpg", self.vstack_images(vis_ims))
         return obs_dict
 
-    def sample_update_indices(self, n_samples, buffer_ids, obs_key, mode="random"):
+    def sample_update_indices(self, n_samples, buffer_ids, obs_key, mode="frequency"):
         n_augs = int(n_samples * self.aug_ratio)
         n_updates = int(n_samples * self.update_ratio)
         n_updates = n_augs if n_updates > n_augs else n_updates
