@@ -94,7 +94,7 @@ class RobomimicImageRunner(BaseImageRunner):
                 texture_paths.append(texture_path)
             return texture_paths
 
-        all_textures = get_table_texture_paths(table_texture, n_envs)
+        all_textures = get_table_texture_paths(table_texture)
 
         # assert n_obs_steps <= n_action_steps
         # HACK: hard coded dataset path
