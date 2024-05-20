@@ -12,6 +12,11 @@ from robosuite.utils.mjcf_utils import (
 )
 
 
+def get_texture_name(texture_path):
+    texture_file_name = os.path.basename(texture_path)
+    return texture_file_name.split(".")[0]
+
+
 def replace_table_texture(xml_file, new_texture_path):
     # Load the XML file
     tree = ET.parse(xml_file)
@@ -30,10 +35,12 @@ def replace_table_texture(xml_file, new_texture_path):
     for material in asset.findall("material"):
         if material.get("name") == "table_ceramic":
             material.set("texture", "new_texture")
+    texture_file_name = get_texture_name(new_texture_path)
 
-    xml_file = xml_file.replace(".xml", f"_{new_texture_path}_temp.xml")
+    xml_file = xml_file.replace(".xml", f"_{texture_file_name}_temp.xml")
     # Save the modified XML to a new file or overwrite the existing one
     tree.write(xml_file)
+    return xml_file
 
 
 class TableArena(Arena):
@@ -56,17 +63,18 @@ class TableArena(Arena):
         table_friction=(1, 0.005, 0.0001),
         table_offset=(0, 0, 0.8),
         has_legs=True,
-        table_texture_path=None,
+        table_texture=None,
         xml="arenas/table_arena.xml",
     ):
         xml = xml_path_completion(xml)
-        if table_texture_path is not None:
-            xml_temp = xml.replace(".xml", f"_{table_texture_path}_temp.xml")
+
+        if table_texture is not None:
+            texture_file_name = get_texture_name(table_texture)
+            xml_temp = xml.replace(".xml", f"_{texture_file_name}_temp.xml")
             if os.path.exists(xml_temp):
                 xml = xml_temp
             else:
-                replace_table_texture(xml, table_texture_path, "custom_table_texture")
-            xml = xml_temp
+                xml = replace_table_texture(xml, table_texture)
         super().__init__(xml)
 
         self.table_full_size = np.array(table_full_size)
