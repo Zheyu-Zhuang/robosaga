@@ -27,7 +27,7 @@ from diffusion_policy.gym_util.video_recording_wrapper import (
 )
 from diffusion_policy.model.common.rotation_transformer import RotationTransformer
 from diffusion_policy.policy.base_image_policy import BaseImagePolicy
-
+import robosuite
 
 def create_env(env_meta, shape_meta, enable_render=True, distractors=None, table_texture=None):
     modality_mapping = collections.defaultdict(list)
@@ -83,9 +83,8 @@ class RobomimicImageRunner(BaseImageRunner):
         def get_table_texture_paths(texture_category):
             if texture_category is None:
                 return None
-            texture_dir = os.path.join(
-                os.path.expanduser("~"),
-                "RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures",
+            texture_dir = os.path.join(robosuite.models.assets_root,
+                "textures/evaluation_textures",
             )
             texture_dir = os.path.join(texture_dir, texture_category)
             texture_paths = []
