@@ -181,6 +181,8 @@ class DiffusionUnetHybridImagePolicySODA(BaseImagePolicy):
         for p in ema_encoder.parameters():
             p.requires_grad_(False)
 
+        if self.normalize_obs:
+            soda_config["normalizer"] = self.normalizer
         self.soda = SODA(
             self.obs_encoder,
             ema_encoder,

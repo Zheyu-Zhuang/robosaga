@@ -24,6 +24,7 @@ class SODA:
         # TODO: save proj layer into state dict
         self.porj = nn.Linear(128, 128).to("cuda")
         self.background_images = self.preload_all_backgrounds(kwargs["background_path"])
+        self.normalizer = self.get_kwarg(kwargs, "normalizer", None)
         # augmentation index fixed across obs pairs
         self.blend_factor = blend_factor
         self.loss = nn.MSELoss()
@@ -46,6 +47,7 @@ class SODA:
             im = obs_dict[obs_key]
             rand_bg_idx = random.sample(range(self.background_images.shape[0]), len(im))
             bg = obs_meta["randomisers"][i].forward_in(self.background_images[rand_bg_idx])
+            bg = self.normalizer[obs_key].normalize(bg) if self.normalizer is not None else bg
             aug_im = im * self.blend_factor + bg * (1 - self.blend_factor)
             vec_ema.append(self.ema_encoder.obs_nets[obs_key](im))
             vec.append(self.encoder.obs_nets[obs_key](aug_im))
