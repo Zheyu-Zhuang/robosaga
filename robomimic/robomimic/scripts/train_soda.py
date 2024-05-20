@@ -203,17 +203,24 @@ def train(config, device):
 
     encoder = model.nets["policy"].nets["encoder"].nets["obs"]
     ema_encoder = copy.deepcopy(encoder)
-    
-    projection = torch.nn.Linear(128, 128).to("cuda")  
+
+    projection = torch.nn.Linear(128, 128).to("cuda")
     ema_projection = copy.deepcopy(projection)
-    
+
     for param in ema_encoder.parameters():
         param.requires_grad = False
-        
+
     for param in ema_projection.parameters():
         param.requires_grad = False
 
-    soda = SODA(encoder=encoder, ema_encoder=ema_encoder, projection = projection, ema_projection = ema_projection, blend_factor=0.5, **config.saliency)
+    soda = SODA(
+        encoder=encoder,
+        ema_encoder=ema_encoder,
+        projection=projection,
+        ema_projection=ema_projection,
+        blend_factor=0.5,
+        **config.saliency
+    )
 
     for epoch in range(1, config.train.num_epochs + 1):  # epoch numbers start at 1
         model.nets["policy"].disable_low_noise = False

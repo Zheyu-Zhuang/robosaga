@@ -14,11 +14,14 @@ try:
 except ImportError:
     from robomimic.models.base_nets import VisualCore
 
-from torch import nn
 import torch.nn.functional as F
+from torch import nn
+
 
 class SODA:
-    def __init__(self, encoder, ema_encoder, projection, ema_projection, blend_factor=0.5, **kwargs):
+    def __init__(
+        self, encoder, ema_encoder, projection, ema_projection, blend_factor=0.5, **kwargs
+    ):
         self.encoder = encoder
         self.ema_encoder = ema_encoder
         self.proj = projection
@@ -36,7 +39,7 @@ class SODA:
     # --------------------------------------------------------------------------- #
     #                         Training Specific Functions                         #
     # --------------------------------------------------------------------------- #
-    
+
     def ema_update(self):
         with torch.no_grad():
             for p, ema_p in zip(self.encoder.parameters(), self.ema_encoder.parameters()):
