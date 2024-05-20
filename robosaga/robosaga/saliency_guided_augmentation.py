@@ -139,7 +139,7 @@ class SaliencyGuidedAugmentation:
                 smaps[smaps >= erase_thresh] = 0.5
                 x_aug = im * smaps + bg * (1 - smaps)
             elif self.aug_strategy == "saga_mixup":
-                smaps = torch.clip(smaps, 0, 0.8)
+                smaps = torch.clip(smaps, 0, 0.5)
                 x_aug = obs_dict[obs_key][aug_inds] * smaps + bg * (1 - smaps)
             elif self.aug_strategy == "saga_erase":
                 smaps[smaps < self.erase_thresh] = 0
