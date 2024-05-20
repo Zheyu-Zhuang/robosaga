@@ -8,7 +8,7 @@
     <material name="smetal" reflectance="1.0" shininess="1.0" specular="1.0" texrepeat="1 1" texture="steel-metal" texuniform="true" />
     <material name="bmetal" reflectance="1.0" shininess="1.0" specular="1.0" texrepeat="1 1" texture="brass-metal" texuniform="true" />
     
-    <texture file="/home/zheyu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/ergonofis-wsEmlnUEaoA-unsplash_2.png" type="cube" name="tex-ceramic" />
+    <texture file="../textures/ceramic.png" type="cube" name="tex-ceramic" />
     <material name="table_ceramic" reflectance="0.0" shininess="0.0" specular="0.2" texrepeat="1 1" texture="tex-ceramic" />
     
     <texture file="../textures/steel-brushed.png" type="cube" name="tex-steel-brushed" />
