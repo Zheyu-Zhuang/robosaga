@@ -94,7 +94,15 @@ class RobomimicImageRunner(BaseImageRunner):
                 texture_paths.append(texture_path)
             return texture_paths
 
-        all_textures = get_table_texture_paths(table_texture)
+        if table_texture is not None:
+            all_textures = get_table_texture_paths(table_texture)
+
+        def get_one_texture():
+            if table_texture is None:
+                return None
+            texture = random.choice(all_textures)
+            print(f"Using texture: {texture}")
+            return texture
 
         # assert n_obs_steps <= n_action_steps
         # HACK: hard coded dataset path
@@ -118,7 +126,7 @@ class RobomimicImageRunner(BaseImageRunner):
                 env_meta=env_meta,
                 shape_meta=shape_meta,
                 distractors=distractors,
-                table_texture=random.choice(all_textures),
+                table_texture=get_one_texture(),
             )
             # Robosuite's hard reset causes excessive memory consumption.
             # Disabled to run more envs.
@@ -159,7 +167,7 @@ class RobomimicImageRunner(BaseImageRunner):
                 shape_meta=shape_meta,
                 enable_render=False,
                 distractors=distractors,
-                table_texture=table_texture,
+                table_texture=get_one_texture(),
             )
             return MultiStepWrapper(
                 VideoRecordingWrapper(
