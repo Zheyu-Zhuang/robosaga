@@ -214,6 +214,7 @@ class TrainDiffusionUnetHybridWorkspace(BaseWorkspace):
                 if cfg.training.use_ema:
                     policy = self.ema_model
                 policy.eval()
+                self.model.eval()
 
                 # run rollout
                 if (self.epoch % cfg.training.rollout_every) == 0:
@@ -290,6 +291,7 @@ class TrainDiffusionUnetHybridWorkspace(BaseWorkspace):
                         self.save_checkpoint(path=topk_ckpt_path)
                 # ========= eval end for this epoch ==========
                 policy.train()
+                self.model.train()
 
                 # end of epoch
                 # log of last step is combined with validation and rollout

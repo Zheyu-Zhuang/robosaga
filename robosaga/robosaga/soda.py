@@ -69,8 +69,8 @@ class SODA:
             proj_vec_ema = F.normalize(proj_vec_ema, p=2, dim=1)
         proj_vec = self.proj(torch.cat(vec, dim=1))
         proj_vec = F.normalize(proj_vec, p=2, dim=1)
-        loss = self.loss(proj_vec_ema, proj_vec)
         if not validate:
+            loss = self.loss(proj_vec_ema, proj_vec)
             self.optimizer.zero_grad()
             loss.backward()
             self.optimizer.step()

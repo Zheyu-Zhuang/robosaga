@@ -186,12 +186,17 @@ class DiffusionUnetHybridImagePolicySODA(BaseImagePolicy):
             soda_config["normalizer"] = self.normalizer
             
             
-        self.common_projection = nn.Linear(128, 128)
+        self.projection = nn.Linear(128, 128)
+        self.ema_projection = copy.deepcopy(self.projection)
+        for p in self.ema_projection.parameters():
+            p.requires_grad_(False)
+        
         
         self.soda = SODA(
             encoder = self.obs_encoder,
             ema_encoder = self.ema_encoder,
-            common_projection = self.common_projection,
+            projection = self.projection,
+            ema_projection = self.ema_projection,
             blend_factor = 0.5,
             **soda_config,
         )
@@ -319,14 +324,16 @@ class DiffusionUnetHybridImagePolicySODA(BaseImagePolicy):
             this_nobs = dict_apply(
                 nobs, lambda x: x[:, : self.n_obs_steps, ...].reshape(-1, *x.shape[2:])
             )
-            this_nobs = self.soda.step_train_epoch(this_nobs, epoch_idx, batch_idx, validate)
+            if not validate:
+                this_nobs = self.soda.step_train_epoch(this_nobs, epoch_idx, batch_idx)
             nobs_features = self.obs_encoder(this_nobs)
             # reshape back to B, Do
             global_cond = nobs_features.reshape(batch_size, -1)
         else:
             # reshape B, T, ... to B*T
             this_nobs = dict_apply(nobs, lambda x: x.reshape(-1, *x.shape[2:]))
-            this_nobs = self.soda.step_train_epoch(this_nobs, epoch_idx, batch_idx, validate)
+            if not validate:
+                this_nobs = self.soda.step_train_epoch(this_nobs, epoch_idx, batch_idx)
             nobs_features = self.obs_encoder(this_nobs)
             # reshape back to B, T, Do
             nobs_features = nobs_features.reshape(batch_size, horizon, -1)
