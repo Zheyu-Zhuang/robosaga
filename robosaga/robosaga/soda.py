@@ -1,9 +1,10 @@
+"""
+A Wrapper of SODA (Self-Supervised Object Detection and Augmentation) for RoboMimic Visual Core
+"""
+
 import os
 import random
-from math import cos, pi
 
-import cv2
-import numpy as np
 import torch
 from PIL import Image
 from torchvision import transforms
@@ -17,15 +18,17 @@ from torch import nn
 
 
 class SODA:
-    def __init__(self, model, ema_model, blend_factor=0.5, **kwargs):
-        self.model = model
-        self.ema_model = ema_model
+    def __init__(self, encoder, ema_encoder, blend_factor=0.5, **kwargs):
+        self.encoder = encoder
+        self.ema_encoder = ema_encoder
+        # TODO: save proj layer into state dict
         self.porj = nn.Linear(128, 128).to("cuda")
         self.background_images = self.preload_all_backgrounds(kwargs["background_path"])
         # augmentation index fixed across obs pairs
         self.blend_factor = blend_factor
         self.loss = nn.MSELoss()
-        self.optimizer = torch.optim.Adam(self.model.parameters(), lr=1e-4)
+        params = list(self.encoder.parameters()) + list(self.porj.parameters())
+        self.optimizer = torch.optim.Adam(params, lr=1e-4)
         self.epoch_idx = 0  # epoch index
         self.batch_idx = 0  # batch index
 
@@ -44,21 +47,19 @@ class SODA:
             rand_bg_idx = random.sample(range(self.background_images.shape[0]), len(im))
             bg = obs_meta["randomisers"][i].forward_in(self.background_images[rand_bg_idx])
             aug_im = im * self.blend_factor + bg * (1 - self.blend_factor)
-            vec_ema.append(self.ema_model.obs_nets[obs_key](im))
-            vec.append(self.model.obs_nets[obs_key](aug_im))
-        vec_ema = torch.cat(vec_ema, dim=1).detach()
-        vec = torch.cat(vec, dim=1)
-        vec_ema = self.porj(vec_ema)
-        vec = self.porj(vec)
-        vec_ema = torch.nn.functional.normalize(vec_ema, p=2, dim=1)
-        vec = torch.nn.functional.normalize(vec, p=2, dim=1)
-        loss = self.loss(vec, vec_ema)
+            vec_ema.append(self.ema_encoder.obs_nets[obs_key](im))
+            vec.append(self.encoder.obs_nets[obs_key](aug_im))
+        proj_vec_ema = self.porj(torch.cat(vec_ema, dim=1).detach())
+        proj_vec_ema = torch.nn.functional.normalize(proj_vec_ema, p=2, dim=1)
+        proj_vec = self.porj(torch.cat(vec, dim=1))
+        proj_vec = torch.nn.functional.normalize(proj_vec, p=2, dim=1)
+        loss = self.loss(proj_vec_ema, proj_vec)
         if not validate:
             self.optimizer.zero_grad()
             loss.backward()
             self.optimizer.step()
         with torch.no_grad():
-            for p, ema_p in zip(self.model.parameters(), self.ema_model.parameters()):
+            for p, ema_p in zip(self.encoder.parameters(), self.ema_encoder.parameters()):
                 m = 0.995
                 ema_p.data.mul_(m).add_((1 - m) * p.data)
         return self.restore_obs_dict_shape(obs_dict, obs_meta)
@@ -66,9 +67,9 @@ class SODA:
     def prepare_obs_dict(self, obs_dict):
         # get visual modalities and randomisers
         visual_modalities = [
-            k for k, v in self.model.obs_nets.items() if isinstance(v, VisualCore)
+            k for k, v in self.encoder.obs_nets.items() if isinstance(v, VisualCore)
         ]
-        randomisers = [self.model.obs_randomizers[k] for k in visual_modalities]
+        randomisers = [self.encoder.obs_randomizers[k] for k in visual_modalities]
 
         vis_obs_dim = obs_dict[visual_modalities[0]].shape
         has_temporal_dim = len(vis_obs_dim) > 4
@@ -85,7 +86,7 @@ class SODA:
             raw_dim = x.shape
             return (x.view(n_samples, *raw_dim[2:]), raw_dim) if has_temporal_dim else (x, raw_dim)
 
-        for k in self.model.obs_shapes.keys():
+        for k in self.encoder.obs_shapes.keys():
             obs_dict[k], raw_shape = flatten_temporal_dim(obs_dict[k])
             obs_meta[k] = {
                 "raw_shape": raw_shape,
@@ -101,80 +102,11 @@ class SODA:
 
         return obs_dict, obs_meta
 
-    def save_debug_images(self, obs_dict, obs_meta, sample_idx=0):
-        if not self.debug_save:
-            return
-        save_on_this_batch = self.batch_idx % self.save_debug_im_every_n_batches == 0
-        if not save_on_this_batch:
-            return
-        vis_ims = []
-        for obs_key in obs_meta["visual_modalities"]:
-            image = obs_dict[obs_key][sample_idx].unsqueeze(0)
-            net_input_dict = None
-            if self.mode == "full_policy":
-                net_input_dict = {k: obs_dict[k][sample_idx].unsqueeze(0) for k in obs_dict.keys()}
-            smaps = self.extractors[obs_key].saliency(image, net_input_dict).detach()
-            vis_smap = self.linear_normalisation(smaps)[0]
-            vis_ims_ = [self.denormalize_image(image, obs_key)]
-            vis_ims.append(self.compose_saga_images(vis_ims_, vis_smap))
-        im_name = f"batch_{self.batch_idx}_saliency.jpg"
-        im_name = os.path.join(self.save_dir, f"epoch_{self.epoch_idx}", im_name)
-        self.create_saliency_dir()
-        cv2.imwrite(im_name, self.vstack_images(vis_ims))
-
-    def denormalize_image(self, x, obs_key):
-        if self.normalizer is None:
-            return x.squeeze(0) if x.shape[0] == 1 else x
-        if len(x.shape) == 3:
-            x = x.unsqueeze(0)
-        x = self.normalizer[obs_key].unnormalize(x)
-        return x.squeeze(0) if x.shape[0] == 1 else x
-
-    @staticmethod
-    def vstack_images(images, padding=10):
-        images = [
-            cv2.copyMakeBorder(
-                im, padding, padding, padding, padding, cv2.BORDER_CONSTANT, value=[0, 0, 0]
-            )
-            for im in images
-        ]
-        return cv2.vconcat(images)
-
-    def create_saliency_dir(self):
-        saliency_dir = os.path.join(self.save_dir, f"epoch_{self.epoch_idx}")
-        if not os.path.exists(saliency_dir):
-            os.makedirs(saliency_dir)
-
     @staticmethod
     def restore_obs_dict_shape(obs_dict, obs_meta):
         for k in obs_dict.keys():
             obs_dict[k] = obs_dict[k].view(obs_meta[k]["input_shape"])
         return obs_dict
-
-    @staticmethod
-    def get_debug_image(x, bgr_to_rgb=False):
-        im = x.permute(1, 2, 0).detach().cpu().numpy()
-        im = np.clip(im, 0, 1) * 255
-        im = im.astype(np.uint8)
-        if bgr_to_rgb:
-            im = cv2.cvtColor(im, cv2.COLOR_BGR2RGB)
-        return im
-
-    def compose_saga_images(self, x: list, smap: torch.Tensor, im_path: str = None):
-        assert isinstance(x, list), "x should be a list of torch tensors"
-        x = [self.get_debug_image(x_, bgr_to_rgb=True) for x_ in x]
-        smap = self.get_debug_image(smap)
-        x.append(cv2.applyColorMap(smap, cv2.COLORMAP_JET))
-        im_pad = np.ones((x[0].shape[0], 5, 3), dtype=np.uint8)
-        for i in range(len(x) - 1):
-            x.insert(2 * i + 1, im_pad)
-        vis = cv2.hconcat(x)
-        if im_path is not None:
-            cv2.imwrite(im_path, vis)
-        if self.debug_vis:
-            cv2.imshow("saliency", vis)
-            cv2.waitKey(0)
-        return vis
 
     @staticmethod
     def preload_all_backgrounds(background_path, im_size=(84, 84)):

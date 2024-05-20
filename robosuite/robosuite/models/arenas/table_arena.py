@@ -3,7 +3,6 @@ import xml.etree.ElementTree as ET
 
 import numpy as np
 
-import robosuite
 from robosuite.models.arenas import Arena
 from robosuite.utils.mjcf_utils import (
     array_to_string,
