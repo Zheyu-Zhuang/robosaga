@@ -12,14 +12,14 @@ from robosuite.utils.mjcf_utils import (
 )
 
 
-def replace_table_texture(xml_file, texture_name, new_texture_path, new_texture_name):
+def replace_table_texture(xml_file, new_texture_path):
     # Load the XML file
     tree = ET.parse(xml_file)
     root = tree.getroot()
 
     # Define the new texture element
     new_texture = ET.Element(
-        "texture", attrib={"file": new_texture_path, "type": "2d", "name": new_texture_name}
+        "texture", attrib={"file": new_texture_path, "type": "2d", "name": "new_texture"}
     )
 
     # Insert the new texture element into the <asset> section
@@ -29,9 +29,9 @@ def replace_table_texture(xml_file, texture_name, new_texture_path, new_texture_
     # Find the material for the table and update the texture reference
     for material in asset.findall("material"):
         if material.get("name") == "table_ceramic":
-            material.set("texture", new_texture_name)
+            material.set("texture", "new_texture")
 
-    xml_file = xml_file.replace(".xml", f"_{texture_name}_temp.xml")
+    xml_file = xml_file.replace(".xml", f"_{new_texture_path}_temp.xml")
     # Save the modified XML to a new file or overwrite the existing one
     tree.write(xml_file)
 
@@ -56,38 +56,16 @@ class TableArena(Arena):
         table_friction=(1, 0.005, 0.0001),
         table_offset=(0, 0, 0.8),
         has_legs=True,
-        table_texture=None,
+        table_texture_path=None,
         xml="arenas/table_arena.xml",
     ):
         xml = xml_path_completion(xml)
-        if table_texture is not None:
-            supported_textures = [
-                "clay",
-                "blue-wood",
-                "light-wood",
-                "steel-brushed",
-                "wood-tiles",
-                "yellow-plaster",
-                "white-plaster",
-                "glass",
-                "white-bricks",
-                "can",
-            ]
-            assert (
-                table_texture in supported_textures
-            ), "Unsupported table texture specified: {}. " "Supported options are: {}".format(
-                table_texture, supported_textures
-            )
-            xml_temp = xml.replace(".xml", f"_{table_texture}_temp.xml")
+        if table_texture_path is not None:
+            xml_temp = xml.replace(".xml", f"_{table_texture_path}_temp.xml")
             if os.path.exists(xml_temp):
                 xml = xml_temp
             else:
-                table_texture_path = os.path.join(
-                    robosuite.models.assets_root, "textures", table_texture + ".png"
-                )
-                replace_table_texture(
-                    xml, table_texture, table_texture_path, "custom_table_texture"
-                )
+                replace_table_texture(xml, table_texture_path, "custom_table_texture")
             xml = xml_temp
         super().__init__(xml)
 

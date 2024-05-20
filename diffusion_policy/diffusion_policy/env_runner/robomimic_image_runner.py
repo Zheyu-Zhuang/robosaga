@@ -2,6 +2,7 @@ import collections
 import math
 import os
 import pathlib
+import random
 
 import dill
 import h5py
@@ -79,6 +80,22 @@ class RobomimicImageRunner(BaseImageRunner):
         if n_envs is None:
             n_envs = n_train + n_test
 
+        def get_table_texture_paths(texture_category):
+            if texture_category is None:
+                return None
+            texture_dir = os.path.join(
+                os.path.expanduser("~"),
+                "RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures",
+            )
+            texture_dir = os.path.join(texture_dir, texture_category)
+            texture_paths = []
+            for texture_file in os.listdir(texture_dir):
+                texture_path = os.path.join(texture_dir, texture_file)
+                texture_paths.append(texture_path)
+            return texture_paths
+
+        all_textures = get_table_texture_paths(table_texture, n_envs)
+
         # assert n_obs_steps <= n_action_steps
         # HACK: hard coded dataset path
         dataset_path = "../data/robomimic/square/ph/image.hdf5"
@@ -101,7 +118,7 @@ class RobomimicImageRunner(BaseImageRunner):
                 env_meta=env_meta,
                 shape_meta=shape_meta,
                 distractors=distractors,
-                table_texture=table_texture,
+                table_texture=random.choice(all_textures),
             )
             # Robosuite's hard reset causes excessive memory consumption.
             # Disabled to run more envs.
