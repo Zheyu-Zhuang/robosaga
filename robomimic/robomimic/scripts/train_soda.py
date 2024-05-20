@@ -206,7 +206,7 @@ def train(config, device):
     for param in ema_encoder.parameters():
         param.requires_grad = False
 
-    soda = SODA(model=encoder, ema_model=ema_encoder, blend_factor=0.5, **config.saliency)
+    soda = SODA(encoder=encoder, ema_encoder=ema_encoder, blend_factor=0.5, **config.saliency)
 
     for epoch in range(1, config.train.num_epochs + 1):  # epoch numbers start at 1
         model.nets["policy"].disable_low_noise = False
