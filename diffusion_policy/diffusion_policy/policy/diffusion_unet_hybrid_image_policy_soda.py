@@ -177,16 +177,22 @@ class DiffusionUnetHybridImagePolicySODA(BaseImagePolicy):
         print("Diffusion params: %e" % sum(p.numel() for p in self.model.parameters()))
         print("Vision params: %e" % sum(p.numel() for p in self.obs_encoder.parameters()))
 
-        ema_encoder = copy.deepcopy(self.obs_encoder)
-        for p in ema_encoder.parameters():
+        self.ema_encoder = copy.deepcopy(self.obs_encoder).to(self.device)
+        
+        for p in self.ema_encoder.parameters():
             p.requires_grad_(False)
 
         if self.normalize_obs:
             soda_config["normalizer"] = self.normalizer
+            
+            
+        self.common_projection = nn.Linear(128, 128)
+        
         self.soda = SODA(
-            self.obs_encoder,
-            ema_encoder,
-            blend_factor=0.5,
+            encoder = self.obs_encoder,
+            ema_encoder = self.ema_encoder,
+            common_projection = self.common_projection,
+            blend_factor = 0.5,
             **soda_config,
         )
 
@@ -232,7 +238,6 @@ class DiffusionUnetHybridImagePolicySODA(BaseImagePolicy):
         return trajectory
 
     def predict_action(self, obs_dict: Dict[str, torch.Tensor]) -> Dict[str, torch.Tensor]:
-        self.saga.unregister_hooks()
         """
         obs_dict: must include "obs" key
         result: must include "action" key
@@ -300,7 +305,6 @@ class DiffusionUnetHybridImagePolicySODA(BaseImagePolicy):
         assert "valid_mask" not in batch
         nobs = self.normalizer.normalize(batch["obs"]) if self.normalize_obs else batch["obs"]
         nactions = self.normalizer["action"].normalize(batch["action"])
-        buffer_ids = batch["ids"].flatten()
         batch_size = nactions.shape[0]
         horizon = nactions.shape[1]
 
@@ -309,19 +313,20 @@ class DiffusionUnetHybridImagePolicySODA(BaseImagePolicy):
         global_cond = None
         trajectory = nactions
         cond_data = trajectory
+        validate = not self.model.training
         if self.obs_as_global_cond:
             # reshape B, T, ... to B*T
             this_nobs = dict_apply(
                 nobs, lambda x: x[:, : self.n_obs_steps, ...].reshape(-1, *x.shape[2:])
             )
-            this_nobs = self.saga(this_nobs, buffer_ids, epoch_idx, batch_idx)
+            this_nobs = self.soda.step_train_epoch(this_nobs, epoch_idx, batch_idx, validate)
             nobs_features = self.obs_encoder(this_nobs)
             # reshape back to B, Do
             global_cond = nobs_features.reshape(batch_size, -1)
         else:
             # reshape B, T, ... to B*T
             this_nobs = dict_apply(nobs, lambda x: x.reshape(-1, *x.shape[2:]))
-            this_nobs = self.saga(this_nobs, buffer_ids, epoch_idx, batch_idx)
+            this_nobs = self.soda.step_train_epoch(this_nobs, epoch_idx, batch_idx, validate)
             nobs_features = self.obs_encoder(this_nobs)
             # reshape back to B, T, Do
             nobs_features = nobs_features.reshape(batch_size, horizon, -1)

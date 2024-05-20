@@ -25,7 +25,7 @@ use_ema: True
 normalize_obs: True
 group_norm:
   enable: True
-  return_fullgrad_bias: True
+  return_fullgrad_bias: False
 
 
 soda:
@@ -34,7 +34,7 @@ soda:
 # ---------------------------------------------------------------------------- #
 
 policy:
-  _target_: diffusion_policy.policy.diffusion_unet_hybrid_image_policy_soda.DiffusionUnetHybridImagePolicySaGA
+  _target_: diffusion_policy.policy.diffusion_unet_hybrid_image_policy_soda.DiffusionUnetHybridImagePolicySODA
 
   shape_meta: ${shape_meta}
   

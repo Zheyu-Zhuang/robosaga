@@ -15,20 +15,20 @@ except ImportError:
     from robomimic.models.base_nets import VisualCore
 
 from torch import nn
-
+import torch.nn.functional as F
 
 class SODA:
-    def __init__(self, encoder, ema_encoder, blend_factor=0.5, **kwargs):
+    def __init__(self, encoder, ema_encoder, projection, ema_projection, blend_factor=0.5, **kwargs):
         self.encoder = encoder
         self.ema_encoder = ema_encoder
-        # TODO: save proj layer into state dict
-        self.porj = nn.Linear(128, 128).to("cuda")
+        self.proj = projection
+        self.ema_proj = ema_projection
         self.background_images = self.preload_all_backgrounds(kwargs["background_path"])
-        self.normalizer = self.get_kwarg(kwargs, "normalizer", None)
+        self.normalizer = kwargs.get("normalizer", None)
         # augmentation index fixed across obs pairs
         self.blend_factor = blend_factor
         self.loss = nn.MSELoss()
-        params = list(self.encoder.parameters()) + list(self.porj.parameters())
+        params = list(self.encoder.parameters()) + list(self.proj.parameters())
         self.optimizer = torch.optim.Adam(params, lr=1e-4)
         self.epoch_idx = 0  # epoch index
         self.batch_idx = 0  # batch index
@@ -36,6 +36,15 @@ class SODA:
     # --------------------------------------------------------------------------- #
     #                         Training Specific Functions                         #
     # --------------------------------------------------------------------------- #
+    
+    def ema_update(self):
+        with torch.no_grad():
+            for p, ema_p in zip(self.encoder.parameters(), self.ema_encoder.parameters()):
+                m = 0.995
+                ema_p.data.mul_(m).add_((1 - m) * p.data)
+            for p, ema_p in zip(self.proj.parameters(), self.ema_proj.parameters()):
+                m = 0.995
+                ema_p.data.mul_(m).add_((1 - m) * p.data)
 
     # the main function to be called for data augmentation
     def step_train_epoch(self, obs_dict, epoch_idx, batch_idx, validate=False):
@@ -49,21 +58,20 @@ class SODA:
             bg = obs_meta["randomisers"][i].forward_in(self.background_images[rand_bg_idx])
             bg = self.normalizer[obs_key].normalize(bg) if self.normalizer is not None else bg
             aug_im = im * self.blend_factor + bg * (1 - self.blend_factor)
-            vec_ema.append(self.ema_encoder.obs_nets[obs_key](im))
+            with torch.no_grad():
+                vec_ema.append(self.ema_encoder.obs_nets[obs_key](im))
             vec.append(self.encoder.obs_nets[obs_key](aug_im))
-        proj_vec_ema = self.porj(torch.cat(vec_ema, dim=1).detach())
-        proj_vec_ema = torch.nn.functional.normalize(proj_vec_ema, p=2, dim=1)
-        proj_vec = self.porj(torch.cat(vec, dim=1))
-        proj_vec = torch.nn.functional.normalize(proj_vec, p=2, dim=1)
+        with torch.no_grad():
+            proj_vec_ema = self.ema_proj(torch.cat(vec_ema, dim=1))
+            proj_vec_ema = F.normalize(proj_vec_ema, p=2, dim=1)
+        proj_vec = self.proj(torch.cat(vec, dim=1))
+        proj_vec = F.normalize(proj_vec, p=2, dim=1)
         loss = self.loss(proj_vec_ema, proj_vec)
         if not validate:
             self.optimizer.zero_grad()
             loss.backward()
             self.optimizer.step()
-        with torch.no_grad():
-            for p, ema_p in zip(self.encoder.parameters(), self.ema_encoder.parameters()):
-                m = 0.995
-                ema_p.data.mul_(m).add_((1 - m) * p.data)
+            self.ema_update()
         return self.restore_obs_dict_shape(obs_dict, obs_meta)
 
     def prepare_obs_dict(self, obs_dict):
