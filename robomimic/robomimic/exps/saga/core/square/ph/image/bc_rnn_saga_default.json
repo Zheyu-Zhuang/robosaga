@@ -1,7 +1,7 @@
 {
     "algo_name": "bc",
     "experiment": {
-        "name": "bc_rnn_square_ph_saga_mixup_0.5_aug_0.5_clip",
+        "name": "mimicgen_square_d0",
         "validate": true,
         "logging": {
             "terminal_output_to_txt": true,
@@ -42,13 +42,13 @@
         "buffer_shape": [84, 84],
         "save_dir": "",
         "save_debug_im_every_n_batches": 5,
-        "background_path": "../data/coco_5k_84x84/",
+        "background_path": "data/coco_5k_84x84/",
         "aug_strategy": "saga_mixup",
         "aug_obs_pairs": false
     },
     "train": {
-        "data": "../data/robomimic/square/ph/image.hdf5",
-        "output_dir": "../experiments/robosaga/robomimic/bc_rnn/",
+        "data": "data/mimicgen/square_d0.hdf5",
+        "output_dir": "experiments/robosaga/robomimic/bc_rnn/mimicgen",
         "num_data_workers": 16,
         "hdf5_cache_mode": "low_dim",
         "hdf5_use_swmr": true,

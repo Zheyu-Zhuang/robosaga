@@ -187,9 +187,8 @@ def create_env(
         use_image_obs=use_image_obs,
         use_depth_obs=use_depth_obs,
         postprocess_visual_obs=True,
-        distractors=None,
-        table_texture=None,
-        **kwargs,
+        distractors=distractors,
+        table_texture=table_texture,
         **kwargs,
     )
     print("Created environment with name {}".format(env_name))
@@ -247,8 +246,8 @@ def create_env_from_metadata(
         render_offscreen=render_offscreen,
         use_image_obs=use_image_obs,
         use_depth_obs=use_depth_obs,
-        distractors=None,
-        table_texture=None,
+        distractors=distractors,
+        table_texture=table_texture,
         **env_kwargs,
     )
     check_env_version(env, env_meta)
