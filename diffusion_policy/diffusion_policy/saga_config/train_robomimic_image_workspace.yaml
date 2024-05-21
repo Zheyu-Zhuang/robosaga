@@ -1,9 +1,9 @@
 defaults:
   - _self_
-  - task: square_image
+  - task: square_image_d0
 
 name: train_robomimic_image
-exp_name: "square_image_saga_bc_rnn"
+exp_name: "square_d0_baseline"
 
 _target_: diffusion_policy.workspace.train_robomimic_image_workspace.TrainRobomimicImageWorkspace
 
@@ -80,14 +80,14 @@ checkpoint:
   save_last_snapshot: False
 
 multi_run:
-  run_dir: "../experiments/robomimic/${task_name}_${exp_name}
+  run_dir: ../experiments/robosaga/diffusion_policy/${task_name}_${exp_name}
   wandb_name_base: ${now:%Y.%m.%d-%H.%M.%S}_${name}_${task_name}
 
 hydra:
   job:
     override_dirname: ${name}
   run:
-    dir: "../experiments/robomimic/${task_name}_${exp_name}
+    dir: ../experiments/robosaga/diffusion_policy/${task_name}_${exp_name}
   sweep:
-    dir: "../experiments/robomimic/${task_name}_${exp_name}
+    dir: ../experiments/robosaga/diffusion_policy/${task_name}_${exp_name}
     subdir: ${hydra.job.num}
