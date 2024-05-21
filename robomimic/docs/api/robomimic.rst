@@ -13,6 +13,25 @@ Subpackages
    robomimic.models
    robomimic.utils
 
+Submodules
+----------
+
+robomimic.macros module
+-----------------------
+
+.. automodule:: robomimic.macros
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+robomimic.macros\_private module
+--------------------------------
+
+.. automodule:: robomimic.macros_private
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 Module contents
 ---------------
 

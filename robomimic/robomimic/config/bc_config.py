@@ -8,6 +8,13 @@ from robomimic.config.base_config import BaseConfig
 class BCConfig(BaseConfig):
     ALGO_NAME = "bc"
 
+    def train_config(self):
+        """
+        BC algorithms don't need "next_obs" from hdf5 - so save on storage and compute by disabling it.
+        """
+        super(BCConfig, self).train_config()
+        self.train.hdf5_load_next_obs = False
+
     def algo_config(self):
         """
         This function populates the `config.algo` attribute of the config, and is given to the
@@ -17,6 +24,7 @@ class BCConfig(BaseConfig):
         """
 
         # optimization parameters
+        self.algo.optim_params.policy.optimizer_type = "adam"
         self.algo.optim_params.policy.learning_rate.initial = 1e-4  # policy learning rate
         self.algo.optim_params.policy.learning_rate.decay_factor = (
             0.1  # factor to decay LR by (if epoch schedule non-empty)
@@ -24,6 +32,9 @@ class BCConfig(BaseConfig):
         self.algo.optim_params.policy.learning_rate.epoch_schedule = (
             []
         )  # epochs where LR decay occurs
+        self.algo.optim_params.policy.learning_rate.scheduler_type = (
+            "multistep"  # learning rate scheduler ("multistep", "linear", etc)
+        )
         self.algo.optim_params.policy.regularization.L2 = 0.00  # L2 regularization strength
 
         # loss weights
@@ -107,7 +118,8 @@ class BCConfig(BaseConfig):
         self.algo.rnn.kwargs.bidirectional = False  # rnn kwargs
         self.algo.rnn.kwargs.do_not_lock_keys()
 
-    def saliency_config(self):
+        # SAGA Modification
+        self.saliency.enabled = False
         self.saliency.update_ratio = None
         self.saliency.aug_ratio = None
         self.saliency.debug_vis = None

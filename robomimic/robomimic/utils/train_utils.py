@@ -18,13 +18,16 @@ import numpy as np
 import torch
 
 import robomimic
+import robomimic.utils.file_utils as FileUtils
 import robomimic.utils.log_utils as LogUtils
 import robomimic.utils.tensor_utils as TensorUtils
 from robomimic.algo import RolloutPolicy
 from robomimic.envs.env_base import EnvBase
+from robomimic.envs.wrappers import EnvWrapper
 from robomimic.utils.dataset import SequenceDataset
 
 
+# SaGA Modifications
 def get_exp_dir(config, auto_remove_exp_dir=False):
     """
     Create experiment directory from config. If an identical experiment directory
@@ -102,22 +105,37 @@ def load_data_for_training(config, obs_keys):
     """
 
     # config can contain an attribute to filter on
-    filter_by_attribute = config.train.hdf5_filter_key
+    train_filter_by_attribute = config.train.hdf5_filter_key
+    valid_filter_by_attribute = config.train.hdf5_validation_filter_key
+    if valid_filter_by_attribute is not None:
+        assert (
+            config.experiment.validate
+        ), "specified validation filter key {}, but config.experiment.validate is not set".format(
+            valid_filter_by_attribute
+        )
 
     # load the dataset into memory
     if config.experiment.validate:
         assert (
             not config.train.hdf5_normalize_obs
         ), "no support for observation normalization with validation data yet"
-        train_filter_by_attribute = "train"
-        valid_filter_by_attribute = "valid"
-        if filter_by_attribute is not None:
-            train_filter_by_attribute = "{}_{}".format(
-                filter_by_attribute, train_filter_by_attribute
-            )
-            valid_filter_by_attribute = "{}_{}".format(
-                filter_by_attribute, valid_filter_by_attribute
-            )
+        assert (train_filter_by_attribute is not None) and (
+            valid_filter_by_attribute is not None
+        ), (
+            "did not specify filter keys corresponding to train and valid split in dataset"
+            " - please fill config.train.hdf5_filter_key and config.train.hdf5_validation_filter_key"
+        )
+        train_demo_keys = FileUtils.get_demos_for_filter_key(
+            hdf5_path=os.path.expanduser(config.train.data),
+            filter_key=train_filter_by_attribute,
+        )
+        valid_demo_keys = FileUtils.get_demos_for_filter_key(
+            hdf5_path=os.path.expanduser(config.train.data),
+            filter_key=valid_filter_by_attribute,
+        )
+        assert set(train_demo_keys).isdisjoint(set(valid_demo_keys)), (
+            "training demonstrations overlap with " "validation demonstrations!"
+        )
         train_dataset = dataset_factory(
             config, obs_keys, filter_by_attribute=train_filter_by_attribute
         )
@@ -125,7 +143,9 @@ def load_data_for_training(config, obs_keys):
             config, obs_keys, filter_by_attribute=valid_filter_by_attribute
         )
     else:
-        train_dataset = dataset_factory(config, obs_keys, filter_by_attribute=filter_by_attribute)
+        train_dataset = dataset_factory(
+            config, obs_keys, filter_by_attribute=train_filter_by_attribute
+        )
         valid_dataset = None
 
     return train_dataset, valid_dataset
@@ -157,11 +177,11 @@ def dataset_factory(config, obs_keys, filter_by_attribute=None, dataset_path=Non
         hdf5_path=dataset_path,
         obs_keys=obs_keys,
         dataset_keys=config.train.dataset_keys,
-        load_next_obs=True,  # make sure dataset returns s'
-        frame_stack=1,  # no frame stacking
+        load_next_obs=config.train.hdf5_load_next_obs,  # whether to load next observations (s') from dataset
+        frame_stack=config.train.frame_stack,
         seq_length=config.train.seq_length,
-        pad_frame_stack=True,
-        pad_seq_length=True,  # pad last obs per trajectory to ensure all sequences are sampled
+        pad_frame_stack=config.train.pad_frame_stack,
+        pad_seq_length=config.train.pad_seq_length,
         get_pad_mask=False,
         goal_mode=config.train.goal_mode,
         hdf5_cache_mode=config.train.hdf5_cache_mode,
@@ -209,7 +229,7 @@ def run_rollout(
         results (dict): dictionary containing return, success rate, etc.
     """
     assert isinstance(policy, RolloutPolicy)
-    assert isinstance(env, EnvBase)
+    assert isinstance(env, EnvBase) or isinstance(env, EnvWrapper)
 
     policy.start_episode()
 
@@ -516,7 +536,15 @@ def save_model(model, config, env_meta, shape_meta, ckpt_path, obs_normalization
     print("save checkpoint to {}".format(ckpt_path))
 
 
-def run_epoch_soda(model, data_loader, epoch, validate=False, num_steps=None, soda=None):
+def run_epoch_soda(
+    model,
+    data_loader,
+    epoch,
+    validate=False,
+    num_steps=None,
+    obs_normalization_stats=None,
+    soda=None,
+):
     epoch_timestamp = time.time()
     if validate:
         model.set_eval()
@@ -526,7 +554,9 @@ def run_epoch_soda(model, data_loader, epoch, validate=False, num_steps=None, so
         num_steps = len(data_loader)
 
     step_log_all = []
-    timing_stats = dict(Data_Loading=[], Process_Batch=[], Train_Batch=[], Log_Info=[], SODA=[])
+    timing_stats = dict(
+        Data_Loading=[], Process_Batch=[], Train_Batch=[], Log_Info=[], Data_Augmentation=[]
+    )
     start_time = time.time()
 
     data_loader_iter = iter(data_loader)
@@ -546,6 +576,9 @@ def run_epoch_soda(model, data_loader, epoch, validate=False, num_steps=None, so
         # process batch for training
         t = time.time()
         input_batch = model.process_batch_for_training(batch)
+        input_batch = model.postprocess_batch_for_training(
+            input_batch, obs_normalization_stats=obs_normalization_stats
+        )
         timing_stats["Process_Batch"].append(time.time() - t)
 
         # augment input images
@@ -554,7 +587,7 @@ def run_epoch_soda(model, data_loader, epoch, validate=False, num_steps=None, so
             input_batch["obs"] = soda.step_train_epoch(
                 input_batch["obs"], epoch, batch_idx, validate=validate
             )
-            timing_stats["SODA"].append(time.time() - t)
+            timing_stats["Data_Augmentation"].append(time.time() - t)
 
         # forward and backward pass
         t = time.time()
@@ -585,7 +618,15 @@ def run_epoch_soda(model, data_loader, epoch, validate=False, num_steps=None, so
     return step_log_all
 
 
-def run_epoch(model, data_loader, epoch, validate=False, num_steps=None, saga=None):
+def run_epoch(
+    model,
+    data_loader,
+    epoch,
+    validate=False,
+    num_steps=None,
+    obs_normalization_stats=None,
+    saga=None,
+):
     """
     Run an epoch of training or validation.
 
@@ -603,6 +644,10 @@ def run_epoch(model, data_loader, epoch, validate=False, num_steps=None, saga=No
         num_steps (int): if provided, this epoch lasts for a fixed number of batches (gradient steps),
             otherwise the epoch is a complete pass through the training dataset
 
+        obs_normalization_stats (dict or None): if provided, this should map observation keys to dicts
+            with a "mean" and "std" of shape (1, ...) where ... is the default
+            shape for the observation.
+
     Returns:
         step_log_all (dict): dictionary of logged training metrics averaged across all batches
     """
@@ -615,7 +660,9 @@ def run_epoch(model, data_loader, epoch, validate=False, num_steps=None, saga=No
         num_steps = len(data_loader)
 
     step_log_all = []
-    timing_stats = dict(Data_Loading=[], Process_Batch=[], Train_Batch=[], Log_Info=[], SaGA=[])
+    timing_stats = dict(
+        Data_Loading=[], Process_Batch=[], Train_Batch=[], Log_Info=[], Data_Augmentation=[]
+    )
     start_time = time.time()
 
     data_loader_iter = iter(data_loader)
@@ -635,11 +682,14 @@ def run_epoch(model, data_loader, epoch, validate=False, num_steps=None, saga=No
         # process batch for training
         t = time.time()
         input_batch = model.process_batch_for_training(batch)
+        input_batch = model.postprocess_batch_for_training(
+            input_batch, obs_normalization_stats=obs_normalization_stats
+        )
         timing_stats["Process_Batch"].append(time.time() - t)
 
         if saga is not None:
             input_batch["obs"] = saga(input_batch["obs"], batch["ids"].flatten(), epoch, batch_idx)
-            timing_stats["SaGA"].append(time.time() - t)
+            timing_stats["Data_Augmentation"].append(time.time() - t)
 
         # forward and backward pass
         t = time.time()

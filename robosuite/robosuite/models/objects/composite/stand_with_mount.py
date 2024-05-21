@@ -1,36 +1,24 @@
 import numpy as np
 
-from robosuite.models.objects import CompositeObject
-from robosuite.utils.mjcf_utils import add_to_dict
-from robosuite.utils.mjcf_utils import CustomMaterial, RED
 import robosuite.utils.transform_utils as T
+from robosuite.models.objects import CompositeObject
+from robosuite.utils.mjcf_utils import RED, CustomMaterial, add_to_dict
 
 
 class StandWithMount(CompositeObject):
     """
     Generates a flat stand with a four-walled mount sticking out of the top.
-
     Args:
         name (str): Name of this object
-
         size (3-array): (x,y,z) full size of object
-
         mount_location (2-array): (x,y) location to place mount, relative to center of stand
-
         mount_width (float): How wide mount is (measured from outside of walls!)
-
         wall_thickness (float): How thick to make walls of mount
-
         initialize_on_side (bool): If True, will initialize this stand on its side (tipped over)
-
         add_hole_vis (bool): If True, adds a rim around the top of the walls, to help make the hole more visually distinctive
-
         friction (3-array or None): If specified, sets friction values for this object. None results in default values
-
         density (float): Density value to use for all geoms. Defaults to 1000
-
         use_texture (bool): If true, geoms will be defined by realistic textures and rgba values will be ignored
-
         rgba (4-array or None): If specified, sets rgba values for all geoms. None results in default values
     """
 
@@ -38,15 +26,15 @@ class StandWithMount(CompositeObject):
         self,
         name,
         size=(0.3, 0.3, 0.15),
-        mount_location=(0., 0.),
+        mount_location=(0.0, 0.0),
         mount_width=0.05,
         wall_thickness=0.01,
         base_thickness=0.01,
         initialize_on_side=True,
         add_hole_vis=False,
         friction=None,
-        density=1000.,
-        solref=(0.02, 1.),
+        density=1000.0,
+        solref=(0.02, 1.0),
         solimp=(0.9, 0.95, 0.001),
         use_texture=True,
         rgba=(0.2, 0.1, 0.0, 1.0),
@@ -100,7 +88,6 @@ class StandWithMount(CompositeObject):
     def _get_geom_attrs(self):
         """
         Creates geom elements that will be passed to superclass CompositeObject constructor
-
         Returns:
             dict: args to be used by CompositeObject to generate geoms
         """
@@ -130,10 +117,18 @@ class StandWithMount(CompositeObject):
         )
 
         # Walls
-        x_vals = np.array([0, -(self.mount_width - self.wall_thickness) / 2,
-                           0, (self.mount_width - self.wall_thickness) / 2]) + self.mount_location[0]
-        y_vals = np.array([-(self.mount_width - self.wall_thickness) / 2, 0,
-                           (self.mount_width - self.wall_thickness) / 2, 0]) + self.mount_location[1]
+        x_vals = (
+            np.array(
+                [0, -(self.mount_width - self.wall_thickness) / 2, 0, (self.mount_width - self.wall_thickness) / 2]
+            )
+            + self.mount_location[0]
+        )
+        y_vals = (
+            np.array(
+                [-(self.mount_width - self.wall_thickness) / 2, 0, (self.mount_width - self.wall_thickness) / 2, 0]
+            )
+            + self.mount_location[1]
+        )
         r_vals = np.array([np.pi / 2, 0, -np.pi / 2, np.pi])
         for i, (x, y, r) in enumerate(zip(x_vals, y_vals, r_vals)):
             add_to_dict(
@@ -162,7 +157,7 @@ class StandWithMount(CompositeObject):
                 geom_quats=(1, 0, 0, 0),
                 geom_sizes=vis_geom_size,
                 geom_names="hole_vis",
-                geom_rgbas=(0., 1., 0., 0.5),
+                geom_rgbas=(0.0, 1.0, 0.0, 0.5),
                 geom_materials=None,
                 geom_frictions=self.friction,
                 obj_types="visual",
@@ -189,7 +184,6 @@ class StandWithMount(CompositeObject):
     def init_quat(self):
         """
         Optionally rotate the mount on its side so it is flat
-
         Returns:
             np.array: (x, y, z, w) quaternion orientation for this object
         """

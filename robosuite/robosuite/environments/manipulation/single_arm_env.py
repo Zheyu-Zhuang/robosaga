@@ -9,6 +9,7 @@ class SingleArmEnv(ManipulationEnv):
     """
     A manipulation environment intended for a single robot arm.
     """
+
     def _load_model(self):
         """
         Verifies correct robot model is loaded
@@ -16,8 +17,9 @@ class SingleArmEnv(ManipulationEnv):
         super()._load_model()
 
         # Verify the correct robot has been loaded
-        assert isinstance(self.robots[0], SingleArm), \
-            "Error: Expected one single-armed robot! Got {} type instead.".format(type(self.robots[0]))
+        assert isinstance(
+            self.robots[0], SingleArm
+        ), "Error: Expected one single-armed robot! Got {} type instead.".format(type(self.robots[0]))
 
     def _check_robot_configuration(self, robots):
         """
@@ -50,11 +52,12 @@ class SingleArmEnv(ManipulationEnv):
         Returns:
             np.array: (3,3) End Effector orientation matrix
         """
-        pf = self.robots[0].robot_model.naming_prefix
+        pf = self.robots[0].gripper.naming_prefix
+
         if self.env_configuration == "bimanual":
-            return np.array(self.sim.data.site_xmat[self.sim.model.site_name2id(pf + "right_ee")]).reshape(3, 3)
+            return np.array(self.sim.data.site_xmat[self.sim.model.site_name2id(pf + "right_grip_site")]).reshape(3, 3)
         else:
-            return np.array(self.sim.data.site_xmat[self.sim.model.site_name2id(pf + "ee")]).reshape(3, 3)
+            return np.array(self.sim.data.site_xmat[self.sim.model.site_name2id(pf + "grip_site")]).reshape(3, 3)
 
     @property
     def _eef_xquat(self):

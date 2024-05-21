@@ -1,30 +1,21 @@
 import numpy as np
 
-from robosuite.models.objects import CompositeObject
-from robosuite.utils.mjcf_utils import add_to_dict
-from robosuite.utils.mjcf_utils import CustomMaterial
 import robosuite.utils.transform_utils as T
+from robosuite.models.objects import CompositeObject
+from robosuite.utils.mjcf_utils import CustomMaterial, add_to_dict
 
 
 class Lid(CompositeObject):
     """
     Generates a square lid with a simple handle.
-
     Args:
         name (str): Name of this Lid object
-
         lid_size (3-array): (length, width, thickness) of lid
-
         handle_size (3-array): (thickness, length, height) of handle
-
         transparent (bool): If True, lid will be semi-translucent
-
         friction (3-array or None): If specified, sets friction values for this lid. None results in default values
-
         density (float): Density value to use for all geoms. Defaults to 1000
-
         use_texture (bool): If true, geoms will be defined by realistic textures and rgba values will be ignored
-
         rgba (4-array or None): If specified, sets rgba values for all geoms. None results in default values
     """
 
@@ -35,7 +26,7 @@ class Lid(CompositeObject):
         handle_size=(0.02, 0.08, 0.03),
         transparent=True,
         friction=None,
-        density=250.,
+        density=250.0,
         use_texture=True,
         rgba=(0.2, 0.1, 0.0, 1.0),
     ):
@@ -82,7 +73,6 @@ class Lid(CompositeObject):
     def _get_geom_attrs(self):
         """
         Creates geom elements that will be passed to superclass CompositeObject constructor
-
         Returns:
             dict: args to be used by CompositeObject to generate geoms
         """

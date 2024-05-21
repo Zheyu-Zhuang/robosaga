@@ -1,33 +1,23 @@
-from robosuite.models.objects import CompositeBodyObject, BoxObject, CylinderObject, HollowCylinderObject
 import numpy as np
 
+from robosuite.models.objects import BoxObject, CompositeBodyObject, CylinderObject, HollowCylinderObject
 from robosuite.utils.mjcf_utils import CustomMaterial
 
 
 class RatchetingWrenchObject(CompositeBodyObject):
     """
     A ratcheting wrench made out of mujoco primitives.
-
     Args:
         name (str): Name of this object
-
         handle_size ([float]): (L, W, H) half-sizes for the handle (center part of wrench)
-
         outer_radius_1 (float): Outer radius of first end of wrench
-
         inner_radius_1 (float): Inner radius of first end of wrench
-
         height_1 (float): Height of first end of wrench
-
         outer_radius_2 (float): Outer radius of second end of wrench
-
         inner_radius_2 (float): Inner radius of second end of wrench
-
         height_2 (float): Height of second end of wrench
-
         ngeoms (int): Number of box geoms used to approximate the ends of the wrench. Use
             more geoms to make the approximation better.
-
         grip_size ([float]): (R, H) radius and half-height for the box grip. Set to None
             to not add a grip.
     """
@@ -45,8 +35,8 @@ class RatchetingWrenchObject(CompositeBodyObject):
         ngeoms=8,
         grip_size=None,
         # rgba=None,
-        density=1000.,
-        solref=(0.02, 1.),
+        density=1000.0,
+        solref=(0.02, 1.0),
         solimp=(0.9, 0.95, 0.001),
         friction=None,
     ):
@@ -89,36 +79,40 @@ class RatchetingWrenchObject(CompositeBodyObject):
 
         # each end of the wrench is modeled by a hollow cylinder
         for i in range(2):
-            objects.append(HollowCylinderObject(
-                name=f"hole{i + 1}",
-                outer_radius=self.outer_radii[i],
-                inner_radius=self.inner_radii[i],
-                height=self.heights[i],
-                ngeoms=self.ngeoms,
+            objects.append(
+                HollowCylinderObject(
+                    name=f"hole{i + 1}",
+                    outer_radius=self.outer_radii[i],
+                    inner_radius=self.inner_radii[i],
+                    height=self.heights[i],
+                    ngeoms=self.ngeoms,
+                    rgba=None,
+                    material=wrench_mat,
+                    density=density,
+                    solref=solref,
+                    solimp=solimp,
+                    friction=friction,
+                    make_half=False,
+                )
+            )
+
+        # also add center box geom for handle
+        objects.append(
+            BoxObject(
+                name="handle",
+                size=handle_size,
                 rgba=None,
                 material=wrench_mat,
                 density=density,
                 solref=solref,
                 solimp=solimp,
                 friction=friction,
-                make_half=False,
-            ))
-
-        # also add center box geom for handle
-        objects.append(BoxObject(
-            name="handle",
-            size=handle_size,
-            rgba=None,
-            material=wrench_mat,
-            density=density,
-            solref=solref,
-            solimp=solimp,
-            friction=friction,
-        ))
+            )
+        )
 
         # Define positions (top-level body is centered at handle)
-        hole_1_box_geom_height = 2. * objects[0].unit_box_height
-        hole_2_box_geom_height = 2. * objects[1].unit_box_height
+        hole_1_box_geom_height = 2.0 * objects[0].unit_box_height
+        hole_2_box_geom_height = 2.0 * objects[1].unit_box_height
         positions = [
             # this computation ensures no gaps between the center bar geom and the two wrench holes at the end
             np.array([-handle_size[0] - self.outer_radii[0] + hole_1_box_geom_height, 0, 0]),
@@ -130,17 +124,19 @@ class RatchetingWrenchObject(CompositeBodyObject):
 
         # maybe add grip
         if self.grip_size is not None:
-            objects.append(BoxObject(
-                name="grip",
-                size=[self.grip_size[0], self.grip_size[0], self.grip_size[1]],
-                rgba=(0.13, 0.13, 0.13, 1.),
-                density=density,
-                solref=solref,
-                solimp=solimp,
-                friction=(1., 0.005, 0.0001), # use default friction
-            ))
+            objects.append(
+                BoxObject(
+                    name="grip",
+                    size=[self.grip_size[0], self.grip_size[0], self.grip_size[1]],
+                    rgba=(0.13, 0.13, 0.13, 1.0),
+                    density=density,
+                    solref=solref,
+                    solimp=solimp,
+                    friction=(1.0, 0.005, 0.0001),  # use default friction
+                )
+            )
             positions.append(np.zeros(3))
-            quats.append((np.sqrt(2) / 2., 0., np.sqrt(2) / 2., 0.)) # rotate 90 degrees about y-axis
+            quats.append((np.sqrt(2) / 2.0, 0.0, np.sqrt(2) / 2.0, 0.0))  # rotate 90 degrees about y-axis
             parents.append(None)
 
         # Run super init
@@ -150,5 +146,5 @@ class RatchetingWrenchObject(CompositeBodyObject):
             object_locations=positions,
             object_quats=quats,
             object_parents=parents,
-            joints=[dict(type="free", damping="0.0005")], # be consistent with round-nut.xml
+            joints=[dict(type="free", damping="0.0005")],  # be consistent with round-nut.xml
         )

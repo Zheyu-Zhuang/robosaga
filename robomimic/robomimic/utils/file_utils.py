@@ -17,7 +17,6 @@ from tqdm import tqdm
 import robomimic.utils.env_utils as EnvUtils
 import robomimic.utils.obs_utils as ObsUtils
 import robomimic.utils.torch_utils as TorchUtils
-from robomimic.algo import RolloutPolicy, algo_factory
 from robomimic.config import config_factory
 
 
@@ -122,12 +121,36 @@ def create_hdf5_filter_key(hdf5_path, demo_keys, key_name):
     return ep_lengths
 
 
-def get_env_metadata_from_dataset(dataset_path):
+def get_demos_for_filter_key(hdf5_path, filter_key):
+    """
+    Gets demo keys that correspond to a particular filter key.
+
+    Args:
+        hdf5_path (str): path to hdf5 file
+        filter_key (str): name of filter key
+
+    Returns:
+        demo_keys ([str]): list of demonstration keys that
+            correspond to this filter key. For example, ["demo_0",
+            "demo_1"].
+    """
+    f = h5py.File(hdf5_path, "r")
+    demo_keys = [elem.decode("utf-8") for elem in np.array(f["mask/{}".format(filter_key)][:])]
+    f.close()
+    return demo_keys
+
+
+def get_env_metadata_from_dataset(dataset_path, set_env_specific_obs_processors=True):
     """
     Retrieves env metadata from dataset.
 
     Args:
         dataset_path (str): path to dataset
+
+        set_env_specific_obs_processors (bool): environment might have custom rules for how to process
+            observations - if this flag is true, make sure ObsUtils will use these custom settings. This
+            is a good place to do this operation to make sure it happens before loading data, running a
+            trained model, etc.
 
     Returns:
         env_meta (dict): environment metadata. Contains 3 keys:
@@ -140,6 +163,9 @@ def get_env_metadata_from_dataset(dataset_path):
     f = h5py.File(dataset_path, "r")
     env_meta = json.loads(f["data"].attrs["env_args"])
     f.close()
+    if set_env_specific_obs_processors:
+        # handle env-specific custom observation processing logic
+        EnvUtils.set_env_specific_obs_processing(env_meta=env_meta)
     return env_meta
 
 
@@ -160,6 +186,7 @@ def get_shape_metadata_from_dataset(dataset_path, all_obs_keys=None, verbose=Fal
             :`'all_shapes'`: dictionary that maps observation key string to shape
             :`'all_obs_keys'`: list of all observation modalities used
             :`'use_images'`: bool, whether or not image modalities are present
+            :`'use_depths'`: bool, whether or not depth modalities are present
     """
 
     shape_meta = {}
@@ -195,6 +222,7 @@ def get_shape_metadata_from_dataset(dataset_path, all_obs_keys=None, verbose=Fal
     shape_meta["all_shapes"] = all_shapes
     shape_meta["all_obs_keys"] = all_obs_keys
     shape_meta["use_images"] = ObsUtils.has_modality("rgb", all_obs_keys)
+    shape_meta["use_depths"] = ObsUtils.has_modality("depth", all_obs_keys)
 
     return shape_meta
 
@@ -258,6 +286,105 @@ def algo_name_from_checkpoint(ckpt_path=None, ckpt_dict=None):
     return algo_name, ckpt_dict
 
 
+def update_config(cfg):
+    """
+    Updates the config for backwards-compatibility if it uses outdated configurations.
+
+    See https://github.com/ARISE-Initiative/robomimic/releases/tag/v0.2.0 for more info.
+
+    Args:
+        cfg (dict): Raw dictionary of config values
+    """
+    # Check if image modality is defined -- this means we're using an outdated config
+    # Note: There may be a nested hierarchy, so we possibly check all the nested obs cfgs which can include
+    # e.g. a planner and actor for HBC
+
+    def find_obs_dicts_recursively(dic):
+        dics = []
+        if "modalities" in dic:
+            dics.append(dic)
+        else:
+            for child_dic in dic.values():
+                dics += find_obs_dicts_recursively(child_dic)
+        return dics
+
+    obs_cfgs = find_obs_dicts_recursively(cfg["observation"])
+    for obs_cfg in obs_cfgs:
+        modalities = obs_cfg["modalities"]
+
+        found_img = False
+        for modality_group in ("obs", "subgoal", "goal"):
+            if modality_group in modalities:
+                img_modality = modalities[modality_group].pop("image", None)
+                if img_modality is not None:
+                    found_img = True
+                    modalities[modality_group]["rgb"] = img_modality
+
+        if found_img:
+            # Also need to map encoder kwargs correctly
+            old_encoder_cfg = obs_cfg.pop("encoder")
+
+            # Create new encoder entry for RGB
+            rgb_encoder_cfg = {
+                "core_class": "VisualCore",
+                "core_kwargs": {
+                    "backbone_kwargs": dict(),
+                    "pool_kwargs": dict(),
+                },
+                "obs_randomizer_class": None,
+                "obs_randomizer_kwargs": dict(),
+            }
+
+            if "visual_feature_dimension" in old_encoder_cfg:
+                rgb_encoder_cfg["core_kwargs"]["feature_dimension"] = old_encoder_cfg[
+                    "visual_feature_dimension"
+                ]
+
+            if "visual_core" in old_encoder_cfg:
+                rgb_encoder_cfg["core_kwargs"]["backbone_class"] = old_encoder_cfg["visual_core"]
+
+            for kwarg in ("pretrained", "input_coord_conv"):
+                if (
+                    "visual_core_kwargs" in old_encoder_cfg
+                    and kwarg in old_encoder_cfg["visual_core_kwargs"]
+                ):
+                    rgb_encoder_cfg["core_kwargs"]["backbone_kwargs"][kwarg] = old_encoder_cfg[
+                        "visual_core_kwargs"
+                    ][kwarg]
+
+            # Optionally add pooling info too
+            if old_encoder_cfg.get("use_spatial_softmax", True):
+                rgb_encoder_cfg["core_kwargs"]["pool_class"] = "SpatialSoftmax"
+
+            for kwarg in ("num_kp", "learnable_temperature", "temperature", "noise_std"):
+                if (
+                    "spatial_softmax_kwargs" in old_encoder_cfg
+                    and kwarg in old_encoder_cfg["spatial_softmax_kwargs"]
+                ):
+                    rgb_encoder_cfg["core_kwargs"]["pool_kwargs"][kwarg] = old_encoder_cfg[
+                        "spatial_softmax_kwargs"
+                    ][kwarg]
+
+            # Update obs randomizer as well
+            for kwarg in ("obs_randomizer_class", "obs_randomizer_kwargs"):
+                if kwarg in old_encoder_cfg:
+                    rgb_encoder_cfg[kwarg] = old_encoder_cfg[kwarg]
+
+            # Store rgb config
+            obs_cfg["encoder"] = {"rgb": rgb_encoder_cfg}
+
+            # Also add defaults for low dim
+            obs_cfg["encoder"]["low_dim"] = {
+                "core_class": None,
+                "core_kwargs": {
+                    "backbone_kwargs": dict(),
+                    "pool_kwargs": dict(),
+                },
+                "obs_randomizer_class": None,
+                "obs_randomizer_kwargs": dict(),
+            }
+
+
 def config_from_checkpoint(algo_name=None, ckpt_path=None, ckpt_dict=None, verbose=False):
     """
     Helper function to restore config from a checkpoint file or loaded model dictionary.
@@ -281,13 +408,15 @@ def config_from_checkpoint(algo_name=None, ckpt_path=None, ckpt_dict=None, verbo
     if algo_name is None:
         algo_name, _ = algo_name_from_checkpoint(ckpt_dict=ckpt_dict)
 
+    # restore config from loaded model dictionary
+    config_dict = json.loads(ckpt_dict["config"])
+    update_config(cfg=config_dict)
+
     if verbose:
         print("============= Loaded Config =============")
-        print(ckpt_dict["config"])
+        print(json.dumps(config_dict, indent=4))
 
-    # restore config from loaded model dictionary
-    config_json = ckpt_dict["config"]
-    config = config_factory(algo_name, dic=json.loads(config_json))
+    config = config_factory(algo_name, dic=config_dict)
 
     # lock config to prevent further modifications and ensure missing keys raise errors
     config.lock()
@@ -326,8 +455,7 @@ def policy_from_checkpoint(device=None, ckpt_path=None, ckpt_dict=None, verbose=
     # read config to set up metadata for observation modalities (e.g. detecting rgb observations)
     ObsUtils.initialize_obs_utils_with_config(config)
 
-    # env meta from model dict to get info needed to create model
-    env_meta = ckpt_dict["env_metadata"]
+    # shape meta from model dict to get info needed to create model
     shape_meta = ckpt_dict["shape_metadata"]
 
     # maybe restore observation normalization stats
@@ -395,16 +523,24 @@ def env_from_checkpoint(
     # metadata from model dict to get info needed to create environment
     env_meta = ckpt_dict["env_metadata"]
     shape_meta = ckpt_dict["shape_metadata"]
-    print(distractors)
+
     # create env from saved metadata
     env = EnvUtils.create_env_from_metadata(
         env_meta=env_meta,
+        env_name=env_name,
         render=render,
         render_offscreen=render_offscreen,
-        use_image_obs=shape_meta["use_images"],
+        use_image_obs=shape_meta.get("use_images", False),
+        use_depth_obs=shape_meta.get("use_depths", False),
         distractors=distractors,
         table_texture=table_texture,
     )
+    config, _ = config_from_checkpoint(
+        algo_name=ckpt_dict["algo_name"], ckpt_dict=ckpt_dict, verbose=False
+    )
+    env = EnvUtils.wrap_env_from_config(
+        env, config=config
+    )  # apply environment wrapper, if applicable
     if verbose:
         print("============= Loaded Environment =============")
         print(env)

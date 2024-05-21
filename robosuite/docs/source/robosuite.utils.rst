@@ -4,10 +4,26 @@ robosuite.utils package
 Submodules
 ----------
 
+robosuite.utils.binding\_utils module
+-------------------------------------
+
+.. automodule:: robosuite.utils.binding_utils
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 robosuite.utils.buffers module
 ------------------------------
 
 .. automodule:: robosuite.utils.buffers
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+robosuite.utils.camera\_utils module
+------------------------------------
+
+.. automodule:: robosuite.utils.camera_utils
    :members:
    :undoc-members:
    :show-inheritance:
@@ -36,10 +52,10 @@ robosuite.utils.input\_utils module
    :undoc-members:
    :show-inheritance:
 
-robosuite.utils.macros module
------------------------------
+robosuite.utils.log\_utils module
+---------------------------------
 
-.. automodule:: robosuite.utils.macros
+.. automodule:: robosuite.utils.log_utils
    :members:
    :undoc-members:
    :show-inheritance:
@@ -60,14 +76,6 @@ robosuite.utils.mjmod module
    :undoc-members:
    :show-inheritance:
 
-robosuite.utils.mujoco\_py\_renderer module
--------------------------------------------
-
-.. automodule:: robosuite.utils.mujoco_py_renderer
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 robosuite.utils.numba module
 ----------------------------
 
@@ -80,6 +88,14 @@ robosuite.utils.observables module
 ----------------------------------
 
 .. automodule:: robosuite.utils.observables
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+robosuite.utils.opencv\_renderer module
+---------------------------------------
+
+.. automodule:: robosuite.utils.opencv_renderer
    :members:
    :undoc-members:
    :show-inheritance:

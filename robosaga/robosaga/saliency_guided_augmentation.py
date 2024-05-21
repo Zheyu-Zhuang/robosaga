@@ -432,6 +432,7 @@ class SaliencyGuidedAugmentation:
             "update_ratio",
             "disable_buffer",
             "buffer_shape",
+            "buffer_depth",
             "backgrounds",
             "disable_during_training",
             "save_dir",

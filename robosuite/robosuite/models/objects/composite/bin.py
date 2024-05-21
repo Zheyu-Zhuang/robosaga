@@ -1,30 +1,21 @@
 import numpy as np
 
-from robosuite.models.objects import CompositeObject
-from robosuite.utils.mjcf_utils import add_to_dict
-from robosuite.utils.mjcf_utils import CustomMaterial
 import robosuite.utils.transform_utils as T
+from robosuite.models.objects import CompositeObject
+from robosuite.utils.mjcf_utils import CustomMaterial, add_to_dict
 
 
 class Bin(CompositeObject):
     """
     Generates a four-walled bin container with an open top.
-
     Args:
         name (str): Name of this Bin object
-
         bin_size (3-array): (x,y,z) full size of bin
-
         wall_thickness (float): How thick to make walls of bin
-
         transparent_walls (bool): If True, walls will be semi-translucent
-
         friction (3-array or None): If specified, sets friction values for this bin. None results in default values
-
         density (float): Density value to use for all geoms. Defaults to 1000
-
         use_texture (bool): If true, geoms will be defined by realistic textures and rgba values will be ignored
-
         rgba (4-array or None): If specified, sets rgba values for all geoms. None results in default values
     """
 
@@ -35,7 +26,7 @@ class Bin(CompositeObject):
         wall_thickness=0.01,
         transparent_walls=True,
         friction=None,
-        density=1000.,
+        density=1000.0,
         use_texture=True,
         rgba=(0.2, 0.1, 0.0, 1.0),
     ):
@@ -82,7 +73,6 @@ class Bin(CompositeObject):
     def _get_geom_attrs(self):
         """
         Creates geom elements that will be passed to superclass CompositeObject constructor
-
         Returns:
             dict: args to be used by CompositeObject to generate geoms
         """
@@ -102,8 +92,11 @@ class Bin(CompositeObject):
             geom_types="box",
             geom_locations=(0, 0, -(self.bin_size[2] - self.wall_thickness) / 2),
             geom_quats=(1, 0, 0, 0),
-            geom_sizes=(np.array((self.bin_size[0], self.bin_size[1], self.wall_thickness)) -
-                        np.array((self.wall_thickness, self.wall_thickness, 0))) / 2,
+            geom_sizes=(
+                np.array((self.bin_size[0], self.bin_size[1], self.wall_thickness))
+                - np.array((self.wall_thickness, self.wall_thickness, 0))
+            )
+            / 2,
             geom_names=self._base_geom,
             geom_rgbas=None if self.use_texture else self.rgba,
             geom_materials=self.bin_mat_name if self.use_texture else None,
@@ -111,10 +104,12 @@ class Bin(CompositeObject):
         )
 
         # Walls
-        x_vals = np.array([0, -(self.bin_size[0] - self.wall_thickness) / 2,
-                           0, (self.bin_size[0] - self.wall_thickness) / 2])
-        y_vals = np.array([-(self.bin_size[1] - self.wall_thickness) / 2, 0,
-                           (self.bin_size[1] - self.wall_thickness) / 2, 0])
+        x_vals = np.array(
+            [0, -(self.bin_size[0] - self.wall_thickness) / 2, 0, (self.bin_size[0] - self.wall_thickness) / 2]
+        )
+        y_vals = np.array(
+            [-(self.bin_size[1] - self.wall_thickness) / 2, 0, (self.bin_size[1] - self.wall_thickness) / 2, 0]
+        )
         w_vals = np.array([self.bin_size[0], self.bin_size[1], self.bin_size[0], self.bin_size[1]])
         r_vals = np.array([np.pi / 2, 0, -np.pi / 2, np.pi])
         if self.transparent_walls:

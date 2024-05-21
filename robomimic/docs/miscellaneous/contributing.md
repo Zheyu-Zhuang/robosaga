@@ -1,10 +1,8 @@
 # Contributing Guidelines
 
-We are so happy to see you reading this page!
-
 Our team wholeheartedly welcomes the community to contribute to robomimic. Contributions from members of the community will help ensure the long-term success of this project. Before you plan to make contributions, here are important resources to get started with:
 
-- Read the robomimic [documentation](https://arise-initiative.github.io/robomimic-web/docs/overview.html) and [paper](https://arxiv.org/abs/2108.03298)
+- Read the robomimic [documentation](https://robomimic.github.io/docs/introduction/overview.html) and [paper](https://arxiv.org/abs/2108.03298)
 - Check our latest status from existing [issues](https://github.com/ARISE-Initiative/robomimic/issues), [pull requests](https://github.com/ARISE-Initiative/robomimic/pulls), and [branches](https://github.com/ARISE-Initiative/robomimic/branches) and avoid duplicate efforts
 - Join our [ARISE Slack](https://ariseinitiative.slack.com) workspace for technical discussions. Please [email us](mailto:yukez@cs.utexas.edu) to be added to the workspace.
 
@@ -41,12 +39,13 @@ We value readability and adhere to the following coding conventions:
 
 We also list additional suggested contributing guidelines that we adhered to during development.
 
-- When creating new networks (e.g. subclasses of `Module` in `models/base_nets.py`), always sub-modules into a property called `self.nets`, and if there is more than one sub-module, make it a module collection (such as a `torch.nn.ModuleDict`). This is to ensure that the pattern `model.to(device)` works as expected with multiple levels of nested torch modules. As an example of nesting, see the `_create_networks` function in the `VAE` class (`models/vae_nets.py`) and the `MIMO_MLP` class (`models/obs_nets.py`).
+- When creating new networks (e.g. subclasses of `Module` in `models/base_nets.py`), always put sub-modules into a property called `self.nets`, and if there is more than one sub-module, make it a module collection (such as a `torch.nn.ModuleDict`). This is to ensure that the pattern `model.to(device)` works as expected with multiple levels of nested torch modules. As an example of nesting, see the `_create_networks` function in the `VAE` class (`models/vae_nets.py`) and the `MIMO_MLP` class (`models/obs_nets.py`).
 
 - Do not use default mutable arguments -- they can lead to terrible bugs and unexpected behavior (see [this link](https://florimond.dev/blog/articles/2018/08/python-mutable-defaults-are-the-source-of-all-evil/) for more information). For this reason, in functions that expect optional dictionaries and lists (for example, the `core_kwargs` argument in the  `obs_encoder_factory` function, or the `layer_dims` argument in the `MLP` class constructor), we use a default argument of `core_kwargs=None` or an empty tuple (since tuples are immutable) `layer_dims=()`.
 
 - Prefer `torch.expand` over `torch.repeat` wherever possible, for memory efficiency. See [this link](https://discuss.pytorch.org/t/expand-vs-repeat-semantic-difference/59789) for more details.
 
+- When implementing new configs that specify kwargs that will be unpacked by a downstream python class (for example, the property `self.observation.encoder.rgb.core_kwargs` in the `BaseConfig` class, which is fed to the class specified by `self.observation.encoder.rgb.core_class`), the default config class should specify an empty config object (essentially an empty dictionary) for the kwargs. This is to make sure that external config jsons will be able to completely override both the class and the kwargs without worrying about existing default kwargs that could break the initialization of the class. For example, while the default `VisualCore` class takes a kwarg called `feature_dimension`, another class may not take this argument. If this kwarg already existed in the base config, the external json will just add additional kwargs.
   
 
 We look forward to your contributions. Thanks!

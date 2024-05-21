@@ -1,25 +1,25 @@
 """
-A script to collect a batch of human demonstrations that can be used
-to generate a learning curriculum (see `demo_learning_curriculum.py`).
+A script to collect a batch of human demonstrations.
 
-The demonstrations can be played back using the `playback_demonstrations_from_pkl.py`
-script.
+The demonstrations can be played back using the `playback_demonstrations_from_hdf5.py` script.
 """
 
+import argparse
+import datetime
+import json
 import os
 import shutil
 import time
-import argparse
-import datetime
-import h5py
 from glob import glob
+
+import h5py
 import numpy as np
-import json
 
 import robosuite as suite
+import robosuite.macros as macros
 from robosuite import load_controller_config
-from robosuite.wrappers import DataCollectionWrapper, VisualizationWrapper
 from robosuite.utils.input_utils import input2action
+from robosuite.wrappers import DataCollectionWrapper, VisualizationWrapper
 
 
 def collect_human_trajectory(env, device, arm, env_configuration):
@@ -52,10 +52,7 @@ def collect_human_trajectory(env, device, arm, env_configuration):
 
         # Get the newest action
         action, grasp = input2action(
-            device=device,
-            robot=active_robot,
-            active_arm=arm,
-            env_configuration=env_configuration
+            device=device, robot=active_robot, active_arm=arm, env_configuration=env_configuration
         )
 
         # If action is none, then this a reset so we should break
@@ -106,7 +103,7 @@ def gather_demonstrations_as_hdf5(directory, out_dir, env_info):
 
     Args:
         directory (str): Path to the directory containing raw demonstrations.
-        out_dir (str): Path to where to store the hdf5 file. 
+        out_dir (str): Path to where to store the hdf5 file.
         env_info (str): JSON-encoded string containing environment information,
             including controller and robot info
     """
@@ -125,6 +122,7 @@ def gather_demonstrations_as_hdf5(directory, out_dir, env_info):
         state_paths = os.path.join(directory, ep_directory, "state_*.npz")
         states = []
         actions = []
+        success = False
 
         for state_file in sorted(glob(state_paths)):
             dic = np.load(state_file, allow_pickle=True)
@@ -133,28 +131,34 @@ def gather_demonstrations_as_hdf5(directory, out_dir, env_info):
             states.extend(dic["states"])
             for ai in dic["action_infos"]:
                 actions.append(ai["actions"])
-                
+            success = success or dic["successful"]
+
         if len(states) == 0:
             continue
 
-        # Delete the last state. This is because when the DataCollector wrapper
-        # recorded the states and actions, the states were recorded AFTER playing that action,
-        # so we end up with an extra state at the end.
-        del states[-1]
-        assert len(states) == len(actions)
+        # Add only the successful demonstration to dataset
+        if success:
+            print("Demonstration is successful and has been saved")
+            # Delete the last state. This is because when the DataCollector wrapper
+            # recorded the states and actions, the states were recorded AFTER playing that action,
+            # so we end up with an extra state at the end.
+            del states[-1]
+            assert len(states) == len(actions)
 
-        num_eps += 1
-        ep_data_grp = grp.create_group("demo_{}".format(num_eps))
+            num_eps += 1
+            ep_data_grp = grp.create_group("demo_{}".format(num_eps))
 
-        # store model xml as an attribute
-        xml_path = os.path.join(directory, ep_directory, "model.xml")
-        with open(xml_path, "r") as f:
-            xml_str = f.read()
-        ep_data_grp.attrs["model_file"] = xml_str
+            # store model xml as an attribute
+            xml_path = os.path.join(directory, ep_directory, "model.xml")
+            with open(xml_path, "r") as f:
+                xml_str = f.read()
+            ep_data_grp.attrs["model_file"] = xml_str
 
-        # write datasets for states and actions
-        ep_data_grp.create_dataset("states", data=np.array(states))
-        ep_data_grp.create_dataset("actions", data=np.array(actions))
+            # write datasets for states and actions
+            ep_data_grp.create_dataset("states", data=np.array(states))
+            ep_data_grp.create_dataset("actions", data=np.array(actions))
+        else:
+            print("Demonstration is unsuccessful and has NOT been saved")
 
     # write dataset attributes (metadata)
     now = datetime.datetime.now()
@@ -177,17 +181,18 @@ if __name__ == "__main__":
     )
     parser.add_argument("--environment", type=str, default="Lift")
     parser.add_argument("--robots", nargs="+", type=str, default="Panda", help="Which robot(s) to use in the env")
-    parser.add_argument("--config", type=str, default="single-arm-opposed",
-                        help="Specified environment configuration if necessary")
+    parser.add_argument(
+        "--config", type=str, default="single-arm-opposed", help="Specified environment configuration if necessary"
+    )
     parser.add_argument("--arm", type=str, default="right", help="Which arm to control (eg bimanual) 'right' or 'left'")
     parser.add_argument("--camera", type=str, default="agentview", help="Which camera to use for collecting demos")
-    parser.add_argument("--controller", type=str, default="OSC_POSE",
-                        help="Choice of controller. Can be 'IK_POSE' or 'OSC_POSE'")
+    parser.add_argument(
+        "--controller", type=str, default="OSC_POSE", help="Choice of controller. Can be 'IK_POSE' or 'OSC_POSE'"
+    )
     parser.add_argument("--device", type=str, default="keyboard")
     parser.add_argument("--pos-sensitivity", type=float, default=1.0, help="How much to scale position user inputs")
     parser.add_argument("--rot-sensitivity", type=float, default=1.0, help="How much to scale rotation user inputs")
     args = parser.parse_args()
-
 
     # Get controller config
     controller_config = load_controller_config(default_controller=args.controller)
@@ -230,17 +235,12 @@ if __name__ == "__main__":
         from robosuite.devices import Keyboard
 
         device = Keyboard(pos_sensitivity=args.pos_sensitivity, rot_sensitivity=args.rot_sensitivity)
-        env.viewer.add_keypress_callback("any", device.on_press)
-        env.viewer.add_keyup_callback("any", device.on_release)
-        env.viewer.add_keyrepeat_callback("any", device.on_press)
     elif args.device == "spacemouse":
         from robosuite.devices import SpaceMouse
 
         device = SpaceMouse(pos_sensitivity=args.pos_sensitivity, rot_sensitivity=args.rot_sensitivity)
     else:
-        raise Exception(
-            "Invalid device choice: choose either 'keyboard' or 'spacemouse'."
-        )
+        raise Exception("Invalid device choice: choose either 'keyboard' or 'spacemouse'.")
 
     # make a new timestamped directory
     t1, t2 = str(time.time()).split(".")

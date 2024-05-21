@@ -10,28 +10,30 @@ Example:
     $ python demo_sensor_corruption.py --environment Stack --robots Panda --delay 0.05 --corruption 5.0 --toggle-corruption-on-grasp
 """
 
-import sys
-import numpy as np
-import pygame
 import argparse
+import sys
+
+import cv2
+import numpy as np
 
 import robosuite as suite
 from robosuite import load_controller_config
 from robosuite.utils.input_utils import input2action
-from robosuite.utils.observables import create_uniform_sampled_delayer, create_gaussian_noise_corrupter, Observable
+from robosuite.utils.observables import Observable, create_gaussian_noise_corrupter, create_uniform_sampled_delayer
 from robosuite.wrappers import VisualizationWrapper
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--environment", type=str, default="Lift")
     parser.add_argument("--robots", nargs="+", type=str, default="Panda", help="Which robot(s) to use in the env")
-    parser.add_argument("--config", type=str, default="single-arm-opposed",
-                        help="Specified environment configuration if necessary")
-    parser.add_argument("--arm", type=str, default="right",
-                        help="Which arm to control (eg bimanual) 'right' or 'left'")
+    parser.add_argument(
+        "--config", type=str, default="single-arm-opposed", help="Specified environment configuration if necessary"
+    )
+    parser.add_argument("--arm", type=str, default="right", help="Which arm to control (eg bimanual) 'right' or 'left'")
     parser.add_argument("--switch-on-grasp", action="store_true", help="Switch gripper control on gripper action")
-    parser.add_argument("--toggle-corruption-on-grasp", action="store_true",
-                        help="Toggle corruption ON / OFF on gripper action")
+    parser.add_argument(
+        "--toggle-corruption-on-grasp", action="store_true", help="Toggle corruption ON / OFF on gripper action"
+    )
     parser.add_argument("--controller", type=str, default="osc", help="Choice of controller. Can be 'ik' or 'osc'")
     parser.add_argument("--device", type=str, default="keyboard")
     parser.add_argument("--pos-sensitivity", type=float, default=1.0, help="How much to scale position user inputs")
@@ -43,13 +45,11 @@ if __name__ == "__main__":
     parser.add_argument("--height", type=int, default=384)
     args = parser.parse_args()
 
-    screen = pygame.display.set_mode((args.width, args.height))
-
     # Import controller config for EE IK or OSC (pos/ori)
-    if args.controller == 'ik':
-        controller_name = 'IK_POSE'
-    elif args.controller == 'osc':
-        controller_name = 'OSC_POSE'
+    if args.controller == "ik":
+        controller_name = "IK_POSE"
+    elif args.controller == "osc":
+        controller_name = "OSC_POSE"
     else:
         print("Error: Unsupported controller specified. Must be either 'ik' or 'osc'!")
         raise ValueError
@@ -89,7 +89,7 @@ if __name__ == "__main__":
 
     # Set shared settings
     attributes = ["corrupter", "delayer", "sampling_rate"]
-    corruption_mode = 1     # 1 is corruption = ON, 0 is corruption = OFF
+    corruption_mode = 1  # 1 is corruption = ON, 0 is corruption = OFF
     obs_settings = {}
 
     # Function to easily modify observable on the fly
@@ -102,7 +102,7 @@ if __name__ == "__main__":
             )
 
     # Add image corruption and delay
-    image_sampling_rate = 10.
+    image_sampling_rate = 10.0
     image_obs_name = f"{args.camera}_image"
     image_corrupter = create_gaussian_noise_corrupter(mean=0.0, std=args.corruption, low=0, high=255)
     image_delayer = create_uniform_sampled_delayer(min_delay=max(0, args.delay - 0.025), max_delay=args.delay + 0.025)
@@ -114,18 +114,19 @@ if __name__ == "__main__":
     # Add entry for the corruption / delay settings in dict
     obs_settings[image_obs_name] = {
         "attrs": attributes[:2],
-        "mods": lambda: image_modifiers[:2] if corruption_mode else [None, None]
+        "mods": lambda: image_modifiers[:2] if corruption_mode else [None, None],
     }
 
     # Add proprioception corruption and delay
-    proprio_sampling_rate = 20.
+    proprio_sampling_rate = 20.0
     proprio_obs_name = f"{env.robots[0].robot_model.naming_prefix}joint_pos"
     joint_limits = env.sim.model.jnt_range[env.robots[0]._ref_joint_indexes]
     joint_range = joint_limits[:, 1] - joint_limits[:, 0]
-    proprio_corrupter = create_gaussian_noise_corrupter(mean=0.0, std=joint_range / 50.)
+    proprio_corrupter = create_gaussian_noise_corrupter(mean=0.0, std=joint_range / 50.0)
     curr_proprio_delay = 0.0
-    tmp_delayer = create_uniform_sampled_delayer(min_delay=max(0, (args.delay - 0.025) / 2),
-                                                 max_delay=(args.delay + 0.025) / 2)
+    tmp_delayer = create_uniform_sampled_delayer(
+        min_delay=max(0, (args.delay - 0.025) / 2), max_delay=(args.delay + 0.025) / 2
+    )
 
     # Define delayer to synchronize delay between ground truth and corrupted sensors
     def proprio_delayer():
@@ -163,34 +164,27 @@ if __name__ == "__main__":
     # Add entry for the corruption / delay settings in dict
     obs_settings[proprio_obs_name] = {
         "attrs": attributes[:2],
-        "mods": lambda: proprio_modifiers[:2] if corruption_mode else [None, None]
+        "mods": lambda: proprio_modifiers[:2] if corruption_mode else [None, None],
     }
     obs_settings[proprio_ground_truth_obs_name] = {
         "attrs": [attributes[1]],
-        "mods": lambda: [lambda: curr_proprio_delay] if corruption_mode else [None]
+        "mods": lambda: [lambda: curr_proprio_delay] if corruption_mode else [None],
     }
 
     # Setup printing options for numbers
-    np.set_printoptions(precision=3, suppress=True, floatmode='fixed')
+    np.set_printoptions(precision=3, suppress=True, floatmode="fixed")
 
     # initialize device
     if args.device == "keyboard":
         from robosuite.devices import Keyboard
 
         device = Keyboard(pos_sensitivity=args.pos_sensitivity, rot_sensitivity=args.rot_sensitivity)
-        # Define wrapper method for keyboard callback that only uses the key
-        pygame.key.set_repeat(20)
-        on_press = lambda key: device.on_press(None, ord(chr(key).capitalize()), None, None, None)
-        on_release = lambda key: device.on_release(None, ord(chr(key).capitalize()), None, None, None)
-
     elif args.device == "spacemouse":
         from robosuite.devices import SpaceMouse
 
         device = SpaceMouse(pos_sensitivity=args.pos_sensitivity, rot_sensitivity=args.rot_sensitivity)
     else:
-        raise Exception(
-            "Invalid device choice: choose either 'keyboard' or 'spacemouse'."
-        )
+        raise Exception("Invalid device choice: choose either 'keyboard' or 'spacemouse'.")
 
     while True:
         # Reset the environment
@@ -211,10 +205,7 @@ if __name__ == "__main__":
 
             # Get the newest action
             action, grasp = input2action(
-                device=device,
-                robot=active_robot,
-                active_arm=args.arm,
-                env_configuration=args.config
+                device=device, robot=active_robot, active_arm=args.arm, env_configuration=args.config
             )
 
             # If action is none, then this a reset so we should break
@@ -246,11 +237,13 @@ if __name__ == "__main__":
                     action = np.concatenate([rem_action, action])
                 else:
                     # Only right and left arms supported
-                    print("Error: Unsupported arm specified -- "
-                          "must be either 'right' or 'left'! Got: {}".format(args.arm))
+                    print(
+                        "Error: Unsupported arm specified -- "
+                        "must be either 'right' or 'left'! Got: {}".format(args.arm)
+                    )
             elif rem_action_dim < 0:
                 # We're in an environment with no gripper action space, so trim the action space to be the action dim
-                action = action[:env.action_dim]
+                action = action[: env.action_dim]
 
             # Step through the simulation and render
             obs, reward, done, info = env.step(action)
@@ -258,22 +251,14 @@ if __name__ == "__main__":
             # Calculate and print out stats for proprio observation
             observed_value = obs[proprio_obs_name]
             ground_truth_delayed_value = obs[proprio_ground_truth_obs_name]
-            print(f"Observed joint pos: {observed_value}, "
-                  f"Corruption: {observed_value - ground_truth_delayed_value}, "
-                  f"Delay: {calculate_proprio_delay():.3f} sec")
-
-            # Handle display callbacks
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    sys.exit()
-                # Handle keyboard events if appropriate
-                if args.device == "keyboard":
-                    if event.type == pygame.KEYDOWN:
-                        on_press(event.key)
-                    elif event.type == pygame.KEYUP:
-                        on_release(event.key)
+            print(
+                f"Observed joint pos: {observed_value}, "
+                f"Corruption: {observed_value - ground_truth_delayed_value}, "
+                f"Delay: {calculate_proprio_delay():.3f} sec"
+            )
 
             # read camera observation
-            im = np.flip(obs[args.camera + "_image"].transpose((1, 0, 2)), 1).astype(np.int)
-            pygame.pixelcopy.array_to_surface(screen, im)
-            pygame.display.update()
+            im = np.flip(obs[args.camera + "_image"][..., ::-1], 0).astype(np.uint8)
+
+            cv2.imshow("offscreen render", im)
+            cv2.waitKey(1)

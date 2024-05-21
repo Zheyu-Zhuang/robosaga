@@ -11,6 +11,7 @@ class Wrapper:
     Args:
         env (MujocoEnv): The environment to wrap.
     """
+
     def __init__(self, env):
         self.env = env
 
@@ -29,11 +30,7 @@ class Wrapper:
         while True:
             if isinstance(env, Wrapper):
                 if env.class_name() == self.class_name():
-                    raise Exception(
-                        "Attempted to double wrap with Wrapper: {}".format(
-                            self.__class__.__name__
-                        )
-                    )
+                    raise Exception("Attempted to double wrap with Wrapper: {}".format(self.__class__.__name__))
                 env = env.env
             else:
                 break
@@ -128,7 +125,8 @@ class Wrapper:
             def hooked(*args, **kwargs):
                 result = orig_attr(*args, **kwargs)
                 # prevent wrapped_class from becoming unwrapped
-                if result == self.env:
+                # NOTE: had to use "is" to prevent errors when returning numpy arrays from a wrapped method
+                if result is self.env:
                     return self
                 return result
 

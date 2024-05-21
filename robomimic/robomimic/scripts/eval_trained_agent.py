@@ -293,9 +293,9 @@ def run_trained_agent(args):
 
     rollout_stats = []
     pbar = tqdm(total=rollout_num_episodes)
-    # HACK: table_texture
 
-    texture_xml_path = "RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml"
+    # HACK: table_texture
+    texture_xml_path = "robosuite/robosuite/models/assets/arenas/pegs_arena.xml"
 
     texture_xml_path = os.path.join(os.path.expanduser("~"), texture_xml_path)
 

@@ -1,14 +1,14 @@
-from robosuite.models.objects import ObjectGroup, Bin, Lid
-import robosuite.utils.transform_utils as T
-import robosuite.utils.sim_utils as SU
 import numpy as np
+
+import robosuite.utils.sim_utils as SU
+import robosuite.utils.transform_utils as T
+from robosuite.models.objects import Bin, Lid, ObjectGroup
 
 
 class TransportGroup(ObjectGroup):
     """
     Group of objects that capture transporting a payload placed in a start bin to a target bin, while
     also requiring a piece of trash to be removed from the target bin
-
     Args:
         name (str): Name of that will the prepended to all geom bodies generated for this group
         payload (MujocoObject): Object that represents payload
@@ -23,9 +23,9 @@ class TransportGroup(ObjectGroup):
         self.bin_size = bin_size
 
         # Create bins and lid
-        self.start_bin = Bin(name=f"{name}_start_bin", bin_size=bin_size, density=10000.)
-        self.target_bin = Bin(name=f"{name}_target_bin", bin_size=bin_size, density=10000.)
-        self.trash_bin = Bin(name=f"{name}_trash_bin", bin_size=bin_size, density=10000.)
+        self.start_bin = Bin(name=f"{name}_start_bin", bin_size=bin_size, density=10000.0)
+        self.target_bin = Bin(name=f"{name}_target_bin", bin_size=bin_size, density=10000.0)
+        self.trash_bin = Bin(name=f"{name}_trash_bin", bin_size=bin_size, density=10000.0)
         self.lid = Lid(name=f"{name}_start_bin_lid", lid_size=(*bin_size[:2], 0.01))
 
         # Relevant geom ids
@@ -44,7 +44,6 @@ class TransportGroup(ObjectGroup):
         """
         Grabs all relevant information for this transport group. Returned dictionary maps keywords to corresponding
         values pulled from the current sim state.
-
         Returns:
             dict:
                 "lid_handle_pose": list of (pos, quat) of lid handle

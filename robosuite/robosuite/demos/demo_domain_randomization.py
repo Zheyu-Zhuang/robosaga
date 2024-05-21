@@ -2,7 +2,7 @@
 Script to showcase domain randomization functionality.
 """
 
-import robosuite.utils.macros as macros
+import robosuite.macros as macros
 from robosuite.controllers import load_controller_config
 from robosuite.utils.input_utils import *
 from robosuite.wrappers import DomainRandomizationWrapper
@@ -28,8 +28,8 @@ if __name__ == "__main__":
         options["env_configuration"] = choose_multi_arm_config()
 
         # If chosen configuration was bimanual, the corresponding robot must be Baxter. Else, have user choose robots
-        if options["env_configuration"] == 'bimanual':
-            options["robots"] = 'Baxter'
+        if options["env_configuration"] == "bimanual":
+            options["robots"] = "Baxter"
         else:
             options["robots"] = []
 
@@ -50,10 +50,6 @@ if __name__ == "__main__":
     # Load the desired controller
     options["controller_configs"] = load_controller_config(default_controller=controller_name)
 
-    # Help message to user
-    print()
-    print("Press \"H\" to show the viewer control panel.")
-
     # initialize the task
     env = suite.make(
         **options,
@@ -62,7 +58,7 @@ if __name__ == "__main__":
         ignore_done=True,
         use_camera_obs=False,
         control_freq=20,
-        hard_reset=False,   # TODO: Not setting this flag to False brings up a segfault on macos or glfw error on linux
+        hard_reset=False,  # TODO: Not setting this flag to False brings up a segfault on macos or glfw error on linux
     )
     env = DomainRandomizationWrapper(env)
     env.reset()

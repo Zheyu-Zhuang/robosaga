@@ -5,10 +5,13 @@ By default, this visualizes all sites possible for the environment. Visualizatio
 for a given environment can be found by calling `get_visualization_settings()`, and can
 be set individually by calling `set_visualization_setting(setting, visible)`.
 """
-import numpy as np
-from robosuite.wrappers import Wrapper
-from robosuite.utils.mjcf_utils import new_site, new_geom, new_body
+import xml.etree.ElementTree as ET
 from copy import deepcopy
+
+import numpy as np
+
+from robosuite.utils.mjcf_utils import new_body, new_geom, new_site
+from robosuite.wrappers import Wrapper
 
 DEFAULT_INDICATOR_SITE_CONFIG = {
     "type": "sphere",
@@ -42,6 +45,13 @@ class VisualizationWrapper(Wrapper):
                 http://www.mujoco.org/book/XMLreference.html#site for specific site attributes that can be specified.
         """
         super().__init__(env)
+
+        # Make sure that the environment is NOT using segmentation sensors, since we cannot use segmentation masks
+        # with visualization sites simultaneously
+        assert all(
+            seg is None for seg in env.camera_segmentations
+        ), "Cannot use camera segmentations with visualization wrapper!"
+
         # Standardize indicator configs
         self.indicator_configs = None
         if indicator_configs is not None:
@@ -61,7 +71,7 @@ class VisualizationWrapper(Wrapper):
         self._vis_settings = {vis: True for vis in self.env._visualizations}
 
         # Add the post-processor to make sure indicator objects get added to model before it's actually loaded in sim
-        self.env.set_model_postprocessor(postprocessor=self._add_indicators_to_model)
+        self.env.set_xml_processor(processor=self._add_indicators_to_model)
 
         # Conduct a (hard) reset to make sure visualization changes propagate
         reset_mode = self.env.hard_reset
@@ -76,8 +86,9 @@ class VisualizationWrapper(Wrapper):
         Returns:
             list: Indicator names for this environment.
         """
-        return [ind_config["name"] for ind_config in self.indicator_configs] if \
-            self.indicator_configs is not None else []
+        return (
+            [ind_config["name"] for ind_config in self.indicator_configs] if self.indicator_configs is not None else []
+        )
 
     def set_indicator_pos(self, indicator, pos):
         """
@@ -89,8 +100,9 @@ class VisualizationWrapper(Wrapper):
         """
         # Make sure indicator is valid
         indicator_names = set(self.get_indicator_names())
-        assert indicator in indicator_names, "Invalid indicator name specified. Valid options are {}, got {}".\
-            format(indicator_names, indicator)
+        assert indicator in indicator_names, "Invalid indicator name specified. Valid options are {}, got {}".format(
+            indicator_names, indicator
+        )
         # Set the specified indicator
         self.env.sim.model.body_pos[self.env.sim.model.body_name2id(indicator + "_body")] = np.array(pos)
 
@@ -111,8 +123,11 @@ class VisualizationWrapper(Wrapper):
             setting (str): Visualization keyword to set
             visible (bool): True if setting should be visualized.
         """
-        assert setting in self._vis_settings, "Invalid visualization setting specified. Valid options are {}, got {}".\
-            format(self._vis_settings.keys(), setting)
+        assert (
+            setting in self._vis_settings
+        ), "Invalid visualization setting specified. Valid options are {}, got {}".format(
+            self._vis_settings.keys(), setting
+        )
         self._vis_settings[setting] = visible
 
     def reset(self):
@@ -149,16 +164,23 @@ class VisualizationWrapper(Wrapper):
 
         return ret
 
-    def _add_indicators_to_model(self, model):
+    def _add_indicators_to_model(self, xml):
         """
         Adds indicators to the mujoco simulation model
 
         Args:
-            model (Task): Task instance including all mujoco models for the current simulation to be loaded
+            xml (string): MJCF model in xml format, for the current simulation to be loaded
         """
         if self.indicator_configs is not None:
+            root = ET.fromstring(xml)
+            worldbody = root.find("worldbody")
+
             for indicator_config in self.indicator_configs:
                 config = deepcopy(indicator_config)
                 indicator_body = new_body(name=config["name"] + "_body", pos=config.pop("pos", (0, 0, 0)))
                 indicator_body.append(new_site(**config))
-                model.worldbody.append(indicator_body)
+                worldbody.append(indicator_body)
+
+            xml = ET.tostring(root, encoding="utf8").decode("utf8")
+
+        return xml

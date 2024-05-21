@@ -9,6 +9,7 @@ class TwoArmEnv(ManipulationEnv):
     """
     A manipulation environment intended for two robot arms.
     """
+
     def _check_robot_configuration(self, robots):
         """
         Sanity check to make sure the inputted robots and configuration is acceptable
@@ -26,25 +27,28 @@ class TwoArmEnv(ManipulationEnv):
             # Specifically two robots should be inputted!
             is_bimanual = False
             if type(robots) is not list or len(robots) != 2:
-                raise ValueError("Error: Exactly two single-armed robots should be inputted "
-                                 "for this task configuration!")
+                raise ValueError(
+                    "Error: Exactly two single-armed robots should be inputted " "for this task configuration!"
+                )
         elif self.env_configuration == "bimanual":
             is_bimanual = True
             # Specifically one robot should be inputted!
             if type(robots) is list and len(robots) != 1:
-                raise ValueError("Error: Exactly one bimanual robot should be inputted "
-                                 "for this task configuration!")
+                raise ValueError("Error: Exactly one bimanual robot should be inputted " "for this task configuration!")
         else:
             # This is an unknown env configuration, print error
-            raise ValueError("Error: Unknown environment configuration received. Only 'bimanual',"
-                             "'single-arm-parallel', and 'single-arm-opposed' are supported. Got: {}"
-                             .format(self.env_configuration))
+            raise ValueError(
+                "Error: Unknown environment configuration received. Only 'bimanual',"
+                "'single-arm-parallel', and 'single-arm-opposed' are supported. Got: {}".format(self.env_configuration)
+            )
 
         # Lastly, check to make sure all inputted robot names are of their correct type (bimanual / not bimanual)
         for robot in robots:
             if check_bimanual(robot) != is_bimanual:
-                raise ValueError("Error: For {} configuration, expected bimanual check to return {}; "
-                                 "instead, got {}.".format(self.env_configuration, is_bimanual, check_bimanual(robot)))
+                raise ValueError(
+                    "Error: For {} configuration, expected bimanual check to return {}; "
+                    "instead, got {}.".format(self.env_configuration, is_bimanual, check_bimanual(robot))
+                )
 
     @property
     def _eef0_xpos(self):
@@ -82,11 +86,13 @@ class TwoArmEnv(ManipulationEnv):
         Returns:
             np.array: (3,3) orientation matrix for EEF0
         """
-        pf = self.robots[0].robot_model.naming_prefix
+        pf = self.robots[0].gripper.naming_prefix
+
         if self.env_configuration == "bimanual":
-            return np.array(self.sim.data.site_xmat[self.sim.model.site_name2id(pf + "right_ee")]).reshape(3, 3)
+            return np.array(self.sim.data.site_xmat[self.sim.model.site_name2id(pf + "right_grip_site")]).reshape(3, 3)
+
         else:
-            return np.array(self.sim.data.site_xmat[self.sim.model.site_name2id(pf + "ee")]).reshape(3, 3)
+            return np.array(self.sim.data.site_xmat[self.sim.model.site_name2id(pf + "grip_site")]).reshape(3, 3)
 
     @property
     def _eef1_xmat(self):
@@ -99,11 +105,11 @@ class TwoArmEnv(ManipulationEnv):
             np.array: (3,3) orientation matrix for EEF1
         """
         if self.env_configuration == "bimanual":
-            pf = self.robots[0].robot_model.naming_prefix
-            return np.array(self.sim.data.site_xmat[self.sim.model.site_name2id(pf + "left_ee")]).reshape(3, 3)
+            pf = self.robots[0].gripper.naming_prefix
+            return np.array(self.sim.data.site_xmat[self.sim.model.site_name2id(pf + "left_grip_site")]).reshape(3, 3)
         else:
-            pf = self.robots[1].robot_model.naming_prefix
-            return np.array(self.sim.data.site_xmat[self.sim.model.site_name2id(pf + "ee")]).reshape(3, 3)
+            pf = self.robots[1].gripper.naming_prefix
+            return np.array(self.sim.data.site_xmat[self.sim.model.site_name2id(pf + "grip_site")]).reshape(3, 3)
 
     @property
     def _eef0_xquat(self):
