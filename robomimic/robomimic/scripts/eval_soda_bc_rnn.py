@@ -2,13 +2,16 @@ import os
 
 import numpy as np
 
-experiment_path = "../experiments/robosaga/robomimic/bc_rnn/bc_rnn_square_ph_saga_mixup_0.5_aug_0.5_clip/20240520204616/models"
+experiment_path = (
+    "../experiments/robosaga/robomimic/saga_bc_rnn_square_ph_image_soda/20240520224952/models"
+)
+print(experiment_path)
 
 
 checkpoints = {
-    "280": 0.82,
-    "460": 0.84,
-    "540": 0.84,
+    "120": 0.76,
+    "400": 0.80,
+    "560": 0.80,
 }
 
 
