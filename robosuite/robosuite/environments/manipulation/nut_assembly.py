@@ -460,7 +460,7 @@ class NutAssembly(SingleArmEnv):
                     ensure_valid_placement=True,
                     reference_pos=self.table_offset,
                     z_offset=0.05,
-                    change_of_hidden=0.5,
+                    chance_of_hidden=0.5,
                 )
             )
 

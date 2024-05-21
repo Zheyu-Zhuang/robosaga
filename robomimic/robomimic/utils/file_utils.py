@@ -359,6 +359,7 @@ def policy_from_checkpoint(device=None, ckpt_path=None, ckpt_dict=None, verbose=
     return model, ckpt_dict
 
 
+# SaGA Modifications: to include distractors and  textures
 def env_from_checkpoint(
     ckpt_path=None,
     ckpt_dict=None,

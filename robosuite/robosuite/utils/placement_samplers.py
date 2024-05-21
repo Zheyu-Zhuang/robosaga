@@ -143,13 +143,13 @@ class UniformRandomSampler(ObjectPositionSampler):
         ensure_valid_placement=True,
         reference_pos=(0, 0, 0),
         z_offset=0.0,
-        change_of_hidden=0,
+        chance_of_hidden=0,
     ):
         self.x_range = x_range
         self.y_range = y_range
         self.rotation = rotation
         self.rotation_axis = rotation_axis
-        self.change_of_hidden = change_of_hidden
+        self.chance_of_hidden = chance_of_hidden
         super().__init__(
             name=name,
             mujoco_objects=mujoco_objects,
@@ -283,7 +283,7 @@ class UniformRandomSampler(ObjectPositionSampler):
             for i in range(5000):  # 5000 retries
                 object_x = self._sample_x(horizontal_radius) + base_offset[0]
                 object_y = self._sample_y(horizontal_radius) + base_offset[1]
-                if np.random.uniform(0, 1) < self.change_of_hidden:
+                if np.random.uniform(0, 1) < self.chance_of_hidden:
                     object_x = -10
                     object_y = -10
                 object_z = self.z_offset + base_offset[2]
