@@ -15,6 +15,7 @@ import wandb.sdk.data_types.video as wv
 import robomimic.utils.env_utils as EnvUtils
 import robomimic.utils.file_utils as FileUtils
 import robomimic.utils.obs_utils as ObsUtils
+import robosuite
 from diffusion_policy.common.pytorch_util import dict_apply
 from diffusion_policy.env.robomimic.robomimic_image_wrapper import RobomimicImageWrapper
 from diffusion_policy.env_runner.base_image_runner import BaseImageRunner
@@ -27,7 +28,7 @@ from diffusion_policy.gym_util.video_recording_wrapper import (
 )
 from diffusion_policy.model.common.rotation_transformer import RotationTransformer
 from diffusion_policy.policy.base_image_policy import BaseImagePolicy
-import robosuite
+
 
 def create_env(env_meta, shape_meta, enable_render=True, distractors=None, table_texture=None):
     modality_mapping = collections.defaultdict(list)
@@ -83,7 +84,8 @@ class RobomimicImageRunner(BaseImageRunner):
         def get_table_texture_paths(texture_category):
             if texture_category is None:
                 return None
-            texture_dir = os.path.join(robosuite.models.assets_root,
+            texture_dir = os.path.join(
+                robosuite.models.assets_root,
                 "textures/evaluation_textures",
             )
             texture_dir = os.path.join(texture_dir, texture_category)
@@ -255,8 +257,8 @@ class RobomimicImageRunner(BaseImageRunner):
             env_prefixs.append("test/")
             env_init_fn_dills.append(dill.dumps(init_fn))
 
-        env = AsyncVectorEnv(env_fns, dummy_env_fn=dummy_env_fn)
-        # env = SyncVectorEnv(env_fns)
+        # env = AsyncVectorEnv(env_fns, dummy_env_fn=dummy_env_fn)
+        env = SyncVectorEnv(env_fns)
 
         self.env_meta = env_meta
         self.env = env

@@ -36,7 +36,7 @@ from diffusion_policy.workspace.base_workspace import BaseWorkspace
 OmegaConf.register_new_resolver("eval", eval, replace=True)
 
 
-class TrainDiffusionUnetHybridWorkspace(BaseWorkspace):
+class TrainDiffusionUnetHybridWorkspaceSaGA(BaseWorkspace):
     include_keys = ["global_step", "epoch"]
 
     def __init__(self, cfg: OmegaConf, output_dir=None):

@@ -17,6 +17,7 @@ from tqdm import tqdm
 import robomimic.utils.env_utils as EnvUtils
 import robomimic.utils.obs_utils as ObsUtils
 import robomimic.utils.torch_utils as TorchUtils
+from robomimic.algo import RolloutPolicy, algo_factory
 from robomimic.config import config_factory
 
 

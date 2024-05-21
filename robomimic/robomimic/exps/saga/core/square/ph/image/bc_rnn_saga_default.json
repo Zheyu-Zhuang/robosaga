@@ -47,7 +47,7 @@
         "aug_obs_pairs": false
     },
     "train": {
-        "data": "data/mimicgen/square_d0.hdf5",
+        "data": "data/mimicgen/square_d0_200_demos.hdf5",
         "output_dir": "experiments/robosaga/robomimic/bc_rnn/mimicgen",
         "num_data_workers": 16,
         "hdf5_cache_mode": "low_dim",

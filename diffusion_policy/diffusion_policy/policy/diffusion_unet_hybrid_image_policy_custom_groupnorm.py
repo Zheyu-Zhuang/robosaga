@@ -8,7 +8,7 @@ from diffusers.schedulers.scheduling_ddpm import DDPMScheduler
 from einops import rearrange, reduce
 
 import diffusion_policy.model.vision.crop_randomizer as dmvc
-import robomimic.models.base_nets as rmbn
+import robomimic.models.obs_core as rmoc
 import robomimic.utils.obs_utils as ObsUtils
 from diffusion_policy.common.pytorch_util import dict_apply, replace_submodules
 from diffusion_policy.common.robomimic_config_util import get_robomimic_config
@@ -113,7 +113,7 @@ class DiffusionUnetHybridImagePolicy(BaseImagePolicy):
         if eval_fixed_crop:
             replace_submodules(
                 root_module=obs_encoder,
-                predicate=lambda x: isinstance(x, rmbn.CropRandomizer),
+                predicate=lambda x: isinstance(x, rmoc.CropRandomizer),
                 func=lambda x: dmvc.CropRandomizer(
                     input_shape=x.input_shape,
                     crop_height=x.crop_height,

@@ -67,7 +67,7 @@ import torch
 from tqdm import tqdm
 
 import diffusion_policy.model.vision.crop_randomizer as dmvc
-import robomimic.models.base_nets as rmbn
+import robomimic.models.obs_core as rmoc
 import robomimic.utils.file_utils as FileUtils
 import robomimic.utils.obs_utils as ObsUtils
 import robomimic.utils.tensor_utils as TensorUtils
@@ -245,7 +245,7 @@ def run_trained_agent(args):
 
     replace_submodules(
         root_module=policy.policy.nets["policy"].nets["encoder"].nets["obs"],
-        predicate=lambda x: isinstance(x, rmbn.CropRandomizer),
+        predicate=lambda x: isinstance(x, rmoc.CropRandomizer),
         func=lambda x: dmvc.CropRandomizer(
             input_shape=x.input_shape,
             crop_height=x.crop_height,
