@@ -9,15 +9,9 @@ print(experiment_path)
 
 
 checkpoints = {
-<<<<<<<< HEAD:robomimic/robomimic/scripts/eval_saga_bc_rnn.py
-    "280": 0.82,
-    "460": 0.84,
-    "540": 0.84,
-========
     "100": 0.82,
     "400": 0.82,
     "260": 0.74,
->>>>>>>> 8d78215 (added eval):robomimic/robomimic/scripts/eval_overaly_rnn.py
 }
 
 
