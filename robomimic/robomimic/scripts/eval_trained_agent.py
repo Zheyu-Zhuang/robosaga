@@ -240,7 +240,7 @@ def run_trained_agent(args):
 
     # restore policy
     policy, ckpt_dict = FileUtils.policy_from_checkpoint(
-        ckpt_path=ckpt_path, device=device, verbose=True
+        ckpt_path=ckpt_path, device=device, verbose=False
     )
 
     replace_submodules(
@@ -269,7 +269,7 @@ def run_trained_agent(args):
         env_name=args.env,
         render=args.render,
         render_offscreen=(args.video_path is not None),
-        verbose=True,
+        verbose=False,
         distractors=args.distractors,
         table_texture=args.table_texture,
     )
@@ -300,7 +300,8 @@ def run_trained_agent(args):
     texture_xml_path = os.path.join(os.path.expanduser("~"), texture_xml_path)
 
     backup_texture_xml_path = texture_xml_path + ".bak"
-    shutil.copy(texture_xml_path, backup_texture_xml_path)
+    if not os.path.exists(backup_texture_xml_path):
+        shutil.copy(texture_xml_path, backup_texture_xml_path)
 
     table_texture_paths = get_table_texture_paths(args.texture_category, rollout_num_episodes)
 
@@ -350,7 +351,7 @@ def run_trained_agent(args):
     rollout_stats = TensorUtils.list_of_flat_dict_to_dict_of_list(rollout_stats)
     avg_rollout_stats = {k: np.mean(rollout_stats[k]) for k in rollout_stats}
     avg_rollout_stats["Num_Success"] = np.sum(rollout_stats["Success_Rate"])
-    print("Average Rollout Stats")
+    print(f"Average Rollout Stats for {ckpt_path}:")
     print(json.dumps(avg_rollout_stats, indent=4))
 
     shutil.copyfile(backup_texture_xml_path, texture_xml_path)

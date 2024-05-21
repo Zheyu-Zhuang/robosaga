@@ -40,13 +40,11 @@ class SODA:
     #                         Training Specific Functions                         #
     # --------------------------------------------------------------------------- #
 
-    def ema_update(self):
+    def ema_update(self, m=0.995):
         with torch.no_grad():
             for p, ema_p in zip(self.encoder.parameters(), self.ema_encoder.parameters()):
-                m = 0.995
                 ema_p.data.mul_(m).add_((1 - m) * p.data)
             for p, ema_p in zip(self.proj.parameters(), self.ema_proj.parameters()):
-                m = 0.995
                 ema_p.data.mul_(m).add_((1 - m) * p.data)
 
     # the main function to be called for data augmentation
@@ -61,9 +59,9 @@ class SODA:
             bg = obs_meta["randomisers"][i].forward_in(self.background_images[rand_bg_idx])
             bg = self.normalizer[obs_key].normalize(bg) if self.normalizer is not None else bg
             aug_im = im * self.blend_factor + bg * (1 - self.blend_factor)
+            vec.append(self.encoder.obs_nets[obs_key](aug_im))
             with torch.no_grad():
                 vec_ema.append(self.ema_encoder.obs_nets[obs_key](im))
-            vec.append(self.encoder.obs_nets[obs_key](aug_im))
         with torch.no_grad():
             proj_vec_ema = self.ema_proj(torch.cat(vec_ema, dim=1))
             proj_vec_ema = F.normalize(proj_vec_ema, p=2, dim=1)
