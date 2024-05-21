@@ -9,7 +9,6 @@ _target_: diffusion_policy.workspace.train_diffusion_unet_hybrid_workspace.Train
 
 task_name: ${task.name}
 shape_meta: ${task.shape_meta}
-exp_name: "default"
 
 horizon: 16
 n_obs_steps: 2
