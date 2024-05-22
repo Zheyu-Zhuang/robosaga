@@ -1,11 +1,11 @@
 defaults:
   - _self_
-  - task: square_image
+  - task: square_image_d0
 
 name: train_diffusion_unet_hybrid
-exp_name: "simple_overlay"
+exp_name: "overlay"
 
-_target_: diffusion_policy.workspace.train_saga_diffusion_unet_hybrid_workspace.TrainDiffusionUnetHybridWorkspace
+_target_: diffusion_policy.workspace.train_saga_diffusion_unet_hybrid_workspace.TrainDiffusionUnetHybridWorkspaceSaGA
 
 task_name: ${task.name}
 shape_meta: ${task.shape_meta}
@@ -36,7 +36,7 @@ saliency:
   buffer_shape: [84, 84]
   save_dir: ""
   save_debug_im_every_n_batches: 5
-  background_path: ../data/robomimic/coco_5k_84x84/
+  background_path: ../data/coco_5k_84x84/
   disable_during_training: False
   augment_obs_pairs: False
 # ---------------------------------------------------------------------------- #
@@ -113,7 +113,7 @@ training:
   # optimization
   lr_scheduler: cosine
   lr_warmup_steps: 500
-  num_epochs: 3050
+  num_epochs: 600
   gradient_accumulate_every: 1
   # EMA destroys performance when used with BatchNorm
   # replace BatchNorm with GroupNorm.

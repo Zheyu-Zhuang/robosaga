@@ -1,11 +1,11 @@
 defaults:
   - _self_
-  - task: square_image
+  - task: square_image_d0
 
 name: train_diffusion_unet_hybrid
-exp_name: "soda_default"
+exp_name: "saga"
 
-_target_: diffusion_policy.workspace.train_diffusion_unet_hybrid_workspace.TrainDiffusionUnetHybridWorkspace
+_target_: diffusion_policy.workspace.train_saga_diffusion_unet_hybrid_workspace.TrainDiffusionUnetHybridWorkspaceSaGA
 
 task_name: ${task.name}
 shape_meta: ${task.shape_meta}
@@ -25,16 +25,24 @@ use_ema: True
 normalize_obs: True
 group_norm:
   enable: True
-  return_fullgrad_bias: False
+  return_fullgrad_bias: True
 
 
-soda:
-  background_path: ../data/robomimic/coco_5k_84x84/
-
+saliency:
+  update_ratio: 0.1  # update 10% of the buffer per training batch
+  aug_ratio: 0.5  # 50% of the time, use augmented data
+  debug_vis: False
+  debug_save: True
+  buffer_shape: [84, 84]
+  save_dir: ""
+  save_debug_im_every_n_batches: 5
+  background_path: ../data/coco_5k_84x84/
+  disable_during_training: False
+  augment_obs_pairs: False
 # ---------------------------------------------------------------------------- #
 
 policy:
-  _target_: diffusion_policy.policy.diffusion_unet_hybrid_image_policy_soda.DiffusionUnetHybridImagePolicySODA
+  _target_: diffusion_policy.policy.diffusion_unet_hybrid_image_policy_saga.DiffusionUnetHybridImagePolicySaGA
 
   shape_meta: ${shape_meta}
   
@@ -63,7 +71,7 @@ policy:
   normalize_obs: ${normalize_obs}
   eval_fixed_crop: True
   group_norm: ${group_norm}
-  soda_config: ${soda}
+  saliency_config: ${saliency}
 
   # scheduler.step params
   # predict_epsilon: True
@@ -105,7 +113,7 @@ training:
   # optimization
   lr_scheduler: cosine
   lr_warmup_steps: 500
-  num_epochs: 3050
+  num_epochs: 600
   gradient_accumulate_every: 1
   # EMA destroys performance when used with BatchNorm
   # replace BatchNorm with GroupNorm.

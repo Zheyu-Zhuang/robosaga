@@ -3,7 +3,7 @@ defaults:
   - task: square_image_d0
 
 name: train_diffusion_unet_hybrid
-exp_name: "square_d0_baseline"
+exp_name: "baseline"
 
 _target_: diffusion_policy.workspace.train_diffusion_unet_hybrid_workspace.TrainDiffusionUnetHybridWorkspace
 
@@ -89,7 +89,7 @@ training:
   # optimization
   lr_scheduler: cosine
   lr_warmup_steps: 500
-  num_epochs: 3050
+  num_epochs: 600
   gradient_accumulate_every: 1
   # EMA destroys performance when used with BatchNorm
   # replace BatchNorm with GroupNorm.
