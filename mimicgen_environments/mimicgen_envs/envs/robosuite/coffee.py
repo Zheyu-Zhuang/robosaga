@@ -169,6 +169,8 @@ class Coffee(SingleArmEnv_MG):
         camera_segmentations=None,  # {None, instance, class, element}
         renderer="mujoco",
         renderer_config=None,
+        distractors = None,
+        table_texture = None
     ):
         # settings for table top
         self.table_full_size = table_full_size

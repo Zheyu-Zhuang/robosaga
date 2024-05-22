@@ -107,11 +107,11 @@ training:
   tqdm_interval_sec: 1.0
 
 logging:
-  project: saga
+  project: {task_name}
   resume: True
   mode: online
-  name: ${now:%Y.%m.%d-%H.%M.%S}_${name}_original_dp
-  tags: ["${name}", "${task_name}", "${exp_name}"]
+  name: ${now:%Y.%m.%d-%H.%M.%S}_${exp_name}
+  tags: ["${task_name}", "${exp_name}"]
   id: null
   group: null
 
