@@ -1,6 +1,6 @@
 defaults:
   - _self_
-  - task: square_image_d0
+  - task: coffee_image_d0
 
 name: train_diffusion_unet_hybrid
 exp_name: "baseline"
@@ -107,7 +107,7 @@ training:
   tqdm_interval_sec: 1.0
 
 logging:
-  project: diffusion_policy_baseline
+  project: saga
   resume: True
   mode: online
   name: ${now:%Y.%m.%d-%H.%M.%S}_${name}_original_dp

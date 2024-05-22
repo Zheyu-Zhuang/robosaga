@@ -1,6 +1,6 @@
 defaults:
   - _self_
-  - task: square_image_d0
+  - task: coffee_image_d0
 
 name: train_diffusion_unet_hybrid
 exp_name: "overlay"
