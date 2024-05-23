@@ -278,7 +278,7 @@ def run_trained_agent(args):
         verbose=False,
         distractors=args.distractors,
         table_texture=args.table_texture,
-        env_id = args.env_id
+        env_id=args.env_id,
     )
 
     # maybe set seed
@@ -302,23 +302,14 @@ def run_trained_agent(args):
     pbar = tqdm(total=rollout_num_episodes)
 
     # HACK: table_texture replacement
-    env_name = ckpt_dict["env_metadata"]["env_name"]
-    if env_name == "NutAssembly":
-        texture_xml_path = "robosuite/models/assets/arenas/pegs_arena.xml"
-    elif env_name == "Lift":
-        texture_xml_path = f"robosuite/models/assets/arenas/table_arena.xml"
 
-    texture_xml_path = os.path.join(get_robosuite_path(), texture_xml_path)
-
-    backup_texture_xml_path = texture_xml_path + ".bak"
-    if not os.path.exists(backup_texture_xml_path):
-        shutil.copy(texture_xml_path, backup_texture_xml_path)
+    xml_path = env.env.xml
 
     table_texture_paths = get_table_texture_paths(args.texture_category, rollout_num_episodes)
 
     for i in range(pbar.total):
         if table_texture_paths is not None:
-            replace_table_texture(texture_xml_path, table_texture_paths[i])
+            replace_table_texture(xml_path, table_texture_paths[i])
         stats, traj = rollout(
             policy=policy,
             env=env,
@@ -364,8 +355,6 @@ def run_trained_agent(args):
     avg_rollout_stats["Num_Success"] = np.sum(rollout_stats["Success_Rate"])
     print(f"Average Rollout Stats for {ckpt_path}:")
     print(json.dumps(avg_rollout_stats, indent=4))
-
-    shutil.copyfile(backup_texture_xml_path, texture_xml_path)
 
     if write_video:
         video_writer.close()
@@ -478,9 +467,8 @@ if __name__ == "__main__":
     )
 
     parser.add_argument("--texture_category", type=str, default=None)
-    
-    
-    parser.add_argument("--env_id", type=str, default=None) 
+
+    parser.add_argument("--env_id", type=str, default=None)
 
     args = parser.parse_args()
     run_trained_agent(args)

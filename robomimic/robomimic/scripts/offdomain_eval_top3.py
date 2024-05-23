@@ -1,3 +1,4 @@
+import concurrent.futures
 import os
 import re
 import subprocess
@@ -7,48 +8,57 @@ import numpy as np
 from robomimic.utils.eval_utils import get_top_n_experiments
 
 
-def run_script(script_name, script_args, output_file):
-    """
-    Runs a python script with arguments in argparse format and writes its output to a specified file.
-    """
-    with open(output_file, "a") as f:  # Append mode to add outputs sequentially
-        # Create the command with script and its arguments
-        command = ["python", script_name] + script_args
+def run_script(script_name, script_args):
+    command = ["python", script_name] + script_args
+    process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+    output, errors = process.communicate()
+    return script_name, script_args, output, errors
 
-        # Execute the script and capture the output
-        process = subprocess.Popen(
-            command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True
-        )
-        # Get the output and errors
-        output, errors = process.communicate()
 
-        # Write the outputs to the file
-        f.write(f"Output from {script_name} with arguments {' '.join(script_args)}:\n{output}\n")
-        # if errors:
-        #     f.write(
-        #         f"Errors from {script_name} with arguments {' '.join(script_args)}:\n{errors}\n"
-        #     )
+def run_scripts_in_parallel(scripts_with_args, output_file):
 
-        # Print the output and errors to the terminal
-        print(f"Output from {script_name} with arguments {' '.join(script_args)}:\n{output}\n")
+    with concurrent.futures.ProcessPoolExecutor() as executor:
+        futures = [
+            executor.submit(run_script, script_name, script_args)
+            for script_name, script_args in scripts_with_args
+        ]
+
+    with open(output_file, "a") as f:
+        for future in concurrent.futures.as_completed(futures):
+            script_name, script_args, output, errors = future.result()
+            f.write(
+                f"Output from {script_name} with arguments {' '.join(script_args)}:\n{output}\n"
+            )
+            print(f"Output from {script_name} with arguments {' '.join(script_args)}:\n{output}\n")
 
 
 def extract_success_rates(file_path):
-    # Pattern to match JSON blocks and extract Success_Rate
     pattern = r'"Success_Rate": ([\d\.]+)'
-
     success_rates = []
-
     with open(file_path, "r") as file:
         content = file.read()
-        # Find all occurrences of the pattern
         matches = re.findall(pattern, content)
-
-        # Collect all success rates
         for match in matches:
             success_rates.append(float(match))
-
     return success_rates
+
+
+def get_results_string(output_file, top_n_success_rate, offdomain_type):
+    success_rates = extract_success_rates(output_file)
+    indomain_ssr_mean = np.around(np.mean(top_n_success_rate), 2)
+    indomain_ssr_std = np.around(np.std(top_n_success_rate), 2)
+    offdomain_ssr_mean = np.around(np.mean(success_rates), 2)
+    offdomain_ssr_std = np.around(np.std(success_rates), 2)
+
+    results_string = (
+        f"\n===== Results for {args.exp_path} =====\n"
+        f"Indomain: {top_n_success_rate}, {indomain_ssr_mean} +/- {indomain_ssr_std}\n"
+        f"  data: {top_n_success_rate}\n"
+        f"Off-domain for {offdomain_type}: {offdomain_ssr_mean} +/- {offdomain_ssr_std}\n"
+        f"   data: {success_rates}\n"
+    )
+
+    return results_string
 
 
 if __name__ == "__main__":
@@ -57,29 +67,36 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser()
     parser.add_argument("-e", "--exp_path", type=str, default=None, required=True)
+    parser.add_argument("-m", "--mode", help="type of offdomain evaluation", required=True)
     parser.add_argument("--top_n", type=int, default=3)
-    parser.add_argument("--texture", type=str)
     parser.add_argument("--n_rollouts", type=int, default=50)
-    parser.add_argument(
-        "--distractors", type=str, nargs="+", default=["bottle", "lemon", "milk", "can"]
-    )
-    parser.add_argument(
-        "-m", "--mode", type=str, default="texture", choices=["texture", "distractors"]
-    )
+    parser.add_argument("--video", action="store_true")
     args = parser.parse_args()
+    assert args.mode in ["indoor", "outdoot", "textile", "distractors"], "Invalid mode"
+
+    distractors = ["bottle", "lemon", "milk", "can"]
 
     log_file_path = os.path.join(args.exp_path, "logs/log.txt")
+    eval_dir = os.path.join(args.exp_path, "eval")
+    video_dir = os.path.join(eval_dir, "videos")
+    if not os.path.exists(video_dir):
+        os.makedirs(video_dir)
+
     top_n_checkpoints, top_n_success_rate = get_top_n_experiments(log_file_path, n=3)
 
-    n_rollouts = args.n_rollouts
-    texture = args.texture
-    distractors = args.distractors
-    commands = []
     py_script = "robomimic/scripts/eval_trained_agent.py"
     scripts_with_args = []
-    if args.mode == "texture":
-        print(f"Running evaluation for texture {texture}")
-        for i, ckpt_path in enumerate(top_n_checkpoints):
+
+    print("\n=====================")
+    print(f"Running evaluation for {args.mode} with top {args.top_n} checkpoints")
+
+    for i, ckpt_path in enumerate(top_n_checkpoints):
+        ckpt_name = os.path.basename(ckpt_path).replace(".pth", "")
+        video_name = f"{args.mode}_ckpt_{ckpt_name}.mp4"
+        video_path = os.path.join(video_dir, video_name)
+        video_command = ["--video_path", video_path] if args.video else []
+
+        if args.mode in ["indoor", "outdoor", "textile"]:
             scripts_with_args.append(
                 (
                     py_script,
@@ -87,20 +104,16 @@ if __name__ == "__main__":
                         "--agent",
                         ckpt_path,
                         "--n_rollouts",
-                        str(n_rollouts),
-                        "--texture",
-                        texture,
-                        '--env_id',
+                        str(args.n_rollouts),
+                        "--texture_category",
+                        args.mode,
+                        "--env_id",
                         str(i),
-                    ],
+                    ]
+                    + video_command,
                 )
             )
-
-    elif args.mode == "distractors":
-        print(f"Running evaluation for distractors {distractors}")
-        for ckpt_path in top_n_checkpoints:
-            ckpt_name = os.path.basename(ckpt_path).replace(".ckpt", "")
-            distractor_str = " ".join(distractors)
+        else:
             scripts_with_args.append(
                 (
                     py_script,
@@ -108,48 +121,28 @@ if __name__ == "__main__":
                         "--agent",
                         ckpt_path,
                         "--n_rollouts",
-                        str(n_rollouts),
+                        str(args.n_rollouts),
                         "--distractors",
                     ]
-                    + distractors,
+                    + distractors
+                    + video_command,
                 )
             )
 
-    if args.mode == "texture":
-        output_file = os.path.join(args.exp_path, f"logs/eval_results_{texture}.txt")
-    else:
-        output_file = os.path.join(args.exp_path, f"logs/eval_results_{distractors}.txt")
+    output_file = os.path.join(eval_dir, f"{args.mode}_stats.txt")
 
     # Execute each script with its arguments and save the output
-    if os.path.exists(output_file):
-        overwrite = input(f"Output file {output_file} already exists. Overwrite? (y/n): ")
-        if overwrite.lower() == "n":
-            print("Computing Stats from existing output file")
-        else:
-            print("Rerun Evaluation")
-            os.remove(output_file)
-            for script_name, script_args in scripts_with_args:
-                print(f"Running script {script_name} with arguments {script_args}")
-                run_script(script_name, script_args, output_file)
+    if (
+        os.path.exists(output_file)
+        and input(f"Output file {output_file} already exists. Overwrite? (y/n): ").lower() != "y"
+    ):
+        print("Computing Stats from existing output file")
     else:
-        for script_name, script_args in scripts_with_args:
-            print(f"Running script {script_name} with arguments {script_args}")
-            run_script(script_name, script_args, output_file)
+        os.remove(output_file) if os.path.exists(output_file) else None
+        run_scripts_in_parallel(scripts_with_args, output_file)
 
-    # Extract success rates from the output file
-    success_rates = extract_success_rates(output_file)
+    stats = get_results_string(output_file, top_n_success_rate, args.mode)
+    print(stats)
 
-    print(f"\n===== Results for {args.exp_path} =====\n")
-    indomain_ssr_mean = np.around(np.mean(top_n_success_rate), 2)
-    indomain_ssr_std = np.around(np.std(top_n_success_rate), 2)
-    print(f"Indomain: {top_n_success_rate}, {indomain_ssr_mean} +/- {indomain_ssr_std}")
-    offdomain_ssr_mean = np.around(np.mean(success_rates), 2)
-    offdomain_ssr_std = np.around(np.std(success_rates), 2)
-    if args.mode == "texture":
-        print(
-            f"Off-domain for {texture}: {success_rates}, {offdomain_ssr_mean} +/- {offdomain_ssr_std}"
-        )
-    else:
-        print(
-            f"Off-domain for {distractors}: {success_rates}, {offdomain_ssr_mean} +/- {offdomain_ssr_std}"
-        )
+    with output_file as f:
+        f.write(stats)
