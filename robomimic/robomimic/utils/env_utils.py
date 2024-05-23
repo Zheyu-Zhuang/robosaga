@@ -117,7 +117,7 @@ def create_env(
     render_offscreen=False,
     use_image_obs=False,
     distractors=None,
-    table_texture=None,
+    rand_texture=None,
     env_id=None,
     **kwargs,
 ):
@@ -149,7 +149,7 @@ def create_env(
         use_image_obs=use_image_obs,
         postprocess_visual_obs=True,
         distractors=distractors,
-        table_texture=table_texture,
+        rand_texture=rand_texture,
         env_id=env_id,
         **kwargs,
     )
@@ -165,8 +165,8 @@ def create_env_from_metadata(
     render_offscreen=False,
     use_image_obs=False,
     distractors=None,
-    table_texture=None,
-    env_id=None,    
+    rand_texture=None,
+    env_id=None,
 ):
     """
     Create environment.
@@ -204,7 +204,7 @@ def create_env_from_metadata(
         render_offscreen=render_offscreen,
         use_image_obs=use_image_obs,
         distractors=distractors,
-        table_texture=table_texture,
+        rand_texture=rand_texture,
         env_id=env_id,
         **env_kwargs,
     )

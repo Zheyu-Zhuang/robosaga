@@ -10,7 +10,7 @@ from robomimic.utils.eval_utils import get_top_n_experiments
 
 def run_script(script_name, script_args):
     command = ["python", script_name] + script_args
-    print(f"Running {' '.join(command)}")
+    # print(f"Running {' '.join(command)}")
     process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
     output, errors = process.communicate()
     return script_name, script_args, output, errors
@@ -73,7 +73,7 @@ if __name__ == "__main__":
     parser.add_argument("--n_rollouts", type=int, default=50)
     parser.add_argument("--video", action="store_true")
     args = parser.parse_args()
-    assert args.mode in ["indoor", "outdoot", "textile", "distractors"], "Invalid mode"
+    assert args.mode in ["indoor", "outdoor", "textile", "distractors"], "Invalid mode"
 
     distractors = ["bottle", "lemon", "milk", "can"]
 

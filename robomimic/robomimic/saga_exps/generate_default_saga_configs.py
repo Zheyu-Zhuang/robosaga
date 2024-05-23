@@ -52,6 +52,7 @@ def generate_saga_configs(config_dir, task):
         input_file_path = os.path.join(input_dir, f"{net_type}.json")
         assert os.path.exists(input_file_path), f"File {input_file_path} does not exist"
         with open(input_file_path, "r") as f:
+            print(f"Reading config file: {input_file_path}")
             task_configs = json.load(f)
             for key, value in saga_exp_configs.items():
                 config_temp = copy.deepcopy(task_configs)
@@ -62,6 +63,12 @@ def generate_saga_configs(config_dir, task):
                     "output_dir"
                 ] = f"../experiments/robosaga/{task}_image/{net_type}"
                 config_temp["experiment"]["name"] = f"{key}"
+                if net_type == "bc":
+                    config_temp["train"]["batch_size"] = 64
+                if task == "can":
+                    config_temp["train"]["num_epochs"] = 200
+                config_temp["train"]["num_data_workers"] = 8
+
                 out_dir = os.path.join(input_dir, "saga")
                 if not os.path.exists(out_dir):
                     os.makedirs(out_dir)

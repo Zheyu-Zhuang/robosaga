@@ -441,7 +441,9 @@ class SaliencyGuidedAugmentation:
             if arg not in self.__dict__:
                 raise ValueError(f"Argument {arg} is required for MomentumSaliency")
         if print_args:
-            print("\n==================== Momentum Saliency Arguments ====================")
+            print(
+                "\n==================== Saliency-guided Augmentation Parameters ===================="
+            )
             for arg in required_args:
                 if isinstance(self.__dict__[arg], torch.Tensor):
                     print(f"{arg} shape: {list(self.__dict__[arg].shape)}")

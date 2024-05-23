@@ -173,7 +173,7 @@ class NutAssembly(SingleArmEnv):
         camera_widths=256,
         camera_depths=False,
         distractors=None,
-        table_texture=None,
+        rand_texture=None,
         env_id=None,
     ):
         # task settings
@@ -203,7 +203,7 @@ class NutAssembly(SingleArmEnv):
         self.placement_initializer = placement_initializer
 
         self.distractors = distractors_to_model(distractors)
-        self.table_texture = table_texture
+        self.rand_texture = rand_texture
         self.env_id = env_id
 
         super().__init__(
@@ -389,7 +389,7 @@ class NutAssembly(SingleArmEnv):
             table_full_size=self.table_full_size,
             table_friction=self.table_friction,
             table_offset=self.table_offset,
-            table_texture=self.table_texture,
+            rand_texture=self.rand_texture,
             env_id=self.env_id,
         )
 

@@ -57,7 +57,7 @@ if __name__ == "__main__":
             ckpt_name = os.path.basename(ckpt_path).replace(".ckpt", "")
             eval_dir = os.path.join(args.exp_path, "eval", texture, ckpt_name)
             commands.append(
-                f"python eval.py --checkpoint {ckpt_path}  --output_dir {eval_dir} --table_texture {texture}"
+                f"python eval.py --checkpoint {ckpt_path}  --output_dir {eval_dir} --rand_texture {texture}"
             )
     elif args.mode == "distractors":
         print(f"Running evaluation for distractors {distractors}")

@@ -241,7 +241,7 @@ def run_trained_agent(args):
         render_offscreen=(args.video_path is not None),
         verbose=True,
         distractors=args.distractors,
-        table_texture=args.table_texture,
+        rand_texture=args.rand_texture,
     )
 
     # maybe set seed
@@ -338,7 +338,7 @@ if __name__ == "__main__":
         default=None,
     )
 
-    parser.add_argument("--table_texture", type=str, default=None)
+    parser.add_argument("--rand_texture", type=str, default=None)
     # number of rollouts
     parser.add_argument(
         "--n_rollouts",

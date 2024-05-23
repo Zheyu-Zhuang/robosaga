@@ -17,14 +17,14 @@ class PegsArena(TableArena):
         table_full_size=(0.45, 0.69, 0.05),
         table_friction=(1, 0.005, 0.0001),
         table_offset=(0, 0, 0),
-        table_texture=None,
+        rand_texture=None,
         env_id=None,
     ):
         super().__init__(
             table_full_size=table_full_size,
             table_friction=table_friction,
             table_offset=table_offset,
-            table_texture=table_texture,
+            rand_texture=rand_texture,
             xml="arenas/pegs_arena.xml",
             env_id=env_id,
         )

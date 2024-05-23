@@ -368,7 +368,7 @@ def env_from_checkpoint(
     render_offscreen=False,
     verbose=False,
     distractors=None,
-    table_texture=None,
+    rand_texture=None,
     env_id=None,
 ):
     """
@@ -405,7 +405,7 @@ def env_from_checkpoint(
         render_offscreen=render_offscreen,
         use_image_obs=shape_meta["use_images"],
         distractors=distractors,
-        table_texture=table_texture,
+        rand_texture=rand_texture,
         env_id=env_id,
     )
     if verbose:

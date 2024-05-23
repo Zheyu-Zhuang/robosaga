@@ -199,7 +199,7 @@ def rollout(
     return stats, traj
 
 
-def replace_table_texture(xml_file, new_texture_path):
+def replace_rand_texture(xml_file, new_texture_path):
     # Load the XML file
     tree = ET.parse(xml_file)
     root = tree.getroot()
@@ -214,7 +214,7 @@ def get_robosuite_path():
     return os.path.join(os.path.dirname(this_file_path), "../../../robosuite")
 
 
-def get_table_texture_paths(texture_category, n_rollouts):
+def get_rand_texture_paths(texture_category, n_rollouts):
     if texture_category is None:
         return None
     robosuite_path = get_robosuite_path()
@@ -277,7 +277,7 @@ def run_trained_agent(args):
         render_offscreen=(args.video_path is not None),
         verbose=False,
         distractors=args.distractors,
-        table_texture=args.table_texture,
+        rand_texture=args.rand_texture,
         env_id=args.env_id,
     )
 
@@ -301,15 +301,15 @@ def run_trained_agent(args):
     rollout_stats = []
     pbar = tqdm(total=rollout_num_episodes)
 
-    # HACK: table_texture replacement
+    # HACK: rand_texture replacement
 
     xml_path = env.env.xml
 
-    table_texture_paths = get_table_texture_paths(args.texture_category, rollout_num_episodes)
+    rand_texture_paths = get_rand_texture_paths(args.texture_category, rollout_num_episodes)
 
     for i in range(pbar.total):
-        if table_texture_paths is not None:
-            replace_table_texture(xml_path, table_texture_paths[i])
+        if rand_texture_paths is not None:
+            replace_rand_texture(xml_path, rand_texture_paths[i])
         stats, traj = rollout(
             policy=policy,
             env=env,
@@ -384,7 +384,7 @@ if __name__ == "__main__":
         default=None,
     )
 
-    parser.add_argument("--table_texture", type=str, default=None)
+    parser.add_argument("--rand_texture", type=str, default=None)
     # number of rollouts
     parser.add_argument(
         "--n_rollouts",

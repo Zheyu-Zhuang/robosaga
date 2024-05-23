@@ -30,7 +30,7 @@ from diffusion_policy.model.common.rotation_transformer import RotationTransform
 from diffusion_policy.policy.base_image_policy import BaseImagePolicy
 
 
-def create_env(env_meta, shape_meta, enable_render=True, distractors=None, table_texture=None):
+def create_env(env_meta, shape_meta, enable_render=True, distractors=None, rand_texture=None):
     modality_mapping = collections.defaultdict(list)
     for key, attr in shape_meta["obs"].items():
         modality_mapping[attr.get("type", "low_dim")].append(key)
@@ -42,7 +42,7 @@ def create_env(env_meta, shape_meta, enable_render=True, distractors=None, table
         render_offscreen=enable_render,
         use_image_obs=enable_render,
         distractors=distractors,
-        table_texture=table_texture,
+        rand_texture=rand_texture,
     )
     return env
 
@@ -74,14 +74,14 @@ class RobomimicImageRunner(BaseImageRunner):
         tqdm_interval_sec=5.0,
         n_envs=None,
         distractors=None,
-        table_texture=None,
+        rand_texture=None,
     ):
         super().__init__(output_dir)
 
         if n_envs is None:
             n_envs = n_train + n_test
 
-        def get_table_texture_paths(texture_category):
+        def get_rand_texture_paths(texture_category):
             if texture_category is None:
                 return None
             texture_dir = os.path.join(
@@ -95,11 +95,11 @@ class RobomimicImageRunner(BaseImageRunner):
                 texture_paths.append(texture_path)
             return texture_paths
 
-        if table_texture is not None:
-            all_textures = get_table_texture_paths(table_texture)
+        if rand_texture is not None:
+            all_textures = get_rand_texture_paths(rand_texture)
 
         def get_one_texture():
-            if table_texture is None:
+            if rand_texture is None:
                 return None
             texture = random.choice(all_textures)
             print(f"Using texture: {texture}")
@@ -126,7 +126,7 @@ class RobomimicImageRunner(BaseImageRunner):
                 env_meta=env_meta,
                 shape_meta=shape_meta,
                 distractors=distractors,
-                table_texture=get_one_texture(),
+                rand_texture=get_one_texture(),
             )
             # Robosuite's hard reset causes excessive memory consumption.
             # Disabled to run more envs.
@@ -167,7 +167,7 @@ class RobomimicImageRunner(BaseImageRunner):
                 shape_meta=shape_meta,
                 enable_render=False,
                 distractors=distractors,
-                table_texture=get_one_texture(),
+                rand_texture=get_one_texture(),
             )
             return MultiStepWrapper(
                 VideoRecordingWrapper(

@@ -52,7 +52,7 @@
     "train": {
         "data": "../data/robomimic/square/ph/image.hdf5",
         "output_dir": "../experiments/robosaga/square_image/bc_rnn",
-        "num_data_workers": 2,
+        "num_data_workers": 8,
         "hdf5_cache_mode": "low_dim",
         "hdf5_use_swmr": true,
         "hdf5_normalize_obs": false,

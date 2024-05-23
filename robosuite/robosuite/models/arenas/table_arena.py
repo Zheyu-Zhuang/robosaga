@@ -1,6 +1,5 @@
 import os
 import shutil
-import xml.etree.ElementTree as ET
 
 import numpy as np
 
@@ -10,37 +9,7 @@ from robosuite.utils.mjcf_utils import (
     string_to_array,
     xml_path_completion,
 )
-
-
-def get_texture_name(texture_path):
-    texture_file_name = os.path.basename(texture_path)
-    return texture_file_name.split(".")[0]
-
-
-def replace_table_texture(xml_file, new_texture_path):
-    # Load the XML file
-    tree = ET.parse(xml_file)
-    root = tree.getroot()
-
-    # Define the new texture element
-    new_texture = ET.Element(
-        "texture", attrib={"file": new_texture_path, "type": "2d", "name": "new_texture"}
-    )
-
-    # Insert the new texture element into the <asset> section
-    asset = root.find("asset")
-    asset.append(new_texture)
-
-    # Find the material for the table and update the texture reference
-    for material in asset.findall("material"):
-        if material.get("name") == "table_ceramic":
-            material.set("texture", "new_texture")
-    texture_file_name = get_texture_name(new_texture_path)
-
-    xml_file = xml_file.replace(".xml", f"_{texture_file_name}_temp.xml")
-    # Save the modified XML to a new file or overwrite the existing one
-    tree.write(xml_file)
-    return xml_file
+from robosuite.utils.saga_utils import get_texture_name, replace_texture
 
 
 class TableArena(Arena):
@@ -63,7 +32,7 @@ class TableArena(Arena):
         table_friction=(1, 0.005, 0.0001),
         table_offset=(0, 0, 0.8),
         has_legs=True,
-        table_texture=None,
+        rand_texture=None,
         xml="arenas/table_arena.xml",
         env_id=None,
     ):
@@ -76,13 +45,13 @@ class TableArena(Arena):
         else:
             xml = default_xml
 
-        if table_texture is not None:
-            texture_file_name = get_texture_name(table_texture)
+        if rand_texture is not None:
+            texture_file_name = get_texture_name(rand_texture)
             xml_temp = xml.replace(".xml", f"_{texture_file_name}_temp.xml")
             if os.path.exists(xml_temp):
                 xml = xml_temp
             else:
-                xml = replace_table_texture(xml, table_texture)
+                xml = replace_texture(xml, rand_texture)
         super().__init__(xml)
 
         self.xml = xml
