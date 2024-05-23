@@ -129,3 +129,4 @@ diffusion_policy/experiments/
 **/augmentation_vis.jpg
 **/*temp.xml
 create_cluster_jobs_robomimic.py
+create_cluster_jobs_diffusion_policy.py
