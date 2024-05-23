@@ -1,16 +1,19 @@
 from collections import OrderedDict
+
 import numpy as np
 
-from robosuite.utils.transform_utils import convert_quat
-from robosuite.utils.mjcf_utils import CustomMaterial
-
 from robosuite.environments.manipulation.single_arm_env import SingleArmEnv
-
 from robosuite.models.arenas import TableArena
 from robosuite.models.objects import BoxObject
 from robosuite.models.tasks import ManipulationTask
-from robosuite.utils.placement_samplers import UniformRandomSampler
+from robosuite.utils.mjcf_utils import CustomMaterial
 from robosuite.utils.observables import Observable, sensor
+from robosuite.utils.placement_samplers import (
+    SequentialCompositeSampler,
+    UniformRandomSampler,
+)
+from robosuite.utils.saga_utils import distractors_to_model
+from robosuite.utils.transform_utils import convert_quat
 
 
 class Lift(SingleArmEnv):
@@ -130,7 +133,7 @@ class Lift(SingleArmEnv):
         gripper_types="default",
         initialization_noise="default",
         table_full_size=(0.8, 0.8, 0.05),
-        table_friction=(1., 5e-3, 1e-4),
+        table_friction=(1.0, 5e-3, 1e-4),
         use_camera_obs=True,
         use_object_obs=True,
         reward_scale=1.0,
@@ -150,6 +153,8 @@ class Lift(SingleArmEnv):
         camera_heights=256,
         camera_widths=256,
         camera_depths=False,
+        distractors=None,
+        table_texture=None,
     ):
         # settings for table top
         self.table_full_size = table_full_size
@@ -165,6 +170,9 @@ class Lift(SingleArmEnv):
 
         # object placement initializer
         self.placement_initializer = placement_initializer
+
+        self.distractors = distractors_to_model(distractors)
+        self.table_texture = table_texture
 
         super().__init__(
             robots=robots,
@@ -215,7 +223,7 @@ class Lift(SingleArmEnv):
         Returns:
             float: reward value
         """
-        reward = 0.
+        reward = 0.0
 
         # sparse completion reward
         if self._check_success():
@@ -256,6 +264,7 @@ class Lift(SingleArmEnv):
             table_full_size=self.table_full_size,
             table_friction=self.table_friction,
             table_offset=self.table_offset,
+            table_texture=self.table_texture,
         )
 
         # Arena always gets set to zero origin
@@ -286,12 +295,11 @@ class Lift(SingleArmEnv):
         )
 
         # Create placement initializer
-        if self.placement_initializer is not None:
-            self.placement_initializer.reset()
-            self.placement_initializer.add_objects(self.cube)
-        else:
-            self.placement_initializer = UniformRandomSampler(
-                name="ObjectSampler",
+        # if self.placement_initializer is not None:
+        self.placement_initializer = SequentialCompositeSampler(name="ObjectSampler")
+        self.placement_initializer.append_sampler(
+            sampler=UniformRandomSampler(
+                name="CubeSampler",
                 mujoco_objects=self.cube,
                 x_range=[-0.03, 0.03],
                 y_range=[-0.03, 0.03],
@@ -301,12 +309,47 @@ class Lift(SingleArmEnv):
                 reference_pos=self.table_offset,
                 z_offset=0.01,
             )
+        )
+
+        for distractor_ in self.distractors:
+            self.placement_initializer.append_sampler(
+                sampler=UniformRandomSampler(
+                    name="f{distractor_._name}ObjectSampler",
+                    x_range=[0.10, 0.20],
+                    y_range=[-0.20, 0.20],
+                    rotation=0.0,
+                    rotation_axis="z",
+                    ensure_object_boundary_in_range=False,
+                    ensure_valid_placement=True,
+                    reference_pos=self.table_offset,
+                    z_offset=0.05,
+                    chance_of_hidden=0.5,
+                )
+            )
+
+        self.placement_initializer.reset()
+        self.placement_initializer.add_objects_to_sampler(
+            sampler_name="CubeSampler",
+            mujoco_objects=self.cube,
+        )
+
+        tabletop_objects = [self.cube]
+        if self.distractors != []:
+            for distractor_ in self.distractors:
+                if isinstance(self.placement_initializer, SequentialCompositeSampler):
+                    self.placement_initializer.add_objects_to_sampler(
+                        sampler_name="f{distractor_._name}ObjectSampler",
+                        mujoco_objects=distractor_,
+                    )
+                else:
+                    self.placement_initializer.add_objects(distractor_)
+            tabletop_objects = tabletop_objects + self.distractors
 
         # task includes arena, robot, and objects of interest
         self.model = ManipulationTask(
             mujoco_arena=mujoco_arena,
-            mujoco_robots=[robot.robot_model for robot in self.robots], 
-            mujoco_objects=self.cube,
+            mujoco_robots=[robot.robot_model for robot in self.robots],
+            mujoco_objects=tabletop_objects,
         )
 
     def _setup_references(self):
@@ -342,12 +385,17 @@ class Lift(SingleArmEnv):
 
             @sensor(modality=modality)
             def cube_quat(obs_cache):
-                return convert_quat(np.array(self.sim.data.body_xquat[self.cube_body_id]), to="xyzw")
+                return convert_quat(
+                    np.array(self.sim.data.body_xquat[self.cube_body_id]), to="xyzw"
+                )
 
             @sensor(modality=modality)
             def gripper_to_cube_pos(obs_cache):
-                return obs_cache[f"{pf}eef_pos"] - obs_cache["cube_pos"] if \
-                    f"{pf}eef_pos" in obs_cache and "cube_pos" in obs_cache else np.zeros(3)
+                return (
+                    obs_cache[f"{pf}eef_pos"] - obs_cache["cube_pos"]
+                    if f"{pf}eef_pos" in obs_cache and "cube_pos" in obs_cache
+                    else np.zeros(3)
+                )
 
             sensors = [cube_pos, cube_quat, gripper_to_cube_pos]
             names = [s.__name__ for s in sensors]
@@ -376,7 +424,9 @@ class Lift(SingleArmEnv):
 
             # Loop through all objects and reset their positions
             for obj_pos, obj_quat, obj in object_placements.values():
-                self.sim.data.set_joint_qpos(obj.joints[0], np.concatenate([np.array(obj_pos), np.array(obj_quat)]))
+                self.sim.data.set_joint_qpos(
+                    obj.joints[0], np.concatenate([np.array(obj_pos), np.array(obj_quat)])
+                )
 
     def visualize(self, vis_settings):
         """

@@ -200,7 +200,7 @@ def train(config, device):
     train_num_steps = config.experiment.epoch_every_n_steps
     valid_num_steps = config.experiment.validation_epoch_every_n_steps
 
-    if "saliency" in config:
+    if "saliency" in config and config.saliency.enabled:
         config.unlock()
         config.saliency.buffer_depth = len(trainset)
         config.saliency.save_dir = saliency_dir

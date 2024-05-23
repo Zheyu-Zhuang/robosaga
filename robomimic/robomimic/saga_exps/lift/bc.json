@@ -34,8 +34,8 @@
         }
     },
     "train": {
-        "data": "../data/robomimic/lift/ph/image.hdf5",
-        "output_dir": "../experiments/robosaga/robomimic/core/bc/lift/ph/image/trained_models",
+        "data": "/home/zheyu/RoboSaGA/robomimic/robomimic/../datasets/lift/ph/image.hdf5",
+        "output_dir": "../bc_trained_models/core/bc/lift/ph/image/trained_models",
         "num_data_workers": 2,
         "hdf5_cache_mode": "low_dim",
         "hdf5_use_swmr": true,
@@ -261,5 +261,21 @@
                 }
             }
         }
+    },
+    "saliency": {
+        "enabled": false,
+        "update_ratio": null,
+        "aug_ratio": null,
+        "debug_vis": null,
+        "debug_save": null,
+        "buffer_shape": null,
+        "save_dir": "",
+        "save_debug_im_every_n_batches": null,
+        "background_path": "",
+        "disable_during_training": null,
+        "aug_obs_pairs": null,
+        "aug_scheduler": null,
+        "aug_strategy": null,
+        "erase_thresh": null
     }
 }

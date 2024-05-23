@@ -108,6 +108,7 @@ class BCConfig(BaseConfig):
         self.algo.rnn.kwargs.do_not_lock_keys()
 
     def saliency_config(self):
+        self.saliency.enabled = False
         self.saliency.update_ratio = None
         self.saliency.aug_ratio = None
         self.saliency.debug_vis = None
@@ -116,9 +117,6 @@ class BCConfig(BaseConfig):
         self.saliency.save_dir = ""
         self.saliency.save_debug_im_every_n_batches = None
         self.saliency.background_path = ""
-        self.saliency.disable_during_training = None
         self.saliency.aug_obs_pairs = None
-        self.saliency.aug_scheduler = None
         self.saliency.aug_strategy = None
-        self.saliency.erase_thresh = None
         self.saliency.kwargs.do_not_lock_keys()

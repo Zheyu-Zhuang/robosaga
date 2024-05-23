@@ -1,12 +1,11 @@
 from collections import OrderedDict
-from mujoco_py import MjSim, MjRenderContextOffscreen
-from mujoco_py import load_model_from_xml
-
-from robosuite.utils import SimulationError, XMLError, MujocoPyRenderer
-import robosuite.utils.macros as macros
-import robosuite.utils.sim_utils as SU
 
 import numpy as np
+from mujoco_py import MjRenderContextOffscreen, MjSim, load_model_from_xml
+
+import robosuite.utils.macros as macros
+import robosuite.utils.sim_utils as SU
+from robosuite.utils import MujocoPyRenderer, SimulationError, XMLError
 
 REGISTERED_ENVS = {}
 
@@ -48,7 +47,13 @@ class EnvMeta(type):
         cls = super().__new__(meta, name, bases, class_dict)
 
         # List all environments that should not be registered here.
-        _unregistered_envs = ["MujocoEnv", "RobotEnv", "ManipulationEnv", "SingleArmEnv", "TwoArmEnv"]
+        _unregistered_envs = [
+            "MujocoEnv",
+            "RobotEnv",
+            "ManipulationEnv",
+            "SingleArmEnv",
+            "TwoArmEnv",
+        ]
 
         if cls.__name__ not in _unregistered_envs:
             register_env(cls)
@@ -105,7 +110,7 @@ class MujocoEnv(metaclass=EnvMeta):
         control_freq=20,
         horizon=1000,
         ignore_done=False,
-        hard_reset=True
+        hard_reset=True,
     ):
         # First, verify that both the on- and off-screen renderers are not being used simultaneously
         if has_renderer is True and has_offscreen_renderer is True:
@@ -121,18 +126,20 @@ class MujocoEnv(metaclass=EnvMeta):
         self.viewer = None
 
         # Simulation-specific attributes
-        self._observables = {}                      # Maps observable names to observable objects
-        self._obs_cache = {}                        # Maps observable names to pre-/partially-computed observable values
+        self._observables = {}  # Maps observable names to observable objects
+        self._obs_cache = {}  # Maps observable names to pre-/partially-computed observable values
         self.control_freq = control_freq
         self.horizon = horizon
         self.ignore_done = ignore_done
         self.hard_reset = hard_reset
-        self._model_postprocessor = None            # Function to post-process model after load_model() call
+        self._model_postprocessor = None  # Function to post-process model after load_model() call
         self.model = None
         self.cur_time = None
         self.model_timestep = None
         self.control_timestep = None
-        self.deterministic_reset = False            # Whether to add randomized resetting of objects / robot joints
+        self.deterministic_reset = (
+            False  # Whether to add randomized resetting of objects / robot joints
+        )
 
         # Load the model
         self._load_model()
@@ -163,7 +170,7 @@ class MujocoEnv(metaclass=EnvMeta):
         self.control_freq = control_freq
         if control_freq <= 0:
             raise SimulationError("Control frequency {} is invalid".format(control_freq))
-        self.control_timestep = 1. / control_freq
+        self.control_timestep = 1.0 / control_freq
 
     def set_model_postprocessor(self, postprocessor):
         """
@@ -213,7 +220,11 @@ class MujocoEnv(metaclass=EnvMeta):
             xml_string (str): If specified, creates MjSim object from this filepath
         """
         # if we have an xml string, use that to create the sim. Otherwise, use the local model
-        self.mjpy_model = load_model_from_xml(xml_string) if xml_string else self.model.get_model(mode="mujoco_py")
+        self.mjpy_model = (
+            load_model_from_xml(xml_string)
+            if xml_string
+            else self.model.get_model(mode="mujoco_py")
+        )
 
         # Create the simulation instance and run a single step to make sure changes have propagated through sim state
         self.sim = MjSim(self.mjpy_model)
@@ -248,7 +259,9 @@ class MujocoEnv(metaclass=EnvMeta):
             # If we're using hard reset, must re-update sensor object references
             _observables = self._setup_observables()
             for obs_name, obs in _observables.items():
-                self.modify_observable(observable_name=obs_name, attribute="sensor", modifier=obs._sensor)
+                self.modify_observable(
+                    observable_name=obs_name, attribute="sensor", modifier=obs._sensor
+                )
         # Make sure that all sites are toggled OFF by default
         self.visualize(vis_settings={vis: False for vis in self._visualizations})
         # Return new observations
@@ -260,8 +273,8 @@ class MujocoEnv(metaclass=EnvMeta):
         # create visualization screen or renderer
         if self.has_renderer and self.viewer is None:
             self.viewer = MujocoPyRenderer(self.sim)
-            self.viewer.viewer.vopt.geomgroup[0] = (1 if self.render_collision_mesh else 0)
-            self.viewer.viewer.vopt.geomgroup[1] = (1 if self.render_visual_mesh else 0)
+            self.viewer.viewer.vopt.geomgroup[0] = 1 if self.render_collision_mesh else 0
+            self.viewer.viewer.vopt.geomgroup[1] = 1 if self.render_visual_mesh else 0
 
             # hiding the overlay speeds up rendering significantly
             self.viewer.viewer._hide_overlay = True
@@ -276,10 +289,16 @@ class MujocoEnv(metaclass=EnvMeta):
 
         elif self.has_offscreen_renderer:
             if self.sim._render_context_offscreen is None:
-                render_context = MjRenderContextOffscreen(self.sim, device_id=self.render_gpu_device_id)
+                render_context = MjRenderContextOffscreen(
+                    self.sim, device_id=self.render_gpu_device_id
+                )
                 self.sim.add_render_context(render_context)
-            self.sim._render_context_offscreen.vopt.geomgroup[0] = (1 if self.render_collision_mesh else 0)
-            self.sim._render_context_offscreen.vopt.geomgroup[1] = (1 if self.render_visual_mesh else 0)
+            self.sim._render_context_offscreen.vopt.geomgroup[0] = (
+                1 if self.render_collision_mesh else 0
+            )
+            self.sim._render_context_offscreen.vopt.geomgroup[1] = (
+                1 if self.render_visual_mesh else 0
+            )
 
         # additional housekeeping
         self.sim_state_initial = self.sim.get_state()
@@ -545,9 +564,10 @@ class MujocoEnv(metaclass=EnvMeta):
         Args:
             observable (Observable): Observable instance.
         """
-        assert observable.name not in self._observables,\
-            "Observable name {} is already associated with an existing observable! Use modify_observable(...) " \
+        assert observable.name not in self._observables, (
+            "Observable name {} is already associated with an existing observable! Use modify_observable(...) "
             "to modify a pre-existing observable.".format(observable.name)
+        )
         self._observables[observable.name] = observable
 
     def modify_observable(self, observable_name, attribute, modifier):
@@ -563,8 +583,11 @@ class MujocoEnv(metaclass=EnvMeta):
                 match the function being replaced.
         """
         # Find the observable
-        assert observable_name in self._observables, "No valid observable with name {} found. Options are: {}".\
-            format(observable_name, self.observation_names)
+        assert (
+            observable_name in self._observables
+        ), "No valid observable with name {} found. Options are: {}".format(
+            observable_name, self.observation_names
+        )
         obs = self._observables[observable_name]
         # replace attribute accordingly
         if attribute == "sensor":
@@ -583,9 +606,20 @@ class MujocoEnv(metaclass=EnvMeta):
             obs.set_active(modifier)
         else:
             # Invalid attribute specified
-            raise ValueError("Invalid observable attribute specified. Requested: {}, valid options are {}".
-                             format(attribute, {"sensor", "corrupter", "filter", "delayer",
-                                                "sampling_rate", "enabled", "active"}))
+            raise ValueError(
+                "Invalid observable attribute specified. Requested: {}, valid options are {}".format(
+                    attribute,
+                    {
+                        "sensor",
+                        "corrupter",
+                        "filter",
+                        "delayer",
+                        "sampling_rate",
+                        "enabled",
+                        "active",
+                    },
+                )
+            )
 
     def _check_success(self):
         """
@@ -638,7 +672,9 @@ class MujocoEnv(metaclass=EnvMeta):
         Returns:
             set: All enabled observation names
         """
-        return set([name for name, observable in self._observables.items() if observable.is_enabled()])
+        return set(
+            [name for name, observable in self._observables.items() if observable.is_enabled()]
+        )
 
     @property
     def active_observables(self):
@@ -650,7 +686,9 @@ class MujocoEnv(metaclass=EnvMeta):
         Returns:
             set: All active observation names
         """
-        return set([name for name, observable in self._observables.items() if observable.is_active()])
+        return set(
+            [name for name, observable in self._observables.items() if observable.is_active()]
+        )
 
     @property
     def _visualizations(self):

@@ -143,14 +143,14 @@ checkpoint:
   save_last_snapshot: False
 
 multi_run:
-  run_dir: ../experiments/robosaga/diffusion_policy/${task_name}/${exp_name}
+  run_dir: ../experiments/robosaga/${task_name}/diffusion_policy/${exp_name}
   wandb_name_base: ${now:%Y.%m.%d-%H.%M.%S}_${name}_${task_name}
 
 hydra:
   job:
     override_dirname: ${name}
   run:
-    dir: ../experiments/robosaga/diffusion_policy/${task_name}/${exp_name}
+    dir: ../experiments/robosaga/${task_name}/diffusion_policy/${exp_name}
   sweep:
-    dir: ../experiments/robosaga/diffusion_policy/${task_name}/${exp_name}
+    dir: ../experiments/robosaga/${task_name}/diffusion_policy/${exp_name}
     subdir: ${hydra.job.num}

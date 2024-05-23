@@ -1,7 +1,7 @@
 {
     "algo_name": "bc",
     "experiment": {
-        "name": "core_bc_square_ph_image",
+        "name": "baseline",
         "validate": true,
         "logging": {
             "terminal_output_to_txt": true,
@@ -35,7 +35,7 @@
     },
     "train": {
         "data": "../data/robomimic/square/ph/image.hdf5",
-        "output_dir": "../experiments/robosaga/robomimic/core/bc/square/ph/image/trained_models",
+        "output_dir": "../experiments/robosaga/square_image/bc",
         "num_data_workers": 2,
         "hdf5_cache_mode": "low_dim",
         "hdf5_use_swmr": true,

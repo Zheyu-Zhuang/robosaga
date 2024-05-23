@@ -6,22 +6,14 @@ import numpy as np
 import robosuite.utils.transform_utils as T
 from robosuite.environments.manipulation.single_arm_env import SingleArmEnv
 from robosuite.models.arenas import PegsArena
-from robosuite.models.objects import (
-    BottleObject,
-    BreadObject,
-    CanObject,
-    CerealObject,
-    LemonObject,
-    MilkObject,
-    RoundNutObject,
-    SquareNutObject,
-)
+from robosuite.models.objects import RoundNutObject, SquareNutObject
 from robosuite.models.tasks import ManipulationTask
 from robosuite.utils.observables import Observable, sensor
 from robosuite.utils.placement_samplers import (
     SequentialCompositeSampler,
     UniformRandomSampler,
 )
+from robosuite.utils.saga_utils import distractors_to_model
 
 
 class NutAssembly(SingleArmEnv):
@@ -209,7 +201,7 @@ class NutAssembly(SingleArmEnv):
         # object placement initializer
         self.placement_initializer = placement_initializer
 
-        self.distractors = self.distractors_to_model(distractors)
+        self.distractors = distractors_to_model(distractors)
         self.table_texture = table_texture
 
         super().__init__(
@@ -378,32 +370,6 @@ class NutAssembly(SingleArmEnv):
         ):
             res = True
         return res
-
-    def distractors_to_model(self, distractors):
-        if distractors is None:
-            return []
-        supported_distractors = {
-            "bottle": BottleObject,
-            "lemon": LemonObject,
-            "milk": MilkObject,
-            "bread": BreadObject,
-            "can": CanObject,
-            "cereal": CerealObject,
-        }
-        idx = 0
-        models = []
-        for distractor_ in distractors:
-            if distractor_ not in supported_distractors.keys():
-                raise ValueError(
-                    "Distractor {} not supported. Supported distractors are {}".format(
-                        distractor_, supported_distractors.keys()
-                    )
-                )
-            else:
-                name = "distractor_{}".format(idx)
-                models.append(supported_distractors[distractor_](name=name))
-                idx += 1
-        return models
 
     def _load_model(self):
         """
