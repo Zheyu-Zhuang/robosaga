@@ -65,7 +65,7 @@ def generate_saga_configs(config_dir, task):
                 config_temp["experiment"]["name"] = f"{key}"
                 if net_type == "bc":
                     config_temp["train"]["batch_size"] = 64
-                if task == "can":
+                if task == "lift":
                     config_temp["train"]["num_epochs"] = 200
                 config_temp["train"]["num_data_workers"] = 8
 
