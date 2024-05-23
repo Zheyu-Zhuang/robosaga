@@ -155,7 +155,7 @@ class BaseConfig(Config):
         self.saliency.buffer_shape = [84, 84]
         self.saliency.save_dir = ""
         self.saliency.save_debug_im_every_n_batches = 1
-        self.saliency.background_path = "../data/robomimic/coco_5k_84x84/"
+        self.saliency.background_path = "../data/coco_5k_84x84/"
         self.saliency.disable_during_training = False
 
     def train_config(self):

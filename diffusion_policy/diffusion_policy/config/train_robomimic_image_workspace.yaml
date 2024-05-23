@@ -48,7 +48,7 @@ training:
   debug: False
   resume: True
   # optimization
-  num_epochs: 3050
+  num_epochs: 600
   # training loop control
   # in epochs
   rollout_every: 50
@@ -62,7 +62,7 @@ training:
   tqdm_interval_sec: 1.0
 
 logging:
-  project: saga
+  project: ${task_name}
   resume: True
   mode: online
   name: ${now:%Y.%m.%d-%H.%M.%S}_${name}_${task_name}

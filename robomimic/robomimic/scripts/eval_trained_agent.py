@@ -208,15 +208,19 @@ def replace_table_texture(xml_file, new_texture_path):
             texture.attrib["file"] = new_texture_path
     tree.write(xml_file)
 
+
 def get_robosuite_path():
     this_file_path = os.path.abspath(__file__)
     return os.path.join(os.path.dirname(this_file_path), "../../../robosuite")
+
 
 def get_table_texture_paths(texture_category, n_rollouts):
     if texture_category is None:
         return None
     robosuite_path = get_robosuite_path()
-    texture_dir = os.path.join(robosuite_path, "/robosuite/models/assets/textures/evaluation_textures")
+    texture_dir = os.path.join(
+        robosuite_path, "/robosuite/models/assets/textures/evaluation_textures"
+    )
     texture_dir = os.path.join(texture_dir, texture_category)
     texture_paths = []
     for texture_file in os.listdir(texture_dir):
@@ -294,8 +298,8 @@ def run_trained_agent(args):
 
     rollout_stats = []
     pbar = tqdm(total=rollout_num_episodes)
-    # HACK: table_texture
 
+    # HACK: table_texture replacement
     texture_xml_path = "RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml"
 
     texture_xml_path = os.path.join(os.path.expanduser("~"), texture_xml_path)

@@ -41,7 +41,7 @@
         "buffer_shape": [84, 84],
         "save_dir": "",
         "save_debug_im_every_n_batches": 5,
-        "background_path": "../data/robomimic/coco_5k_84x84/",
+        "background_path": "../data/coco_5k_84x84/",
         "aug_strategy": "saga_mixup",
         "aug_obs_pairs": false
     },

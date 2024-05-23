@@ -28,7 +28,7 @@ saliency:
   buffer_shape: [84, 84]
   save_dir: ""
   save_debug_im_every_n_batches: 5
-  background_path: "../data/robomimic/coco_5k_84x84/"
+  background_path: "../data/coco_5k_84x84/"
   disable_during_training: False
   disable_buffer: True
 
@@ -63,7 +63,7 @@ training:
   debug: False
   resume: True
   # optimization
-  num_epochs: 3050
+  num_epochs: 600
   # training loop control
   # in epochs
   rollout_every: 50
@@ -77,7 +77,7 @@ training:
   tqdm_interval_sec: 1.0
 
 logging:
-  project: saga
+  project: ${task_name}
   resume: True
   mode: online
   name: ${now:%Y.%m.%d-%H.%M.%S}_${name}_${task_name}

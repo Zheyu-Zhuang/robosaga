@@ -34,7 +34,7 @@
         }
     },
     "saliency":{
-        "background_path": "../data/robomimic/coco_5k_84x84/"
+        "background_path": "../data/coco_5k_84x84/"
     },
     "train": {
         "data": "../data/robomimic/square/ph/image.hdf5",

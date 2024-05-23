@@ -15,6 +15,7 @@ import wandb.sdk.data_types.video as wv
 import robomimic.utils.env_utils as EnvUtils
 import robomimic.utils.file_utils as FileUtils
 import robomimic.utils.obs_utils as ObsUtils
+import robosuite
 from diffusion_policy.common.pytorch_util import dict_apply
 from diffusion_policy.env.robomimic.robomimic_image_wrapper import RobomimicImageWrapper
 from diffusion_policy.env_runner.base_image_runner import BaseImageRunner
@@ -27,7 +28,7 @@ from diffusion_policy.gym_util.video_recording_wrapper import (
 )
 from diffusion_policy.model.common.rotation_transformer import RotationTransformer
 from diffusion_policy.policy.base_image_policy import BaseImagePolicy
-import robosuite
+
 
 def create_env(env_meta, shape_meta, enable_render=True, distractors=None, table_texture=None):
     modality_mapping = collections.defaultdict(list)
@@ -83,7 +84,8 @@ class RobomimicImageRunner(BaseImageRunner):
         def get_table_texture_paths(texture_category):
             if texture_category is None:
                 return None
-            texture_dir = os.path.join(robosuite.models.assets_root,
+            texture_dir = os.path.join(
+                robosuite.models.assets_root,
                 "textures/evaluation_textures",
             )
             texture_dir = os.path.join(texture_dir, texture_category)
@@ -105,7 +107,6 @@ class RobomimicImageRunner(BaseImageRunner):
 
         # assert n_obs_steps <= n_action_steps
         # HACK: hard coded dataset path
-        dataset_path = "../data/robomimic/square/ph/image.hdf5"
         dataset_path = os.path.expanduser(dataset_path)
         robosuite_fps = 20
         steps_per_render = max(robosuite_fps // fps, 1)

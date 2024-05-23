@@ -1,20 +1,19 @@
+import argparse
 import os
 
 import numpy as np
-
-import argparse
-
-
 
 
 def find_checkpoints(experiment_path, top_n=3):
     checkpoint_path = os.path.join(experiment_path, "checkpoints")
     all_files = os.listdir(checkpoint_path)
     assert len(all_files) > 0, f"No checkpoints found in {checkpoint_path}"
-    assert len(all_files) >= top_n, f"Only {len(all_files)} checkpoints found, but {top_n} requested"
-    if 'latest.ckpt' in all_files:
-        all_files.remove('latest.ckpt')
-    rollout_scores = [x.split("=")[-1].replace('.ckpt', "") for x in all_files]
+    assert (
+        len(all_files) >= top_n
+    ), f"Only {len(all_files)} checkpoints found, but {top_n} requested"
+    if "latest.ckpt" in all_files:
+        all_files.remove("latest.ckpt")
+    rollout_scores = [x.split("=")[-1].replace(".ckpt", "") for x in all_files]
     rollout_scores = [float(x) for x in rollout_scores]
     print(all_files)
     print(np.argsort(rollout_scores)[-top_n:])
@@ -24,12 +23,11 @@ def find_checkpoints(experiment_path, top_n=3):
     return [os.path.join(checkpoint_path, f) for f in top_n_files], top_n_scores
 
 
-
-
 def get_average_success_states(success_rate):
     avg = np.mean(success_rate)
     std = np.std(success_rate)
     print(f"Average success rate: {avg:.2f} +/- {std:.2f}")
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
@@ -37,10 +35,14 @@ if __name__ == "__main__":
     parser.add_argument("--top_n", type=int, default=3)
     parser.add_argument("--texture", type=str)
     parser.add_argument("--n_rollouts", type=int, default=50)
-    parser.add_argument("--distractors", type=str, nargs="+", default=["bottle", "lemon", "milk", "can"])
-    parser.add_argument("-m", "--mode", type=str, default="texture", choices=["texture", "distractors"])
+    parser.add_argument(
+        "--distractors", type=str, nargs="+", default=["bottle", "lemon", "milk", "can"]
+    )
+    parser.add_argument(
+        "-m", "--mode", type=str, default="texture", choices=["texture", "distractors"]
+    )
     args = parser.parse_args()
-    
+
     checkpoint_paths, top_n_scores = find_checkpoints(args.experiment_path)
 
     get_average_success_states(top_n_scores)
@@ -69,4 +71,3 @@ if __name__ == "__main__":
             commands.append(command_)
     terminal_commands = " && ".join(commands)
     os.system(terminal_commands)
-        
