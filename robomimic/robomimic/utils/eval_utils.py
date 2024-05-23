@@ -53,7 +53,9 @@ def get_top_n_experiments(log_file_path, n=3):
         print(f"Epoch Number: {exp['epoch_num']}")
         print(f"Success Rate: {exp['success_rate']}")
         print(f"Checkpoint Path: {exp['checkpoint_path']}\n")
-    return [exp["checkpoint_path"] for exp in selected_exps]
+    return [exp["checkpoint_path"] for exp in selected_exps], [
+        float(exp["success_rate"]) for exp in selected_exps
+    ]
 
 
 def main(exp_path):

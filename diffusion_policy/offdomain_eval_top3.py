@@ -4,8 +4,8 @@ import os
 import numpy as np
 
 
-def find_checkpoints(experiment_path, top_n=3):
-    checkpoint_path = os.path.join(experiment_path, "checkpoints")
+def find_checkpoints(exp_path, top_n=3):
+    checkpoint_path = os.path.join(exp_path, "checkpoints")
     all_files = os.listdir(checkpoint_path)
     assert len(all_files) > 0, f"No checkpoints found in {checkpoint_path}"
     assert (
@@ -31,7 +31,7 @@ def get_average_success_states(success_rate):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("-e", "--experiment_path", type=str, default=None, required=True)
+    parser.add_argument("-e", "--exp_path", type=str, default=None, required=True)
     parser.add_argument("--top_n", type=int, default=3)
     parser.add_argument("--texture", type=str)
     parser.add_argument("--n_rollouts", type=int, default=50)
@@ -43,7 +43,7 @@ if __name__ == "__main__":
     )
     args = parser.parse_args()
 
-    checkpoint_paths, top_n_scores = find_checkpoints(args.experiment_path)
+    checkpoint_paths, top_n_scores = find_checkpoints(args.exp_path)
 
     get_average_success_states(top_n_scores)
 
@@ -55,7 +55,7 @@ if __name__ == "__main__":
         print(f"Running evaluation for texture {texture}")
         for ckpt_path in checkpoint_paths:
             ckpt_name = os.path.basename(ckpt_path).replace(".ckpt", "")
-            eval_dir = os.path.join(args.experiment_path, "eval", texture, ckpt_name)
+            eval_dir = os.path.join(args.exp_path, "eval", texture, ckpt_name)
             commands.append(
                 f"python eval.py --checkpoint {ckpt_path}  --output_dir {eval_dir} --table_texture {texture}"
             )
@@ -64,7 +64,7 @@ if __name__ == "__main__":
         for ckpt_path in checkpoint_paths:
             ckpt_name = os.path.basename(ckpt_path).replace(".ckpt", "")
             distractor_str = "_".join(distractors)
-            eval_dir = os.path.join(args.experiment_path, "eval", distractor_str, ckpt_name)
+            eval_dir = os.path.join(args.exp_path, "eval", distractor_str, ckpt_name)
             command_ = f"python eval.py --checkpoint {ckpt_path}  --output_dir {eval_dir}"
             for distractor in distractors:
                 command_ += f" --distractors {distractor}"
