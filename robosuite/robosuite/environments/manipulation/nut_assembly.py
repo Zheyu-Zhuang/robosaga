@@ -174,6 +174,7 @@ class NutAssembly(SingleArmEnv):
         camera_depths=False,
         distractors=None,
         table_texture=None,
+        env_id=None,
     ):
         # task settings
         self.single_object_mode = single_object_mode
@@ -203,6 +204,7 @@ class NutAssembly(SingleArmEnv):
 
         self.distractors = distractors_to_model(distractors)
         self.table_texture = table_texture
+        self.env_id = env_id
 
         super().__init__(
             robots=robots,
@@ -227,6 +229,7 @@ class NutAssembly(SingleArmEnv):
             camera_widths=camera_widths,
             camera_depths=camera_depths,
         )
+        self.xml = self.model.mujoco_arena.xml
 
     def reward(self, action=None):
         """
@@ -387,6 +390,7 @@ class NutAssembly(SingleArmEnv):
             table_friction=self.table_friction,
             table_offset=self.table_offset,
             table_texture=self.table_texture,
+            env_id=self.env_id,
         )
 
         # Arena always gets set to zero origin

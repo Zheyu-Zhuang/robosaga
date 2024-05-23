@@ -144,5 +144,5 @@ if __name__ == "__main__":
     stats = get_results_string(output_file, top_n_success_rate, args.mode)
     print(stats)
 
-    with output_file as f:
+    with open(output_file, "w") as f:
         f.write(stats)

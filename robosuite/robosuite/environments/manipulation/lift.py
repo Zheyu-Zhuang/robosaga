@@ -201,7 +201,6 @@ class Lift(SingleArmEnv):
         )
 
         self.xml = self.model.mujoco_arena.xml
-        print(f"XML: {self.xml}")
 
     def reward(self, action=None):
         """

@@ -64,14 +64,14 @@ class TableArena(Arena):
         table_offset=(0, 0, 0.8),
         has_legs=True,
         table_texture=None,
+        xml="arenas/table_arena.xml",
         env_id=None,
     ):
-        default_xml = "arenas/table_arena.xml"
-        default_xml = xml_path_completion(default_xml)
+        default_xml = xml_path_completion(xml)
         if env_id is not None:
-            xml = default_xml.replace(".xml", f"_{env_id}_temp.xml")
-            if not os.path.exists(xml):
-                shutil.copy(default_xml, xml)
+            xml_temp = default_xml.replace(".xml", f"_{env_id}_temp.xml")
+            if not os.path.exists(xml_temp):
+                shutil.copy(default_xml, xml_temp)
         else:
             xml = default_xml
 

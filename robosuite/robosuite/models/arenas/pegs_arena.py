@@ -18,6 +18,7 @@ class PegsArena(TableArena):
         table_friction=(1, 0.005, 0.0001),
         table_offset=(0, 0, 0),
         table_texture=None,
+        env_id=None,
     ):
         super().__init__(
             table_full_size=table_full_size,
@@ -25,6 +26,7 @@ class PegsArena(TableArena):
             table_offset=table_offset,
             table_texture=table_texture,
             xml="arenas/pegs_arena.xml",
+            env_id=env_id,
         )
 
         # Get references to peg bodies

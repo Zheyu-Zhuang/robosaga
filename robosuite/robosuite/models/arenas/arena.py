@@ -1,8 +1,17 @@
 import numpy as np
 
 from robosuite.models.base import MujocoXML
-from robosuite.utils.mjcf_utils import array_to_string, string_to_array, \
-    new_geom, new_body, new_joint, ENVIRONMENT_COLLISION_COLOR, recolor_collision_geoms, find_elements, new_element
+from robosuite.utils.mjcf_utils import (
+    ENVIRONMENT_COLLISION_COLOR,
+    array_to_string,
+    find_elements,
+    new_body,
+    new_element,
+    new_geom,
+    new_joint,
+    recolor_collision_geoms,
+    string_to_array,
+)
 
 
 class Arena(MujocoXML):
@@ -18,8 +27,11 @@ class Arena(MujocoXML):
         self._postprocess_arena()
 
         # Recolor all geoms
-        recolor_collision_geoms(root=self.worldbody, rgba=ENVIRONMENT_COLLISION_COLOR,
-                                exclude=lambda e: True if e.get("name", None) == "floor" else False)
+        recolor_collision_geoms(
+            root=self.worldbody,
+            rgba=ENVIRONMENT_COLLISION_COLOR,
+            exclude=lambda e: True if e.get("name", None) == "floor" else False,
+        )
 
     def set_origin(self, offset):
         """
@@ -46,7 +58,9 @@ class Arena(MujocoXML):
                 See http://www.mujoco.org/book/XMLreference.html#camera for exact attribute specifications.
         """
         # Determine if camera already exists
-        camera = find_elements(root=self.worldbody, tags="camera", attribs={"name": camera_name}, return_first=True)
+        camera = find_elements(
+            root=self.worldbody, tags="camera", attribs={"name": camera_name}, return_first=True
+        )
 
         # Compose attributes
         if camera_attribs is None:
