@@ -118,6 +118,7 @@ def create_env(
     use_image_obs=False,
     distractors=None,
     table_texture=None,
+    env_id=None,
     **kwargs,
 ):
     """
@@ -149,6 +150,7 @@ def create_env(
         postprocess_visual_obs=True,
         distractors=distractors,
         table_texture=table_texture,
+        env_id=env_id,
         **kwargs,
     )
     print("Created environment with name {}".format(env_name))
@@ -164,6 +166,7 @@ def create_env_from_metadata(
     use_image_obs=False,
     distractors=None,
     table_texture=None,
+    env_id=None,    
 ):
     """
     Create environment.
@@ -202,6 +205,7 @@ def create_env_from_metadata(
         use_image_obs=use_image_obs,
         distractors=distractors,
         table_texture=table_texture,
+        env_id=env_id,
         **env_kwargs,
     )
     return env

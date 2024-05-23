@@ -369,6 +369,7 @@ def env_from_checkpoint(
     verbose=False,
     distractors=None,
     table_texture=None,
+    env_id=None,
 ):
     """
     Creates an environment using the metadata saved in a checkpoint.
@@ -405,6 +406,7 @@ def env_from_checkpoint(
         use_image_obs=shape_meta["use_images"],
         distractors=distractors,
         table_texture=table_texture,
+        env_id=env_id,
     )
     if verbose:
         print("============= Loaded Environment =============")

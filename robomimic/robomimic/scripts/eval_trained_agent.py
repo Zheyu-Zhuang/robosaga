@@ -248,6 +248,7 @@ def run_trained_agent(args):
         ckpt_path=ckpt_path, device=device, verbose=False
     )
 
+    # center cropping for eval
     replace_submodules(
         root_module=policy.policy.nets["policy"].nets["encoder"].nets["obs"],
         predicate=lambda x: isinstance(x, rmbn.CropRandomizer),
@@ -277,6 +278,7 @@ def run_trained_agent(args):
         verbose=False,
         distractors=args.distractors,
         table_texture=args.table_texture,
+        env_id = args.env_id
     )
 
     # maybe set seed
@@ -304,7 +306,7 @@ def run_trained_agent(args):
     if env_name == "NutAssembly":
         texture_xml_path = "robosuite/models/assets/arenas/pegs_arena.xml"
     elif env_name == "Lift":
-        texture_xml_path = "robosuite/models/assets/arenas/table_arena.xml"
+        texture_xml_path = f"robosuite/models/assets/arenas/table_arena.xml"
 
     texture_xml_path = os.path.join(get_robosuite_path(), texture_xml_path)
 
@@ -476,6 +478,9 @@ if __name__ == "__main__":
     )
 
     parser.add_argument("--texture_category", type=str, default=None)
+    
+    
+    parser.add_argument("--env_id", type=str, default=None) 
 
     args = parser.parse_args()
     run_trained_agent(args)

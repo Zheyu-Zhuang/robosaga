@@ -79,7 +79,7 @@ if __name__ == "__main__":
     scripts_with_args = []
     if args.mode == "texture":
         print(f"Running evaluation for texture {texture}")
-        for ckpt_path in top_n_checkpoints:
+        for i, ckpt_path in enumerate(top_n_checkpoints):
             scripts_with_args.append(
                 (
                     py_script,
@@ -90,6 +90,8 @@ if __name__ == "__main__":
                         str(n_rollouts),
                         "--texture",
                         texture,
+                        '--env_id',
+                        str(i),
                     ],
                 )
             )

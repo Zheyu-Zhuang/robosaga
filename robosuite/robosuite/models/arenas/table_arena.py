@@ -2,6 +2,7 @@ import os
 import xml.etree.ElementTree as ET
 
 import numpy as np
+import shutil
 
 from robosuite.models.arenas import Arena
 from robosuite.utils.mjcf_utils import (
@@ -63,10 +64,18 @@ class TableArena(Arena):
         table_offset=(0, 0, 0.8),
         has_legs=True,
         table_texture=None,
-        xml="arenas/table_arena.xml",
+        env_id = None,
     ):
+        default_xml = "arenas/table_arena.xml"
         xml = xml_path_completion(xml)
-
+        if env_id is not None:
+            xml = xml.replace(".xml", f"_{env_id}.xml")
+            # copy the default xml file to the new xml file
+            if not os.path.exists(xml):
+                shutil.copy(default_xml, xml)
+        else:
+            xml = default_xml
+            
         if table_texture is not None:
             texture_file_name = get_texture_name(table_texture)
             xml_temp = xml.replace(".xml", f"_{texture_file_name}_temp.xml")
@@ -76,6 +85,7 @@ class TableArena(Arena):
                 xml = replace_table_texture(xml, table_texture)
         super().__init__(xml)
 
+        self.xml = xml
         self.table_full_size = np.array(table_full_size)
         self.table_half_size = self.table_full_size / 2
         self.table_friction = table_friction

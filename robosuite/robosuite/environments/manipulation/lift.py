@@ -155,6 +155,7 @@ class Lift(SingleArmEnv):
         camera_depths=False,
         distractors=None,
         table_texture=None,
+        env_id = None,
     ):
         # settings for table top
         self.table_full_size = table_full_size
@@ -173,6 +174,7 @@ class Lift(SingleArmEnv):
 
         self.distractors = distractors_to_model(distractors)
         self.table_texture = table_texture
+        self.env_id = env_id    
 
         super().__init__(
             robots=robots,
@@ -197,6 +199,9 @@ class Lift(SingleArmEnv):
             camera_widths=camera_widths,
             camera_depths=camera_depths,
         )
+        
+        self.xml = self.model.mujoco_arena.xml  
+        print(self.xml)
 
     def reward(self, action=None):
         """
@@ -265,6 +270,7 @@ class Lift(SingleArmEnv):
             table_friction=self.table_friction,
             table_offset=self.table_offset,
             table_texture=self.table_texture,
+            env_id=self.env_id,
         )
 
         # Arena always gets set to zero origin
