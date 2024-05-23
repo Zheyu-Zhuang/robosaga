@@ -74,6 +74,7 @@ class TableArena(Arena):
                 xml = xml_temp
             else:
                 xml = replace_table_texture(xml, table_texture)
+        self.table_texture = table_texture
         super().__init__(xml)
 
         self.table_full_size = np.array(table_full_size)

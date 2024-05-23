@@ -47,7 +47,13 @@ class EnvMeta(type):
         cls = super().__new__(meta, name, bases, class_dict)
 
         # List all environments that should not be registered here.
-        _unregistered_envs = ["MujocoEnv", "RobotEnv", "ManipulationEnv", "SingleArmEnv", "TwoArmEnv"]
+        _unregistered_envs = [
+            "MujocoEnv",
+            "RobotEnv",
+            "ManipulationEnv",
+            "SingleArmEnv",
+            "TwoArmEnv",
+        ]
 
         if cls.__name__ not in _unregistered_envs:
             register_env(cls)
@@ -125,7 +131,9 @@ class MujocoEnv(metaclass=EnvMeta):
         self.cur_time = None
         self.model_timestep = None
         self.control_timestep = None
-        self.deterministic_reset = False  # Whether to add randomized resetting of objects / robot joints
+        self.deterministic_reset = (
+            False  # Whether to add randomized resetting of objects / robot joints
+        )
 
         self.renderer = renderer
         self.renderer_config = renderer_config
@@ -266,7 +274,9 @@ class MujocoEnv(metaclass=EnvMeta):
             else:
                 _observables = self._setup_observables()
             for obs_name, obs in _observables.items():
-                self.modify_observable(observable_name=obs_name, attribute="sensor", modifier=obs._sensor)
+                self.modify_observable(
+                    observable_name=obs_name, attribute="sensor", modifier=obs._sensor
+                )
         # Make sure that all sites are toggled OFF by default
         self.visualize(vis_settings={vis: False for vis in self._visualizations})
 
@@ -296,9 +306,16 @@ class MujocoEnv(metaclass=EnvMeta):
 
         if self.has_offscreen_renderer:
             if self.sim._render_context_offscreen is None:
-                render_context = MjRenderContextOffscreen(self.sim, device_id=self.render_gpu_device_id)
-            self.sim._render_context_offscreen.vopt.geomgroup[0] = 1 if self.render_collision_mesh else 0
-            self.sim._render_context_offscreen.vopt.geomgroup[1] = 1 if self.render_visual_mesh else 0
+                render_context = MjRenderContextOffscreen(
+                    self.sim, device_id=self.render_gpu_device_id
+                )
+                self.sim.add_render_context(render_context)
+            self.sim._render_context_offscreen.vopt.geomgroup[0] = (
+                1 if self.render_collision_mesh else 0
+            )
+            self.sim._render_context_offscreen.vopt.geomgroup[1] = (
+                1 if self.render_visual_mesh else 0
+            )
 
         # additional housekeeping
         self.sim_state_initial = self.sim.get_state()
@@ -403,7 +420,9 @@ class MujocoEnv(metaclass=EnvMeta):
         if self.viewer is not None and self.renderer != "mujoco":
             self.viewer.update()
 
-        observations = self.viewer._get_observations() if self.viewer_get_obs else self._get_observations()
+        observations = (
+            self.viewer._get_observations() if self.viewer_get_obs else self._get_observations()
+        )
         return observations, reward, done, info
 
     def _pre_action(self, action, policy_step=False):
@@ -471,7 +490,9 @@ class MujocoEnv(metaclass=EnvMeta):
         Returns:
             OrderedDict: Observations from the environment
         """
-        observation = self.viewer._get_observations() if self.viewer_get_obs else self._get_observations()
+        observation = (
+            self.viewer._get_observations() if self.viewer_get_obs else self._get_observations()
+        )
         return observation
 
     def clear_objects(self, object_names):
@@ -503,7 +524,9 @@ class MujocoEnv(metaclass=EnvMeta):
         if self.renderer in ["nvisii"]:
             self.viewer.set_camera_pos_quat(camera_pos, camera_quat)
         else:
-            raise AttributeError("setting camera position and quat requires renderer to be NVISII.")
+            raise AttributeError(
+                "setting camera position and quat requires renderer to be NVISII."
+            )
 
     def edit_model_xml(self, xml_str):
         """
@@ -532,7 +555,9 @@ class MujocoEnv(metaclass=EnvMeta):
             if old_path is None:
                 continue
             old_path_split = old_path.split("/")
-            ind = max(loc for loc, val in enumerate(old_path_split) if val == "robosuite")  # last occurrence index
+            ind = max(
+                loc for loc, val in enumerate(old_path_split) if val == "robosuite"
+            )  # last occurrence index
             new_path_split = path_split + old_path_split[ind + 1 :]
             new_path = "/".join(new_path_split)
             elem.set("file", new_path)
@@ -613,7 +638,9 @@ class MujocoEnv(metaclass=EnvMeta):
                 match the function being replaced.
         """
         # Find the observable
-        assert observable_name in self._observables, "No valid observable with name {} found. Options are: {}".format(
+        assert (
+            observable_name in self._observables
+        ), "No valid observable with name {} found. Options are: {}".format(
             observable_name, self.observation_names
         )
         obs = self._observables[observable_name]
@@ -636,7 +663,16 @@ class MujocoEnv(metaclass=EnvMeta):
             # Invalid attribute specified
             raise ValueError(
                 "Invalid observable attribute specified. Requested: {}, valid options are {}".format(
-                    attribute, {"sensor", "corrupter", "filter", "delayer", "sampling_rate", "enabled", "active"}
+                    attribute,
+                    {
+                        "sensor",
+                        "corrupter",
+                        "filter",
+                        "delayer",
+                        "sampling_rate",
+                        "enabled",
+                        "active",
+                    },
                 )
             )
 
@@ -696,7 +732,9 @@ class MujocoEnv(metaclass=EnvMeta):
         Returns:
             set: All enabled observation names
         """
-        return set([name for name, observable in self._observables.items() if observable.is_enabled()])
+        return set(
+            [name for name, observable in self._observables.items() if observable.is_enabled()]
+        )
 
     @property
     def active_observables(self):
@@ -707,7 +745,9 @@ class MujocoEnv(metaclass=EnvMeta):
         Returns:
             set: All active observation names
         """
-        return set([name for name, observable in self._observables.items() if observable.is_active()])
+        return set(
+            [name for name, observable in self._observables.items() if observable.is_active()]
+        )
 
     @property
     def _visualizations(self):
