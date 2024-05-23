@@ -10,6 +10,7 @@ from robomimic.utils.eval_utils import get_top_n_experiments
 
 def run_script(script_name, script_args):
     command = ["python", script_name] + script_args
+    print(f"Running {' '.join(command)}")
     process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
     output, errors = process.communicate()
     return script_name, script_args, output, errors

@@ -72,6 +72,7 @@ class TableArena(Arena):
             xml_temp = default_xml.replace(".xml", f"_{env_id}_temp.xml")
             if not os.path.exists(xml_temp):
                 shutil.copy(default_xml, xml_temp)
+            xml = xml_temp
         else:
             xml = default_xml
 
