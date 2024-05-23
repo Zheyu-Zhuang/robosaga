@@ -123,7 +123,7 @@ training:
   tqdm_interval_sec: 1.0
 
 logging:
-  project: {task_name}
+  project: ${task_name}
   resume: True
   mode: online
   name: ${now:%Y.%m.%d-%H.%M.%S}_${exp_name}

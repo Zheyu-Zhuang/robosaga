@@ -1,6 +1,6 @@
 defaults:
   - _self_
-  - task: coffee_image_d0
+  - task: square_image_d0
 
 name: train_diffusion_unet_hybrid
 exp_name: "saga"
@@ -131,7 +131,7 @@ training:
   tqdm_interval_sec: 1.0
 
 logging:
-  project: {task_name}
+  project: ${task_name}
   resume: True
   mode: online
   name: ${now:%Y.%m.%d-%H.%M.%S}_${exp_name}
