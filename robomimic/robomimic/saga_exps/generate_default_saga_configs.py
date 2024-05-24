@@ -96,8 +96,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--tasks", type=str, nargs="+", default=["lift", "square", "transport", "can"]
     )
-    parser.add_argument("--config_dir", type=str, help="Directory to save the default configs")
-
+    parser.add_argument('-c', "--config_dir", type=str, default=".")
     args = parser.parse_args()
 
     for task in args.tasks:
