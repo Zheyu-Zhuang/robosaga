@@ -204,7 +204,12 @@ def train(config, device):
     encoder = model.nets["policy"].nets["encoder"].nets["obs"]
     ema_encoder = copy.deepcopy(encoder)
 
-    projection = torch.nn.Linear(128, 128).to("cuda")
+    n_rgb_obs = len(config.observation.modalities.obs.rgb)
+    rgb_feat_dim = config.observation.encoder.rgb.core_kwargs.feature_dimension
+
+    proj_dim = n_rgb_obs * rgb_feat_dim
+
+    projection = torch.nn.Linear(proj_dim, proj_dim).to(device)
     ema_projection = copy.deepcopy(projection)
 
     for param in ema_encoder.parameters():
