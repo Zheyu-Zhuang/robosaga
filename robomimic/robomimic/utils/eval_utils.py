@@ -14,20 +14,22 @@ def parse_log_file(filepath):
     matches = re.findall(pattern, content, re.DOTALL)
     for match in matches:
         experiments.append(match)
+        
     return experiments
 
 
-def extract_details(text_block):
-    epoch_pattern = r"Epoch (\d+) Rollouts"
-    success_rate_pattern = r'"Success_Rate": ([\d\.]+)'
-    checkpoint_path_pattern = r"save checkpoint to (.*?\.pth)"
-    epoch_match = re.search(epoch_pattern, text_block)
-    epoch_number = epoch_match.group(1) if epoch_match else "No epoch found"
-    success_rate_match = re.search(success_rate_pattern, text_block)
-    success_rate = success_rate_match.group(1) if success_rate_match else "No success rate found"
-    checkpoint_path_match = re.search(checkpoint_path_pattern, text_block)
-    checkpoint_path = checkpoint_path_match.group(1) if checkpoint_path_match else "No path found"
-    return epoch_number, success_rate, checkpoint_path
+def extract_details(text_block): 
+    text_block = text_block.split("\n")
+    for line in text_block:
+        if "Epoch" in line:
+            epoch_num = int(line.split(" ")[1])
+        if "Success_Rate" in line:
+            numbers = re.findall(r'\d+\.?\d*', line)
+            success_rate = numbers[0]
+        if "save checkpoint to" in line:
+            checkpoint_path = line.split(" ")[-1]
+    
+    return epoch_num, success_rate, checkpoint_path
 
 
 def get_top_n_experiments(log_file_path, n=3):
@@ -67,10 +69,7 @@ def main(exp_path):
 
 
 if __name__ == "__main__":
-    import argparse
+    # Specify the path to the experiment directory
+    exp_path = "experiments/robosaga/lift_image/bc/overlay/20240524001358/"
+    main(exp_path)    
 
-    parser = argparse.ArgumentParser()
-    parser.add_argument("-e", "--exp_path", type=str, required=True)
-    args = parser.parse_args()
-
-    main(args.exp_path)

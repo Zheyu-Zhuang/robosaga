@@ -185,8 +185,11 @@ class DiffusionUnetHybridImagePolicySODA(BaseImagePolicy):
         if self.normalize_obs:
             soda_config["normalizer"] = self.normalizer
             
-            
-        self.projection = nn.Linear(128, 128)
+        n_rgb_obs = len(obs_config["rgb"])
+        rgb_feat_dim = config["observation"]["encoder"]["rgb"]["core_kwargs"]["feature_dimension"]
+        proj_dim = n_rgb_obs * rgb_feat_dim
+        
+        self.projection = nn.Linear(proj_dim, proj_dim)
         self.ema_projection = copy.deepcopy(self.projection)
         for p in self.ema_projection.parameters():
             p.requires_grad_(False)
