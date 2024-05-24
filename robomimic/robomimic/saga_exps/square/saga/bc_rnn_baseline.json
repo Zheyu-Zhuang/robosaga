@@ -9,11 +9,8 @@
         "save_dir": "",
         "save_debug_im_every_n_batches": null,
         "background_path": "",
-        "disable_during_training": null,
         "aug_obs_pairs": null,
-        "aug_scheduler": null,
-        "aug_strategy": null,
-        "erase_thresh": null
+        "aug_strategy": null
     },
     "algo_name": "bc",
     "experiment": {
