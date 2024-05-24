@@ -5,9 +5,12 @@ defaults:
 name: train_diffusion_unet_hybrid
 _target_: diffusion_policy.workspace.train_diffusion_unet_hybrid_workspace.TrainDiffusionUnetHybridWorkspace
 
+exp_name: "baseline"
+
+
 task_name: ${task.name}
 shape_meta: ${task.shape_meta}
-exp_name: "default"
+# exp_name: "default"
 
 horizon: 16
 n_obs_steps: 2
@@ -106,11 +109,11 @@ training:
   tqdm_interval_sec: 1.0
 
 logging:
-  project: diffusion_policy_baseline
+  project: ${task_name}
   resume: True
   mode: online
-  name: ${now:%Y.%m.%d-%H.%M.%S}_${name}_original_dp
-  tags: ["${name}", "${task_name}", "${exp_name}"]
+  name: ${task_name}_${name}_${exp_name}
+  tags: ["${name}", "${task_name}"]
   id: null
   group: null
 
