@@ -30,8 +30,8 @@ from diffusion_policy.workspace.base_workspace import BaseWorkspace
 @click.option("--distractors", multiple=True, default=[])
 @click.option("--rand_texture", default=None, type=str)
 def main(checkpoint, output_dir, device, distractors, rand_texture):
-    if os.path.exists(output_dir):
-        click.confirm(f"Output path {output_dir} already exists! Overwrite?", abort=True)
+    # if os.path.exists(output_dir):
+    #     click.confirm(f"Output path {output_dir} already exists! Overwrite?", abort=True)
     pathlib.Path(output_dir).mkdir(parents=True, exist_ok=True)
 
     # load checkpoint
@@ -67,6 +67,7 @@ def main(checkpoint, output_dir, device, distractors, rand_texture):
             json_log[key] = value
     out_path = os.path.join(output_dir, "eval_log.json")
     json.dump(json_log, open(out_path, "w"), indent=2, sort_keys=True)
+    print(json_log)
 
 
 if __name__ == "__main__":

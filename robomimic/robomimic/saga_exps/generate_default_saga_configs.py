@@ -28,6 +28,7 @@ soda_default_configs = {"saliency": {"enabled": True, "background_path": backgro
 
 overlay_default_configs = {
     "saliency": {
+        "enabled": True,
         "aug_strategy": "simple_overlay",
         "aug_ratio": 0.5,
         "debug_vis": False,

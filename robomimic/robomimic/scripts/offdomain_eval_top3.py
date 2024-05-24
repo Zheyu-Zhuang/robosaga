@@ -6,7 +6,7 @@ import subprocess
 import numpy as np
 
 from robomimic.utils.eval_utils import get_top_n_experiments
-
+import shutil
 
 def run_script(script_name, script_args):
     command = ["python", script_name] + script_args
@@ -31,6 +31,9 @@ def run_scripts_in_parallel(scripts_with_args, output_file):
                 f"Output from {script_name} with arguments {' '.join(script_args)}:\n{output}\n"
             )
             print(f"Output from {script_name} with arguments {' '.join(script_args)}:\n{output}\n")
+        if errors:
+            f.write(f"Errors: {errors}\n")
+            print(f"Errors: {errors}\n")
 
 
 def extract_success_rates(file_path):
@@ -81,11 +84,12 @@ if __name__ == "__main__":
     eval_dir = os.path.join(args.exp_path, "eval")
     video_dir = os.path.join(eval_dir, "videos")
     if not os.path.exists(video_dir):
-        os.makedirs(video_dir)
+        os.makedirs(video_dir, exist_ok=True)
 
     top_n_checkpoints, top_n_success_rate = get_top_n_experiments(log_file_path, n=3)
-
-    py_script = "robomimic/scripts/eval_trained_agent.py"
+    
+    py_script = os.path.join(os.path.dirname(os.path.realpath(__file__))
+    , "eval_trained_agent.py")
     scripts_with_args = []
 
     print("\n=====================")
@@ -109,7 +113,7 @@ if __name__ == "__main__":
                         "--texture_category",
                         args.mode,
                         "--env_id",
-                        str(i),
+                        f'{args.mode}_env_{i}',
                     ]
                     + video_command,
                 )
@@ -133,17 +137,17 @@ if __name__ == "__main__":
     output_file = os.path.join(eval_dir, f"{args.mode}_stats.txt")
 
     # Execute each script with its arguments and save the output
-    if (
-        os.path.exists(output_file)
-        and input(f"Output file {output_file} already exists. Overwrite? (y/n): ").lower() != "y"
-    ):
-        print("Computing Stats from existing output file")
-    else:
-        os.remove(output_file) if os.path.exists(output_file) else None
-        run_scripts_in_parallel(scripts_with_args, output_file)
+    if os.path.exists(output_file):
+        archive_folder = os.path.join(eval_dir, "archive")
+        if not os.path.exists(archive_folder):
+            os.makedirs(archive_folder)
+        n_old = len(os.listdir(archive_folder))
+        shutil.move(output_file, os.path.join(archive_folder, f"{args.mode}_stats_{n_old}.txt"))
+        print('WARNING: output file already exists, moving to archive folder')
+    run_scripts_in_parallel(scripts_with_args, output_file)
 
     stats = get_results_string(output_file, top_n_success_rate, args.mode)
     print(stats)
 
-    with open(output_file, "w") as f:
+    with open(output_file, "a") as f:
         f.write(stats)
