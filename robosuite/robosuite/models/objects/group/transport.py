@@ -16,16 +16,21 @@ class TransportGroup(ObjectGroup):
         bin_size (3-tuple): (x,y,z) full size of bins to place on tables
     """
 
-    def __init__(self, name, payload, trash, bin_size=(0.3, 0.3, 0.15)):
+    def __init__(self, name, payload, trash, bin_size=(0.3, 0.3, 0.15), rand_eval=False):
         # Store and initialize internal variables
         self.payload = payload
         self.trash = trash
         self.bin_size = bin_size
 
         # Create bins and lid
-        self.start_bin = Bin(name=f"{name}_start_bin", bin_size=bin_size, density=10000.)
-        self.target_bin = Bin(name=f"{name}_target_bin", bin_size=bin_size, density=10000.)
-        self.trash_bin = Bin(name=f"{name}_trash_bin", bin_size=bin_size, density=10000.)
+        if rand_eval:
+            self.start_bin = Bin(name=f"{name}_start_bin", bin_size=bin_size, density=10000., rgba=(0.1, 0.1, 0.1, 0.0), use_texture=False)
+            self.target_bin = Bin(name=f"{name}_target_bin", bin_size=bin_size, density=10000., rgba=(0.1, 0.1, 0.1, 0.0), use_texture=False)
+            self.trash_bin = Bin(name=f"{name}_trash_bin", bin_size=bin_size, density=10000., rgba=(0.1, 0.1, 0.1, 0.0), use_texture=False) 
+        else:
+            self.start_bin = Bin(name=f"{name}_start_bin", bin_size=bin_size, density=10000.)
+            self.target_bin = Bin(name=f"{name}_target_bin", bin_size=bin_size, density=10000.)
+            self.trash_bin = Bin(name=f"{name}_trash_bin", bin_size=bin_size, density=10000.)
         self.lid = Lid(name=f"{name}_start_bin_lid", lid_size=(*bin_size[:2], 0.01))
 
         # Relevant geom ids

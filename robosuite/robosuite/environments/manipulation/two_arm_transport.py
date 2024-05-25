@@ -190,6 +190,8 @@ class TwoArmTransport(TwoArmEnv):
         # whether to use ground-truth object states
         self.use_object_obs = use_object_obs
         self.env_id = env_id
+        self.rand_texture = rand_texture    
+        
 
         super().__init__(
             robots=robots,
@@ -297,6 +299,7 @@ class TwoArmTransport(TwoArmEnv):
             table_frictions=self.table_friction,
             has_legs=True,
             env_id=self.env_id,
+            rand_texture = self.rand_texture,
         )
 
         # Arena always gets set to zero origin
@@ -360,6 +363,7 @@ class TwoArmTransport(TwoArmEnv):
             payload=payload,
             trash=trash,
             bin_size=self.bin_size,
+            # rand_eval=self.env_id is not None or self.rand_texture is not None,
         )
 
         # task includes arena, robot, and objects of interest

@@ -81,32 +81,31 @@ class RobomimicImageRunner(BaseImageRunner):
         if n_envs is None:
             n_envs = n_train + n_test
 
-        def get_rand_texture_paths(texture_category):
-            if texture_category is None:
-                return None
-            texture_dir = os.path.join(
-                robosuite.models.assets_root,
-                "textures/evaluation_textures",
-            )
-            texture_dir = os.path.join(texture_dir, texture_category)
-            texture_paths = []
-            for texture_file in os.listdir(texture_dir):
-                texture_path = os.path.join(texture_dir, texture_file)
-                texture_paths.append(texture_path)
-            return texture_paths
+        # def get_rand_texture_paths(texture_category):
+        #     if texture_category is None:
+        #         return None
+        #     texture_dir = os.path.join(
+        #         robosuite.models.assets_root,
+        #         "textures/evaluation_textures",
+        #     )
+        #     texture_dir = os.path.join(texture_dir, texture_category)
+        #     texture_paths = []
+        #     for texture_file in os.listdir(texture_dir):
+        #         texture_path = os.path.join(texture_dir, texture_file)
+        #         texture_paths.append(texture_path)
+        #     return texture_paths
 
-        if rand_texture is not None:
-            all_textures = get_rand_texture_paths(rand_texture)
+        # if rand_texture is not None:
+        #     all_textures = get_rand_texture_paths(rand_texture)
 
-        def get_one_texture():
-            if rand_texture is None:
-                return None
-            texture = random.choice(all_textures)
-            print(f"Using texture: {texture}")
-            return texture
+        # def rand_texture:
+        #     if rand_texture is None:
+        #         return None
+        #     texture = random.choice(all_textures)
+        #     print(f"Using texture: {texture}")
+        #     return texture
 
         # assert n_obs_steps <= n_action_steps
-        # HACK: hard coded dataset path
         dataset_path = os.path.expanduser(dataset_path)
         robosuite_fps = 20
         steps_per_render = max(robosuite_fps // fps, 1)
@@ -126,7 +125,7 @@ class RobomimicImageRunner(BaseImageRunner):
                 env_meta=env_meta,
                 shape_meta=shape_meta,
                 distractors=distractors,
-                rand_texture=get_one_texture(),
+                rand_texture=rand_texture,
             )
             # Robosuite's hard reset causes excessive memory consumption.
             # Disabled to run more envs.
@@ -167,7 +166,7 @@ class RobomimicImageRunner(BaseImageRunner):
                 shape_meta=shape_meta,
                 enable_render=False,
                 distractors=distractors,
-                rand_texture=get_one_texture(),
+                rand_texture=rand_texture,
             )
             return MultiStepWrapper(
                 VideoRecordingWrapper(

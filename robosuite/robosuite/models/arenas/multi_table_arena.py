@@ -15,7 +15,8 @@ from robosuite.utils.mjcf_utils import (
     xml_path_completion,
 )
 from robosuite.utils.saga_utils import get_texture_name, replace_texture
-
+import random
+import xml.etree.ElementTree as ET
 
 class MultiTableArena(Arena):
     """
@@ -56,7 +57,41 @@ class MultiTableArena(Arena):
         else:
             xml = default_xml
 
-        # TODO: implement texture replacement for multi-table arena
+        if rand_texture is not None:
+            this_file_path = os.path.abspath(__file__)
+            robosuite_path = os.path.join(os.path.dirname(this_file_path), "../assets")
+            texture_dir = os.path.join(
+                robosuite_path, "textures/evaluation_textures"
+            )
+            texture_dir = os.path.join(texture_dir, rand_texture)
+            texture_paths = []
+            for texture_file in os.listdir(texture_dir):
+                texture_path = os.path.join(texture_dir, texture_file)
+                texture_paths.append(texture_path)
+
+            tree = ET.parse(xml)
+            root = tree.getroot()
+            table_env_target_texture = ["tex-ceramic"]
+            multi_table_target_texture = ["texplane", "tex-ceramic", "tex-cream-plaster"]
+            bin_env_target_texture = ["tex-light-wood", "tex-dark-wood", "texplane", "tex-ceramic", "tex-cream-plaster"]
+            env_name = os.path.basename(xml).split('.')[0]
+            if env_name.endswith("_temp"):
+                env_name = env_name.split("_")[:-2]
+                env_name = "_".join(env_name)
+            for texture in root.iter("texture"):
+                if env_name == "table_arena":
+                    if texture.attrib.get("name") in table_env_target_texture:
+                        texture.attrib["file"] = random.choice(texture_paths)
+                elif env_name == "multi_table_arena":
+                    if texture.attrib.get("name") in multi_table_target_texture:
+                        texture.attrib["file"] = random.choice(texture_paths)
+                elif env_name == "bin_arena":
+                    if texture.attrib.get("name") in bin_env_target_texture:
+                        texture.attrib["file"] = random.choice(texture_paths)
+            rand_id = random.randint(0, 100000)
+            xml = xml.replace(".xml", f"_{rand_id}_temp.xml")
+            tree.write(xml)
+
 
         # Set internal vars
         self.table_offsets = np.array(table_offsets)

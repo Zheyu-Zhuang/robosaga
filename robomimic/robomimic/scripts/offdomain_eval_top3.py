@@ -87,6 +87,9 @@ if __name__ == "__main__":
         os.makedirs(video_dir, exist_ok=True)
 
     top_n_checkpoints, top_n_success_rate = get_top_n_experiments(log_file_path, n=3)
+    # in case save path changes
+    top_n_checkpoints = [os.path.basename(ckpt) for ckpt in top_n_checkpoints]
+    top_n_checkpoints = [os.path.join(args.exp_path, "models", ckpt) for ckpt in top_n_checkpoints]
     
     py_script = os.path.join(os.path.dirname(os.path.realpath(__file__))
     , "eval_trained_agent.py")

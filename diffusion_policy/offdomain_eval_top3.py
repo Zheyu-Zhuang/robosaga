@@ -70,10 +70,12 @@ def run_scripts_in_parallel(scripts_with_args, output_file):
         #     f.write(f"Errors: {errors}\n")
         #     print(f"Errors: {errors}\n")
 
-def run_scripts_sequentially(scripts_with_args, output_file):
+def run_scripts_sequential(scripts_with_args, output_file):
     with open(output_file, "a") as f:
         for script_name, script_args in scripts_with_args:
-            output, errors = run_script(script_name, script_args)
+            command = ["python", script_name] + script_args
+            process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+            output, errors = process.communicate()
             f.write(
                 f"Output from {script_name} with arguments {' '.join(script_args)}:\n{output}\n"
             )
@@ -195,7 +197,7 @@ if __name__ == "__main__":
         n_old = len(os.listdir(archive_folder))
         shutil.move(output_file, os.path.join(archive_folder, f"{args.mode}_stats_{n_old}.txt"))
         print('WARNING: output file already exists, moving to archive folder')
-    run_scripts_in_parallel(scripts_with_args, output_file)
+    run_scripts_sequential(scripts_with_args, output_file)
 
 
     stats = get_results_string(output_file, top_n_success_rate, args.mode)
