@@ -208,16 +208,16 @@ def replace_texture(xml_file, all_texture_path):
     bin_env_target_texture = ["tex-light-wood", "tex-dark-wood", "texplane", "tex-ceramic"]
     env_name = os.path.basename(xml_file).split(".")[0]
     if env_name.endswith("_temp"):
-        env_name = env_name.split("_")[:-2]
+        env_name = env_name.split("_")[:2]
         env_name = "_".join(env_name)
     for texture in root.iter("texture"):
         if env_name == "pegs_arena":
             if texture.attrib.get("name") in table_env_target_texture:
                 texture.attrib["file"] = random.choice(all_texture_path)
-        elif env_name == "multi_table_arena":
+        elif env_name == "multi_table":
             if texture.attrib.get("name") in multi_table_target_texture:
                 texture.attrib["file"] = random.choice(all_texture_path)
-        elif env_name == "bin_arena":
+        elif env_name == "bins_arena":
             if texture.attrib.get("name") in bin_env_target_texture:
                 texture.attrib["file"] = random.choice(all_texture_path)
     tree.write(xml_file)
