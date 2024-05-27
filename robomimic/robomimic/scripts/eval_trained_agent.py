@@ -204,14 +204,14 @@ def replace_texture(xml_file, all_texture_path):
     tree = ET.parse(xml_file)
     root = tree.getroot()
     table_env_target_texture = ["tex-ceramic"]
-    multi_table_target_texture = ["tex-ceramic"]
+    multi_table_target_texture = ["tex-ceramic", "tex-cream-plaster", "texplane"]
     bin_env_target_texture = ["tex-light-wood", "tex-dark-wood", "texplane", "tex-ceramic"]
-    env_name = os.path.basename(xml_file).split('.')[0]
+    env_name = os.path.basename(xml_file).split(".")[0]
     if env_name.endswith("_temp"):
         env_name = env_name.split("_")[:-2]
         env_name = "_".join(env_name)
     for texture in root.iter("texture"):
-        if env_name == "table_arena":
+        if env_name == "pegs_arena":
             if texture.attrib.get("name") in table_env_target_texture:
                 texture.attrib["file"] = random.choice(all_texture_path)
         elif env_name == "multi_table_arena":
@@ -241,6 +241,7 @@ def get_all_texture_paths(rand_texture, n_rollouts):
         texture_path = os.path.join(texture_dir, texture_file)
         texture_paths.append(texture_path)
     return texture_paths
+
 
 def run_trained_agent(args):
     # some arg checking
@@ -290,7 +291,7 @@ def run_trained_agent(args):
         render_offscreen=(args.video_path is not None),
         verbose=False,
         distractors=args.distractors,
-        rand_texture=args.rand_texture,
+        # rand_texture=args.rand_texture,
         env_id=args.env_id,
     )
 
@@ -478,7 +479,6 @@ if __name__ == "__main__":
         default=None,
         help="(optional) set seed for rollouts",
     )
-
 
     parser.add_argument("--env_id", type=str, default="1")
 

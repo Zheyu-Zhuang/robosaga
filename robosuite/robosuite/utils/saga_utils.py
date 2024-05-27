@@ -33,7 +33,7 @@ def distractors_to_model(distractors):
                 )
             )
         else:
-            name = "distractor_{}".format(idx)
+            name = f"{distractor_}_{idx}"
             models.append(supported_distractors[distractor_](name=name))
             idx += 1
     return models

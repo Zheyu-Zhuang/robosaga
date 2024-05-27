@@ -1,3 +1,4 @@
+import random
 from collections import OrderedDict
 
 import numpy as np
@@ -5,7 +6,19 @@ import numpy as np
 import robosuite.utils.transform_utils as T
 from robosuite.environments.manipulation.two_arm_env import TwoArmEnv
 from robosuite.models.arenas import MultiTableArena
-from robosuite.models.objects import BoxObject, HammerObject, TransportGroup
+from robosuite.models.objects import (
+    BoxObject,
+    BreadObject,
+    BreadVisualObject,
+    CanObject,
+    CanVisualObject,
+    CerealObject,
+    CerealVisualObject,
+    HammerObject,
+    MilkObject,
+    MilkVisualObject,
+    TransportGroup,
+)
 from robosuite.models.tasks import ManipulationTask
 from robosuite.utils.mjcf_utils import CustomMaterial
 from robosuite.utils.observables import Observable, sensor
@@ -13,6 +26,7 @@ from robosuite.utils.placement_samplers import (
     SequentialCompositeSampler,
     UniformRandomSampler,
 )
+from robosuite.utils.saga_utils import distractors_to_model
 
 
 class TwoArmTransport(TwoArmEnv):
@@ -190,8 +204,8 @@ class TwoArmTransport(TwoArmEnv):
         # whether to use ground-truth object states
         self.use_object_obs = use_object_obs
         self.env_id = env_id
-        self.rand_texture = rand_texture    
-        
+        self.rand_texture = rand_texture
+        self.distractors = distractors_to_model(distractors)
 
         super().__init__(
             robots=robots,
@@ -299,7 +313,7 @@ class TwoArmTransport(TwoArmEnv):
             table_frictions=self.table_friction,
             has_legs=True,
             env_id=self.env_id,
-            rand_texture = self.rand_texture,
+            rand_texture=self.rand_texture,
         )
 
         # Arena always gets set to zero origin
@@ -366,15 +380,15 @@ class TwoArmTransport(TwoArmEnv):
             # rand_eval=self.env_id is not None or self.rand_texture is not None,
         )
 
+        # Create placement initializer
+        tabletop_objects = self._get_placement_initializer()
+
         # task includes arena, robot, and objects of interest
         self.model = ManipulationTask(
             mujoco_arena=mujoco_arena,
             mujoco_robots=[robot.robot_model for robot in self.robots],
-            mujoco_objects=list(self.transport.objects.values()),
+            mujoco_objects=tabletop_objects,
         )
-
-        # Create placement initializer
-        self._get_placement_initializer()
 
     def _get_placement_initializer(self):
         """
@@ -382,6 +396,7 @@ class TwoArmTransport(TwoArmEnv):
         """
         # Create placement initializer
         self.placement_initializer = SequentialCompositeSampler(name="ObjectSampler")
+        self.placement_initializer.reset()
 
         # Pre-define settings for each object's placement
         object_names = ["start_bin", "lid", "payload", "target_bin", "trash", "trash_bin"]
@@ -419,6 +434,47 @@ class TwoArmTransport(TwoArmEnv):
                     z_offset=0.001,
                 )
             )
+
+        payload_bin = {"x": self.table_full_size[0] * 0.25, "table_num": 0, "name": "payload"}
+        target_bin = {"x": -self.table_full_size[0] * 0.25, "table_num": 1, "name": "target_bin"}
+        trash_bin = {"x": self.table_full_size[0] * 0.25, "table_num": 1, "name": "trash_bin"}
+
+        for distractor_ in self.distractors:
+            if "bottle" in distractor_._name or "milk" in distractor_._name:
+                bin_ = random.choice([trash_bin, target_bin])
+            else:
+                bin_ = random.choice([payload_bin, target_bin, trash_bin])
+            print(
+                f"Placing {distractor_._name} in bin {bin_['name']} on table {bin_['table_num']}"
+            )
+
+            self.placement_initializer.append_sampler(
+                sampler=UniformRandomSampler(
+                    name="f{distractor_._name}ObjectSampler",
+                    x_range=[bin_["x"] - pos_tol * 2, bin_["x"] + pos_tol * 2],
+                    y_range=[-pos_tol * 2, pos_tol * 2],
+                    rotation=0.0,
+                    rotation_axis="z",
+                    ensure_object_boundary_in_range=False,
+                    ensure_valid_placement=False,
+                    reference_pos=self.table_offsets[bin_["table_num"]],
+                    z_offset=0.001,
+                    # chance_of_hidden=0.5,
+                )
+            )
+
+        tabletop_objects = list(self.transport.objects.values())
+        if self.distractors != []:
+            for distractor_ in self.distractors:
+                if isinstance(self.placement_initializer, SequentialCompositeSampler):
+                    self.placement_initializer.add_objects_to_sampler(
+                        sampler_name="f{distractor_._name}ObjectSampler",
+                        mujoco_objects=distractor_,
+                    )
+                else:
+                    self.placement_initializer.add_objects(distractor_)
+            tabletop_objects = tabletop_objects + self.distractors
+        return tabletop_objects
 
     def _setup_references(self):
         """

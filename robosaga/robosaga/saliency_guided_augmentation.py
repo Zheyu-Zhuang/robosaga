@@ -114,6 +114,28 @@ class SaliencyGuidedAugmentation:
         # print(f"Updated {n_updated/self.buffer_depth*100:.2f}% of buffer")
         return self.restore_obs_dict_shape(obs_dict, obs_meta)
 
+    def intensity_matching(self, im, bg, normalizer=None, patch_reduction=16, smaps=None):
+
+        if normalizer is not None:
+            im = normalizer.unnormalize(im)
+        im_low_res = torch.nn.functional.interpolate(
+            im, scale_factor=1 / patch_reduction, mode="bilinear"
+        )
+        bg_low_res = torch.nn.functional.interpolate(
+            bg, scale_factor=1 / patch_reduction, mode="bilinear"
+        )
+        im_luma = 0.2126 * im_low_res[:, 0] + 0.7152 * im_low_res[:, 1] + 0.0722 * im_low_res[:, 2]
+        bg_luma = 0.2126 * bg_low_res[:, 0] + 0.7152 * bg_low_res[:, 1] + 0.0722 * bg_low_res[:, 2]
+        luma_map = im_luma / (bg_luma + 1e-6)
+        luma_map = torch.nn.functional.interpolate(
+            luma_map.unsqueeze(1), size=im.shape[2:], mode="bilinear"
+        )
+        luma_map = torch.clip(luma_map, 0, 1)
+        if smaps is not None:
+            luma_map = torch.where(smaps < 0.5, torch.ones_like(luma_map), luma_map)
+        adjusted_bg = bg * luma_map
+        return adjusted_bg
+
     def saliency_guided_augmentation(self, obs_dict, buffer_ids, obs_meta, update_dict):
         if update_dict == {} or not self.is_training or self.disable_during_training:
             return obs_dict
@@ -128,10 +150,12 @@ class SaliencyGuidedAugmentation:
                 crop_inds = obs_meta[obs_key]["crop_inds"][aug_inds]
                 out_shape = obs_meta[obs_key]["input_shape"][-2:]
                 smaps = self.fetch_saliency_from_buffer(obs_key, global_ids, crop_inds, out_shape)
-                smaps = self.linear_normalisation(smaps)
+                # smaps = self.normalisation(smaps, mode="softmax")
             rand_bg_idx = random.sample(range(self.backgrounds.shape[0]), len(aug_inds))
             bg = obs_meta["randomisers"][i].forward_in(self.backgrounds[rand_bg_idx])
-            bg = self.normalizer[obs_key].normalize(bg) if self.normalizer is not None else bg
+            normalizer = self.normalizer[obs_key] if self.normalizer is not None else None
+            bg = self.intensity_matching(obs_dict[obs_key][aug_inds], bg, normalizer)
+            bg = self.normalizer[obs_key].normalize(bg) if normalizer is not None else bg
             if self.aug_strategy == "saga_hybrid":
                 im = obs_dict[obs_key][aug_inds]
                 erase_thresh = 0.5
@@ -139,13 +163,13 @@ class SaliencyGuidedAugmentation:
                 smaps[smaps >= erase_thresh] = 0.5
                 x_aug = im * smaps + bg * (1 - smaps)
             elif self.aug_strategy == "saga_mixup":
-                smaps = torch.clip(smaps, 0, 0.5)
+                smaps = torch.clip(smaps, 0, 1.0)
                 x_aug = obs_dict[obs_key][aug_inds] * smaps + bg * (1 - smaps)
             elif self.aug_strategy == "saga_erase":
                 smaps[smaps < self.erase_thresh] = 0
                 smaps[smaps >= self.erase_thresh] = 1
                 x_aug = obs_dict[obs_key][aug_inds] * smaps + bg * (1 - smaps)
-            if self.batch_idx % 50 == 0:
+            if self.batch_idx % 30 == 0:
                 idx = 0
                 x_vis, x_aug_vis = obs_dict[obs_key][idx], obs_dict[obs_key][idx]
                 vis_smap, bg_vis = torch.ones_like(smaps[idx]), torch.zeros_like(bg[idx])
@@ -202,7 +226,7 @@ class SaliencyGuidedAugmentation:
                 continue
             image_for_update = obs_dict[k][update_inds]  # batch indices
             smaps = self.extractors[k].saliency(image_for_update).detach()
-            norm_smaps = self.linear_normalisation(smaps)
+            norm_smaps = self.normalisation(smaps, mode="linear")
             if not self.disable_buffer:
                 crop_inds_ = obs_meta[k]["crop_inds"]
                 crop_inds_ = None if crop_inds_ is None else crop_inds_[update_inds]
@@ -342,7 +366,7 @@ class SaliencyGuidedAugmentation:
         for obs_key in obs_meta["visual_modalities"]:
             image = obs_dict[obs_key][sample_idx].unsqueeze(0)
             smaps = self.extractors[obs_key].saliency(image).detach()
-            vis_smap = self.linear_normalisation(smaps)[0]
+            vis_smap = self.normalisation(smaps, mode="linear")[0]
             vis_ims_ = [self.denormalize_image(image, obs_key)]
             vis_ims.append(self.compose_saga_images(vis_ims_, vis_smap))
         im_name = f"batch_{self.batch_idx}_saliency.jpg"
@@ -390,11 +414,13 @@ class SaliencyGuidedAugmentation:
     def set_buffer_depth(self, buffer_depth):
         self.buffer_depth = buffer_depth
 
-    def linear_normalisation(self, s_map, min_delta=0.0):
+    def normalisation(self, s_map, min_delta=0.0, mode="linear"):
         in_shape = s_map.shape
         if len(s_map.shape) == 4:
             s_map = s_map.squeeze(1)
         s_map = s_map.view(in_shape[0], -1)
+        if mode == "softmax":
+            s_map = torch.nn.functional.softmax(s_map, dim=1)
         s_min = s_map.min(dim=1, keepdim=True)[0]
         s_max = s_map.max(dim=1, keepdim=True)[0]
         s_map_norm = (s_map + 1e-6 - s_min) / (s_max - s_min + 1e-6)
