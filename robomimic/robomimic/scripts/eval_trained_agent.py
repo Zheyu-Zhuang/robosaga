@@ -199,27 +199,35 @@ def rollout(
     return stats, traj
 
 
-def replace_texture(xml_file, all_texture_path):
+def replace_texture(xml_file, wall_textures, table_textures, floor_textures):
     # Load the XML file
     tree = ET.parse(xml_file)
     root = tree.getroot()
     table_env_target_texture = ["tex-ceramic"]
     multi_table_target_texture = ["tex-ceramic", "tex-cream-plaster", "texplane"]
     bin_env_target_texture = ["tex-light-wood", "tex-dark-wood", "texplane", "tex-ceramic"]
+    texture_types = {
+        "tex-ceramic": table_textures,
+        "tex-cream-plaster": wall_textures,
+        "texplane": floor_textures,
+        "tex-light-wood": floor_textures,
+        "tex-dark-wood": floor_textures,
+    }
     env_name = os.path.basename(xml_file).split(".")[0]
     if env_name.endswith("_temp"):
         env_name = env_name.split("_")[:2]
         env_name = "_".join(env_name)
     for texture in root.iter("texture"):
+        attrib_name = texture.attrib.get("name")
         if env_name == "pegs_arena":
-            if texture.attrib.get("name") in table_env_target_texture:
-                texture.attrib["file"] = random.choice(all_texture_path)
+            if attrib_name in table_env_target_texture:
+                texture.attrib["file"] = random.choice(texture_types[attrib_name])
         elif env_name == "multi_table":
-            if texture.attrib.get("name") in multi_table_target_texture:
-                texture.attrib["file"] = random.choice(all_texture_path)
+            if attrib_name in multi_table_target_texture:
+                texture.attrib["file"] = random.choice(texture_types[attrib_name])
         elif env_name == "bins_arena":
-            if texture.attrib.get("name") in bin_env_target_texture:
-                texture.attrib["file"] = random.choice(all_texture_path)
+            if attrib_name in bin_env_target_texture:
+                texture.attrib["file"] = random.choice(texture_types[attrib_name])
     tree.write(xml_file)
 
 
@@ -228,7 +236,7 @@ def get_robosuite_path():
     return os.path.join(os.path.dirname(this_file_path), "../../../robosuite")
 
 
-def get_all_texture_paths(rand_texture, n_rollouts):
+def get_all_texture_paths(rand_texture):
     if rand_texture is None:
         return None
     robosuite_path = get_robosuite_path()
@@ -241,6 +249,11 @@ def get_all_texture_paths(rand_texture, n_rollouts):
         texture_path = os.path.join(texture_dir, texture_file)
         texture_paths.append(texture_path)
     return texture_paths
+
+
+floor_textures = get_all_texture_paths("floor")
+wall_textures = get_all_texture_paths("wall")
+table_textures = get_all_texture_paths("table")
 
 
 def run_trained_agent(args):
@@ -319,11 +332,9 @@ def run_trained_agent(args):
 
     xml_path = env.env.xml
 
-    all_texture_paths = get_all_texture_paths(args.rand_texture, rollout_num_episodes)
-
     for i in range(pbar.total):
-        if all_texture_paths is not None:
-            replace_texture(xml_path, all_texture_paths)
+        if args.rand_texture is not None:
+            replace_texture(xml_path, wall_textures, table_textures, floor_textures)
         stats, traj = rollout(
             policy=policy,
             env=env,
