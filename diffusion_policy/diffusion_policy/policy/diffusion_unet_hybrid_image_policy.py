@@ -36,6 +36,9 @@ class DiffusionUnetHybridImagePolicy(BaseImagePolicy):
             cond_predict_scale=True,
             obs_encoder_group_norm=False,
             eval_fixed_crop=False,
+            normalize_obs=True,
+            group_norm={"enable": False, "return_fullgrad_bias": False},
+
             # parameters passed to step
             **kwargs):
         super().__init__()
