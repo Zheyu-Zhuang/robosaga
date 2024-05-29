@@ -1,15 +1,16 @@
 defaults:
   - _self_
-  - task: square_image
+  - task: green_pnp_real
 
 name: train_diffusion_unet_hybrid
-exp_name: "overlay"
+exp_name: "baseline"
 
-_target_: diffusion_policy.workspace.train_saga_diffusion_unet_hybrid_workspace.TrainDiffusionUnetHybridWorkspace
+_target_: diffusion_policy.workspace.train_diffusion_unet_hybrid_workspace.TrainDiffusionUnetHybridWorkspace
+
+
 
 task_name: ${task.name}
 shape_meta: ${task.shape_meta}
-# exp_name: "default"
 
 horizon: 16
 n_obs_steps: 2
@@ -20,29 +21,9 @@ past_action_visible: False
 keypoint_visible_rate: 1.0
 obs_as_global_cond: True
 
-# -------------------------- pay attention here !!! ------------------------- #
-use_ema: True
-normalize_obs: True
-group_norm:
-  enable: True
-  return_fullgrad_bias: True
-
-
-saliency:
-  aug_ratio: 0.5  # 50% of the time, use augmented data
-  aug_strategy: simple_overlay
-  debug_vis: False
-  debug_save: True
-  buffer_shape: [84, 84]
-  save_dir: ""
-  save_debug_im_every_n_batches: 5
-  background_path: ../data/coco_5k_84x84/
-  warmup_steps: 10
-
-# ---------------------------------------------------------------------------- #
 
 policy:
-  _target_: diffusion_policy.policy.diffusion_unet_hybrid_image_policy_saga.DiffusionUnetHybridImagePolicySaGA
+  _target_: diffusion_policy.policy.diffusion_unet_hybrid_image_policy.DiffusionUnetHybridImagePolicy
 
   shape_meta: ${shape_meta}
   
@@ -51,10 +32,13 @@ policy:
     num_train_timesteps: 100
     beta_start: 0.0001
     beta_end: 0.02
+    # beta_schedule is important
+    # this is the best we found
     beta_schedule: squaredcos_cap_v2
     variance_type: fixed_small # Yilun's paper uses fixed_small_log instead, but easy to cause Nan
     clip_sample: True # required when predict_epsilon=False
     prediction_type: epsilon # or sample
+
 
   horizon: ${horizon}
   n_action_steps: ${eval:'${n_action_steps}+${n_latency_steps}'}
@@ -68,10 +52,8 @@ policy:
   kernel_size: 5
   n_groups: 8
   cond_predict_scale: True
-  normalize_obs: ${normalize_obs}
+  obs_encoder_group_norm: True
   eval_fixed_crop: True
-  group_norm: ${group_norm}
-  saliency_config: ${saliency}
 
   # scheduler.step params
   # predict_epsilon: True
@@ -117,7 +99,7 @@ training:
   gradient_accumulate_every: 1
   # EMA destroys performance when used with BatchNorm
   # replace BatchNorm with GroupNorm.
-  use_ema: ${use_ema}
+  use_ema: True
   # training loop control
   # in epochs
   rollout_every: 50
@@ -140,13 +122,12 @@ logging:
   group: null
   allow_val_change: True
 
-
 checkpoint:
   topk:
-    monitor_key: test_mean_score
-    mode: max
+    monitor_key: train_loss
+    mode: min
     k: 5
-    format_str: 'epoch={epoch:04d}-test_mean_score={test_mean_score:.3f}.ckpt'
+    format_str: 'epoch={epoch:04d}-train_loss={train_loss:.3f}.ckpt'
   save_last_ckpt: True
   save_last_snapshot: False
 
@@ -162,3 +143,4 @@ hydra:
   sweep:
     dir: ../experiments/robosaga/${task_name}/diffusion_policy/${exp_name}
     subdir: ${hydra.job.num}
+

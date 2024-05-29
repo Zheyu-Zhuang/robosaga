@@ -1,6 +1,6 @@
 defaults:
   - _self_
-  - task: square_image
+  - task: green_pnp_real
 
 name: train_diffusion_unet_hybrid
 exp_name: "overlay"
@@ -38,7 +38,6 @@ saliency:
   save_debug_im_every_n_batches: 5
   background_path: ../data/coco_5k_84x84/
   warmup_steps: 10
-
 # ---------------------------------------------------------------------------- #
 
 policy:
@@ -143,10 +142,10 @@ logging:
 
 checkpoint:
   topk:
-    monitor_key: test_mean_score
-    mode: max
+    monitor_key: train_loss
+    mode: min
     k: 5
-    format_str: 'epoch={epoch:04d}-test_mean_score={test_mean_score:.3f}.ckpt'
+    format_str: 'epoch={epoch:04d}-train_loss={train_loss:.3f}.ckpt'
   save_last_ckpt: True
   save_last_snapshot: False
 

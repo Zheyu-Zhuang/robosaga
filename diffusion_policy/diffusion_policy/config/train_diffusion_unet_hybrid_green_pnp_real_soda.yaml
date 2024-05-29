@@ -1,11 +1,11 @@
 defaults:
   - _self_
-  - task: square_image
+  - task: green_pnp_real
 
 name: train_diffusion_unet_hybrid
-exp_name: "overlay"
+exp_name: "saga"
 
-_target_: diffusion_policy.workspace.train_saga_diffusion_unet_hybrid_workspace.TrainDiffusionUnetHybridWorkspace
+_target_: diffusion_policy.workspace.train_diffusion_unet_hybrid_workspace.TrainDiffusionUnetHybridWorkspace
 
 task_name: ${task.name}
 shape_meta: ${task.shape_meta}
@@ -25,24 +25,15 @@ use_ema: True
 normalize_obs: True
 group_norm:
   enable: True
-  return_fullgrad_bias: True
+  return_fullgrad_bias: False
 
 
-saliency:
-  aug_ratio: 0.5  # 50% of the time, use augmented data
-  aug_strategy: simple_overlay
-  debug_vis: False
-  debug_save: True
-  buffer_shape: [84, 84]
-  save_dir: ""
-  save_debug_im_every_n_batches: 5
+soda:
   background_path: ../data/coco_5k_84x84/
-  warmup_steps: 10
-
 # ---------------------------------------------------------------------------- #
 
 policy:
-  _target_: diffusion_policy.policy.diffusion_unet_hybrid_image_policy_saga.DiffusionUnetHybridImagePolicySaGA
+  _target_: diffusion_policy.policy.diffusion_unet_hybrid_image_policy_soda.DiffusionUnetHybridImagePolicySODA
 
   shape_meta: ${shape_meta}
   
@@ -71,7 +62,7 @@ policy:
   normalize_obs: ${normalize_obs}
   eval_fixed_crop: True
   group_norm: ${group_norm}
-  saliency_config: ${saliency}
+  soda_config: ${soda}
 
   # scheduler.step params
   # predict_epsilon: True
@@ -143,10 +134,10 @@ logging:
 
 checkpoint:
   topk:
-    monitor_key: test_mean_score
-    mode: max
+    monitor_key: train_loss
+    mode: min
     k: 5
-    format_str: 'epoch={epoch:04d}-test_mean_score={test_mean_score:.3f}.ckpt'
+    format_str: 'epoch={epoch:04d}-train_loss={train_loss:.3f}.ckpt'
   save_last_ckpt: True
   save_last_snapshot: False
 

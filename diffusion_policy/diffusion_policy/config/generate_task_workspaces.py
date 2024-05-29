@@ -14,7 +14,10 @@ for task in all_tasks:
     print(f'Processing task {task}' )
     for aug_type in aug_types:
         out_file = os.path.join(this_dir, f'train_diffusion_unet_hybrid_{task}_{aug_type}.yaml')
-        f_path = os.path.join(this_dir,  f_base + f'_{aug_type}.yaml')
+        if 'real' in task:
+            f_path = os.path.join(this_dir,  f_base + f'_real_{aug_type}.yaml')
+        else:
+            f_path = os.path.join(this_dir,  f_base + f'_{aug_type}.yaml')
         shutil.copy(f_path, out_file)
         with open(out_file, 'r') as file:
             lines = file.readlines()
