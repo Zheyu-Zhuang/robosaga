@@ -59,7 +59,7 @@ class SaliencyGuidedAugmentation:
         self.is_registered = True
         self.is_training = True
 
-        self.check_augmentation_strategy(kwargs)
+        self.check_augmentation_strategy()
         self.check_required_args(print_args=True)
 
     # --------------------------------------------------------------------------- #
@@ -71,7 +71,7 @@ class SaliencyGuidedAugmentation:
         self.is_training = self.model.training
         self.epoch_idx, self.batch_idx = epoch_idx, batch_idx
         saga_turned_off = False
-        if epoch_idx <= self.warmup_epochs:
+        if epoch_idx < self.warmup_epochs:
             saga_turned_off = True
         if saga_turned_off:
             self.unregister_hooks()
@@ -98,7 +98,7 @@ class SaliencyGuidedAugmentation:
     def saliency_guided_augmentation(
         self, obs_dict, buffer_ids, obs_meta, update_dict, aug_traj=False
     ):
-        if update_dict == {} or not self.is_training or self.disable_during_training:
+        if update_dict == {} or not self.is_training:
             return obs_dict
         vis_ims = []
         for i, obs_key in enumerate(obs_meta["visual_modalities"]):
@@ -167,7 +167,7 @@ class SaliencyGuidedAugmentation:
                 continue
             image_for_update = obs_dict[k][update_inds]  # batch indices
             smaps = self.extractors[k].saliency(image_for_update).detach()
-            norm_smaps = self.normalisation(smaps, mode="linear")
+            norm_smaps = self.normalisation(smaps)
             if not self.disable_buffer:
                 crop_inds_ = obs_meta[k]["crop_inds"]
                 crop_inds_ = None if crop_inds_ is None else crop_inds_[update_inds]
@@ -335,7 +335,7 @@ class SaliencyGuidedAugmentation:
         for obs_key in obs_meta["visual_modalities"]:
             image = obs_dict[obs_key][sample_idx].unsqueeze(0)
             smaps = self.extractors[obs_key].saliency(image).detach()
-            vis_smap = self.normalisation(smaps, mode="linear")[0]
+            vis_smap = self.normalisation(smaps)[0]
             vis_ims_ = [self.denormalize_image(image, obs_key)]
             vis_ims.append(self.compose_saga_images(vis_ims_, vis_smap))
         im_name = f"batch_{self.batch_idx}_saliency.jpg"
@@ -420,7 +420,6 @@ class SaliencyGuidedAugmentation:
             "disable_buffer",
             "buffer_shape",
             "backgrounds",
-            "disable_during_training",
             "save_dir",
         ]
 
