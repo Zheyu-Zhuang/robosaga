@@ -3,7 +3,7 @@ defaults:
   - task: transport_image
 
 name: train_diffusion_unet_hybrid
-exp_name: "saga_default"
+exp_name: "saga"
 
 _target_: diffusion_policy.workspace.train_saga_diffusion_unet_hybrid_workspace.TrainDiffusionUnetHybridWorkspace
 
