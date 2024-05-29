@@ -9,6 +9,7 @@ background_path = "../data/coco_5k_84x84/"
 saga_default_configs = {
     "saliency": {
         "enabled": True,
+        "warmup_epochs": 10,
         "update_ratio": 0.1,
         "aug_ratio": 0.5,
         "debug_vis": False,
@@ -18,7 +19,6 @@ saga_default_configs = {
         "save_debug_im_every_n_batches": 5,
         "background_path": background_path,
         "aug_strategy": "saga_mixup",
-        "aug_obs_pairs": False,
     }
 }
 
@@ -29,6 +29,7 @@ soda_default_configs = {"saliency": {"enabled": True, "background_path": backgro
 overlay_default_configs = {
     "saliency": {
         "enabled": True,
+        "warmup_epochs": 10,
         "aug_strategy": "simple_overlay",
         "aug_ratio": 0.5,
         "debug_vis": False,
@@ -97,7 +98,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--tasks", type=str, nargs="+", default=["lift", "square", "transport", "can"]
     )
-    parser.add_argument('-c', "--config_dir", type=str, default=".")
+    parser.add_argument("-c", "--config_dir", type=str, default=".")
     args = parser.parse_args()
 
     for task in args.tasks:
