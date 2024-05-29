@@ -304,7 +304,6 @@ def run_trained_agent(args):
         render_offscreen=(args.video_path is not None),
         verbose=False,
         distractors=args.distractors,
-        # rand_texture=args.rand_texture,
         env_id=args.env_id,
     )
 
@@ -328,12 +327,10 @@ def run_trained_agent(args):
     rollout_stats = []
     pbar = tqdm(total=rollout_num_episodes)
 
-    # HACK: rand_texture replacement
-
     xml_path = env.env.xml
 
     for i in range(pbar.total):
-        if args.rand_texture is not None:
+        if args.shuffle_env:
             replace_texture(xml_path, wall_textures, table_textures, floor_textures)
         stats, traj = rollout(
             policy=policy,
@@ -409,7 +406,7 @@ if __name__ == "__main__":
         default=None,
     )
 
-    parser.add_argument("--rand_texture", type=str, default=None)
+    parser.add_argument("--shuffle_env", action="store_true")
     # number of rollouts
     parser.add_argument(
         "--n_rollouts",

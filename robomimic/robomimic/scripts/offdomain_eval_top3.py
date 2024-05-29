@@ -1,12 +1,13 @@
 import concurrent.futures
 import os
 import re
+import shutil
 import subprocess
 
 import numpy as np
 
 from robomimic.utils.eval_utils import get_top_n_experiments
-import shutil
+
 
 def run_script(script_name, script_args):
     command = ["python", script_name] + script_args
@@ -90,9 +91,8 @@ if __name__ == "__main__":
     # in case save path changes
     top_n_checkpoints = [os.path.basename(ckpt) for ckpt in top_n_checkpoints]
     top_n_checkpoints = [os.path.join(args.exp_path, "models", ckpt) for ckpt in top_n_checkpoints]
-    
-    py_script = os.path.join(os.path.dirname(os.path.realpath(__file__))
-    , "eval_trained_agent.py")
+
+    py_script = os.path.join(os.path.dirname(os.path.realpath(__file__)), "eval_trained_agent.py")
     scripts_with_args = []
 
     print("\n=====================")
@@ -104,7 +104,7 @@ if __name__ == "__main__":
         video_path = os.path.join(video_dir, video_name)
         video_command = ["--video_path", video_path] if args.video else []
 
-        if args.mode in ["indoor", "outdoor", "textile"]:
+        if args.mode in ["env"]:
             scripts_with_args.append(
                 (
                     py_script,
@@ -113,10 +113,9 @@ if __name__ == "__main__":
                         ckpt_path,
                         "--n_rollouts",
                         str(args.n_rollouts),
-                        "--texture_category",
-                        args.mode,
+                        "--shuffle_env",
                         "--env_id",
-                        f'{args.mode}_env_{i}',
+                        f"{args.mode}_env_{i}",
                     ]
                     + video_command,
                 )
@@ -146,7 +145,7 @@ if __name__ == "__main__":
             os.makedirs(archive_folder)
         n_old = len(os.listdir(archive_folder))
         shutil.move(output_file, os.path.join(archive_folder, f"{args.mode}_stats_{n_old}.txt"))
-        print('WARNING: output file already exists, moving to archive folder')
+        print("WARNING: output file already exists, moving to archive folder")
     run_scripts_in_parallel(scripts_with_args, output_file)
 
     stats = get_results_string(output_file, top_n_success_rate, args.mode)
