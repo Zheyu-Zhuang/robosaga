@@ -15,7 +15,6 @@ except ImportError:
     from robomimic.models.base_nets import VisualCore
 
 import kornia as K
-import torchvision
 
 from robosaga.fullgrad import FullGrad
 from robosaga.tensor_extractors import EncoderOnly
@@ -30,8 +29,8 @@ class SaliencyGuidedAugmentation:
         # Augmentation related attributes
         self.aug_ratio = self.get_kwarg(kwargs, "aug_ratio", None)
         self.aug_strategy = self.get_kwarg(kwargs, "aug_strategy", "saga_mixup")
-        self.aug_obs_pairs = self.get_kwarg(kwargs, "aug_obs_pairs", False)
         self.update_ratio = self.get_kwarg(kwargs, "update_ratio", None)
+        self.warmup_epochs = self.get_kwarg(kwargs, "warmup_epochs", 10)
 
         # Buffer related attributes
         self.buffer = {}
@@ -51,7 +50,6 @@ class SaliencyGuidedAugmentation:
         self.debug_save = self.get_kwarg(kwargs, "debug_save", True)
         self.save_dir = self.get_kwarg(kwargs, "save_dir", None)
         self.normalizer = self.get_kwarg(kwargs, "normalizer", None)
-        self.disable_during_training = self.get_kwarg(kwargs, "disable_during_training", False)
 
         # Indexes
         self.epoch_idx = 0  # epoch index
@@ -64,27 +62,6 @@ class SaliencyGuidedAugmentation:
         self.check_augmentation_strategy(kwargs)
         self.check_required_args(print_args=True)
 
-    def get_kwarg(self, kwargs, key, default):
-        return kwargs.get(key, default)
-
-    def check_augmentation_strategy(self, kwargs):
-        assert self.aug_strategy in [
-            "saga_mixup",
-            "saga_erase",
-            "simple_overlay",
-            "saga_hybrid",
-        ], "Invalid aug_strategy"
-        assert self.aug_ratio is not None, "aug_ratio is required"
-        if self.aug_strategy == "saga_erase":
-            assert "erase_thresh" in kwargs, "erase_thresh is required for saga_erase strategy"
-            assert 0 < kwargs["erase_thresh"] <= 1, "erase_thresh should be in (0, 1]"
-            self.erase_thresh = kwargs["erase_thresh"]
-        if self.aug_strategy == "simple_overlay":
-            if not self.disable_buffer:
-                self.disable_buffer = True
-                print("SaGA Warning: Buffer is disabled for simple_overlay strategy")
-            # TODO: add blending ratio for simple_overlay
-
     # --------------------------------------------------------------------------- #
     #                         Training Specific Functions                         #
     # --------------------------------------------------------------------------- #
@@ -93,72 +70,34 @@ class SaliencyGuidedAugmentation:
     def __call__(self, obs_dict, buffer_ids, epoch_idx, batch_idx):
         self.is_training = self.model.training
         self.epoch_idx, self.batch_idx = epoch_idx, batch_idx
-        is_turned_off = self.is_training and self.disable_during_training
-        if is_turned_off:
+        saga_turned_off = False
+        if epoch_idx <= self.warmup_epochs:
+            saga_turned_off = True
+        if saga_turned_off:
             self.unregister_hooks()
             return obs_dict
         obs_dict, obs_meta = self.prepare_obs_dict(obs_dict)
         self.model.eval()  # required for saliency computation
-        if self.is_training and not self.disable_during_training:
+
+        if self.is_training:
             if self.aug_strategy == "simple_overlay":
                 self.unregister_hooks()
                 obs_dict = self.simple_overlay(obs_dict, obs_meta)
             else:
                 self.register_hooks()
-                update_dict = self.get_update_indices(buffer_ids, obs_meta, mode="ordered")
+                update_dict = self.update_saliency_buffer(buffer_ids, obs_dict, obs_meta)
                 obs_dict = self.saliency_guided_augmentation(
-                    obs_dict, buffer_ids, obs_meta, update_dict
+                    obs_dict, buffer_ids, obs_meta, update_dict, aug_traj=True
                 )
-                update_dict = self.get_update_indices(buffer_ids, obs_meta, mode="frequency")
-                self.update_saliency_buffer(update_dict, obs_dict, buffer_ids, obs_meta)
-
         elif not self.is_training:
             self.register_hooks()
             self.save_debug_images(obs_dict, obs_meta)
         self.model.train() if self.is_training else self.model.eval()
-        # n_updated = torch.sum(self.buffer_watcher[obs_meta["visual_modalities"][0]] > 0).item()
-        # print(f"Updated {n_updated/self.buffer_depth*100:.2f}% of buffer")
         return self.restore_obs_dict_shape(obs_dict, obs_meta)
 
-    def randomise_background(self, bg, input_size=(76, 76)):
-        if bg.size(2) != input_size[0] or bg.size(3) != input_size[1]:
-            bg = torch.nn.functional.interpolate(bg, size=input_size, mode="bilinear")
-        angles = torch.rand(bg.size(0)) * 360  # Random angle from 0 to 360 degrees
-        # Rotate images
-        rotated_images = K.geometry.transform.rotate(
-            bg, angles.to(bg.device), mode="bilinear", padding_mode="border"
-        )
-        # Apply random brightness
-        brightness_factors = (
-            torch.rand(bg.size(0)) * 0.2
-        ) - 0.1  # Random brightness from -0.1 to 0.1
-        bg = K.enhance.adjust_brightness(rotated_images, brightness_factors)
-
-        return bg
-
-    def intensity_matching(self, im, bg, normalizer=None, patch_reduction=16, smaps=None):
-
-        if normalizer is not None:
-            im = normalizer.unnormalize(im)
-        im_low_res = torch.nn.functional.interpolate(
-            im, scale_factor=1 / patch_reduction, mode="bilinear"
-        )
-        bg_low_res = torch.nn.functional.interpolate(
-            bg, scale_factor=1 / patch_reduction, mode="bilinear"
-        )
-        im_luma = 0.2126 * im_low_res[:, 0] + 0.7152 * im_low_res[:, 1] + 0.0722 * im_low_res[:, 2]
-        bg_luma = 0.2126 * bg_low_res[:, 0] + 0.7152 * bg_low_res[:, 1] + 0.0722 * bg_low_res[:, 2]
-        luma_map = im_luma / (bg_luma + 1e-6)
-        luma_map = torch.nn.functional.interpolate(
-            luma_map.unsqueeze(1), size=im.shape[2:], mode="bilinear"
-        )
-        luma_map = torch.clip(luma_map, 0, 1)
-        if smaps is not None:
-            luma_map = torch.where(smaps < 0.5, torch.ones_like(luma_map), luma_map)
-        adjusted_bg = bg * luma_map
-        return adjusted_bg
-
-    def saliency_guided_augmentation(self, obs_dict, buffer_ids, obs_meta, update_dict):
+    def saliency_guided_augmentation(
+        self, obs_dict, buffer_ids, obs_meta, update_dict, aug_traj=False
+    ):
         if update_dict == {} or not self.is_training or self.disable_during_training:
             return obs_dict
         vis_ims = []
@@ -167,31 +106,18 @@ class SaliencyGuidedAugmentation:
                 aug_inds = update_dict[obs_key]["updates"]
                 smaps = update_dict[obs_key]["smaps"]
             if not self.disable_buffer:
-                aug_inds = update_dict[obs_key]["augmentations"]
+                # Augment the fisrt n_samples * aug_ratio samples, this requires training set being shuffled
+                aug_inds = torch.arange(int(obs_meta["n_samples"] * self.aug_ratio))
                 global_ids = buffer_ids[aug_inds]
                 crop_inds = obs_meta[obs_key]["crop_inds"][aug_inds]
                 out_shape = obs_meta[obs_key]["input_shape"][-2:]
                 smaps = self.fetch_saliency_from_buffer(obs_key, global_ids, crop_inds, out_shape)
-                # smaps = self.normalisation(smaps, mode="softmax")
             rand_bg_idx = random.sample(range(self.backgrounds.shape[0]), len(aug_inds))
-            # bg = obs_meta["randomisers"][i].forward_in(self.backgrounds[rand_bg_idx])
-            bg = self.backgrounds[rand_bg_idx]
             normalizer = self.normalizer[obs_key] if self.normalizer is not None else None
-            bg = self.randomise_background(bg)
+            bg = self.randomise_background(self.backgrounds[rand_bg_idx], out_shape)
             bg = self.normalizer[obs_key].normalize(bg) if normalizer is not None else bg
-            if self.aug_strategy == "saga_hybrid":
-                im = obs_dict[obs_key][aug_inds]
-                erase_thresh = 0.5
-                smaps[smaps < erase_thresh] = 0
-                smaps[smaps >= erase_thresh] = 0.5
-                x_aug = im * smaps + bg * (1 - smaps)
-            elif self.aug_strategy == "saga_mixup":
-                smaps = torch.clip(smaps, 0, 1.0)
-                x_aug = obs_dict[obs_key][aug_inds] * smaps + bg * (1 - smaps)
-            elif self.aug_strategy == "saga_erase":
-                smaps[smaps < self.erase_thresh] = 0
-                smaps[smaps >= self.erase_thresh] = 1
-                x_aug = obs_dict[obs_key][aug_inds] * smaps + bg * (1 - smaps)
+            smaps = torch.clip(smaps, 0, 0.8)
+            x_aug = obs_dict[obs_key][aug_inds] * smaps + bg * (1 - smaps)
             if self.batch_idx % 30 == 0:
                 idx = 0
                 x_vis, x_aug_vis = obs_dict[obs_key][idx], obs_dict[obs_key][idx]
@@ -219,49 +145,38 @@ class SaliencyGuidedAugmentation:
         elif mode == "frequency":
             batch_inds = torch.randperm(n_samples)
             buffer_ids = buffer_ids[batch_inds]
-            #
             update_freq = self.buffer_watcher[obs_key][buffer_ids]
             _, sorted_inds = torch.sort(update_freq)
             aug_batch_inds = batch_inds[sorted_inds[:n_augs]]
             update_batch_inds = aug_batch_inds[:n_updates]
-        elif mode == "ordered":
-            aug_batch_inds = torch.arange(n_augs)
-            update_batch_inds = aug_batch_inds[:n_updates]
         return update_batch_inds, aug_batch_inds
 
-    def update_saliency_buffer(self, update_dict, obs_dict, buffer_ids, obs_meta):
-        for k in update_dict.keys():
-            update_inds = update_dict[k]["updates"]
-            crop_inds_ = obs_meta[k]["crop_inds"]
-            crop_inds_ = None if crop_inds_ is None else crop_inds_[update_inds]
-            image_for_update = obs_dict[k][update_inds]  # batch indices
-            smaps = self.extractors[k].saliency(image_for_update).detach()
-            norm_smaps = self.normalisation(smaps, mode="linear")
-            self.update_buffer(norm_smaps, buffer_ids[update_inds], k, crop_inds_)
-            self.buffer_watcher[k][buffer_ids[update_inds]] += 1
-
-    def get_update_indices(self, buffer_ids, obs_meta, mode="frequency"):
-        if self.disable_during_training or not self.is_training:
+    def update_saliency_buffer(self, buffer_ids, obs_dict, obs_meta):
+        if not self.is_training:
             return {}
         self.model.eval()
         n_samples = obs_meta["n_samples"]
         # get update frequency
-        shared_update_inds = None
-        shared_aug_inds = None
         out = {}
         for k in obs_meta["visual_modalities"]:
-            if shared_update_inds is None or not self.aug_obs_pairs:
-                update_inds, aug_inds = self.sample_update_indices(n_samples, buffer_ids, k, mode)
-                if shared_update_inds is None:
-                    shared_update_inds, shared_aug_inds = update_inds, aug_inds
-            else:
-                update_inds, aug_inds = shared_update_inds, shared_aug_inds  #
+            update_inds, aug_inds = self.sample_update_indices(
+                n_samples, buffer_ids, k, "frequency"
+            )
             if len(update_inds) == 0:
                 self.unregister_hooks()
                 continue
+            image_for_update = obs_dict[k][update_inds]  # batch indices
+            smaps = self.extractors[k].saliency(image_for_update).detach()
+            norm_smaps = self.normalisation(smaps, mode="linear")
+            if not self.disable_buffer:
+                crop_inds_ = obs_meta[k]["crop_inds"]
+                crop_inds_ = None if crop_inds_ is None else crop_inds_[update_inds]
+                self.update_buffer(norm_smaps, buffer_ids[update_inds], k, crop_inds_)
+                self.buffer_watcher[k][buffer_ids[update_inds]] += 1
             out[k] = {
                 "augmentations": aug_inds,
                 "updates": update_inds,
+                "smaps": norm_smaps,
             }
         return out
 
@@ -307,14 +222,14 @@ class SaliencyGuidedAugmentation:
         return obs_dict, obs_meta
 
     def simple_overlay(self, obs_dict, obs_meta):
-        if not self.is_training or self.disable_during_training:
+        if not self.is_training:
             return obs_dict
         for i, obs_key in enumerate(obs_meta["visual_modalities"]):
             n_samples = obs_meta["n_samples"]
-            aug_inds = torch.randperm(n_samples)
-            aug_inds = aug_inds[: int(n_samples * self.aug_ratio)]
+            # Augment the fisrt n_samples * aug_ratio samples, this requires training set being shuffled
+            aug_inds = torch.arange(int(n_samples * self.aug_ratio))
             rand_bg_idx = random.sample(range(self.backgrounds.shape[0]), len(aug_inds))
-            bg = obs_meta["randomisers"][i].forward_in(self.backgrounds[rand_bg_idx])
+            bg = self.randomise_background(bg=self.backgrounds[rand_bg_idx])
             bg = self.normalizer[obs_key].normalize(bg) if self.normalizer is not None else bg
             blend_factor = 0.5
             x_aug = obs_dict[obs_key][aug_inds] * blend_factor + bg * (1 - blend_factor)
@@ -382,6 +297,34 @@ class SaliencyGuidedAugmentation:
     #                                    Utils                                    #
     # --------------------------------------------------------------------------- #
 
+    def get_kwarg(self, kwargs, key, default):
+        return kwargs.get(key, default)
+
+    def check_augmentation_strategy(self):
+        assert self.aug_strategy in [
+            "saga_mixup",
+            "simple_overlay",
+        ], "Invalid aug_strategy"
+        assert self.aug_ratio is not None, "aug_ratio is required"
+        if self.aug_strategy == "simple_overlay":
+            if not self.disable_buffer:
+                self.disable_buffer = True
+                print("SaGA Warning: Buffer is disabled for simple_overlay strategy")
+
+    @staticmethod
+    def randomise_background(bg, input_size=(76, 76)):
+        if bg.size(2) != input_size[0] or bg.size(3) != input_size[1]:
+            bg = torch.nn.functional.interpolate(bg, size=input_size, mode="bilinear")
+        angles = torch.rand(bg.size(0)) * 360  # Random angle from 0 to 360 degrees
+        # Rotate images
+        rotated_images = K.geometry.transform.rotate(
+            bg, angles.to(bg.device), mode="bilinear", padding_mode="border"
+        )
+        # Apply random brightness
+        brightness_factors = (torch.rand(bg.size(0)) * 0.2) - 0.1
+        bg = K.enhance.adjust_brightness(rotated_images, brightness_factors)
+        return bg
+
     def save_debug_images(self, obs_dict, obs_meta, sample_idx=0):
         if not self.debug_save:
             return
@@ -440,24 +383,16 @@ class SaliencyGuidedAugmentation:
     def set_buffer_depth(self, buffer_depth):
         self.buffer_depth = buffer_depth
 
-    def normalisation(self, s_map, min_delta=0.0, mode="linear"):
-        in_shape = s_map.shape
-        if len(s_map.shape) == 4:
-            s_map = s_map.squeeze(1)
-        s_map = s_map.view(in_shape[0], -1)
-        if mode == "softmax":
-            s_map = torch.nn.functional.softmax(s_map, dim=1)
-        s_min = s_map.min(dim=1, keepdim=True)[0]
-        s_max = s_map.max(dim=1, keepdim=True)[0]
-        s_map_norm = (s_map + 1e-6 - s_min) / (s_max - s_min + 1e-6)
-        if min_delta > 0:
-            norm_idx = (s_max - s_min) > min_delta
-            norm_idx = norm_idx.squeeze(1)
-            s_map[norm_idx] = s_map_norm[norm_idx]
-        else:
-            s_map = s_map_norm
-        s_map = torch.clip(s_map, 0, 1)
-        return s_map.view(in_shape)
+    @staticmethod
+    def normalisation(smaps):
+        in_shape = smaps.shape
+        if len(smaps.shape) == 4:
+            smaps = smaps.squeeze(1)
+        smaps = smaps.view(in_shape[0], -1)
+        s_min = smaps.min(dim=1, keepdim=True)[0]
+        s_max = smaps.max(dim=1, keepdim=True)[0]
+        smaps_norm = (smaps + 1e-6 - s_min) / (s_max - s_min + 1e-6)
+        return torch.clip(smaps_norm, 0, 1).view(in_shape)
 
     @staticmethod
     def _first_occurrence_indices(buffer_ids):
@@ -480,7 +415,7 @@ class SaliencyGuidedAugmentation:
         required_args = [
             "aug_strategy",
             "aug_ratio",
-            "aug_obs_pairs",
+            "warmup_epochs",
             "update_ratio",
             "disable_buffer",
             "buffer_shape",
