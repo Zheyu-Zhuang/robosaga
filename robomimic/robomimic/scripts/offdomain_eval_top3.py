@@ -72,12 +72,12 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser()
     parser.add_argument("-e", "--exp_path", type=str, default=None, required=True)
-    parser.add_argument("-m", "--mode", help="type of offdomain evaluation", required=True)
-    parser.add_argument("--top_n", type=int, default=3)
-    parser.add_argument("--n_rollouts", type=int, default=50)
     parser.add_argument("--video", action="store_true")
     parser.add_argument("--distractors", action="store_true")
     parser.add_argument("--shuffle_env", action="store_true")
+    parser.add_argument("--top_n", type=int, default=3)
+    parser.add_argument("--n_rollouts", type=int, default=50)
+
     args = parser.parse_args()
 
     distractors = ["bottle", "lemon", "milk", "can"]
@@ -96,12 +96,14 @@ if __name__ == "__main__":
     py_script = os.path.join(os.path.dirname(os.path.realpath(__file__)), "eval_trained_agent.py")
     scripts_with_args = []
 
+    mode = "shuffle_env" if args.shuffle_env else "distractors" if args.distractors else "vanilla"
+
     print("\n=====================")
-    print(f"Running evaluation for {args.mode} with top {args.top_n} checkpoints")
+    print(f"Running evaluation for {mode} with top {args.top_n} checkpoints")
 
     for i, ckpt_path in enumerate(top_n_checkpoints):
         ckpt_name = os.path.basename(ckpt_path).replace(".pth", "")
-        video_name = f"{args.mode}_ckpt_{ckpt_name}.mp4"
+        video_name = f"{mode}_ckpt_{ckpt_name}.mp4"
         video_path = os.path.join(video_dir, video_name)
         video_command = ["--video_path", video_path] if args.video else []
 
@@ -116,7 +118,7 @@ if __name__ == "__main__":
                         str(args.n_rollouts),
                         "--shuffle_env",
                         "--env_id",
-                        f"{args.mode}_env_{i}",
+                        f"{mode}_env_{i}",
                     ]
                     + video_command,
                 )
@@ -137,7 +139,7 @@ if __name__ == "__main__":
                 )
             )
 
-    output_file = os.path.join(eval_dir, f"{args.mode}_stats.txt")
+    output_file = os.path.join(eval_dir, f"{mode}_stats.txt")
 
     # Execute each script with its arguments and save the output
     if os.path.exists(output_file):
@@ -145,11 +147,11 @@ if __name__ == "__main__":
         if not os.path.exists(archive_folder):
             os.makedirs(archive_folder)
         n_old = len(os.listdir(archive_folder))
-        shutil.move(output_file, os.path.join(archive_folder, f"{args.mode}_stats_{n_old}.txt"))
+        shutil.move(output_file, os.path.join(archive_folder, f"{mode}_stats_{n_old}.txt"))
         print("WARNING: output file already exists, moving to archive folder")
     run_scripts_in_parallel(scripts_with_args, output_file)
 
-    stats = get_results_string(output_file, top_n_success_rate, args.mode)
+    stats = get_results_string(output_file, top_n_success_rate, mode)
     print(stats)
 
     with open(output_file, "a") as f:
