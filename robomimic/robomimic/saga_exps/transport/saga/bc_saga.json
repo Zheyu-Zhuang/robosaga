@@ -1,6 +1,7 @@
 {
     "saliency": {
         "enabled": true,
+        "warmup_epochs": 10,
         "update_ratio": 0.1,
         "aug_ratio": 0.5,
         "debug_vis": false,
@@ -12,8 +13,7 @@
         "save_dir": "",
         "save_debug_im_every_n_batches": 5,
         "background_path": "../data/coco_5k_84x84/",
-        "aug_strategy": "saga_mixup",
-        "aug_obs_pairs": false
+        "aug_strategy": "saga_mixup"
     },
     "algo_name": "bc",
     "experiment": {

@@ -109,7 +109,7 @@ class BCConfig(BaseConfig):
 
     def saliency_config(self):
         self.saliency.enabled = False
-        self.warmup_epochs = 0
+        self.saliency.warmup_epochs = 0
         self.saliency.update_ratio = None
         self.saliency.aug_ratio = None
         self.saliency.debug_vis = None
