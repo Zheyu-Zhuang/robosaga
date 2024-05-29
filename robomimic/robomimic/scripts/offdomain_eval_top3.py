@@ -76,8 +76,9 @@ if __name__ == "__main__":
     parser.add_argument("--top_n", type=int, default=3)
     parser.add_argument("--n_rollouts", type=int, default=50)
     parser.add_argument("--video", action="store_true")
+    parser.add_argument("--distractors", action="store_true")
+    parser.add_argument("--shuffle_env", action="store_true")
     args = parser.parse_args()
-    assert args.mode in ["indoor", "outdoor", "textile", "distractors"], "Invalid mode"
 
     distractors = ["bottle", "lemon", "milk", "can"]
 
@@ -104,7 +105,7 @@ if __name__ == "__main__":
         video_path = os.path.join(video_dir, video_name)
         video_command = ["--video_path", video_path] if args.video else []
 
-        if args.mode in ["env"]:
+        if args.shuffle_env:
             scripts_with_args.append(
                 (
                     py_script,
@@ -120,7 +121,7 @@ if __name__ == "__main__":
                     + video_command,
                 )
             )
-        else:
+        if args.distractors:
             scripts_with_args.append(
                 (
                     py_script,
