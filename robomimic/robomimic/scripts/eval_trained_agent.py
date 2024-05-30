@@ -203,7 +203,7 @@ def replace_texture(xml_file, wall_textures, table_textures, floor_textures):
     # Load the XML file
     tree = ET.parse(xml_file)
     root = tree.getroot()
-    table_env_target_texture = ["tex-ceramic"]
+    table_env_target_texture = ["tex-ceramic", "tex-cream-plaster", "texplane"]
     multi_table_target_texture = ["tex-ceramic", "tex-cream-plaster", "texplane"]
     bin_env_target_texture = ["tex-light-wood", "tex-dark-wood", "texplane", "tex-ceramic"]
     texture_types = {
