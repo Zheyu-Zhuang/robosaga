@@ -1,7 +1,7 @@
 {
     "saliency": {
         "enabled": true,
-        "warmup_epochs": 10,
+        "warmup_epochs": 20,
         "update_ratio": 0.1,
         "aug_ratio": 0.5,
         "debug_vis": false,
@@ -42,10 +42,10 @@
         "video_skip": 5,
         "rollout": {
             "enabled": true,
-            "n": 30,
+            "n": 20,
             "horizon": 700,
             "rate": 50,
-            "warmstart": 100,
+            "warmstart": 0,
             "terminate_on_success": true
         }
     },

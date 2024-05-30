@@ -9,7 +9,7 @@ background_path = "../data/coco_5k_84x84/"
 saga_default_configs = {
     "saliency": {
         "enabled": True,
-        "warmup_epochs": 10,
+        "warmup_epochs": 20,
         "update_ratio": 0.1,
         "aug_ratio": 0.5,
         "debug_vis": False,
