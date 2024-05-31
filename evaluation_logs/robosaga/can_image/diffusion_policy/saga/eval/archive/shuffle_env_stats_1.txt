@@ -1,0 +1,603 @@
+Output from /home/x_zhzhu/RoboSaGA/diffusion_policy/eval.py with arguments --checkpoint ../experiments/robosaga/can_image/diffusion_policy/saga/checkpoints/epoch=0150-test_mean_score=0.980.ckpt --shuffle_env --output_dir ../experiments/robosaga/can_image/diffusion_policy/saga/eval/shuffle_env/epoch=0150-test_mean_score=0.980.ckpt:
+
+==================== Double-check the Following Parameters ====================n
+Group Norm:  {'enable': True, 'return_fullgrad_bias': True}
+Normalize Obs:  True
+
+============= Initialized Observation Utils with Obs Spec =============
+
+using obs modality: low_dim with keys: ['robot0_eef_quat', 'robot0_gripper_qpos', 'robot0_eef_pos']
+using obs modality: rgb with keys: ['robot0_eye_in_hand_image', 'agentview_image']
+using obs modality: depth with keys: []
+using obs modality: scan with keys: []
+Diffusion params: 2.556013e+08
+Vision params: 2.239418e+07
+
+==================== Saliency-guided Augmentation Parameters ====================
+aug_strategy: saga_mixup
+aug_ratio: 0.5
+warmup_epochs: 10
+update_ratio: 0.1
+disable_buffer: False
+buffer_shape: [84, 84]
+backgrounds shape: [5908, 3, 84, 84]
+save_dir: 
+======================================================================
+
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_83810_temp.xml
+Created environment with name PickPlaceCan
+Action size is 7
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_48648_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_11976_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_17584_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_45905_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_51033_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_20779_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_1971_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_2132_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_4990_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_40294_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_46580_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_17947_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_40608_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_7086_temp.xml
+Created environment with name PickPlaceCan
+Action size is 7
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_61704_temp.xml
+Created environment with name PickPlaceCan
+Action size is 7
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_70707_temp.xml
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_62131_temp.xml
+Created environment with name PickPlaceCan
+Action size is 7
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_64365_temp.xml
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_3473_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_38027_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_95147_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_67826_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_34574_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_55098_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_70204_temp.xml
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_93724_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_43737_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_61118_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_106_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_78666_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_39557_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_53072_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_95286_temp.xml
+Created environment with name PickPlaceCan
+Action size is 7
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_44854_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_59472_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_28043_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_20495_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_91617_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_89703_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_99759_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_4483_temp.xml
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_7813_temp.xml
+Created environment with name PickPlaceCan
+Action size is 7
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_44676_temp.xml
+Created environment with name PickPlaceCan
+Action size is 7
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_61790_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_29066_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_49117_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_99323_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_20203_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_96900_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_2259_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_57858_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_54708_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_32676_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_36220_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_80311_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_35282_temp.xml
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+{'train/sim_max_reward_0': 1.0, 'train/sim_video_0': '../experiments/robosaga/can_image/diffusion_policy/saga/eval/shuffle_env/epoch=0150-test_mean_score=0.980.ckpt/media/8i4001o2.mp4', 'train/sim_max_reward_1': 1.0, 'train/sim_video_1': '../experiments/robosaga/can_image/diffusion_policy/saga/eval/shuffle_env/epoch=0150-test_mean_score=0.980.ckpt/media/z9aplqhn.mp4', 'train/sim_max_reward_2': 1.0, 'train/sim_max_reward_3': 1.0, 'train/sim_max_reward_4': 1.0, 'train/sim_max_reward_5': 1.0, 'test/sim_max_reward_100000': 1.0, 'test/sim_video_100000': '../experiments/robosaga/can_image/diffusion_policy/saga/eval/shuffle_env/epoch=0150-test_mean_score=0.980.ckpt/media/p9xwj9lb.mp4', 'test/sim_max_reward_100001': 1.0, 'test/sim_video_100001': '../experiments/robosaga/can_image/diffusion_policy/saga/eval/shuffle_env/epoch=0150-test_mean_score=0.980.ckpt/media/i5ap2o5q.mp4', 'test/sim_max_reward_100002': 1.0, 'test/sim_video_100002': '../experiments/robosaga/can_image/diffusion_policy/saga/eval/shuffle_env/epoch=0150-test_mean_score=0.980.ckpt/media/8g0h2nm9.mp4', 'test/sim_max_reward_100003': 0.0, 'test/sim_video_100003': '../experiments/robosaga/can_image/diffusion_policy/saga/eval/shuffle_env/epoch=0150-test_mean_score=0.980.ckpt/media/7aploz4z.mp4', 'test/sim_max_reward_100004': 1.0, 'test/sim_max_reward_100005': 1.0, 'test/sim_max_reward_100006': 1.0, 'test/sim_max_reward_100007': 1.0, 'test/sim_max_reward_100008': 1.0, 'test/sim_max_reward_100009': 1.0, 'test/sim_max_reward_100010': 1.0, 'test/sim_max_reward_100011': 1.0, 'test/sim_max_reward_100012': 1.0, 'test/sim_max_reward_100013': 1.0, 'test/sim_max_reward_100014': 1.0, 'test/sim_max_reward_100015': 1.0, 'test/sim_max_reward_100016': 1.0, 'test/sim_max_reward_100017': 1.0, 'test/sim_max_reward_100018': 0.0, 'test/sim_max_reward_100019': 1.0, 'test/sim_max_reward_100020': 1.0, 'test/sim_max_reward_100021': 1.0, 'test/sim_max_reward_100022': 1.0, 'test/sim_max_reward_100023': 1.0, 'test/sim_max_reward_100024': 1.0, 'test/sim_max_reward_100025': 1.0, 'test/sim_max_reward_100026': 1.0, 'test/sim_max_reward_100027': 1.0, 'test/sim_max_reward_100028': 1.0, 'test/sim_max_reward_100029': 1.0, 'test/sim_max_reward_100030': 1.0, 'test/sim_max_reward_100031': 1.0, 'test/sim_max_reward_100032': 1.0, 'test/sim_max_reward_100033': 0.0, 'test/sim_max_reward_100034': 1.0, 'test/sim_max_reward_100035': 0.0, 'test/sim_max_reward_100036': 0.0, 'test/sim_max_reward_100037': 1.0, 'test/sim_max_reward_100038': 1.0, 'test/sim_max_reward_100039': 1.0, 'test/sim_max_reward_100040': 1.0, 'test/sim_max_reward_100041': 1.0, 'test/sim_max_reward_100042': 1.0, 'test/sim_max_reward_100043': 1.0, 'test/sim_max_reward_100044': 1.0, 'test/sim_max_reward_100045': 1.0, 'test/sim_max_reward_100046': 1.0, 'test/sim_max_reward_100047': 1.0, 'test/sim_max_reward_100048': 1.0, 'test/sim_max_reward_100049': 1.0, 'train/mean_score': 1.0, 'test/mean_score': 0.9}
+
+Output from /home/x_zhzhu/RoboSaGA/diffusion_policy/eval.py with arguments --checkpoint ../experiments/robosaga/can_image/diffusion_policy/saga/checkpoints/epoch=0200-test_mean_score=0.960.ckpt --shuffle_env --output_dir ../experiments/robosaga/can_image/diffusion_policy/saga/eval/shuffle_env/epoch=0200-test_mean_score=0.960.ckpt:
+
+==================== Double-check the Following Parameters ====================n
+Group Norm:  {'enable': True, 'return_fullgrad_bias': True}
+Normalize Obs:  True
+
+============= Initialized Observation Utils with Obs Spec =============
+
+using obs modality: low_dim with keys: ['robot0_eef_pos', 'robot0_gripper_qpos', 'robot0_eef_quat']
+using obs modality: rgb with keys: ['agentview_image', 'robot0_eye_in_hand_image']
+using obs modality: depth with keys: []
+using obs modality: scan with keys: []
+Diffusion params: 2.556013e+08
+Vision params: 2.239418e+07
+
+==================== Saliency-guided Augmentation Parameters ====================
+aug_strategy: saga_mixup
+aug_ratio: 0.5
+warmup_epochs: 10
+update_ratio: 0.1
+disable_buffer: False
+buffer_shape: [84, 84]
+backgrounds shape: [5908, 3, 84, 84]
+save_dir: 
+======================================================================
+
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_83810_temp.xml
+Created environment with name PickPlaceCan
+Action size is 7
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_27484_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_82101_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_96344_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_27675_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_32174_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_660_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_77557_temp.xml
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_13505_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_87708_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_33167_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_94463_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_56396_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_40798_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_9273_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_97797_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_64361_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_35490_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_83085_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_88423_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_3196_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_18245_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_49516_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_8385_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_85451_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_7379_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_13263_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_84314_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_77160_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_82302_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_87456_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_57811_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_35392_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_12536_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_34410_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_83167_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_93718_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_62599_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_91905_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_92701_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_14184_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_33528_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_97939_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_44753_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_48306_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_64186_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_4737_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_8296_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_2710_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_59856_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_78899_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_14140_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_38744_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_80678_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_94335_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_19816_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_895_temp.xml
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Created environment with name PickPlaceCan
+Action size is 7
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+{'train/sim_max_reward_0': 1.0, 'train/sim_video_0': '../experiments/robosaga/can_image/diffusion_policy/saga/eval/shuffle_env/epoch=0200-test_mean_score=0.960.ckpt/media/q07lj10l.mp4', 'train/sim_max_reward_1': 1.0, 'train/sim_video_1': '../experiments/robosaga/can_image/diffusion_policy/saga/eval/shuffle_env/epoch=0200-test_mean_score=0.960.ckpt/media/qossdu3d.mp4', 'train/sim_max_reward_2': 1.0, 'train/sim_max_reward_3': 1.0, 'train/sim_max_reward_4': 1.0, 'train/sim_max_reward_5': 1.0, 'test/sim_max_reward_100000': 1.0, 'test/sim_video_100000': '../experiments/robosaga/can_image/diffusion_policy/saga/eval/shuffle_env/epoch=0200-test_mean_score=0.960.ckpt/media/e74ytz06.mp4', 'test/sim_max_reward_100001': 1.0, 'test/sim_video_100001': '../experiments/robosaga/can_image/diffusion_policy/saga/eval/shuffle_env/epoch=0200-test_mean_score=0.960.ckpt/media/yowfwtt1.mp4', 'test/sim_max_reward_100002': 1.0, 'test/sim_video_100002': '../experiments/robosaga/can_image/diffusion_policy/saga/eval/shuffle_env/epoch=0200-test_mean_score=0.960.ckpt/media/vh7obuxf.mp4', 'test/sim_max_reward_100003': 0.0, 'test/sim_video_100003': '../experiments/robosaga/can_image/diffusion_policy/saga/eval/shuffle_env/epoch=0200-test_mean_score=0.960.ckpt/media/wdvre9tl.mp4', 'test/sim_max_reward_100004': 1.0, 'test/sim_max_reward_100005': 1.0, 'test/sim_max_reward_100006': 1.0, 'test/sim_max_reward_100007': 1.0, 'test/sim_max_reward_100008': 1.0, 'test/sim_max_reward_100009': 1.0, 'test/sim_max_reward_100010': 1.0, 'test/sim_max_reward_100011': 1.0, 'test/sim_max_reward_100012': 0.0, 'test/sim_max_reward_100013': 1.0, 'test/sim_max_reward_100014': 1.0, 'test/sim_max_reward_100015': 1.0, 'test/sim_max_reward_100016': 1.0, 'test/sim_max_reward_100017': 1.0, 'test/sim_max_reward_100018': 1.0, 'test/sim_max_reward_100019': 1.0, 'test/sim_max_reward_100020': 1.0, 'test/sim_max_reward_100021': 1.0, 'test/sim_max_reward_100022': 1.0, 'test/sim_max_reward_100023': 1.0, 'test/sim_max_reward_100024': 1.0, 'test/sim_max_reward_100025': 1.0, 'test/sim_max_reward_100026': 1.0, 'test/sim_max_reward_100027': 1.0, 'test/sim_max_reward_100028': 1.0, 'test/sim_max_reward_100029': 1.0, 'test/sim_max_reward_100030': 1.0, 'test/sim_max_reward_100031': 1.0, 'test/sim_max_reward_100032': 1.0, 'test/sim_max_reward_100033': 1.0, 'test/sim_max_reward_100034': 1.0, 'test/sim_max_reward_100035': 0.0, 'test/sim_max_reward_100036': 0.0, 'test/sim_max_reward_100037': 1.0, 'test/sim_max_reward_100038': 1.0, 'test/sim_max_reward_100039': 1.0, 'test/sim_max_reward_100040': 1.0, 'test/sim_max_reward_100041': 1.0, 'test/sim_max_reward_100042': 1.0, 'test/sim_max_reward_100043': 1.0, 'test/sim_max_reward_100044': 1.0, 'test/sim_max_reward_100045': 1.0, 'test/sim_max_reward_100046': 1.0, 'test/sim_max_reward_100047': 1.0, 'test/sim_max_reward_100048': 0.0, 'test/sim_max_reward_100049': 1.0, 'train/mean_score': 1.0, 'test/mean_score': 0.9}
+
+Output from /home/x_zhzhu/RoboSaGA/diffusion_policy/eval.py with arguments --checkpoint ../experiments/robosaga/can_image/diffusion_policy/saga/checkpoints/epoch=0100-test_mean_score=0.960.ckpt --shuffle_env --output_dir ../experiments/robosaga/can_image/diffusion_policy/saga/eval/shuffle_env/epoch=0100-test_mean_score=0.960.ckpt:
+
+==================== Double-check the Following Parameters ====================n
+Group Norm:  {'enable': True, 'return_fullgrad_bias': True}
+Normalize Obs:  True
+
+============= Initialized Observation Utils with Obs Spec =============
+
+using obs modality: low_dim with keys: ['robot0_eef_quat', 'robot0_eef_pos', 'robot0_gripper_qpos']
+using obs modality: rgb with keys: ['robot0_eye_in_hand_image', 'agentview_image']
+using obs modality: depth with keys: []
+using obs modality: scan with keys: []
+Diffusion params: 2.556013e+08
+Vision params: 2.239418e+07
+
+==================== Saliency-guided Augmentation Parameters ====================
+aug_strategy: saga_mixup
+aug_ratio: 0.5
+warmup_epochs: 10
+update_ratio: 0.1
+disable_buffer: False
+buffer_shape: [84, 84]
+backgrounds shape: [5908, 3, 84, 84]
+save_dir: 
+======================================================================
+
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_83810_temp.xml
+Created environment with name PickPlaceCan
+Action size is 7
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_27312_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_55350_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_61875_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_74779_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_41858_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_94951_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_17295_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_44605_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_11751_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_40330_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_86508_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_8049_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_81926_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_97896_temp.xml
+Created environment with name PickPlaceCan
+Action size is 7
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_44419_temp.xml
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_76137_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_68901_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_34041_temp.xml
+Created environment with name PickPlaceCan
+Action size is 7
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_29668_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_33583_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_17232_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_91648_temp.xml
+Created environment with name PickPlaceCan
+Action size is 7
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_18947_temp.xml
+Created environment with name PickPlaceCan
+Action size is 7
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_256_temp.xml
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_70068_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_89236_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_98321_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_58967_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_54499_temp.xml
+Created environment with name PickPlaceCan
+Action size is 7
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_50616_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_37184_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_30110_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_13833_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_1654_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_99582_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_34597_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_29225_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_11127_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_37667_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_28240_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_19436_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_2311_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_90296_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_5042_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_56991_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_34910_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_28875_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_16341_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_45066_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_27821_temp.xml
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_9544_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_78766_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_56052_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_28012_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_79991_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/bins_arena_61363_temp.xml
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+{'train/sim_max_reward_0': 1.0, 'train/sim_video_0': '../experiments/robosaga/can_image/diffusion_policy/saga/eval/shuffle_env/epoch=0100-test_mean_score=0.960.ckpt/media/k6ass8mu.mp4', 'train/sim_max_reward_1': 1.0, 'train/sim_video_1': '../experiments/robosaga/can_image/diffusion_policy/saga/eval/shuffle_env/epoch=0100-test_mean_score=0.960.ckpt/media/fhts9p1x.mp4', 'train/sim_max_reward_2': 1.0, 'train/sim_max_reward_3': 1.0, 'train/sim_max_reward_4': 1.0, 'train/sim_max_reward_5': 1.0, 'test/sim_max_reward_100000': 1.0, 'test/sim_video_100000': '../experiments/robosaga/can_image/diffusion_policy/saga/eval/shuffle_env/epoch=0100-test_mean_score=0.960.ckpt/media/rz4qpsto.mp4', 'test/sim_max_reward_100001': 1.0, 'test/sim_video_100001': '../experiments/robosaga/can_image/diffusion_policy/saga/eval/shuffle_env/epoch=0100-test_mean_score=0.960.ckpt/media/16l4a06r.mp4', 'test/sim_max_reward_100002': 1.0, 'test/sim_video_100002': '../experiments/robosaga/can_image/diffusion_policy/saga/eval/shuffle_env/epoch=0100-test_mean_score=0.960.ckpt/media/nqeozvhu.mp4', 'test/sim_max_reward_100003': 0.0, 'test/sim_video_100003': '../experiments/robosaga/can_image/diffusion_policy/saga/eval/shuffle_env/epoch=0100-test_mean_score=0.960.ckpt/media/ozdod22i.mp4', 'test/sim_max_reward_100004': 1.0, 'test/sim_max_reward_100005': 1.0, 'test/sim_max_reward_100006': 1.0, 'test/sim_max_reward_100007': 1.0, 'test/sim_max_reward_100008': 1.0, 'test/sim_max_reward_100009': 1.0, 'test/sim_max_reward_100010': 1.0, 'test/sim_max_reward_100011': 1.0, 'test/sim_max_reward_100012': 1.0, 'test/sim_max_reward_100013': 1.0, 'test/sim_max_reward_100014': 1.0, 'test/sim_max_reward_100015': 1.0, 'test/sim_max_reward_100016': 1.0, 'test/sim_max_reward_100017': 0.0, 'test/sim_max_reward_100018': 1.0, 'test/sim_max_reward_100019': 1.0, 'test/sim_max_reward_100020': 1.0, 'test/sim_max_reward_100021': 1.0, 'test/sim_max_reward_100022': 1.0, 'test/sim_max_reward_100023': 1.0, 'test/sim_max_reward_100024': 1.0, 'test/sim_max_reward_100025': 1.0, 'test/sim_max_reward_100026': 1.0, 'test/sim_max_reward_100027': 1.0, 'test/sim_max_reward_100028': 1.0, 'test/sim_max_reward_100029': 1.0, 'test/sim_max_reward_100030': 1.0, 'test/sim_max_reward_100031': 1.0, 'test/sim_max_reward_100032': 1.0, 'test/sim_max_reward_100033': 1.0, 'test/sim_max_reward_100034': 0.0, 'test/sim_max_reward_100035': 1.0, 'test/sim_max_reward_100036': 1.0, 'test/sim_max_reward_100037': 1.0, 'test/sim_max_reward_100038': 0.0, 'test/sim_max_reward_100039': 1.0, 'test/sim_max_reward_100040': 1.0, 'test/sim_max_reward_100041': 1.0, 'test/sim_max_reward_100042': 1.0, 'test/sim_max_reward_100043': 1.0, 'test/sim_max_reward_100044': 1.0, 'test/sim_max_reward_100045': 1.0, 'test/sim_max_reward_100046': 1.0, 'test/sim_max_reward_100047': 1.0, 'test/sim_max_reward_100048': 1.0, 'test/sim_max_reward_100049': 1.0, 'train/mean_score': 1.0, 'test/mean_score': 0.92}
+
+
+===== Results for ../experiments/robosaga/can_image/diffusion_policy/saga/ =====
+Indomain: [0.98, 0.96, 0.96], 0.97 +/- 0.01
+  data: [0.98, 0.96, 0.96]
+Off-domain for shuffle_env: 0.91 +/- 0.01
+   data: [0.9, 0.9, 0.92]

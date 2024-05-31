@@ -1,0 +1,567 @@
+Output from /home/x_zhzhu/RoboSaGA/diffusion_policy/eval.py with arguments --checkpoint ../experiments/robosaga/square_image/diffusion_policy/soda/checkpoints/epoch=0250-test_mean_score=0.880.ckpt --shuffle_env --output_dir ../experiments/robosaga/square_image/diffusion_policy/soda/eval/shuffle_env/epoch=0250-test_mean_score=0.880.ckpt:
+
+==================== Double-check the Following Parameters ====================n
+Group Norm:  {'enable': True, 'return_fullgrad_bias': False}
+Normalize Obs:  True
+
+============= Initialized Observation Utils with Obs Spec =============
+
+using obs modality: low_dim with keys: ['robot0_eef_pos', 'robot0_eef_quat', 'robot0_gripper_qpos']
+using obs modality: rgb with keys: ['agentview_image', 'robot0_eye_in_hand_image']
+using obs modality: depth with keys: []
+using obs modality: scan with keys: []
+Diffusion params: 2.556013e+08
+Vision params: 2.239418e+07
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_83810_temp.xml
+Created environment with name NutAssemblySquare
+Action size is 7
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_82854_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_21989_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_20936_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_80686_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_22415_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_5332_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_64296_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_31227_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_53868_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_98593_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_12886_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_36201_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_94826_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_16622_temp.xml
+Created environment with name NutAssemblySquare
+Action size is 7
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_65787_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_67924_temp.xml
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_94346_temp.xml
+Created environment with name NutAssemblySquare
+Action size is 7
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_15643_temp.xml
+Created environment with name NutAssemblySquare
+Action size is 7
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_37736_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_27624_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_41313_temp.xml
+Created environment with name NutAssemblySquare
+Action size is 7
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_42942_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_1677_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_11487_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_64088_temp.xml
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_71207_temp.xml
+Created environment with name NutAssemblySquare
+Action size is 7
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_7605_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_93663_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_4088_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_41198_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_44904_temp.xml
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_57025_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_50397_temp.xml
+Created environment with name NutAssemblySquare
+Action size is 7
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_15709_temp.xml
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_18584_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_85521_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_76572_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_10308_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_20156_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_41984_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_77097_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_23106_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_69111_temp.xml
+Created environment with name NutAssemblySquare
+Action size is 7
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_17122_temp.xml
+Created environment with name NutAssemblySquare
+Action size is 7
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_49085_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_90520_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_2958_temp.xml
+Created environment with name NutAssemblySquare
+Action size is 7
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_63710_temp.xml
+Created environment with name NutAssemblySquare
+Action size is 7
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_249_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_76939_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_57911_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_96352_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_93969_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_47497_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_85299_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_32599_temp.xml
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+{'train/sim_max_reward_0': 1.0, 'train/sim_video_0': '../experiments/robosaga/square_image/diffusion_policy/soda/eval/shuffle_env/epoch=0250-test_mean_score=0.880.ckpt/media/o31t92h6.mp4', 'train/sim_max_reward_1': 1.0, 'train/sim_video_1': '../experiments/robosaga/square_image/diffusion_policy/soda/eval/shuffle_env/epoch=0250-test_mean_score=0.880.ckpt/media/g3fqjs5y.mp4', 'train/sim_max_reward_2': 1.0, 'train/sim_max_reward_3': 0.0, 'test/sim_max_reward_100000': 0.0, 'test/sim_video_100000': '../experiments/robosaga/square_image/diffusion_policy/soda/eval/shuffle_env/epoch=0250-test_mean_score=0.880.ckpt/media/h8cs2z8t.mp4', 'test/sim_max_reward_100001': 1.0, 'test/sim_video_100001': '../experiments/robosaga/square_image/diffusion_policy/soda/eval/shuffle_env/epoch=0250-test_mean_score=0.880.ckpt/media/3dljd8y7.mp4', 'test/sim_max_reward_100002': 0.0, 'test/sim_video_100002': '../experiments/robosaga/square_image/diffusion_policy/soda/eval/shuffle_env/epoch=0250-test_mean_score=0.880.ckpt/media/qqkdemlm.mp4', 'test/sim_max_reward_100003': 0.0, 'test/sim_video_100003': '../experiments/robosaga/square_image/diffusion_policy/soda/eval/shuffle_env/epoch=0250-test_mean_score=0.880.ckpt/media/e5egxqf0.mp4', 'test/sim_max_reward_100004': 1.0, 'test/sim_max_reward_100005': 1.0, 'test/sim_max_reward_100006': 1.0, 'test/sim_max_reward_100007': 1.0, 'test/sim_max_reward_100008': 1.0, 'test/sim_max_reward_100009': 0.0, 'test/sim_max_reward_100010': 1.0, 'test/sim_max_reward_100011': 0.0, 'test/sim_max_reward_100012': 0.0, 'test/sim_max_reward_100013': 0.0, 'test/sim_max_reward_100014': 1.0, 'test/sim_max_reward_100015': 0.0, 'test/sim_max_reward_100016': 0.0, 'test/sim_max_reward_100017': 1.0, 'test/sim_max_reward_100018': 1.0, 'test/sim_max_reward_100019': 1.0, 'test/sim_max_reward_100020': 1.0, 'test/sim_max_reward_100021': 1.0, 'test/sim_max_reward_100022': 0.0, 'test/sim_max_reward_100023': 1.0, 'test/sim_max_reward_100024': 1.0, 'test/sim_max_reward_100025': 0.0, 'test/sim_max_reward_100026': 0.0, 'test/sim_max_reward_100027': 0.0, 'test/sim_max_reward_100028': 1.0, 'test/sim_max_reward_100029': 0.0, 'test/sim_max_reward_100030': 0.0, 'test/sim_max_reward_100031': 1.0, 'test/sim_max_reward_100032': 0.0, 'test/sim_max_reward_100033': 0.0, 'test/sim_max_reward_100034': 0.0, 'test/sim_max_reward_100035': 0.0, 'test/sim_max_reward_100036': 1.0, 'test/sim_max_reward_100037': 1.0, 'test/sim_max_reward_100038': 1.0, 'test/sim_max_reward_100039': 0.0, 'test/sim_max_reward_100040': 1.0, 'test/sim_max_reward_100041': 1.0, 'test/sim_max_reward_100042': 0.0, 'test/sim_max_reward_100043': 1.0, 'test/sim_max_reward_100044': 0.0, 'test/sim_max_reward_100045': 1.0, 'test/sim_max_reward_100046': 1.0, 'test/sim_max_reward_100047': 1.0, 'test/sim_max_reward_100048': 0.0, 'test/sim_max_reward_100049': 1.0, 'train/mean_score': 0.75, 'test/mean_score': 0.54}
+
+Output from /home/x_zhzhu/RoboSaGA/diffusion_policy/eval.py with arguments --checkpoint ../experiments/robosaga/square_image/diffusion_policy/soda/checkpoints/epoch=0500-test_mean_score=0.860.ckpt --shuffle_env --output_dir ../experiments/robosaga/square_image/diffusion_policy/soda/eval/shuffle_env/epoch=0500-test_mean_score=0.860.ckpt:
+
+==================== Double-check the Following Parameters ====================n
+Group Norm:  {'enable': True, 'return_fullgrad_bias': False}
+Normalize Obs:  True
+
+============= Initialized Observation Utils with Obs Spec =============
+
+using obs modality: low_dim with keys: ['robot0_gripper_qpos', 'robot0_eef_quat', 'robot0_eef_pos']
+using obs modality: rgb with keys: ['agentview_image', 'robot0_eye_in_hand_image']
+using obs modality: depth with keys: []
+using obs modality: scan with keys: []
+Diffusion params: 2.556013e+08
+Vision params: 2.239418e+07
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_83810_temp.xml
+Created environment with name NutAssemblySquare
+Action size is 7
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_97277_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_4285_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_15128_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_53145_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_87247_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_37697_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_22261_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_41471_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_40271_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_3010_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_79769_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_23077_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_58890_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_14281_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_26243_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_38369_temp.xml
+Created environment with name NutAssemblySquare
+Action size is 7
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_37578_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_91074_temp.xml
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_89065_temp.xml
+Created environment with name NutAssemblySquare
+Action size is 7
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_40493_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_11754_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_33394_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_35237_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_33884_temp.xml
+Created environment with name NutAssemblySquare
+Action size is 7
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_73781_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_31936_temp.xml
+Created environment with name NutAssemblySquare
+Action size is 7
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_36151_temp.xml
+Created environment with name NutAssemblySquare
+Action size is 7
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_98760_temp.xml
+Created environment with name NutAssemblySquare
+Action size is 7
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_95922_temp.xml
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_49103_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_53444_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_28082_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_70589_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_35903_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_41119_temp.xml
+Created environment with name NutAssemblySquare
+Action size is 7
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_98976_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_8110_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_16138_temp.xml
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_68119_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_27803_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_39928_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_94518_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_75695_temp.xml
+Created environment with name NutAssemblySquare
+Action size is 7
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_17888_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_89881_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_77708_temp.xml
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_90998_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_92316_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_61683_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_66359_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_23368_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_89567_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_83626_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_58768_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_96730_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_21032_temp.xml
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+{'train/sim_max_reward_0': 0.0, 'train/sim_video_0': '../experiments/robosaga/square_image/diffusion_policy/soda/eval/shuffle_env/epoch=0500-test_mean_score=0.860.ckpt/media/syomrob0.mp4', 'train/sim_max_reward_1': 0.0, 'train/sim_video_1': '../experiments/robosaga/square_image/diffusion_policy/soda/eval/shuffle_env/epoch=0500-test_mean_score=0.860.ckpt/media/08nclzjr.mp4', 'train/sim_max_reward_2': 1.0, 'train/sim_max_reward_3': 0.0, 'test/sim_max_reward_100000': 0.0, 'test/sim_video_100000': '../experiments/robosaga/square_image/diffusion_policy/soda/eval/shuffle_env/epoch=0500-test_mean_score=0.860.ckpt/media/gvba2yqk.mp4', 'test/sim_max_reward_100001': 1.0, 'test/sim_video_100001': '../experiments/robosaga/square_image/diffusion_policy/soda/eval/shuffle_env/epoch=0500-test_mean_score=0.860.ckpt/media/ij0wj23q.mp4', 'test/sim_max_reward_100002': 0.0, 'test/sim_video_100002': '../experiments/robosaga/square_image/diffusion_policy/soda/eval/shuffle_env/epoch=0500-test_mean_score=0.860.ckpt/media/bau1y780.mp4', 'test/sim_max_reward_100003': 1.0, 'test/sim_video_100003': '../experiments/robosaga/square_image/diffusion_policy/soda/eval/shuffle_env/epoch=0500-test_mean_score=0.860.ckpt/media/gc6a5al6.mp4', 'test/sim_max_reward_100004': 1.0, 'test/sim_max_reward_100005': 1.0, 'test/sim_max_reward_100006': 1.0, 'test/sim_max_reward_100007': 1.0, 'test/sim_max_reward_100008': 0.0, 'test/sim_max_reward_100009': 0.0, 'test/sim_max_reward_100010': 0.0, 'test/sim_max_reward_100011': 1.0, 'test/sim_max_reward_100012': 1.0, 'test/sim_max_reward_100013': 1.0, 'test/sim_max_reward_100014': 0.0, 'test/sim_max_reward_100015': 1.0, 'test/sim_max_reward_100016': 0.0, 'test/sim_max_reward_100017': 0.0, 'test/sim_max_reward_100018': 1.0, 'test/sim_max_reward_100019': 1.0, 'test/sim_max_reward_100020': 1.0, 'test/sim_max_reward_100021': 1.0, 'test/sim_max_reward_100022': 0.0, 'test/sim_max_reward_100023': 1.0, 'test/sim_max_reward_100024': 1.0, 'test/sim_max_reward_100025': 0.0, 'test/sim_max_reward_100026': 0.0, 'test/sim_max_reward_100027': 1.0, 'test/sim_max_reward_100028': 1.0, 'test/sim_max_reward_100029': 1.0, 'test/sim_max_reward_100030': 0.0, 'test/sim_max_reward_100031': 1.0, 'test/sim_max_reward_100032': 1.0, 'test/sim_max_reward_100033': 1.0, 'test/sim_max_reward_100034': 1.0, 'test/sim_max_reward_100035': 1.0, 'test/sim_max_reward_100036': 1.0, 'test/sim_max_reward_100037': 1.0, 'test/sim_max_reward_100038': 1.0, 'test/sim_max_reward_100039': 0.0, 'test/sim_max_reward_100040': 1.0, 'test/sim_max_reward_100041': 0.0, 'test/sim_max_reward_100042': 1.0, 'test/sim_max_reward_100043': 1.0, 'test/sim_max_reward_100044': 0.0, 'test/sim_max_reward_100045': 0.0, 'test/sim_max_reward_100046': 1.0, 'test/sim_max_reward_100047': 0.0, 'test/sim_max_reward_100048': 0.0, 'test/sim_max_reward_100049': 1.0, 'train/mean_score': 0.25, 'test/mean_score': 0.64}
+
+Output from /home/x_zhzhu/RoboSaGA/diffusion_policy/eval.py with arguments --checkpoint ../experiments/robosaga/square_image/diffusion_policy/soda/checkpoints/epoch=0100-test_mean_score=0.860.ckpt --shuffle_env --output_dir ../experiments/robosaga/square_image/diffusion_policy/soda/eval/shuffle_env/epoch=0100-test_mean_score=0.860.ckpt:
+
+==================== Double-check the Following Parameters ====================n
+Group Norm:  {'enable': True, 'return_fullgrad_bias': False}
+Normalize Obs:  True
+
+============= Initialized Observation Utils with Obs Spec =============
+
+using obs modality: low_dim with keys: ['robot0_eef_pos', 'robot0_gripper_qpos', 'robot0_eef_quat']
+using obs modality: rgb with keys: ['robot0_eye_in_hand_image', 'agentview_image']
+using obs modality: depth with keys: []
+using obs modality: scan with keys: []
+Diffusion params: 2.556013e+08
+Vision params: 2.239418e+07
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_83810_temp.xml
+Created environment with name NutAssemblySquare
+Action size is 7
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_66113_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_35953_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_74860_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_81802_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_88934_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_15206_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_35874_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_65532_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_74296_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_35129_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_94497_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_75169_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_31009_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_74620_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_30455_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_40414_temp.xml
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_44047_temp.xml
+Created environment with name NutAssemblySquare
+Action size is 7
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_88017_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_61567_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_35566_temp.xml
+Created environment with name NutAssemblySquare
+Action size is 7
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_38842_temp.xml
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_73383_temp.xml
+Created environment with name NutAssemblySquare
+Action size is 7
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_90705_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_49928_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_50936_temp.xml
+Created environment with name NutAssemblySquare
+Action size is 7
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_17418_temp.xml
+Created environment with name NutAssemblySquare
+Action size is 7
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_95076_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_51367_temp.xml
+Created environment with name NutAssemblySquare
+Action size is 7
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_37605_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_64457_temp.xml
+Created environment with name NutAssemblySquare
+Action size is 7
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_56297_temp.xml
+Created environment with name NutAssemblySquare
+Action size is 7
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_47571_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_22932_temp.xml
+Created environment with name NutAssemblySquare
+Action size is 7
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_8755_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_57874_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_48221_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_56916_temp.xml
+Created environment with name NutAssemblySquare
+Action size is 7
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_55254_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_48808_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_11246_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_18877_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_76605_temp.xml
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_47600_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_36250_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_87194_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_25799_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_99182_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_9120_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_83421_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_30572_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_95847_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_70439_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_25422_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_11993_temp.xml
+Created environment with name NutAssemblySquare
+Action size is 7
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_26342_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_66926_temp.xml
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+{'train/sim_max_reward_0': 0.0, 'train/sim_video_0': '../experiments/robosaga/square_image/diffusion_policy/soda/eval/shuffle_env/epoch=0100-test_mean_score=0.860.ckpt/media/xv2s5esl.mp4', 'train/sim_max_reward_1': 0.0, 'train/sim_video_1': '../experiments/robosaga/square_image/diffusion_policy/soda/eval/shuffle_env/epoch=0100-test_mean_score=0.860.ckpt/media/stncjzbc.mp4', 'train/sim_max_reward_2': 1.0, 'train/sim_max_reward_3': 0.0, 'test/sim_max_reward_100000': 1.0, 'test/sim_video_100000': '../experiments/robosaga/square_image/diffusion_policy/soda/eval/shuffle_env/epoch=0100-test_mean_score=0.860.ckpt/media/wba6xvpl.mp4', 'test/sim_max_reward_100001': 1.0, 'test/sim_video_100001': '../experiments/robosaga/square_image/diffusion_policy/soda/eval/shuffle_env/epoch=0100-test_mean_score=0.860.ckpt/media/xhrbuw9x.mp4', 'test/sim_max_reward_100002': 1.0, 'test/sim_video_100002': '../experiments/robosaga/square_image/diffusion_policy/soda/eval/shuffle_env/epoch=0100-test_mean_score=0.860.ckpt/media/ewe4oee4.mp4', 'test/sim_max_reward_100003': 1.0, 'test/sim_video_100003': '../experiments/robosaga/square_image/diffusion_policy/soda/eval/shuffle_env/epoch=0100-test_mean_score=0.860.ckpt/media/8yx2oqwl.mp4', 'test/sim_max_reward_100004': 1.0, 'test/sim_max_reward_100005': 1.0, 'test/sim_max_reward_100006': 1.0, 'test/sim_max_reward_100007': 1.0, 'test/sim_max_reward_100008': 1.0, 'test/sim_max_reward_100009': 0.0, 'test/sim_max_reward_100010': 1.0, 'test/sim_max_reward_100011': 1.0, 'test/sim_max_reward_100012': 0.0, 'test/sim_max_reward_100013': 1.0, 'test/sim_max_reward_100014': 1.0, 'test/sim_max_reward_100015': 1.0, 'test/sim_max_reward_100016': 0.0, 'test/sim_max_reward_100017': 1.0, 'test/sim_max_reward_100018': 1.0, 'test/sim_max_reward_100019': 1.0, 'test/sim_max_reward_100020': 1.0, 'test/sim_max_reward_100021': 1.0, 'test/sim_max_reward_100022': 1.0, 'test/sim_max_reward_100023': 1.0, 'test/sim_max_reward_100024': 0.0, 'test/sim_max_reward_100025': 1.0, 'test/sim_max_reward_100026': 0.0, 'test/sim_max_reward_100027': 0.0, 'test/sim_max_reward_100028': 1.0, 'test/sim_max_reward_100029': 0.0, 'test/sim_max_reward_100030': 1.0, 'test/sim_max_reward_100031': 1.0, 'test/sim_max_reward_100032': 1.0, 'test/sim_max_reward_100033': 0.0, 'test/sim_max_reward_100034': 0.0, 'test/sim_max_reward_100035': 1.0, 'test/sim_max_reward_100036': 0.0, 'test/sim_max_reward_100037': 1.0, 'test/sim_max_reward_100038': 1.0, 'test/sim_max_reward_100039': 1.0, 'test/sim_max_reward_100040': 0.0, 'test/sim_max_reward_100041': 1.0, 'test/sim_max_reward_100042': 0.0, 'test/sim_max_reward_100043': 1.0, 'test/sim_max_reward_100044': 0.0, 'test/sim_max_reward_100045': 0.0, 'test/sim_max_reward_100046': 0.0, 'test/sim_max_reward_100047': 1.0, 'test/sim_max_reward_100048': 1.0, 'test/sim_max_reward_100049': 1.0, 'train/mean_score': 0.25, 'test/mean_score': 0.7}
+
+
+===== Results for ../experiments/robosaga/square_image/diffusion_policy/soda/ =====
+Indomain: [0.88, 0.86, 0.86], 0.87 +/- 0.01
+  data: [0.88, 0.86, 0.86]
+Off-domain for shuffle_env: 0.63 +/- 0.07
+   data: [0.54, 0.64, 0.7]

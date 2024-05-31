@@ -1,0 +1,603 @@
+Output from /home/x_zhzhu/RoboSaGA/diffusion_policy/eval.py with arguments --checkpoint ../experiments/robosaga/square_image/diffusion_policy/saga/checkpoints/epoch=0550-test_mean_score=0.920.ckpt --shuffle_env --output_dir ../experiments/robosaga/square_image/diffusion_policy/saga/eval/shuffle_env/epoch=0550-test_mean_score=0.920.ckpt:
+
+==================== Double-check the Following Parameters ====================n
+Group Norm:  {'enable': True, 'return_fullgrad_bias': True}
+Normalize Obs:  True
+
+============= Initialized Observation Utils with Obs Spec =============
+
+using obs modality: low_dim with keys: ['robot0_eef_pos', 'robot0_gripper_qpos', 'robot0_eef_quat']
+using obs modality: rgb with keys: ['robot0_eye_in_hand_image', 'agentview_image']
+using obs modality: depth with keys: []
+using obs modality: scan with keys: []
+Diffusion params: 2.556013e+08
+Vision params: 2.239418e+07
+
+==================== Saliency-guided Augmentation Parameters ====================
+aug_strategy: saga_mixup
+aug_ratio: 0.5
+warmup_epochs: 10
+update_ratio: 0.1
+disable_buffer: False
+buffer_shape: [84, 84]
+backgrounds shape: [5908, 3, 84, 84]
+save_dir: 
+======================================================================
+
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_83810_temp.xml
+Created environment with name NutAssemblySquare
+Action size is 7
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_54601_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_42945_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_55639_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_6389_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_51421_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_80160_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_9354_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_67636_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_82068_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_57746_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_84439_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_10602_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_4987_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_11505_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_87940_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_25804_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_91143_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_28502_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_50895_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_9445_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_92822_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_16930_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_4835_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_61093_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_69954_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_30624_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_66000_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_2127_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_98594_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_78331_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_35422_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_89401_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_29875_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_26728_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_4628_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_64626_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_24389_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_60595_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_30834_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_25718_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_61146_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_95083_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_65661_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_81647_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_97962_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_15390_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_8522_temp.xml
+Created environment with name NutAssemblySquare
+Action size is 7
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_1190_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_44540_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_58620_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_12774_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_20036_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_1581_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_47840_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_88881_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_72669_temp.xml
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+{'train/sim_max_reward_0': 1.0, 'train/sim_video_0': '../experiments/robosaga/square_image/diffusion_policy/saga/eval/shuffle_env/epoch=0550-test_mean_score=0.920.ckpt/media/p9sza0rl.mp4', 'train/sim_max_reward_1': 1.0, 'train/sim_video_1': '../experiments/robosaga/square_image/diffusion_policy/saga/eval/shuffle_env/epoch=0550-test_mean_score=0.920.ckpt/media/xl95kqpn.mp4', 'train/sim_max_reward_2': 0.0, 'train/sim_max_reward_3': 1.0, 'test/sim_max_reward_100000': 1.0, 'test/sim_video_100000': '../experiments/robosaga/square_image/diffusion_policy/saga/eval/shuffle_env/epoch=0550-test_mean_score=0.920.ckpt/media/gn58u7tx.mp4', 'test/sim_max_reward_100001': 0.0, 'test/sim_video_100001': '../experiments/robosaga/square_image/diffusion_policy/saga/eval/shuffle_env/epoch=0550-test_mean_score=0.920.ckpt/media/kkpdbkz6.mp4', 'test/sim_max_reward_100002': 1.0, 'test/sim_video_100002': '../experiments/robosaga/square_image/diffusion_policy/saga/eval/shuffle_env/epoch=0550-test_mean_score=0.920.ckpt/media/bi7cwvbm.mp4', 'test/sim_max_reward_100003': 0.0, 'test/sim_video_100003': '../experiments/robosaga/square_image/diffusion_policy/saga/eval/shuffle_env/epoch=0550-test_mean_score=0.920.ckpt/media/wt7daumn.mp4', 'test/sim_max_reward_100004': 1.0, 'test/sim_max_reward_100005': 1.0, 'test/sim_max_reward_100006': 1.0, 'test/sim_max_reward_100007': 1.0, 'test/sim_max_reward_100008': 0.0, 'test/sim_max_reward_100009': 0.0, 'test/sim_max_reward_100010': 0.0, 'test/sim_max_reward_100011': 0.0, 'test/sim_max_reward_100012': 0.0, 'test/sim_max_reward_100013': 1.0, 'test/sim_max_reward_100014': 0.0, 'test/sim_max_reward_100015': 1.0, 'test/sim_max_reward_100016': 0.0, 'test/sim_max_reward_100017': 0.0, 'test/sim_max_reward_100018': 1.0, 'test/sim_max_reward_100019': 1.0, 'test/sim_max_reward_100020': 1.0, 'test/sim_max_reward_100021': 1.0, 'test/sim_max_reward_100022': 0.0, 'test/sim_max_reward_100023': 1.0, 'test/sim_max_reward_100024': 1.0, 'test/sim_max_reward_100025': 1.0, 'test/sim_max_reward_100026': 0.0, 'test/sim_max_reward_100027': 0.0, 'test/sim_max_reward_100028': 1.0, 'test/sim_max_reward_100029': 1.0, 'test/sim_max_reward_100030': 1.0, 'test/sim_max_reward_100031': 1.0, 'test/sim_max_reward_100032': 1.0, 'test/sim_max_reward_100033': 1.0, 'test/sim_max_reward_100034': 1.0, 'test/sim_max_reward_100035': 0.0, 'test/sim_max_reward_100036': 1.0, 'test/sim_max_reward_100037': 1.0, 'test/sim_max_reward_100038': 0.0, 'test/sim_max_reward_100039': 0.0, 'test/sim_max_reward_100040': 1.0, 'test/sim_max_reward_100041': 1.0, 'test/sim_max_reward_100042': 1.0, 'test/sim_max_reward_100043': 1.0, 'test/sim_max_reward_100044': 1.0, 'test/sim_max_reward_100045': 1.0, 'test/sim_max_reward_100046': 1.0, 'test/sim_max_reward_100047': 1.0, 'test/sim_max_reward_100048': 1.0, 'test/sim_max_reward_100049': 1.0, 'train/mean_score': 0.75, 'test/mean_score': 0.68}
+
+Output from /home/x_zhzhu/RoboSaGA/diffusion_policy/eval.py with arguments --checkpoint ../experiments/robosaga/square_image/diffusion_policy/saga/checkpoints/epoch=0350-test_mean_score=0.920.ckpt --shuffle_env --output_dir ../experiments/robosaga/square_image/diffusion_policy/saga/eval/shuffle_env/epoch=0350-test_mean_score=0.920.ckpt:
+
+==================== Double-check the Following Parameters ====================n
+Group Norm:  {'enable': True, 'return_fullgrad_bias': True}
+Normalize Obs:  True
+
+============= Initialized Observation Utils with Obs Spec =============
+
+using obs modality: low_dim with keys: ['robot0_gripper_qpos', 'robot0_eef_quat', 'robot0_eef_pos']
+using obs modality: rgb with keys: ['robot0_eye_in_hand_image', 'agentview_image']
+using obs modality: depth with keys: []
+using obs modality: scan with keys: []
+Diffusion params: 2.556013e+08
+Vision params: 2.239418e+07
+
+==================== Saliency-guided Augmentation Parameters ====================
+aug_strategy: saga_mixup
+aug_ratio: 0.5
+warmup_epochs: 10
+update_ratio: 0.1
+disable_buffer: False
+buffer_shape: [84, 84]
+backgrounds shape: [5908, 3, 84, 84]
+save_dir: 
+======================================================================
+
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_83810_temp.xml
+Created environment with name NutAssemblySquare
+Action size is 7
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_19602_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_32910_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_33338_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_94016_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_2674_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_68583_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_11412_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_92250_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_11992_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_1116_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_76982_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_27180_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_62131_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_42400_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_65389_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_6393_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_76301_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_30697_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_83508_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_25520_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_41834_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_41144_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_1226_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_74360_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_27884_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_13920_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_67513_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_2652_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_36136_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_5326_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_54974_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_20885_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_31343_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_65391_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_2191_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_76013_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_19249_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_65564_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_45863_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_19566_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_43389_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_8832_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_29885_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_15755_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_73196_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_89767_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_27332_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_27382_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_69747_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_87633_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_95011_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_33869_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_81892_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_19623_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_76088_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_77441_temp.xml
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Created environment with name NutAssemblySquare
+Action size is 7
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+{'train/sim_max_reward_0': 1.0, 'train/sim_video_0': '../experiments/robosaga/square_image/diffusion_policy/saga/eval/shuffle_env/epoch=0350-test_mean_score=0.920.ckpt/media/o6bp8s1z.mp4', 'train/sim_max_reward_1': 1.0, 'train/sim_video_1': '../experiments/robosaga/square_image/diffusion_policy/saga/eval/shuffle_env/epoch=0350-test_mean_score=0.920.ckpt/media/exn5ywl2.mp4', 'train/sim_max_reward_2': 1.0, 'train/sim_max_reward_3': 1.0, 'test/sim_max_reward_100000': 1.0, 'test/sim_video_100000': '../experiments/robosaga/square_image/diffusion_policy/saga/eval/shuffle_env/epoch=0350-test_mean_score=0.920.ckpt/media/210syi5v.mp4', 'test/sim_max_reward_100001': 1.0, 'test/sim_video_100001': '../experiments/robosaga/square_image/diffusion_policy/saga/eval/shuffle_env/epoch=0350-test_mean_score=0.920.ckpt/media/q7ipwulf.mp4', 'test/sim_max_reward_100002': 1.0, 'test/sim_video_100002': '../experiments/robosaga/square_image/diffusion_policy/saga/eval/shuffle_env/epoch=0350-test_mean_score=0.920.ckpt/media/ljaqhp1u.mp4', 'test/sim_max_reward_100003': 0.0, 'test/sim_video_100003': '../experiments/robosaga/square_image/diffusion_policy/saga/eval/shuffle_env/epoch=0350-test_mean_score=0.920.ckpt/media/2nvyln5k.mp4', 'test/sim_max_reward_100004': 1.0, 'test/sim_max_reward_100005': 1.0, 'test/sim_max_reward_100006': 0.0, 'test/sim_max_reward_100007': 1.0, 'test/sim_max_reward_100008': 1.0, 'test/sim_max_reward_100009': 1.0, 'test/sim_max_reward_100010': 1.0, 'test/sim_max_reward_100011': 0.0, 'test/sim_max_reward_100012': 1.0, 'test/sim_max_reward_100013': 1.0, 'test/sim_max_reward_100014': 1.0, 'test/sim_max_reward_100015': 1.0, 'test/sim_max_reward_100016': 1.0, 'test/sim_max_reward_100017': 1.0, 'test/sim_max_reward_100018': 1.0, 'test/sim_max_reward_100019': 0.0, 'test/sim_max_reward_100020': 1.0, 'test/sim_max_reward_100021': 1.0, 'test/sim_max_reward_100022': 1.0, 'test/sim_max_reward_100023': 1.0, 'test/sim_max_reward_100024': 0.0, 'test/sim_max_reward_100025': 1.0, 'test/sim_max_reward_100026': 0.0, 'test/sim_max_reward_100027': 0.0, 'test/sim_max_reward_100028': 1.0, 'test/sim_max_reward_100029': 0.0, 'test/sim_max_reward_100030': 1.0, 'test/sim_max_reward_100031': 1.0, 'test/sim_max_reward_100032': 1.0, 'test/sim_max_reward_100033': 1.0, 'test/sim_max_reward_100034': 1.0, 'test/sim_max_reward_100035': 1.0, 'test/sim_max_reward_100036': 1.0, 'test/sim_max_reward_100037': 1.0, 'test/sim_max_reward_100038': 1.0, 'test/sim_max_reward_100039': 1.0, 'test/sim_max_reward_100040': 1.0, 'test/sim_max_reward_100041': 1.0, 'test/sim_max_reward_100042': 1.0, 'test/sim_max_reward_100043': 1.0, 'test/sim_max_reward_100044': 0.0, 'test/sim_max_reward_100045': 1.0, 'test/sim_max_reward_100046': 1.0, 'test/sim_max_reward_100047': 1.0, 'test/sim_max_reward_100048': 1.0, 'test/sim_max_reward_100049': 1.0, 'train/mean_score': 1.0, 'test/mean_score': 0.82}
+
+Output from /home/x_zhzhu/RoboSaGA/diffusion_policy/eval.py with arguments --checkpoint ../experiments/robosaga/square_image/diffusion_policy/saga/checkpoints/epoch=0500-test_mean_score=0.900.ckpt --shuffle_env --output_dir ../experiments/robosaga/square_image/diffusion_policy/saga/eval/shuffle_env/epoch=0500-test_mean_score=0.900.ckpt:
+
+==================== Double-check the Following Parameters ====================n
+Group Norm:  {'enable': True, 'return_fullgrad_bias': True}
+Normalize Obs:  True
+
+============= Initialized Observation Utils with Obs Spec =============
+
+using obs modality: low_dim with keys: ['robot0_eef_pos', 'robot0_eef_quat', 'robot0_gripper_qpos']
+using obs modality: rgb with keys: ['agentview_image', 'robot0_eye_in_hand_image']
+using obs modality: depth with keys: []
+using obs modality: scan with keys: []
+Diffusion params: 2.556013e+08
+Vision params: 2.239418e+07
+
+==================== Saliency-guided Augmentation Parameters ====================
+aug_strategy: saga_mixup
+aug_ratio: 0.5
+warmup_epochs: 10
+update_ratio: 0.1
+disable_buffer: False
+buffer_shape: [84, 84]
+backgrounds shape: [5908, 3, 84, 84]
+save_dir: 
+======================================================================
+
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_83810_temp.xml
+Created environment with name NutAssemblySquare
+Action size is 7
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_21249_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_89142_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_91367_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_76585_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_27461_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_2059_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_9646_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_34242_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_32858_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_49326_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_63674_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_55871_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_52647_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_64432_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_67277_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_64964_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_12821_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_62256_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_93227_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_94853_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_96902_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_18230_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_82388_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_80534_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_66426_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_85108_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_62029_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_38378_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_28512_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_70292_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_66022_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_3446_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_79605_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_26291_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_22182_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_54409_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_3779_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_8795_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_34865_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_10503_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_97813_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_14909_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_70002_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_48234_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_58495_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_96100_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_93810_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_85924_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_31141_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_32992_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_29632_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_50052_temp.xml
+Created environment with name NutAssemblySquare
+Action size is 7
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_15307_temp.xml
+Created environment with name NutAssemblySquare
+Action size is 7
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_35179_temp.xml
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_13814_temp.xml
+Copying /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena.xml to /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/arenas/pegs_arena_13856_temp.xml
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+{'train/sim_max_reward_0': 1.0, 'train/sim_video_0': '../experiments/robosaga/square_image/diffusion_policy/saga/eval/shuffle_env/epoch=0500-test_mean_score=0.900.ckpt/media/iocz6g0w.mp4', 'train/sim_max_reward_1': 0.0, 'train/sim_video_1': '../experiments/robosaga/square_image/diffusion_policy/saga/eval/shuffle_env/epoch=0500-test_mean_score=0.900.ckpt/media/6q5dwwtd.mp4', 'train/sim_max_reward_2': 0.0, 'train/sim_max_reward_3': 1.0, 'test/sim_max_reward_100000': 1.0, 'test/sim_video_100000': '../experiments/robosaga/square_image/diffusion_policy/saga/eval/shuffle_env/epoch=0500-test_mean_score=0.900.ckpt/media/v7zitj0l.mp4', 'test/sim_max_reward_100001': 1.0, 'test/sim_video_100001': '../experiments/robosaga/square_image/diffusion_policy/saga/eval/shuffle_env/epoch=0500-test_mean_score=0.900.ckpt/media/m7jpua6i.mp4', 'test/sim_max_reward_100002': 1.0, 'test/sim_video_100002': '../experiments/robosaga/square_image/diffusion_policy/saga/eval/shuffle_env/epoch=0500-test_mean_score=0.900.ckpt/media/g615swil.mp4', 'test/sim_max_reward_100003': 1.0, 'test/sim_video_100003': '../experiments/robosaga/square_image/diffusion_policy/saga/eval/shuffle_env/epoch=0500-test_mean_score=0.900.ckpt/media/bdca8rcz.mp4', 'test/sim_max_reward_100004': 1.0, 'test/sim_max_reward_100005': 1.0, 'test/sim_max_reward_100006': 0.0, 'test/sim_max_reward_100007': 1.0, 'test/sim_max_reward_100008': 1.0, 'test/sim_max_reward_100009': 0.0, 'test/sim_max_reward_100010': 0.0, 'test/sim_max_reward_100011': 1.0, 'test/sim_max_reward_100012': 1.0, 'test/sim_max_reward_100013': 0.0, 'test/sim_max_reward_100014': 1.0, 'test/sim_max_reward_100015': 1.0, 'test/sim_max_reward_100016': 1.0, 'test/sim_max_reward_100017': 0.0, 'test/sim_max_reward_100018': 1.0, 'test/sim_max_reward_100019': 0.0, 'test/sim_max_reward_100020': 1.0, 'test/sim_max_reward_100021': 1.0, 'test/sim_max_reward_100022': 1.0, 'test/sim_max_reward_100023': 1.0, 'test/sim_max_reward_100024': 1.0, 'test/sim_max_reward_100025': 1.0, 'test/sim_max_reward_100026': 1.0, 'test/sim_max_reward_100027': 1.0, 'test/sim_max_reward_100028': 1.0, 'test/sim_max_reward_100029': 1.0, 'test/sim_max_reward_100030': 1.0, 'test/sim_max_reward_100031': 1.0, 'test/sim_max_reward_100032': 1.0, 'test/sim_max_reward_100033': 0.0, 'test/sim_max_reward_100034': 0.0, 'test/sim_max_reward_100035': 1.0, 'test/sim_max_reward_100036': 1.0, 'test/sim_max_reward_100037': 1.0, 'test/sim_max_reward_100038': 1.0, 'test/sim_max_reward_100039': 1.0, 'test/sim_max_reward_100040': 1.0, 'test/sim_max_reward_100041': 0.0, 'test/sim_max_reward_100042': 1.0, 'test/sim_max_reward_100043': 1.0, 'test/sim_max_reward_100044': 1.0, 'test/sim_max_reward_100045': 1.0, 'test/sim_max_reward_100046': 0.0, 'test/sim_max_reward_100047': 1.0, 'test/sim_max_reward_100048': 0.0, 'test/sim_max_reward_100049': 1.0, 'train/mean_score': 0.5, 'test/mean_score': 0.78}
+
+
+===== Results for ../experiments/robosaga/square_image/diffusion_policy/saga/ =====
+Indomain: [0.92, 0.92, 0.9], 0.91 +/- 0.01
+  data: [0.92, 0.92, 0.9]
+Off-domain for shuffle_env: 0.76 +/- 0.06
+   data: [0.68, 0.82, 0.78]

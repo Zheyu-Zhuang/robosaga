@@ -1,0 +1,432 @@
+Output from /home/x_zhzhu/RoboSaGA/diffusion_policy/eval.py with arguments --checkpoint ../experiments/robosaga/square_image/diffusion_policy/saga/checkpoints/epoch=0550-test_mean_score=0.920.ckpt --output_dir ../experiments/robosaga/square_image/diffusion_policy/saga/eval/distractors/epoch=0550-test_mean_score=0.920.ckpt --distractors:
+
+==================== Double-check the Following Parameters ====================n
+Group Norm:  {'enable': True, 'return_fullgrad_bias': True}
+Normalize Obs:  True
+
+============= Initialized Observation Utils with Obs Spec =============
+
+using obs modality: low_dim with keys: ['robot0_eef_quat', 'robot0_gripper_qpos', 'robot0_eef_pos']
+using obs modality: rgb with keys: ['agentview_image', 'robot0_eye_in_hand_image']
+using obs modality: depth with keys: []
+using obs modality: scan with keys: []
+Diffusion params: 2.556013e+08
+Vision params: 2.239418e+07
+
+==================== Saliency-guided Augmentation Parameters ====================
+aug_strategy: saga_mixup
+aug_ratio: 0.5
+warmup_epochs: 10
+update_ratio: 0.1
+disable_buffer: False
+buffer_shape: [84, 84]
+backgrounds shape: [5908, 3, 84, 84]
+save_dir: 
+======================================================================
+
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+{'train/sim_max_reward_0': 1.0, 'train/sim_video_0': '../experiments/robosaga/square_image/diffusion_policy/saga/eval/distractors/epoch=0550-test_mean_score=0.920.ckpt/media/he51xlz6.mp4', 'train/sim_max_reward_1': 0.0, 'train/sim_video_1': '../experiments/robosaga/square_image/diffusion_policy/saga/eval/distractors/epoch=0550-test_mean_score=0.920.ckpt/media/ylecii36.mp4', 'train/sim_max_reward_2': 0.0, 'train/sim_max_reward_3': 0.0, 'test/sim_max_reward_100000': 1.0, 'test/sim_video_100000': '../experiments/robosaga/square_image/diffusion_policy/saga/eval/distractors/epoch=0550-test_mean_score=0.920.ckpt/media/gu2hxjwn.mp4', 'test/sim_max_reward_100001': 1.0, 'test/sim_video_100001': '../experiments/robosaga/square_image/diffusion_policy/saga/eval/distractors/epoch=0550-test_mean_score=0.920.ckpt/media/cd6bm2fu.mp4', 'test/sim_max_reward_100002': 1.0, 'test/sim_video_100002': '../experiments/robosaga/square_image/diffusion_policy/saga/eval/distractors/epoch=0550-test_mean_score=0.920.ckpt/media/3azkl6tp.mp4', 'test/sim_max_reward_100003': 0.0, 'test/sim_video_100003': '../experiments/robosaga/square_image/diffusion_policy/saga/eval/distractors/epoch=0550-test_mean_score=0.920.ckpt/media/bnzom05n.mp4', 'test/sim_max_reward_100004': 1.0, 'test/sim_max_reward_100005': 1.0, 'test/sim_max_reward_100006': 1.0, 'test/sim_max_reward_100007': 1.0, 'test/sim_max_reward_100008': 1.0, 'test/sim_max_reward_100009': 0.0, 'test/sim_max_reward_100010': 1.0, 'test/sim_max_reward_100011': 1.0, 'test/sim_max_reward_100012': 1.0, 'test/sim_max_reward_100013': 1.0, 'test/sim_max_reward_100014': 1.0, 'test/sim_max_reward_100015': 1.0, 'test/sim_max_reward_100016': 1.0, 'test/sim_max_reward_100017': 0.0, 'test/sim_max_reward_100018': 1.0, 'test/sim_max_reward_100019': 1.0, 'test/sim_max_reward_100020': 1.0, 'test/sim_max_reward_100021': 1.0, 'test/sim_max_reward_100022': 1.0, 'test/sim_max_reward_100023': 1.0, 'test/sim_max_reward_100024': 1.0, 'test/sim_max_reward_100025': 0.0, 'test/sim_max_reward_100026': 0.0, 'test/sim_max_reward_100027': 1.0, 'test/sim_max_reward_100028': 1.0, 'test/sim_max_reward_100029': 1.0, 'test/sim_max_reward_100030': 1.0, 'test/sim_max_reward_100031': 1.0, 'test/sim_max_reward_100032': 1.0, 'test/sim_max_reward_100033': 1.0, 'test/sim_max_reward_100034': 1.0, 'test/sim_max_reward_100035': 1.0, 'test/sim_max_reward_100036': 1.0, 'test/sim_max_reward_100037': 1.0, 'test/sim_max_reward_100038': 1.0, 'test/sim_max_reward_100039': 1.0, 'test/sim_max_reward_100040': 1.0, 'test/sim_max_reward_100041': 1.0, 'test/sim_max_reward_100042': 1.0, 'test/sim_max_reward_100043': 1.0, 'test/sim_max_reward_100044': 1.0, 'test/sim_max_reward_100045': 1.0, 'test/sim_max_reward_100046': 1.0, 'test/sim_max_reward_100047': 1.0, 'test/sim_max_reward_100048': 1.0, 'test/sim_max_reward_100049': 1.0, 'train/mean_score': 0.25, 'test/mean_score': 0.9}
+
+Output from /home/x_zhzhu/RoboSaGA/diffusion_policy/eval.py with arguments --checkpoint ../experiments/robosaga/square_image/diffusion_policy/saga/checkpoints/epoch=0350-test_mean_score=0.920.ckpt --output_dir ../experiments/robosaga/square_image/diffusion_policy/saga/eval/distractors/epoch=0350-test_mean_score=0.920.ckpt --distractors:
+
+==================== Double-check the Following Parameters ====================n
+Group Norm:  {'enable': True, 'return_fullgrad_bias': True}
+Normalize Obs:  True
+
+============= Initialized Observation Utils with Obs Spec =============
+
+using obs modality: low_dim with keys: ['robot0_gripper_qpos', 'robot0_eef_pos', 'robot0_eef_quat']
+using obs modality: rgb with keys: ['agentview_image', 'robot0_eye_in_hand_image']
+using obs modality: depth with keys: []
+using obs modality: scan with keys: []
+Diffusion params: 2.556013e+08
+Vision params: 2.239418e+07
+
+==================== Saliency-guided Augmentation Parameters ====================
+aug_strategy: saga_mixup
+aug_ratio: 0.5
+warmup_epochs: 10
+update_ratio: 0.1
+disable_buffer: False
+buffer_shape: [84, 84]
+backgrounds shape: [5908, 3, 84, 84]
+save_dir: 
+======================================================================
+
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+{'train/sim_max_reward_0': 1.0, 'train/sim_video_0': '../experiments/robosaga/square_image/diffusion_policy/saga/eval/distractors/epoch=0350-test_mean_score=0.920.ckpt/media/sem32c7e.mp4', 'train/sim_max_reward_1': 0.0, 'train/sim_video_1': '../experiments/robosaga/square_image/diffusion_policy/saga/eval/distractors/epoch=0350-test_mean_score=0.920.ckpt/media/lywj7zr6.mp4', 'train/sim_max_reward_2': 0.0, 'train/sim_max_reward_3': 1.0, 'test/sim_max_reward_100000': 1.0, 'test/sim_video_100000': '../experiments/robosaga/square_image/diffusion_policy/saga/eval/distractors/epoch=0350-test_mean_score=0.920.ckpt/media/23l6vjd3.mp4', 'test/sim_max_reward_100001': 1.0, 'test/sim_video_100001': '../experiments/robosaga/square_image/diffusion_policy/saga/eval/distractors/epoch=0350-test_mean_score=0.920.ckpt/media/v35uld33.mp4', 'test/sim_max_reward_100002': 1.0, 'test/sim_video_100002': '../experiments/robosaga/square_image/diffusion_policy/saga/eval/distractors/epoch=0350-test_mean_score=0.920.ckpt/media/ub1tbmmo.mp4', 'test/sim_max_reward_100003': 1.0, 'test/sim_video_100003': '../experiments/robosaga/square_image/diffusion_policy/saga/eval/distractors/epoch=0350-test_mean_score=0.920.ckpt/media/3h851nz9.mp4', 'test/sim_max_reward_100004': 1.0, 'test/sim_max_reward_100005': 1.0, 'test/sim_max_reward_100006': 1.0, 'test/sim_max_reward_100007': 1.0, 'test/sim_max_reward_100008': 1.0, 'test/sim_max_reward_100009': 0.0, 'test/sim_max_reward_100010': 0.0, 'test/sim_max_reward_100011': 1.0, 'test/sim_max_reward_100012': 1.0, 'test/sim_max_reward_100013': 1.0, 'test/sim_max_reward_100014': 0.0, 'test/sim_max_reward_100015': 1.0, 'test/sim_max_reward_100016': 1.0, 'test/sim_max_reward_100017': 1.0, 'test/sim_max_reward_100018': 1.0, 'test/sim_max_reward_100019': 1.0, 'test/sim_max_reward_100020': 1.0, 'test/sim_max_reward_100021': 1.0, 'test/sim_max_reward_100022': 0.0, 'test/sim_max_reward_100023': 1.0, 'test/sim_max_reward_100024': 1.0, 'test/sim_max_reward_100025': 1.0, 'test/sim_max_reward_100026': 0.0, 'test/sim_max_reward_100027': 1.0, 'test/sim_max_reward_100028': 1.0, 'test/sim_max_reward_100029': 1.0, 'test/sim_max_reward_100030': 1.0, 'test/sim_max_reward_100031': 1.0, 'test/sim_max_reward_100032': 1.0, 'test/sim_max_reward_100033': 1.0, 'test/sim_max_reward_100034': 1.0, 'test/sim_max_reward_100035': 1.0, 'test/sim_max_reward_100036': 1.0, 'test/sim_max_reward_100037': 1.0, 'test/sim_max_reward_100038': 1.0, 'test/sim_max_reward_100039': 1.0, 'test/sim_max_reward_100040': 1.0, 'test/sim_max_reward_100041': 1.0, 'test/sim_max_reward_100042': 1.0, 'test/sim_max_reward_100043': 1.0, 'test/sim_max_reward_100044': 0.0, 'test/sim_max_reward_100045': 1.0, 'test/sim_max_reward_100046': 1.0, 'test/sim_max_reward_100047': 1.0, 'test/sim_max_reward_100048': 1.0, 'test/sim_max_reward_100049': 1.0, 'train/mean_score': 0.5, 'test/mean_score': 0.88}
+
+Output from /home/x_zhzhu/RoboSaGA/diffusion_policy/eval.py with arguments --checkpoint ../experiments/robosaga/square_image/diffusion_policy/saga/checkpoints/epoch=0500-test_mean_score=0.900.ckpt --output_dir ../experiments/robosaga/square_image/diffusion_policy/saga/eval/distractors/epoch=0500-test_mean_score=0.900.ckpt --distractors:
+
+==================== Double-check the Following Parameters ====================n
+Group Norm:  {'enable': True, 'return_fullgrad_bias': True}
+Normalize Obs:  True
+
+============= Initialized Observation Utils with Obs Spec =============
+
+using obs modality: low_dim with keys: ['robot0_eef_quat', 'robot0_eef_pos', 'robot0_gripper_qpos']
+using obs modality: rgb with keys: ['robot0_eye_in_hand_image', 'agentview_image']
+using obs modality: depth with keys: []
+using obs modality: scan with keys: []
+Diffusion params: 2.556013e+08
+Vision params: 2.239418e+07
+
+==================== Saliency-guided Augmentation Parameters ====================
+aug_strategy: saga_mixup
+aug_ratio: 0.5
+warmup_epochs: 10
+update_ratio: 0.1
+disable_buffer: False
+buffer_shape: [84, 84]
+backgrounds shape: [5908, 3, 84, 84]
+save_dir: 
+======================================================================
+
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+{'train/sim_max_reward_0': 1.0, 'train/sim_video_0': '../experiments/robosaga/square_image/diffusion_policy/saga/eval/distractors/epoch=0500-test_mean_score=0.900.ckpt/media/grbgja95.mp4', 'train/sim_max_reward_1': 0.0, 'train/sim_video_1': '../experiments/robosaga/square_image/diffusion_policy/saga/eval/distractors/epoch=0500-test_mean_score=0.900.ckpt/media/prancb8i.mp4', 'train/sim_max_reward_2': 0.0, 'train/sim_max_reward_3': 0.0, 'test/sim_max_reward_100000': 1.0, 'test/sim_video_100000': '../experiments/robosaga/square_image/diffusion_policy/saga/eval/distractors/epoch=0500-test_mean_score=0.900.ckpt/media/14ybeqnv.mp4', 'test/sim_max_reward_100001': 1.0, 'test/sim_video_100001': '../experiments/robosaga/square_image/diffusion_policy/saga/eval/distractors/epoch=0500-test_mean_score=0.900.ckpt/media/rvjdwsmh.mp4', 'test/sim_max_reward_100002': 1.0, 'test/sim_video_100002': '../experiments/robosaga/square_image/diffusion_policy/saga/eval/distractors/epoch=0500-test_mean_score=0.900.ckpt/media/naa52pxu.mp4', 'test/sim_max_reward_100003': 0.0, 'test/sim_video_100003': '../experiments/robosaga/square_image/diffusion_policy/saga/eval/distractors/epoch=0500-test_mean_score=0.900.ckpt/media/d28jucw2.mp4', 'test/sim_max_reward_100004': 1.0, 'test/sim_max_reward_100005': 1.0, 'test/sim_max_reward_100006': 1.0, 'test/sim_max_reward_100007': 1.0, 'test/sim_max_reward_100008': 1.0, 'test/sim_max_reward_100009': 0.0, 'test/sim_max_reward_100010': 0.0, 'test/sim_max_reward_100011': 1.0, 'test/sim_max_reward_100012': 1.0, 'test/sim_max_reward_100013': 1.0, 'test/sim_max_reward_100014': 1.0, 'test/sim_max_reward_100015': 1.0, 'test/sim_max_reward_100016': 1.0, 'test/sim_max_reward_100017': 1.0, 'test/sim_max_reward_100018': 1.0, 'test/sim_max_reward_100019': 1.0, 'test/sim_max_reward_100020': 1.0, 'test/sim_max_reward_100021': 1.0, 'test/sim_max_reward_100022': 1.0, 'test/sim_max_reward_100023': 1.0, 'test/sim_max_reward_100024': 1.0, 'test/sim_max_reward_100025': 1.0, 'test/sim_max_reward_100026': 0.0, 'test/sim_max_reward_100027': 1.0, 'test/sim_max_reward_100028': 1.0, 'test/sim_max_reward_100029': 1.0, 'test/sim_max_reward_100030': 1.0, 'test/sim_max_reward_100031': 1.0, 'test/sim_max_reward_100032': 1.0, 'test/sim_max_reward_100033': 1.0, 'test/sim_max_reward_100034': 1.0, 'test/sim_max_reward_100035': 1.0, 'test/sim_max_reward_100036': 1.0, 'test/sim_max_reward_100037': 1.0, 'test/sim_max_reward_100038': 1.0, 'test/sim_max_reward_100039': 1.0, 'test/sim_max_reward_100040': 1.0, 'test/sim_max_reward_100041': 1.0, 'test/sim_max_reward_100042': 1.0, 'test/sim_max_reward_100043': 1.0, 'test/sim_max_reward_100044': 1.0, 'test/sim_max_reward_100045': 1.0, 'test/sim_max_reward_100046': 1.0, 'test/sim_max_reward_100047': 1.0, 'test/sim_max_reward_100048': 1.0, 'test/sim_max_reward_100049': 1.0, 'train/mean_score': 0.25, 'test/mean_score': 0.92}
+
+
+===== Results for ../experiments/robosaga/square_image/diffusion_policy/saga/ =====
+Indomain: [0.92, 0.92, 0.9], 0.91 +/- 0.01
+  data: [0.92, 0.92, 0.9]
+Off-domain for distractors: 0.9 +/- 0.02
+   data: [0.9, 0.88, 0.92]
