@@ -1,0 +1,113 @@
+Output from /home/x_zhzhu/RoboSaGA/robomimic/robomimic/scripts/eval_trained_agent.py with arguments --agent ../experiments/robosaga/square_image/bc/soda/20240524001438/models/model_epoch_260_NutAssemblySquare_success_0.54.pth --n_rollouts 50 --texture_category indoor --env_id indoor_env_2 --video_path ../experiments/robosaga/square_image/bc/soda/20240524001438/eval/videos/indoor_ckpt_model_epoch_260_NutAssemblySquare_success_0.54.mp4:
+
+============= Initialized Observation Utils with Obs Spec =============
+
+using obs modality: low_dim with keys: ['robot0_eef_quat', 'robot0_gripper_qpos', 'robot0_eef_pos']
+using obs modality: rgb with keys: ['robot0_eye_in_hand_image', 'agentview_image']
+using obs modality: depth with keys: []
+using obs modality: scan with keys: []
+None
+Created environment with name NutAssemblySquare
+Action size is 7
+Found 8 GPUs for rendering. Using device 0.
+Average Rollout Stats for ../experiments/robosaga/square_image/bc/soda/20240524001438/models/model_epoch_260_NutAssemblySquare_success_0.54.pth:
+{
+    "Return": 0.08,
+    "Horizon": 381.54,
+    "Success_Rate": 0.08,
+    "Num_Success": 4.0
+}
+
+Output from /home/x_zhzhu/RoboSaGA/robomimic/robomimic/scripts/eval_trained_agent.py with arguments --agent ../experiments/robosaga/square_image/bc/soda/20240524001438/models/model_epoch_320.pth --n_rollouts 50 --texture_category indoor --env_id indoor_env_1 --video_path ../experiments/robosaga/square_image/bc/soda/20240524001438/eval/videos/indoor_ckpt_model_epoch_320.mp4:
+
+============= Initialized Observation Utils with Obs Spec =============
+
+using obs modality: low_dim with keys: ['robot0_eef_pos', 'robot0_eef_quat', 'robot0_gripper_qpos']
+using obs modality: rgb with keys: ['agentview_image', 'robot0_eye_in_hand_image']
+using obs modality: depth with keys: []
+using obs modality: scan with keys: []
+None
+Created environment with name NutAssemblySquare
+Action size is 7
+Found 8 GPUs for rendering. Using device 0.
+
+Output from /home/x_zhzhu/RoboSaGA/robomimic/robomimic/scripts/eval_trained_agent.py with arguments --agent ../experiments/robosaga/square_image/bc/soda/20240524001438/models/model_epoch_500.pth --n_rollouts 50 --texture_category indoor --env_id indoor_env_0 --video_path ../experiments/robosaga/square_image/bc/soda/20240524001438/eval/videos/indoor_ckpt_model_epoch_500.mp4:
+
+============= Initialized Observation Utils with Obs Spec =============
+
+using obs modality: low_dim with keys: ['robot0_eef_quat', 'robot0_gripper_qpos', 'robot0_eef_pos']
+using obs modality: rgb with keys: ['agentview_image', 'robot0_eye_in_hand_image']
+using obs modality: depth with keys: []
+using obs modality: scan with keys: []
+None
+Created environment with name NutAssemblySquare
+Action size is 7
+Found 8 GPUs for rendering. Using device 0.
+
+Errors: 
+  0%|          | 0/50 [00:00<?, ?it/s]Traceback (most recent call last):
+  File "/home/x_zhzhu/RoboSaGA/robomimic/robomimic/scripts/eval_trained_agent.py", line 474, in <module>
+    run_trained_agent(args)
+  File "/home/x_zhzhu/RoboSaGA/robomimic/robomimic/scripts/eval_trained_agent.py", line 313, in run_trained_agent
+    stats, traj = rollout(
+  File "/home/x_zhzhu/RoboSaGA/robomimic/robomimic/scripts/eval_trained_agent.py", line 134, in rollout
+    act = policy(ob=obs)
+  File "/home/x_zhzhu/RoboSaGA/robomimic/robomimic/algo/algo.py", line 503, in __call__
+    ac = self.policy.get_action(obs_dict=ob, goal_dict=goal)
+  File "/home/x_zhzhu/RoboSaGA/robomimic/robomimic/algo/bc.py", line 225, in get_action
+    return self.nets["policy"](obs_dict, goal_dict=goal_dict)
+  File "/home/x_zhzhu/.conda/envs/robosaga/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1130, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/x_zhzhu/RoboSaGA/robomimic/robomimic/models/policy_nets.py", line 570, in forward
+    dist = self.forward_train(obs_dict, goal_dict)
+  File "/home/x_zhzhu/RoboSaGA/robomimic/robomimic/models/policy_nets.py", line 523, in forward_train
+    out = MIMO_MLP.forward(self, obs=obs_dict, goal=goal_dict)
+  File "/home/x_zhzhu/RoboSaGA/robomimic/robomimic/models/obs_nets.py", line 626, in forward
+    enc_outputs = self.nets["encoder"](**inputs)
+  File "/home/x_zhzhu/.conda/envs/robosaga/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1130, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/x_zhzhu/RoboSaGA/robomimic/robomimic/models/obs_nets.py", line 485, in forward
+    outputs.append(self.nets[obs_group].forward(inputs[obs_group]))
+  File "/home/x_zhzhu/RoboSaGA/robomimic/robomimic/models/obs_nets.py", line 263, in forward
+    x = self.obs_nets[k](x)
+  File "/home/x_zhzhu/.conda/envs/robosaga/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1130, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/x_zhzhu/RoboSaGA/robomimic/robomimic/models/base_nets.py", line 1056, in forward
+    return super(VisualCore, self).forward(inputs)
+  File "/home/x_zhzhu/RoboSaGA/robomimic/robomimic/models/base_nets.py", line 441, in forward
+    x = self.nets(inputs)
+  File "/home/x_zhzhu/.conda/envs/robosaga/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1130, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/x_zhzhu/.conda/envs/robosaga/lib/python3.8/site-packages/torch/nn/modules/container.py", line 139, in forward
+    input = module(input)
+  File "/home/x_zhzhu/.conda/envs/robosaga/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1130, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/x_zhzhu/RoboSaGA/robomimic/robomimic/models/base_nets.py", line 441, in forward
+    x = self.nets(inputs)
+  File "/home/x_zhzhu/.conda/envs/robosaga/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1130, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/x_zhzhu/.conda/envs/robosaga/lib/python3.8/site-packages/torch/nn/modules/container.py", line 139, in forward
+    input = module(input)
+  File "/home/x_zhzhu/.conda/envs/robosaga/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1130, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/x_zhzhu/.conda/envs/robosaga/lib/python3.8/site-packages/torch/nn/modules/container.py", line 139, in forward
+    input = module(input)
+  File "/home/x_zhzhu/.conda/envs/robosaga/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1130, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/x_zhzhu/RoboSaGA/robosaga/robosaga/resnet.py", line 104, in forward
+    out = self.conv2(out)
+  File "/home/x_zhzhu/.conda/envs/robosaga/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1130, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/x_zhzhu/.conda/envs/robosaga/lib/python3.8/site-packages/torch/nn/modules/conv.py", line 457, in forward
+    return self._conv_forward(input, self.weight, self.bias)
+  File "/home/x_zhzhu/.conda/envs/robosaga/lib/python3.8/site-packages/torch/nn/modules/conv.py", line 453, in _conv_forward
+    return F.conv2d(input, weight, bias, self.stride,
+RuntimeError: CUDA out of memory. Tried to allocate 588.00 MiB (GPU 0; 39.39 GiB total capacity; 187.30 MiB already allocated; 593.94 MiB free; 198.00 MiB reserved in total by PyTorch) If reserved memory is >> allocated memory try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF
+
+  0%|          | 0/50 [00:14<?, ?it/s]
+
+===== Results for ../experiments/robosaga/square_image/bc/soda/20240524001438/ =====
+Indomain: [0.54, 0.54, 0.54], 0.54 +/- 0.0
+  data: [0.54, 0.54, 0.54]
+Off-domain for indoor: 0.08 +/- 0.0
+   data: [0.08]

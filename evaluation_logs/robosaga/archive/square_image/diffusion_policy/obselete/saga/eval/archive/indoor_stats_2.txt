@@ -1,0 +1,12 @@
+Output from /home/x_zhzhu/RoboSaGA/diffusion_policy/eval.py with arguments --checkpoint ../experiments/robosaga/square_image/diffusion_policy/saga/checkpoints/epoch=0450-test_mean_score=0.860.ckpt --rand_texture indoor --output_dir ../experiments/robosaga/square_image/diffusion_policy/saga/eval/indoor/epoch=0450-test_mean_score=0.860.ckpt:
+None
+Output from /home/x_zhzhu/RoboSaGA/diffusion_policy/eval.py with arguments --checkpoint ../experiments/robosaga/square_image/diffusion_policy/saga/checkpoints/epoch=0400-test_mean_score=0.860.ckpt --rand_texture indoor --output_dir ../experiments/robosaga/square_image/diffusion_policy/saga/eval/indoor/epoch=0400-test_mean_score=0.860.ckpt:
+None
+Output from /home/x_zhzhu/RoboSaGA/diffusion_policy/eval.py with arguments --checkpoint ../experiments/robosaga/square_image/diffusion_policy/saga/checkpoints/epoch=0300-test_mean_score=0.880.ckpt --rand_texture indoor --output_dir ../experiments/robosaga/square_image/diffusion_policy/saga/eval/indoor/epoch=0300-test_mean_score=0.880.ckpt:
+None
+
+===== Results for ../experiments/robosaga/square_image/diffusion_policy/saga =====
+Indomain: [0.88, 0.86, 0.86], 0.87 +/- 0.01
+  data: [0.88, 0.86, 0.86]
+Off-domain for indoor: nan +/- nan
+   data: []

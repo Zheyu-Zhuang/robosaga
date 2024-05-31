@@ -1,0 +1,170 @@
+Output from /home/x_zhzhu/RoboSaGA/robomimic/robomimic/scripts/eval_trained_agent.py with arguments --agent ../experiments/robosaga/square_image/bc/saga/20240524001438/models/model_epoch_360_NutAssemblySquare_success_0.72.pth --n_rollouts 50 --texture_category outdoor --env_id outdoor_env_0 --video_path ../experiments/robosaga/square_image/bc/saga/20240524001438/eval/videos/outdoor_ckpt_model_epoch_360_NutAssemblySquare_success_0.72.mp4:
+
+============= Initialized Observation Utils with Obs Spec =============
+
+using obs modality: low_dim with keys: ['robot0_eef_pos', 'robot0_eef_quat', 'robot0_gripper_qpos']
+using obs modality: rgb with keys: ['robot0_eye_in_hand_image', 'agentview_image']
+using obs modality: depth with keys: []
+using obs modality: scan with keys: []
+None
+Created environment with name NutAssemblySquare
+Action size is 7
+Found 8 GPUs for rendering. Using device 0.
+Average Rollout Stats for ../experiments/robosaga/square_image/bc/saga/20240524001438/models/model_epoch_360_NutAssemblySquare_success_0.72.pth:
+{
+    "Return": 0.4,
+    "Horizon": 301.74,
+    "Success_Rate": 0.4,
+    "Num_Success": 20.0
+}
+
+Output from /home/x_zhzhu/RoboSaGA/robomimic/robomimic/scripts/eval_trained_agent.py with arguments --agent ../experiments/robosaga/square_image/bc/saga/20240524001438/models/model_epoch_260.pth --n_rollouts 50 --texture_category outdoor --env_id outdoor_env_2 --video_path ../experiments/robosaga/square_image/bc/saga/20240524001438/eval/videos/outdoor_ckpt_model_epoch_260.mp4:
+
+============= Initialized Observation Utils with Obs Spec =============
+
+using obs modality: low_dim with keys: ['robot0_gripper_qpos', 'robot0_eef_quat', 'robot0_eef_pos']
+using obs modality: rgb with keys: ['robot0_eye_in_hand_image', 'agentview_image']
+using obs modality: depth with keys: []
+using obs modality: scan with keys: []
+None
+Created environment with name NutAssemblySquare
+Action size is 7
+Found 8 GPUs for rendering. Using device 0.
+Average Rollout Stats for ../experiments/robosaga/square_image/bc/saga/20240524001438/models/model_epoch_260.pth:
+{
+    "Return": 0.34,
+    "Horizon": 321.98,
+    "Success_Rate": 0.34,
+    "Num_Success": 17.0
+}
+
+Output from /home/x_zhzhu/RoboSaGA/robomimic/robomimic/scripts/eval_trained_agent.py with arguments --agent ../experiments/robosaga/square_image/bc/saga/20240524001438/models/model_epoch_200_NutAssemblySquare_success_0.7.pth --n_rollouts 50 --texture_category outdoor --env_id outdoor_env_1 --video_path ../experiments/robosaga/square_image/bc/saga/20240524001438/eval/videos/outdoor_ckpt_model_epoch_200_NutAssemblySquare_success_0.7.mp4:
+
+============= Initialized Observation Utils with Obs Spec =============
+
+using obs modality: low_dim with keys: ['robot0_eef_quat', 'robot0_eef_pos', 'robot0_gripper_qpos']
+using obs modality: rgb with keys: ['robot0_eye_in_hand_image', 'agentview_image']
+using obs modality: depth with keys: []
+using obs modality: scan with keys: []
+None
+Created environment with name NutAssemblySquare
+Action size is 7
+Found 8 GPUs for rendering. Using device 0.
+Average Rollout Stats for ../experiments/robosaga/square_image/bc/saga/20240524001438/models/model_epoch_200_NutAssemblySquare_success_0.7.pth:
+{
+    "Return": 0.56,
+    "Horizon": 274.84,
+    "Success_Rate": 0.56,
+    "Num_Success": 28.0
+}
+
+Errors: 
+  0%|          | 0/50 [00:00<?, ?it/s]
+  0%|          | 0/50 [00:22<?, ?it/s, Success Rate=1]
+  2%|▏         | 1/50 [00:22<18:39, 22.84s/it, Success Rate=1]
+  2%|▏         | 1/50 [00:33<18:39, 22.84s/it, Success Rate=1]
+  4%|▍         | 2/50 [00:33<12:25, 15.52s/it, Success Rate=1]
+  4%|▍         | 2/50 [00:41<12:25, 15.52s/it, Success Rate=1]
+  6%|▌         | 3/50 [00:41<09:27, 12.06s/it, Success Rate=1]
+  6%|▌         | 3/50 [00:49<09:27, 12.06s/it, Success Rate=1]
+  8%|▊         | 4/50 [00:49<08:13, 10.73s/it, Success Rate=1]
+  8%|▊         | 4/50 [01:16<08:13, 10.73s/it, Success Rate=0.8]
+ 10%|█         | 5/50 [01:16<12:12, 16.28s/it, Success Rate=0.8]
+ 10%|█         | 5/50 [01:35<12:12, 16.28s/it, Success Rate=0.833]
+ 12%|█▏        | 6/50 [01:35<12:48, 17.47s/it, Success Rate=0.833]
+ 12%|█▏        | 6/50 [02:00<12:48, 17.47s/it, Success Rate=0.714]
+ 14%|█▍        | 7/50 [02:00<14:13, 19.85s/it, Success Rate=0.714]
+ 14%|█▍        | 7/50 [02:26<14:13, 19.85s/it, Success Rate=0.625]
+ 16%|█▌        | 8/50 [02:26<15:12, 21.73s/it, Success Rate=0.625]
+ 16%|█▌        | 8/50 [02:51<15:12, 21.73s/it, Success Rate=0.556]
+ 18%|█▊        | 9/50 [02:51<15:34, 22.78s/it, Success Rate=0.556]
+ 18%|█▊        | 9/50 [03:18<15:34, 22.78s/it, Success Rate=0.5]  
+ 20%|██        | 10/50 [03:18<16:02, 24.06s/it, Success Rate=0.5]
+ 20%|██        | 10/50 [03:28<16:02, 24.06s/it, Success Rate=0.545]
+ 22%|██▏       | 11/50 [03:28<12:55, 19.89s/it, Success Rate=0.545]
+ 22%|██▏       | 11/50 [03:53<12:55, 19.89s/it, Success Rate=0.5]  
+ 24%|██▍       | 12/50 [03:53<13:36, 21.49s/it, Success Rate=0.5]
+ 24%|██▍       | 12/50 [04:03<13:36, 21.49s/it, Success Rate=0.538]
+ 26%|██▌       | 13/50 [04:03<11:01, 17.89s/it, Success Rate=0.538]
+ 26%|██▌       | 13/50 [04:16<11:01, 17.89s/it, Success Rate=0.571]
+ 28%|██▊       | 14/50 [04:16<09:53, 16.48s/it, Success Rate=0.571]
+ 28%|██▊       | 14/50 [04:41<09:53, 16.48s/it, Success Rate=0.533]
+ 30%|███       | 15/50 [04:41<11:08, 19.11s/it, Success Rate=0.533]
+ 30%|███       | 15/50 [05:06<11:08, 19.11s/it, Success Rate=0.5]  
+ 32%|███▏      | 16/50 [05:06<11:45, 20.76s/it, Success Rate=0.5]
+ 32%|███▏      | 16/50 [05:31<11:45, 20.76s/it, Success Rate=0.471]
+ 34%|███▍      | 17/50 [05:31<12:06, 22.00s/it, Success Rate=0.471]
+ 34%|███▍      | 17/50 [05:43<12:06, 22.00s/it, Success Rate=0.5]  
+ 36%|███▌      | 18/50 [05:43<10:04, 18.89s/it, Success Rate=0.5]
+ 36%|███▌      | 18/50 [05:57<10:04, 18.89s/it, Success Rate=0.526]
+ 38%|███▊      | 19/50 [05:57<09:02, 17.51s/it, Success Rate=0.526]
+ 38%|███▊      | 19/50 [06:22<09:02, 17.51s/it, Success Rate=0.5]  
+ 40%|████      | 20/50 [06:22<09:58, 19.94s/it, Success Rate=0.5]
+ 40%|████      | 20/50 [06:34<09:58, 19.94s/it, Success Rate=0.524]
+ 42%|████▏     | 21/50 [06:34<08:25, 17.43s/it, Success Rate=0.524]
+ 42%|████▏     | 21/50 [07:00<08:25, 17.43s/it, Success Rate=0.5]  
+ 44%|████▍     | 22/50 [07:00<09:19, 20.00s/it, Success Rate=0.5]
+ 44%|████▍     | 22/50 [07:11<09:19, 20.00s/it, Success Rate=0.522]
+ 46%|████▌     | 23/50 [07:11<07:47, 17.30s/it, Success Rate=0.522]
+ 46%|████▌     | 23/50 [07:21<07:47, 17.30s/it, Success Rate=0.542]
+ 48%|████▊     | 24/50 [07:21<06:36, 15.23s/it, Success Rate=0.542]
+ 48%|████▊     | 24/50 [07:33<06:36, 15.23s/it, Success Rate=0.56] 
+ 50%|█████     | 25/50 [07:33<05:55, 14.23s/it, Success Rate=0.56]
+ 50%|█████     | 25/50 [07:58<05:55, 14.23s/it, Success Rate=0.538]
+ 52%|█████▏    | 26/50 [07:58<06:55, 17.32s/it, Success Rate=0.538]
+ 52%|█████▏    | 26/50 [08:24<06:55, 17.32s/it, Success Rate=0.519]
+ 54%|█████▍    | 27/50 [08:24<07:41, 20.04s/it, Success Rate=0.519]
+ 54%|█████▍    | 27/50 [08:34<07:41, 20.04s/it, Success Rate=0.536]
+ 56%|█████▌    | 28/50 [08:34<06:16, 17.10s/it, Success Rate=0.536]
+ 56%|█████▌    | 28/50 [09:00<06:16, 17.10s/it, Success Rate=0.517]
+ 58%|█████▊    | 29/50 [09:00<06:52, 19.64s/it, Success Rate=0.517]
+ 58%|█████▊    | 29/50 [09:26<06:52, 19.64s/it, Success Rate=0.5]  
+ 60%|██████    | 30/50 [09:26<07:07, 21.40s/it, Success Rate=0.5]
+ 60%|██████    | 30/50 [09:51<07:07, 21.40s/it, Success Rate=0.484]
+ 62%|██████▏   | 31/50 [09:51<07:08, 22.53s/it, Success Rate=0.484]
+ 62%|██████▏   | 31/50 [10:02<07:08, 22.53s/it, Success Rate=0.5]  
+ 64%|██████▍   | 32/50 [10:02<05:44, 19.14s/it, Success Rate=0.5]
+ 64%|██████▍   | 32/50 [10:14<05:44, 19.14s/it, Success Rate=0.515]
+ 66%|██████▌   | 33/50 [10:14<04:47, 16.92s/it, Success Rate=0.515]
+ 66%|██████▌   | 33/50 [10:39<04:47, 16.92s/it, Success Rate=0.5]  
+ 68%|██████▊   | 34/50 [10:39<05:11, 19.46s/it, Success Rate=0.5]
+ 68%|██████▊   | 34/50 [10:50<05:11, 19.46s/it, Success Rate=0.514]
+ 70%|███████   | 35/50 [10:50<04:13, 16.89s/it, Success Rate=0.514]
+ 70%|███████   | 35/50 [11:16<04:13, 16.89s/it, Success Rate=0.528]
+ 72%|███████▏  | 36/50 [11:16<04:34, 19.61s/it, Success Rate=0.528]
+ 72%|███████▏  | 36/50 [11:27<04:34, 19.61s/it, Success Rate=0.541]
+ 74%|███████▍  | 37/50 [11:27<03:42, 17.08s/it, Success Rate=0.541]
+ 74%|███████▍  | 37/50 [11:41<03:42, 17.08s/it, Success Rate=0.553]
+ 76%|███████▌  | 38/50 [11:41<03:14, 16.18s/it, Success Rate=0.553]
+ 76%|███████▌  | 38/50 [11:52<03:14, 16.18s/it, Success Rate=0.564]
+ 78%|███████▊  | 39/50 [11:52<02:40, 14.61s/it, Success Rate=0.564]
+ 78%|███████▊  | 39/50 [12:19<02:40, 14.61s/it, Success Rate=0.575]
+ 80%|████████  | 40/50 [12:19<03:02, 18.22s/it, Success Rate=0.575]
+ 80%|████████  | 40/50 [12:44<03:02, 18.22s/it, Success Rate=0.561]
+ 82%|████████▏ | 41/50 [12:44<03:01, 20.18s/it, Success Rate=0.561]
+ 82%|████████▏ | 41/50 [12:54<03:01, 20.18s/it, Success Rate=0.571]
+ 84%|████████▍ | 42/50 [12:54<02:17, 17.23s/it, Success Rate=0.571]
+ 84%|████████▍ | 42/50 [13:07<02:17, 17.23s/it, Success Rate=0.581]
+ 86%|████████▌ | 43/50 [13:07<01:52, 16.13s/it, Success Rate=0.581]
+ 86%|████████▌ | 43/50 [13:23<01:52, 16.13s/it, Success Rate=0.591]
+ 88%|████████▊ | 44/50 [13:23<01:35, 15.96s/it, Success Rate=0.591]
+ 88%|████████▊ | 44/50 [13:33<01:35, 15.96s/it, Success Rate=0.6]  
+ 90%|█████████ | 45/50 [13:33<01:10, 14.03s/it, Success Rate=0.6]
+ 90%|█████████ | 45/50 [13:57<01:10, 14.03s/it, Success Rate=0.587]
+ 92%|█████████▏| 46/50 [13:57<01:08, 17.07s/it, Success Rate=0.587]
+ 92%|█████████▏| 46/50 [14:22<01:08, 17.07s/it, Success Rate=0.574]
+ 94%|█████████▍| 47/50 [14:22<00:58, 19.55s/it, Success Rate=0.574]
+ 94%|█████████▍| 47/50 [14:45<00:58, 19.55s/it, Success Rate=0.562]
+ 96%|█████████▌| 48/50 [14:45<00:41, 20.69s/it, Success Rate=0.562]
+ 96%|█████████▌| 48/50 [15:08<00:41, 20.69s/it, Success Rate=0.551]
+ 98%|█████████▊| 49/50 [15:08<00:21, 21.37s/it, Success Rate=0.551]
+ 98%|█████████▊| 49/50 [15:27<00:21, 21.37s/it, Success Rate=0.56] 
+100%|██████████| 50/50 [15:27<00:00, 20.70s/it, Success Rate=0.56]
+100%|██████████| 50/50 [15:28<00:00, 18.56s/it, Success Rate=0.56]
+
+
+===== Results for ../experiments/robosaga/square_image/bc/saga/20240524001438/ =====
+Indomain: [0.72, 0.7, 0.68], 0.7 +/- 0.02
+  data: [0.72, 0.7, 0.68]
+Off-domain for outdoor: 0.43 +/- 0.09
+   data: [0.4, 0.34, 0.56]

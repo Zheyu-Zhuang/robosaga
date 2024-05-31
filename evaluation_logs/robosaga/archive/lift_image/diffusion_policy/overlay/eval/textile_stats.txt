@@ -1,0 +1,357 @@
+Output from /home/x_zhzhu/RoboSaGA/diffusion_policy/eval.py with arguments --checkpoint /home/x_zhzhu/RoboSaGA/experiments/robosaga/lift_image/diffusion_policy/overlay/checkpoints/epoch=0100-test_mean_score=1.000.ckpt --rand_texture textile --output_dir /home/x_zhzhu/RoboSaGA/experiments/robosaga/lift_image/diffusion_policy/overlay/eval/textile/epoch=0100-test_mean_score=1.000.ckpt:
+
+==================== Double-check the Following Parameters ====================n
+Group Norm:  {'enable': True, 'return_fullgrad_bias': True}
+Normalize Obs:  True
+
+============= Initialized Observation Utils with Obs Spec =============
+
+using obs modality: low_dim with keys: ['robot0_eef_quat', 'robot0_eef_pos', 'robot0_gripper_qpos']
+using obs modality: rgb with keys: ['agentview_image', 'robot0_eye_in_hand_image']
+using obs modality: depth with keys: []
+using obs modality: scan with keys: []
+Diffusion params: 2.556013e+08
+Vision params: 2.239418e+07
+SaGA Warning: Buffer is disabled for simple_overlay strategy
+
+==================== Saliency-guided Augmentation Parameters ====================
+aug_strategy: simple_overlay
+aug_ratio: 0.5
+aug_obs_pairs: False
+update_ratio: None
+disable_buffer: True
+buffer_shape: [84, 84]
+backgrounds shape: [5000, 3, 84, 84]
+disable_during_training: False
+save_dir: 
+======================================================================
+
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/textile/engin-akyurt--ikp7hwRJ_M-unsplash_2.png
+Created environment with name Lift
+Action size is 7
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/textile/divazus-fabric-store-2f69TazFt_4-unsplash_2.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/textile/engin-akyurt-ldVIlJr7HXs-unsplash.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/textile/susan-wilkinson-Xe3Oy1l7MjE-unsplash.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/textile/susan-wilkinson-Xe3Oy1l7MjE-unsplash_2.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/textile/engin-akyurt-v7zbcgLPbMQ-unsplash_1.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/textile/alexander-grey-XeEvy_ofGNk-unsplash_1.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/textile/susan-wilkinson-Jx-SL0nsv-Y-unsplash_1.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/textile/susan-wilkinson-Jx-SL0nsv-Y-unsplash_3.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/textile/divazus-fabric-store-6EdxYTq8LTM-unsplash_2.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/textile/judson-moore-UrgYjACxvaI-unsplash_1.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/textile/judson-moore-UrgYjACxvaI-unsplash_3.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/textile/engin-akyurt-un-jLd07PYg-unsplash_1.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/textile/alexander-grey-XeEvy_ofGNk-unsplash.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/textile/engin-akyurt--ikp7hwRJ_M-unsplash_3.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/textile/susan-wilkinson-Jx-SL0nsv-Y-unsplash_3.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/textile/engin-akyurt-v7zbcgLPbMQ-unsplash_2.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/textile/siora-photography-SZF0wG5SXsU-unsplash.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/textile/emmanuel-ben-paul-R_k6kaHhHnY-unsplash.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/textile/codioful-formerly-gradienta-LeG68PrXA6Y-unsplash_3.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/textile/susan-wilkinson-Xe3Oy1l7MjE-unsplash_1.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/textile/maksim-siadura-My0w1D60RkM-unsplash.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/textile/engin-akyurt-ldVIlJr7HXs-unsplash_1.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/textile/divazus-fabric-store-Y3EktahiX84-unsplash.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/textile/nimble-made-x7gV0vTyxEs-unsplash_2.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/textile/codioful-formerly-gradienta-LeG68PrXA6Y-unsplash.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/textile/engin-akyurt--ikp7hwRJ_M-unsplash_1.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/textile/alexander-grey-Th_WZMUPnO4-unsplash_3.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/textile/susan-wilkinson-49Y_hb92iq8-unsplash_3.png
+Created environment with name Lift
+Action size is 7
+Created environment with name Lift
+Action size is 7
+Created environment with name Lift
+Action size is 7
+Created environment with name Lift
+Action size is 7
+Created environment with name Lift
+Action size is 7
+Created environment with name Lift
+Action size is 7
+Created environment with name Lift
+Action size is 7
+Created environment with name Lift
+Action size is 7
+Created environment with name Lift
+Action size is 7
+Created environment with name Lift
+Action size is 7
+Created environment with name Lift
+Action size is 7
+Created environment with name Lift
+Action size is 7
+Created environment with name Lift
+Action size is 7
+Created environment with name Lift
+Action size is 7
+Created environment with name Lift
+Action size is 7
+Created environment with name Lift
+Action size is 7
+Created environment with name Lift
+Action size is 7
+Created environment with name Lift
+Action size is 7
+Created environment with name Lift
+Action size is 7
+Created environment with name Lift
+Action size is 7
+Created environment with name Lift
+Action size is 7
+Created environment with name Lift
+Action size is 7
+Created environment with name Lift
+Action size is 7
+Created environment with name Lift
+Action size is 7
+Created environment with name Lift
+Action size is 7
+Created environment with name Lift
+Action size is 7
+Created environment with name Lift
+Action size is 7
+Created environment with name Lift
+Action size is 7
+{'train/sim_max_reward_0': 1.0, 'train/sim_video_0': '/home/x_zhzhu/RoboSaGA/experiments/robosaga/lift_image/diffusion_policy/overlay/eval/textile/epoch=0100-test_mean_score=1.000.ckpt/media/v4yic48j.mp4', 'train/sim_max_reward_1': 1.0, 'train/sim_max_reward_2': 1.0, 'train/sim_max_reward_3': 1.0, 'train/sim_max_reward_4': 1.0, 'train/sim_max_reward_5': 1.0, 'test/sim_max_reward_100000': 1.0, 'test/sim_video_100000': '/home/x_zhzhu/RoboSaGA/experiments/robosaga/lift_image/diffusion_policy/overlay/eval/textile/epoch=0100-test_mean_score=1.000.ckpt/media/h5xmmyjl.mp4', 'test/sim_max_reward_100001': 1.0, 'test/sim_video_100001': '/home/x_zhzhu/RoboSaGA/experiments/robosaga/lift_image/diffusion_policy/overlay/eval/textile/epoch=0100-test_mean_score=1.000.ckpt/media/fxsjv7kn.mp4', 'test/sim_max_reward_100002': 1.0, 'test/sim_video_100002': '/home/x_zhzhu/RoboSaGA/experiments/robosaga/lift_image/diffusion_policy/overlay/eval/textile/epoch=0100-test_mean_score=1.000.ckpt/media/5s9hb5qw.mp4', 'test/sim_max_reward_100003': 1.0, 'test/sim_max_reward_100004': 1.0, 'test/sim_max_reward_100005': 1.0, 'test/sim_max_reward_100006': 1.0, 'test/sim_max_reward_100007': 1.0, 'test/sim_max_reward_100008': 1.0, 'test/sim_max_reward_100009': 1.0, 'test/sim_max_reward_100010': 1.0, 'test/sim_max_reward_100011': 1.0, 'test/sim_max_reward_100012': 1.0, 'test/sim_max_reward_100013': 1.0, 'test/sim_max_reward_100014': 1.0, 'test/sim_max_reward_100015': 1.0, 'test/sim_max_reward_100016': 1.0, 'test/sim_max_reward_100017': 1.0, 'test/sim_max_reward_100018': 1.0, 'test/sim_max_reward_100019': 1.0, 'test/sim_max_reward_100020': 1.0, 'test/sim_max_reward_100021': 1.0, 'test/sim_max_reward_100022': 1.0, 'test/sim_max_reward_100023': 1.0, 'test/sim_max_reward_100024': 1.0, 'test/sim_max_reward_100025': 1.0, 'test/sim_max_reward_100026': 1.0, 'test/sim_max_reward_100027': 1.0, 'test/sim_max_reward_100028': 1.0, 'test/sim_max_reward_100029': 1.0, 'test/sim_max_reward_100030': 1.0, 'test/sim_max_reward_100031': 0.0, 'test/sim_max_reward_100032': 0.0, 'test/sim_max_reward_100033': 1.0, 'test/sim_max_reward_100034': 1.0, 'test/sim_max_reward_100035': 1.0, 'test/sim_max_reward_100036': 1.0, 'test/sim_max_reward_100037': 1.0, 'test/sim_max_reward_100038': 1.0, 'test/sim_max_reward_100039': 1.0, 'test/sim_max_reward_100040': 1.0, 'test/sim_max_reward_100041': 1.0, 'test/sim_max_reward_100042': 1.0, 'test/sim_max_reward_100043': 1.0, 'test/sim_max_reward_100044': 1.0, 'test/sim_max_reward_100045': 1.0, 'test/sim_max_reward_100046': 1.0, 'test/sim_max_reward_100047': 1.0, 'test/sim_max_reward_100048': 1.0, 'test/sim_max_reward_100049': 1.0, 'train/mean_score': 1.0, 'test/mean_score': 0.96}
+
+Output from /home/x_zhzhu/RoboSaGA/diffusion_policy/eval.py with arguments --checkpoint /home/x_zhzhu/RoboSaGA/experiments/robosaga/lift_image/diffusion_policy/overlay/checkpoints/epoch=0050-test_mean_score=0.980.ckpt --rand_texture textile --output_dir /home/x_zhzhu/RoboSaGA/experiments/robosaga/lift_image/diffusion_policy/overlay/eval/textile/epoch=0050-test_mean_score=0.980.ckpt:
+
+==================== Double-check the Following Parameters ====================n
+Group Norm:  {'enable': True, 'return_fullgrad_bias': True}
+Normalize Obs:  True
+
+============= Initialized Observation Utils with Obs Spec =============
+
+using obs modality: low_dim with keys: ['robot0_gripper_qpos', 'robot0_eef_quat', 'robot0_eef_pos']
+using obs modality: rgb with keys: ['agentview_image', 'robot0_eye_in_hand_image']
+using obs modality: depth with keys: []
+using obs modality: scan with keys: []
+Diffusion params: 2.556013e+08
+Vision params: 2.239418e+07
+SaGA Warning: Buffer is disabled for simple_overlay strategy
+
+==================== Saliency-guided Augmentation Parameters ====================
+aug_strategy: simple_overlay
+aug_ratio: 0.5
+aug_obs_pairs: False
+update_ratio: None
+disable_buffer: True
+buffer_shape: [84, 84]
+backgrounds shape: [5000, 3, 84, 84]
+disable_during_training: False
+save_dir: 
+======================================================================
+
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/textile/engin-akyurt--ikp7hwRJ_M-unsplash_2.png
+Created environment with name Lift
+Action size is 7
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/textile/alexander-grey-Th_WZMUPnO4-unsplash_2.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/textile/siora-photography-SZF0wG5SXsU-unsplash.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/textile/susan-wilkinson-49Y_hb92iq8-unsplash_3.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/textile/engin-akyurt-v7zbcgLPbMQ-unsplash_1.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/textile/divazus-fabric-store-Y3EktahiX84-unsplash_1.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/textile/maksim-siadura-My0w1D60RkM-unsplash_2.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/textile/engin-akyurt-ldVIlJr7HXs-unsplash_2.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/textile/siora-photography-SZF0wG5SXsU-unsplash_3.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/textile/alexander-grey-Th_WZMUPnO4-unsplash_2.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/textile/nimble-made-IyYreSBPUXw-unsplash_3.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/textile/alexander-grey-XeEvy_ofGNk-unsplash_1.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/textile/nimble-made-x7gV0vTyxEs-unsplash_3.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/textile/pawel-czerwinski-dgJT71cXlC4-unsplash_1.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/textile/siora-photography-SZF0wG5SXsU-unsplash.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/textile/engin-akyurt-iCXDXK7jG2o-unsplash.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/textile/engin-akyurt--ikp7hwRJ_M-unsplash_1.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/textile/divazus-fabric-store-Y3EktahiX84-unsplash_2.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/textile/diogo-nunes-2BAqw7DwMdg-unsplash_2.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/textile/diogo-nunes-2BAqw7DwMdg-unsplash_2.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/textile/engin-akyurt-ldVIlJr7HXs-unsplash.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/textile/nimble-made-x7gV0vTyxEs-unsplash_3.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/textile/nimble-made-IyYreSBPUXw-unsplash.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/textile/susan-wilkinson-Hrgv_0fmOI4-unsplash.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/textile/max-fuchs-Nm6ojlDO-5c-unsplash_1.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/textile/max-fuchs-Nm6ojlDO-5c-unsplash.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/textile/emmanuel-ben-paul-R_k6kaHhHnY-unsplash_3.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/textile/emmanuel-ben-paul-R_k6kaHhHnY-unsplash_3.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/textile/judson-moore-UrgYjACxvaI-unsplash.png
+Created environment with name Lift
+Action size is 7
+Created environment with name Lift
+Action size is 7
+Created environment with name Lift
+Action size is 7
+Created environment with name Lift
+Action size is 7
+Created environment with name Lift
+Action size is 7
+Created environment with name Lift
+Action size is 7
+Created environment with name Lift
+Action size is 7
+Created environment with name Lift
+Action size is 7
+Created environment with name Lift
+Action size is 7
+Created environment with name Lift
+Action size is 7
+Created environment with name Lift
+Action size is 7
+Created environment with name Lift
+Action size is 7
+Created environment with name Lift
+Action size is 7
+Created environment with name Lift
+Action size is 7
+Created environment with name Lift
+Action size is 7
+Created environment with name Lift
+Action size is 7
+Created environment with name Lift
+Action size is 7
+Created environment with name Lift
+Action size is 7
+Created environment with name Lift
+Action size is 7
+Created environment with name Lift
+Action size is 7
+Created environment with name Lift
+Action size is 7
+Created environment with name Lift
+Action size is 7
+Created environment with name Lift
+Action size is 7
+Created environment with name Lift
+Action size is 7
+Created environment with name Lift
+Action size is 7
+Created environment with name Lift
+Action size is 7
+Created environment with name Lift
+Action size is 7
+Created environment with name Lift
+Action size is 7
+{'train/sim_max_reward_0': 1.0, 'train/sim_video_0': '/home/x_zhzhu/RoboSaGA/experiments/robosaga/lift_image/diffusion_policy/overlay/eval/textile/epoch=0050-test_mean_score=0.980.ckpt/media/gk378pd5.mp4', 'train/sim_max_reward_1': 1.0, 'train/sim_max_reward_2': 1.0, 'train/sim_max_reward_3': 1.0, 'train/sim_max_reward_4': 1.0, 'train/sim_max_reward_5': 1.0, 'test/sim_max_reward_100000': 1.0, 'test/sim_video_100000': '/home/x_zhzhu/RoboSaGA/experiments/robosaga/lift_image/diffusion_policy/overlay/eval/textile/epoch=0050-test_mean_score=0.980.ckpt/media/7osqabvd.mp4', 'test/sim_max_reward_100001': 1.0, 'test/sim_video_100001': '/home/x_zhzhu/RoboSaGA/experiments/robosaga/lift_image/diffusion_policy/overlay/eval/textile/epoch=0050-test_mean_score=0.980.ckpt/media/iamckj9u.mp4', 'test/sim_max_reward_100002': 1.0, 'test/sim_video_100002': '/home/x_zhzhu/RoboSaGA/experiments/robosaga/lift_image/diffusion_policy/overlay/eval/textile/epoch=0050-test_mean_score=0.980.ckpt/media/nzw014rf.mp4', 'test/sim_max_reward_100003': 1.0, 'test/sim_max_reward_100004': 1.0, 'test/sim_max_reward_100005': 1.0, 'test/sim_max_reward_100006': 1.0, 'test/sim_max_reward_100007': 1.0, 'test/sim_max_reward_100008': 1.0, 'test/sim_max_reward_100009': 1.0, 'test/sim_max_reward_100010': 1.0, 'test/sim_max_reward_100011': 1.0, 'test/sim_max_reward_100012': 1.0, 'test/sim_max_reward_100013': 1.0, 'test/sim_max_reward_100014': 1.0, 'test/sim_max_reward_100015': 1.0, 'test/sim_max_reward_100016': 1.0, 'test/sim_max_reward_100017': 1.0, 'test/sim_max_reward_100018': 1.0, 'test/sim_max_reward_100019': 1.0, 'test/sim_max_reward_100020': 1.0, 'test/sim_max_reward_100021': 1.0, 'test/sim_max_reward_100022': 1.0, 'test/sim_max_reward_100023': 1.0, 'test/sim_max_reward_100024': 1.0, 'test/sim_max_reward_100025': 1.0, 'test/sim_max_reward_100026': 1.0, 'test/sim_max_reward_100027': 1.0, 'test/sim_max_reward_100028': 1.0, 'test/sim_max_reward_100029': 1.0, 'test/sim_max_reward_100030': 1.0, 'test/sim_max_reward_100031': 1.0, 'test/sim_max_reward_100032': 1.0, 'test/sim_max_reward_100033': 1.0, 'test/sim_max_reward_100034': 1.0, 'test/sim_max_reward_100035': 1.0, 'test/sim_max_reward_100036': 0.0, 'test/sim_max_reward_100037': 1.0, 'test/sim_max_reward_100038': 1.0, 'test/sim_max_reward_100039': 1.0, 'test/sim_max_reward_100040': 1.0, 'test/sim_max_reward_100041': 1.0, 'test/sim_max_reward_100042': 1.0, 'test/sim_max_reward_100043': 1.0, 'test/sim_max_reward_100044': 1.0, 'test/sim_max_reward_100045': 1.0, 'test/sim_max_reward_100046': 1.0, 'test/sim_max_reward_100047': 1.0, 'test/sim_max_reward_100048': 1.0, 'test/sim_max_reward_100049': 1.0, 'train/mean_score': 1.0, 'test/mean_score': 0.98}
+
+Output from /home/x_zhzhu/RoboSaGA/diffusion_policy/eval.py with arguments --checkpoint /home/x_zhzhu/RoboSaGA/experiments/robosaga/lift_image/diffusion_policy/overlay/checkpoints/epoch=0150-test_mean_score=1.000.ckpt --rand_texture textile --output_dir /home/x_zhzhu/RoboSaGA/experiments/robosaga/lift_image/diffusion_policy/overlay/eval/textile/epoch=0150-test_mean_score=1.000.ckpt:
+
+==================== Double-check the Following Parameters ====================n
+Group Norm:  {'enable': True, 'return_fullgrad_bias': True}
+Normalize Obs:  True
+
+============= Initialized Observation Utils with Obs Spec =============
+
+using obs modality: low_dim with keys: ['robot0_eef_pos', 'robot0_eef_quat', 'robot0_gripper_qpos']
+using obs modality: rgb with keys: ['robot0_eye_in_hand_image', 'agentview_image']
+using obs modality: depth with keys: []
+using obs modality: scan with keys: []
+Diffusion params: 2.556013e+08
+Vision params: 2.239418e+07
+SaGA Warning: Buffer is disabled for simple_overlay strategy
+
+==================== Saliency-guided Augmentation Parameters ====================
+aug_strategy: simple_overlay
+aug_ratio: 0.5
+aug_obs_pairs: False
+update_ratio: None
+disable_buffer: True
+buffer_shape: [84, 84]
+backgrounds shape: [5000, 3, 84, 84]
+disable_during_training: False
+save_dir: 
+======================================================================
+
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/textile/engin-akyurt--ikp7hwRJ_M-unsplash_2.png
+Created environment with name Lift
+Action size is 7
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/textile/susan-wilkinson-Eg0SlkUUtVI-unsplash_2.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/textile/engin-akyurt-ldVIlJr7HXs-unsplash_3.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/textile/divazus-fabric-store-2f69TazFt_4-unsplash_3.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/textile/mia-moessinger-8PLkPBoI_TU-unsplash_3.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/textile/maksim-siadura-My0w1D60RkM-unsplash_3.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/textile/wesley-tingey-_0sEjWfAK3Q-unsplash_1.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/textile/engin-akyurt-ldVIlJr7HXs-unsplash.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/textile/alexander-grey-XeEvy_ofGNk-unsplash_1.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/textile/engin-akyurt--ikp7hwRJ_M-unsplash_1.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/textile/maksim-siadura-My0w1D60RkM-unsplash.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/textile/engin-akyurt-v7zbcgLPbMQ-unsplash_1.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/textile/divazus-fabric-store-Y3EktahiX84-unsplash_2.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/textile/susan-wilkinson-49Y_hb92iq8-unsplash_1.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/textile/judson-moore-UrgYjACxvaI-unsplash_2.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/textile/nimble-made-IyYreSBPUXw-unsplash_2.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/textile/judson-moore-UrgYjACxvaI-unsplash_2.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/textile/max-fuchs-Nm6ojlDO-5c-unsplash_3.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/textile/divazus-fabric-store-2f69TazFt_4-unsplash.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/textile/susan-wilkinson-49Y_hb92iq8-unsplash.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/textile/engin-akyurt-un-jLd07PYg-unsplash_1.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/textile/judson-moore-UrgYjACxvaI-unsplash_2.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/textile/nimble-made-x7gV0vTyxEs-unsplash.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/textile/judson-moore-UrgYjACxvaI-unsplash.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/textile/susan-wilkinson-Eg0SlkUUtVI-unsplash_2.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/textile/the-cleveland-museum-of-art-gmMIlcnl9Cg-unsplash_2.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/textile/siora-photography-SZF0wG5SXsU-unsplash.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/textile/siora-photography-SZF0wG5SXsU-unsplash_2.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/textile/divazus-fabric-store-Y3EktahiX84-unsplash_2.png
+Created environment with name Lift
+Action size is 7
+Created environment with name Lift
+Action size is 7
+Created environment with name Lift
+Action size is 7
+Created environment with name Lift
+Action size is 7
+Created environment with name Lift
+Action size is 7
+Created environment with name Lift
+Action size is 7
+Created environment with name Lift
+Action size is 7
+Created environment with name Lift
+Action size is 7
+Created environment with name Lift
+Action size is 7
+Created environment with name Lift
+Action size is 7
+Created environment with name Lift
+Action size is 7
+Created environment with name Lift
+Action size is 7
+Created environment with name Lift
+Action size is 7
+Created environment with name Lift
+Action size is 7
+Created environment with name Lift
+Action size is 7
+Created environment with name Lift
+Action size is 7
+Created environment with name Lift
+Action size is 7
+Created environment with name Lift
+Action size is 7
+Created environment with name Lift
+Action size is 7
+Created environment with name Lift
+Action size is 7
+Created environment with name Lift
+Action size is 7
+Created environment with name Lift
+Action size is 7
+Created environment with name Lift
+Action size is 7
+Created environment with name Lift
+Action size is 7
+Created environment with name Lift
+Action size is 7
+Created environment with name Lift
+Action size is 7
+Created environment with name Lift
+Action size is 7
+Created environment with name Lift
+Action size is 7
+{'train/sim_max_reward_0': 1.0, 'train/sim_video_0': '/home/x_zhzhu/RoboSaGA/experiments/robosaga/lift_image/diffusion_policy/overlay/eval/textile/epoch=0150-test_mean_score=1.000.ckpt/media/t3imcepj.mp4', 'train/sim_max_reward_1': 1.0, 'train/sim_max_reward_2': 1.0, 'train/sim_max_reward_3': 1.0, 'train/sim_max_reward_4': 1.0, 'train/sim_max_reward_5': 1.0, 'test/sim_max_reward_100000': 1.0, 'test/sim_video_100000': '/home/x_zhzhu/RoboSaGA/experiments/robosaga/lift_image/diffusion_policy/overlay/eval/textile/epoch=0150-test_mean_score=1.000.ckpt/media/9hfir4sh.mp4', 'test/sim_max_reward_100001': 1.0, 'test/sim_video_100001': '/home/x_zhzhu/RoboSaGA/experiments/robosaga/lift_image/diffusion_policy/overlay/eval/textile/epoch=0150-test_mean_score=1.000.ckpt/media/soswf6v3.mp4', 'test/sim_max_reward_100002': 1.0, 'test/sim_video_100002': '/home/x_zhzhu/RoboSaGA/experiments/robosaga/lift_image/diffusion_policy/overlay/eval/textile/epoch=0150-test_mean_score=1.000.ckpt/media/rmklabce.mp4', 'test/sim_max_reward_100003': 1.0, 'test/sim_max_reward_100004': 1.0, 'test/sim_max_reward_100005': 1.0, 'test/sim_max_reward_100006': 1.0, 'test/sim_max_reward_100007': 0.0, 'test/sim_max_reward_100008': 1.0, 'test/sim_max_reward_100009': 1.0, 'test/sim_max_reward_100010': 1.0, 'test/sim_max_reward_100011': 1.0, 'test/sim_max_reward_100012': 1.0, 'test/sim_max_reward_100013': 1.0, 'test/sim_max_reward_100014': 1.0, 'test/sim_max_reward_100015': 1.0, 'test/sim_max_reward_100016': 1.0, 'test/sim_max_reward_100017': 1.0, 'test/sim_max_reward_100018': 1.0, 'test/sim_max_reward_100019': 1.0, 'test/sim_max_reward_100020': 1.0, 'test/sim_max_reward_100021': 1.0, 'test/sim_max_reward_100022': 1.0, 'test/sim_max_reward_100023': 1.0, 'test/sim_max_reward_100024': 1.0, 'test/sim_max_reward_100025': 1.0, 'test/sim_max_reward_100026': 1.0, 'test/sim_max_reward_100027': 1.0, 'test/sim_max_reward_100028': 1.0, 'test/sim_max_reward_100029': 1.0, 'test/sim_max_reward_100030': 1.0, 'test/sim_max_reward_100031': 1.0, 'test/sim_max_reward_100032': 1.0, 'test/sim_max_reward_100033': 1.0, 'test/sim_max_reward_100034': 1.0, 'test/sim_max_reward_100035': 1.0, 'test/sim_max_reward_100036': 1.0, 'test/sim_max_reward_100037': 1.0, 'test/sim_max_reward_100038': 1.0, 'test/sim_max_reward_100039': 1.0, 'test/sim_max_reward_100040': 1.0, 'test/sim_max_reward_100041': 1.0, 'test/sim_max_reward_100042': 0.0, 'test/sim_max_reward_100043': 1.0, 'test/sim_max_reward_100044': 1.0, 'test/sim_max_reward_100045': 1.0, 'test/sim_max_reward_100046': 1.0, 'test/sim_max_reward_100047': 1.0, 'test/sim_max_reward_100048': 1.0, 'test/sim_max_reward_100049': 1.0, 'train/mean_score': 1.0, 'test/mean_score': 0.96}
+
+
+===== Results for /home/x_zhzhu/RoboSaGA/experiments/robosaga/lift_image/diffusion_policy/overlay =====
+Indomain: [1.0, 1.0, 0.98], 0.99 +/- 0.01
+  data: [1.0, 1.0, 0.98]
+Off-domain for textile: 0.97 +/- 0.01
+   data: [0.96, 0.98, 0.96]

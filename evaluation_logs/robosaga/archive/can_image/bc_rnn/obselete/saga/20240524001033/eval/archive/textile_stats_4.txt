@@ -1,0 +1,80 @@
+Output from /home/x_zhzhu/RoboSaGA/robomimic/robomimic/scripts/eval_trained_agent.py with arguments --agent ../experiments/robosaga/can_image/bc_rnn/saga/20240524001033/models/model_epoch_480.pth --n_rollouts 5 --rand_texture textile --env_id textile_env_1 --video_path ../experiments/robosaga/can_image/bc_rnn/saga/20240524001033/eval/videos/textile_ckpt_model_epoch_480.mp4:
+
+============= Initialized Observation Utils with Obs Spec =============
+
+using obs modality: low_dim with keys: ['robot0_gripper_qpos', 'robot0_eef_quat', 'robot0_eef_pos']
+using obs modality: rgb with keys: ['robot0_eye_in_hand_image', 'agentview_image']
+using obs modality: depth with keys: []
+using obs modality: scan with keys: []
+None
+Created environment with name PickPlaceCan
+Action size is 7
+Found 8 GPUs for rendering. Using device 0.
+Average Rollout Stats for ../experiments/robosaga/can_image/bc_rnn/saga/20240524001033/models/model_epoch_480.pth:
+{
+    "Return": 0.6,
+    "Horizon": 267.8,
+    "Success_Rate": 0.6,
+    "Num_Success": 3.0
+}
+
+Output from /home/x_zhzhu/RoboSaGA/robomimic/robomimic/scripts/eval_trained_agent.py with arguments --agent ../experiments/robosaga/can_image/bc_rnn/saga/20240524001033/models/model_epoch_380_PickPlaceCan_success_1.0.pth --n_rollouts 5 --rand_texture textile --env_id textile_env_0 --video_path ../experiments/robosaga/can_image/bc_rnn/saga/20240524001033/eval/videos/textile_ckpt_model_epoch_380_PickPlaceCan_success_1.0.mp4:
+
+============= Initialized Observation Utils with Obs Spec =============
+
+using obs modality: low_dim with keys: ['robot0_eef_pos', 'robot0_eef_quat', 'robot0_gripper_qpos']
+using obs modality: rgb with keys: ['robot0_eye_in_hand_image', 'agentview_image']
+using obs modality: depth with keys: []
+using obs modality: scan with keys: []
+None
+Created environment with name PickPlaceCan
+Action size is 7
+Found 8 GPUs for rendering. Using device 0.
+Average Rollout Stats for ../experiments/robosaga/can_image/bc_rnn/saga/20240524001033/models/model_epoch_380_PickPlaceCan_success_1.0.pth:
+{
+    "Return": 0.4,
+    "Horizon": 276.2,
+    "Success_Rate": 0.4,
+    "Num_Success": 2.0
+}
+
+Output from /home/x_zhzhu/RoboSaGA/robomimic/robomimic/scripts/eval_trained_agent.py with arguments --agent ../experiments/robosaga/can_image/bc_rnn/saga/20240524001033/models/model_epoch_220_PickPlaceCan_success_0.98.pth --n_rollouts 5 --rand_texture textile --env_id textile_env_2 --video_path ../experiments/robosaga/can_image/bc_rnn/saga/20240524001033/eval/videos/textile_ckpt_model_epoch_220_PickPlaceCan_success_0.98.mp4:
+
+============= Initialized Observation Utils with Obs Spec =============
+
+using obs modality: low_dim with keys: ['robot0_gripper_qpos', 'robot0_eef_quat', 'robot0_eef_pos']
+using obs modality: rgb with keys: ['robot0_eye_in_hand_image', 'agentview_image']
+using obs modality: depth with keys: []
+using obs modality: scan with keys: []
+None
+Created environment with name PickPlaceCan
+Action size is 7
+Found 8 GPUs for rendering. Using device 0.
+Average Rollout Stats for ../experiments/robosaga/can_image/bc_rnn/saga/20240524001033/models/model_epoch_220_PickPlaceCan_success_0.98.pth:
+{
+    "Return": 0.4,
+    "Horizon": 295.6,
+    "Success_Rate": 0.4,
+    "Num_Success": 2.0
+}
+
+Errors: 
+  0%|          | 0/5 [00:00<?, ?it/s]
+  0%|          | 0/5 [00:09<?, ?it/s, Success Rate=1]
+ 20%|██        | 1/5 [00:09<00:37,  9.27s/it, Success Rate=1]
+ 20%|██        | 1/5 [00:25<00:37,  9.27s/it, Success Rate=0.5]
+ 40%|████      | 2/5 [00:25<00:39, 13.16s/it, Success Rate=0.5]
+ 40%|████      | 2/5 [00:34<00:39, 13.16s/it, Success Rate=0.667]
+ 60%|██████    | 3/5 [00:34<00:22, 11.21s/it, Success Rate=0.667]
+ 60%|██████    | 3/5 [00:50<00:22, 11.21s/it, Success Rate=0.5]  
+ 80%|████████  | 4/5 [00:50<00:13, 13.17s/it, Success Rate=0.5]
+ 80%|████████  | 4/5 [01:05<00:13, 13.17s/it, Success Rate=0.4]
+100%|██████████| 5/5 [01:05<00:00, 13.84s/it, Success Rate=0.4]
+100%|██████████| 5/5 [01:05<00:00, 13.06s/it, Success Rate=0.4]
+
+
+===== Results for ../experiments/robosaga/can_image/bc_rnn/saga/20240524001033/ =====
+Indomain: [1.0, 0.98, 0.98], 0.99 +/- 0.01
+  data: [1.0, 0.98, 0.98]
+Off-domain for textile: 0.47 +/- 0.09
+   data: [0.6, 0.4, 0.4]

@@ -1,0 +1,6 @@
+
+===== Results for ../experiments/robosaga/lift_image/bc_rnn/saga/20240523130101 =====
+Indomain: [1.0, 1.0, 1.0], 1.0 +/- 0.0
+  data: [1.0, 1.0, 1.0]
+Off-domain for distractors: 0.97 +/- 0.04
+   data: [1.0, 1.0, 0.92]

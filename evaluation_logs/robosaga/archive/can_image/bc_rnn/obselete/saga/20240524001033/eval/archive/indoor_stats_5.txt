@@ -1,0 +1,23 @@
+Output from /home/x_zhzhu/RoboSaGA/robomimic/robomimic/scripts/eval_trained_agent.py with arguments --agent ../experiments/robosaga/can_image/bc_rnn/saga/20240524001033/models/model_epoch_480.pth --n_rollouts 50 --texture_category indoor --env_id indoor_env_1:
+
+Output from /home/x_zhzhu/RoboSaGA/robomimic/robomimic/scripts/eval_trained_agent.py with arguments --agent ../experiments/robosaga/can_image/bc_rnn/saga/20240524001033/models/model_epoch_380_PickPlaceCan_success_1.0.pth --n_rollouts 50 --texture_category indoor --env_id indoor_env_0:
+
+Output from /home/x_zhzhu/RoboSaGA/robomimic/robomimic/scripts/eval_trained_agent.py with arguments --agent ../experiments/robosaga/can_image/bc_rnn/saga/20240524001033/models/model_epoch_220_PickPlaceCan_success_0.98.pth --n_rollouts 50 --texture_category indoor --env_id indoor_env_2:
+
+Errors: usage: eval_trained_agent.py [-h] --agent AGENT
+                             [--distractors DISTRACTORS [DISTRACTORS ...]]
+                             [--rand_texture RAND_TEXTURE]
+                             [--n_rollouts N_ROLLOUTS] [--horizon HORIZON]
+                             [--env ENV] [--render] [--video_path VIDEO_PATH]
+                             [--video_skip VIDEO_SKIP]
+                             [--camera_names CAMERA_NAMES [CAMERA_NAMES ...]]
+                             [--dataset_path DATASET_PATH] [--dataset_obs]
+                             [--seed SEED] [--env_id ENV_ID]
+eval_trained_agent.py: error: unrecognized arguments: --texture_category indoor
+
+
+===== Results for ../experiments/robosaga/can_image/bc_rnn/saga/20240524001033/ =====
+Indomain: [1.0, 0.98, 0.98], 0.99 +/- 0.01
+  data: [1.0, 0.98, 0.98]
+Off-domain for indoor: nan +/- nan
+   data: []

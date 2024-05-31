@@ -1,0 +1,48 @@
+Output from /home/x_zhzhu/RoboSaGA/robomimic/robomimic/scripts/eval_trained_agent.py with arguments --agent ../experiments/robosaga/square_image/bc_rnn/saga/20240524021239/models/model_epoch_420.pth --n_rollouts 50 --texture_category outdoor --env_id outdoor_env_2 --video_path ../experiments/robosaga/square_image/bc_rnn/saga/20240524021239/eval/videos/outdoor_ckpt_model_epoch_420.mp4:
+
+Output from /home/x_zhzhu/RoboSaGA/robomimic/robomimic/scripts/eval_trained_agent.py with arguments --agent ../experiments/robosaga/square_image/bc_rnn/saga/20240524021239/models/model_epoch_320_NutAssemblySquare_success_0.84.pth --n_rollouts 50 --texture_category outdoor --env_id outdoor_env_0 --video_path ../experiments/robosaga/square_image/bc_rnn/saga/20240524021239/eval/videos/outdoor_ckpt_model_epoch_320_NutAssemblySquare_success_0.84.mp4:
+
+============= Initialized Observation Utils with Obs Spec =============
+
+using obs modality: low_dim with keys: ['robot0_eef_pos', 'robot0_eef_quat', 'robot0_gripper_qpos']
+using obs modality: rgb with keys: ['robot0_eye_in_hand_image', 'agentview_image']
+using obs modality: depth with keys: []
+using obs modality: scan with keys: []
+
+Output from /home/x_zhzhu/RoboSaGA/robomimic/robomimic/scripts/eval_trained_agent.py with arguments --agent ../experiments/robosaga/square_image/bc_rnn/saga/20240524021239/models/model_epoch_520.pth --n_rollouts 50 --texture_category outdoor --env_id outdoor_env_1 --video_path ../experiments/robosaga/square_image/bc_rnn/saga/20240524021239/eval/videos/outdoor_ckpt_model_epoch_520.mp4:
+
+Errors: Traceback (most recent call last):
+  File "/home/x_zhzhu/RoboSaGA/robomimic/robomimic/scripts/eval_trained_agent.py", line 474, in <module>
+    run_trained_agent(args)
+  File "/home/x_zhzhu/RoboSaGA/robomimic/robomimic/scripts/eval_trained_agent.py", line 247, in run_trained_agent
+    policy, ckpt_dict = FileUtils.policy_from_checkpoint(
+  File "/home/x_zhzhu/RoboSaGA/robomimic/robomimic/utils/file_utils.py", line 320, in policy_from_checkpoint
+    ckpt_dict = maybe_dict_from_checkpoint(ckpt_path=ckpt_path, ckpt_dict=ckpt_dict)
+  File "/home/x_zhzhu/RoboSaGA/robomimic/robomimic/utils/file_utils.py", line 236, in maybe_dict_from_checkpoint
+    ckpt_dict = load_dict_from_checkpoint(ckpt_path)
+  File "/home/x_zhzhu/RoboSaGA/robomimic/robomimic/utils/file_utils.py", line 216, in load_dict_from_checkpoint
+    ckpt_dict = torch.load(ckpt_path)
+  File "/home/x_zhzhu/.conda/envs/robosaga/lib/python3.8/site-packages/torch/serialization.py", line 712, in load
+    return _load(opened_zipfile, map_location, pickle_module, **pickle_load_args)
+  File "/home/x_zhzhu/.conda/envs/robosaga/lib/python3.8/site-packages/torch/serialization.py", line 1049, in _load
+    result = unpickler.load()
+  File "/home/x_zhzhu/.conda/envs/robosaga/lib/python3.8/site-packages/torch/serialization.py", line 1019, in persistent_load
+    load_tensor(dtype, nbytes, key, _maybe_decode_ascii(location))
+  File "/home/x_zhzhu/.conda/envs/robosaga/lib/python3.8/site-packages/torch/serialization.py", line 1001, in load_tensor
+    wrap_storage=restore_location(storage, location),
+  File "/home/x_zhzhu/.conda/envs/robosaga/lib/python3.8/site-packages/torch/serialization.py", line 175, in default_restore_location
+    result = fn(storage, location)
+  File "/home/x_zhzhu/.conda/envs/robosaga/lib/python3.8/site-packages/torch/serialization.py", line 157, in _cuda_deserialize
+    return obj.cuda(device)
+  File "/home/x_zhzhu/.conda/envs/robosaga/lib/python3.8/site-packages/torch/_utils.py", line 78, in _cuda
+    return torch._UntypedStorage(self.size(), device=torch.device('cuda')).copy_(self, non_blocking)
+RuntimeError: CUDA error: out of memory
+CUDA kernel errors might be asynchronously reported at some other API call,so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1.
+
+
+===== Results for ../experiments/robosaga/square_image/bc_rnn/saga/20240524021239/ =====
+Indomain: [0.84, 0.82, 0.82], 0.83 +/- 0.01
+  data: [0.84, 0.82, 0.82]
+Off-domain for outdoor: nan +/- nan
+   data: []

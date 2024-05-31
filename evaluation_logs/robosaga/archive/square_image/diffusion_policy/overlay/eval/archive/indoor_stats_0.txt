@@ -1,0 +1,600 @@
+Output from /home/x_zhzhu/RoboSaGA/diffusion_policy/eval.py with arguments --checkpoint ../experiments/robosaga/square_image/diffusion_policy/overlay/checkpoints/epoch=0450-test_mean_score=0.900.ckpt --rand_texture indoor --output_dir ../experiments/robosaga/square_image/diffusion_policy/overlay/eval/indoor/epoch=0450-test_mean_score=0.900.ckpt:
+
+==================== Double-check the Following Parameters ====================n
+Group Norm:  {'enable': True, 'return_fullgrad_bias': True}
+Normalize Obs:  True
+
+============= Initialized Observation Utils with Obs Spec =============
+
+using obs modality: low_dim with keys: ['robot0_gripper_qpos', 'robot0_eef_quat', 'robot0_eef_pos']
+using obs modality: rgb with keys: ['agentview_image', 'robot0_eye_in_hand_image']
+using obs modality: depth with keys: []
+using obs modality: scan with keys: []
+Diffusion params: 2.556013e+08
+Vision params: 2.239418e+07
+SaGA Warning: Buffer is disabled for simple_overlay strategy
+
+==================== Saliency-guided Augmentation Parameters ====================
+aug_strategy: simple_overlay
+aug_ratio: 0.5
+aug_obs_pairs: False
+update_ratio: None
+disable_buffer: True
+buffer_shape: [84, 84]
+backgrounds shape: [5000, 3, 84, 84]
+disable_during_training: False
+save_dir: 
+======================================================================
+
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/liana-mikah-dpv12vxg_aw-unsplash_2.png
+Created environment with name NutAssemblySquare
+Action size is 7
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/every-angle-oPuAtV2YofA-unsplash_3.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/david-pisnoy-r1V-OtZR7XY-unsplash_3.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/david-pisnoy-r1V-OtZR7XY-unsplash_3.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/every-angle-oPuAtV2YofA-unsplash_2.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/jo-sonn-_jYQCk7qR4U-unsplash_1.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/element5-digital-2cwqJgtQ3D0-unsplash_2.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/jamie-street-kyqfZ95P7Ec-unsplash.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/vanessa-stautermann-7UmEktmiC-0-unsplash_2.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/jo-sonn-_jYQCk7qR4U-unsplash_2.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/minh-pham-IisDPFNUS4k-unsplash_2.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/moises-labandero-jr-pxidv9iBH5c-unsplash.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/jamie-street-kyqfZ95P7Ec-unsplash.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/andriyko-podilnyk-bdmdX_XMcV4-unsplash.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/gabriella-clare-marino-8i4kRPBPolk-unsplash_1.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/divazus-fabric-store-2f69TazFt_4-unsplash_3.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/elsa-noblet-5KD5PmZEfcg-unsplash_3.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/andriyko-podilnyk-bdmdX_XMcV4-unsplash_1.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/entong-li-pscW3Ni1NgM-unsplash.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/gabriella-clare-marino-8i4kRPBPolk-unsplash_3.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/andrej-lisakov-3A4XZUopCJA-unsplash_1.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/tetiana-shyshkina-GjpxfnMOPcA-unsplash_1.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/entong-li-pscW3Ni1NgM-unsplash_3.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/joanna-kosinska-H_6tRl81tvc-unsplash_1.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/element5-digital-2cwqJgtQ3D0-unsplash_2.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/entong-li-pscW3Ni1NgM-unsplash_1.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/beazy-WdYf7XFvrQE-unsplash.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/divazus-fabric-store-2f69TazFt_4-unsplash_2.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/hudson-hintze-khL751qdW58-unsplash.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/charlotte-harrison-PPJvYSh8bh4-unsplash.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/minh-pham-IisDPFNUS4k-unsplash_2.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/andriyko-podilnyk-bdmdX_XMcV4-unsplash_3.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/stephanie-harvey-ZVSNpaCFBvo-unsplash_3.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/luther-m-e-bottrill-HoBsuuTh3zI-unsplash_1.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/david-pisnoy-r1V-OtZR7XY-unsplash_2.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/minh-pham-IisDPFNUS4k-unsplash_2.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/entong-li-pscW3Ni1NgM-unsplash_3.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/entong-li-pscW3Ni1NgM-unsplash_2.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/liana-mikah-dpv12vxg_aw-unsplash_1.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/mr-lee-upMmlBi8qHk-unsplash_1.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/carolina-pimenta-ledpW0Zk2fU-unsplash_1.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/keren-fedida-YtvItJoIREk-unsplash_3.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/beazy-WdYf7XFvrQE-unsplash.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/ergonofis-wsEmlnUEaoA-unsplash_3.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/toa-heftiba-2ULkmfXjP_U-unsplash_3.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/entong-li-pscW3Ni1NgM-unsplash_3.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/jo-sonn-_jYQCk7qR4U-unsplash.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/hudson-hintze-khL751qdW58-unsplash_3.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/charlotte-harrison-PPJvYSh8bh4-unsplash.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/element5-digital-2cwqJgtQ3D0-unsplash_3.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/stephanie-harvey-ZVSNpaCFBvo-unsplash.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/chang-min-caLZjNiAHrU-unsplash_2.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/andrej-lisakov-3A4XZUopCJA-unsplash_1.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/vanessa-stautermann-7UmEktmiC-0-unsplash_3.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/tetiana-shyshkina-GjpxfnMOPcA-unsplash.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/ergonofis-wsEmlnUEaoA-unsplash_2.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/charlotte-harrison-PPJvYSh8bh4-unsplash_2.png
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+
+Output from /home/x_zhzhu/RoboSaGA/diffusion_policy/eval.py with arguments --checkpoint ../experiments/robosaga/square_image/diffusion_policy/overlay/checkpoints/epoch=0250-test_mean_score=0.920.ckpt --rand_texture indoor --output_dir ../experiments/robosaga/square_image/diffusion_policy/overlay/eval/indoor/epoch=0250-test_mean_score=0.920.ckpt:
+
+==================== Double-check the Following Parameters ====================n
+Group Norm:  {'enable': True, 'return_fullgrad_bias': True}
+Normalize Obs:  True
+
+============= Initialized Observation Utils with Obs Spec =============
+
+using obs modality: low_dim with keys: ['robot0_eef_pos', 'robot0_eef_quat', 'robot0_gripper_qpos']
+using obs modality: rgb with keys: ['agentview_image', 'robot0_eye_in_hand_image']
+using obs modality: depth with keys: []
+using obs modality: scan with keys: []
+Diffusion params: 2.556013e+08
+Vision params: 2.239418e+07
+SaGA Warning: Buffer is disabled for simple_overlay strategy
+
+==================== Saliency-guided Augmentation Parameters ====================
+aug_strategy: simple_overlay
+aug_ratio: 0.5
+aug_obs_pairs: False
+update_ratio: None
+disable_buffer: True
+buffer_shape: [84, 84]
+backgrounds shape: [5000, 3, 84, 84]
+disable_during_training: False
+save_dir: 
+======================================================================
+
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/liana-mikah-dpv12vxg_aw-unsplash_2.png
+Created environment with name NutAssemblySquare
+Action size is 7
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/stephanie-harvey-ZVSNpaCFBvo-unsplash_2.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/keren-fedida-YtvItJoIREk-unsplash_2.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/sebastian-marx-3w8eCQgX_4c-unsplash_1.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/elsa-noblet-5KD5PmZEfcg-unsplash_3.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/minh-pham-IisDPFNUS4k-unsplash_3.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/mr-lee-upMmlBi8qHk-unsplash.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/fanj-J3-Pofva-_w-unsplash_1.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/gabriella-clare-marino-8i4kRPBPolk-unsplash_2.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/andrej-lisakov-3A4XZUopCJA-unsplash_3.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/chang-min-caLZjNiAHrU-unsplash_1.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/tamara-shchypchynska-XrfL6uKytoM-unsplash_3.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/jo-sonn-_jYQCk7qR4U-unsplash_3.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/stephanie-harvey-ZVSNpaCFBvo-unsplash_2.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/minh-pham-IisDPFNUS4k-unsplash_3.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/keren-fedida-YtvItJoIREk-unsplash_2.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/element5-digital-2cwqJgtQ3D0-unsplash_3.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/toa-heftiba-2ULkmfXjP_U-unsplash.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/andrej-lisakov-3A4XZUopCJA-unsplash_1.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/keren-fedida-YtvItJoIREk-unsplash_3.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/henry-co-S9xHSYaLmUo-unsplash.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/toa-heftiba-2ULkmfXjP_U-unsplash_3.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/goran-ivos-41cnAvPFP0A-unsplash_2.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/sebastian-marx-3w8eCQgX_4c-unsplash.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/fanj-J3-Pofva-_w-unsplash_1.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/jo-sonn-_jYQCk7qR4U-unsplash_1.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/tetiana-shyshkina-GjpxfnMOPcA-unsplash_1.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/tetiana-shyshkina-GjpxfnMOPcA-unsplash_2.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/beazy-WdYf7XFvrQE-unsplash_2.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/sebastian-marx-3w8eCQgX_4c-unsplash_1.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/henry-co-S9xHSYaLmUo-unsplash_2.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/henry-co-S9xHSYaLmUo-unsplash_2.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/minh-pham-IisDPFNUS4k-unsplash_2.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/every-angle-oPuAtV2YofA-unsplash_1.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/mykola-kolya-korzh-6UsojuihFFA-unsplash_1.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/andriyko-podilnyk-bdmdX_XMcV4-unsplash.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/gabriella-clare-marino-8i4kRPBPolk-unsplash_2.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/carolina-pimenta-ledpW0Zk2fU-unsplash.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/joanna-kosinska-H_6tRl81tvc-unsplash_2.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/entong-li-pscW3Ni1NgM-unsplash_1.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/sebastian-marx-3w8eCQgX_4c-unsplash_3.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/jamie-street-kyqfZ95P7Ec-unsplash_1.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/entong-li-pscW3Ni1NgM-unsplash.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/jo-sonn-_jYQCk7qR4U-unsplash_2.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/luther-m-e-bottrill-HoBsuuTh3zI-unsplash.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/beazy-WdYf7XFvrQE-unsplash_2.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/moises-labandero-jr-pxidv9iBH5c-unsplash_2.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/entong-li-pscW3Ni1NgM-unsplash_3.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/joanna-kosinska-H_6tRl81tvc-unsplash_1.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/toa-heftiba-2ULkmfXjP_U-unsplash.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/fanj-J3-Pofva-_w-unsplash_3.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/jo-sonn-_jYQCk7qR4U-unsplash_2.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/every-angle-oPuAtV2YofA-unsplash_2.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/vanessa-stautermann-7UmEktmiC-0-unsplash_2.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/goran-ivos-41cnAvPFP0A-unsplash_1.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/fanj-J3-Pofva-_w-unsplash_3.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/goran-ivos-41cnAvPFP0A-unsplash.png
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+
+Output from /home/x_zhzhu/RoboSaGA/diffusion_policy/eval.py with arguments --checkpoint ../experiments/robosaga/square_image/diffusion_policy/overlay/checkpoints/epoch=0350-test_mean_score=0.920.ckpt --rand_texture indoor --output_dir ../experiments/robosaga/square_image/diffusion_policy/overlay/eval/indoor/epoch=0350-test_mean_score=0.920.ckpt:
+
+==================== Double-check the Following Parameters ====================n
+Group Norm:  {'enable': True, 'return_fullgrad_bias': True}
+Normalize Obs:  True
+
+============= Initialized Observation Utils with Obs Spec =============
+
+using obs modality: low_dim with keys: ['robot0_eef_quat', 'robot0_eef_pos', 'robot0_gripper_qpos']
+using obs modality: rgb with keys: ['robot0_eye_in_hand_image', 'agentview_image']
+using obs modality: depth with keys: []
+using obs modality: scan with keys: []
+Diffusion params: 2.556013e+08
+Vision params: 2.239418e+07
+SaGA Warning: Buffer is disabled for simple_overlay strategy
+
+==================== Saliency-guided Augmentation Parameters ====================
+aug_strategy: simple_overlay
+aug_ratio: 0.5
+aug_obs_pairs: False
+update_ratio: None
+disable_buffer: True
+buffer_shape: [84, 84]
+backgrounds shape: [5000, 3, 84, 84]
+disable_during_training: False
+save_dir: 
+======================================================================
+
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/liana-mikah-dpv12vxg_aw-unsplash_2.png
+Created environment with name NutAssemblySquare
+Action size is 7
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/toa-heftiba-2ULkmfXjP_U-unsplash_3.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/elsa-noblet-5KD5PmZEfcg-unsplash_3.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/keren-fedida-YtvItJoIREk-unsplash.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/beazy-WdYf7XFvrQE-unsplash_3.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/mr-lee-upMmlBi8qHk-unsplash_1.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/ergonofis-wsEmlnUEaoA-unsplash_3.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/sebastian-marx-3w8eCQgX_4c-unsplash_2.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/vanessa-stautermann-7UmEktmiC-0-unsplash_2.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/element5-digital-2cwqJgtQ3D0-unsplash_2.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/goran-ivos-41cnAvPFP0A-unsplash_1.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/entong-li-pscW3Ni1NgM-unsplash_1.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/charlotte-harrison-PPJvYSh8bh4-unsplash_1.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/hudson-hintze-khL751qdW58-unsplash_2.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/toa-heftiba-2ULkmfXjP_U-unsplash_1.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/sebastian-marx-3w8eCQgX_4c-unsplash_1.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/luther-m-e-bottrill-HoBsuuTh3zI-unsplash_3.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/goran-ivos-41cnAvPFP0A-unsplash_2.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/divazus-fabric-store-2f69TazFt_4-unsplash_1.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/liana-mikah-dpv12vxg_aw-unsplash_1.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/henry-co-S9xHSYaLmUo-unsplash_1.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/jamie-street-kyqfZ95P7Ec-unsplash_3.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/luther-m-e-bottrill-HoBsuuTh3zI-unsplash_3.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/stephanie-harvey-ZVSNpaCFBvo-unsplash_2.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/mr-lee-upMmlBi8qHk-unsplash_2.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/jo-sonn-_jYQCk7qR4U-unsplash_3.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/ergonofis-wsEmlnUEaoA-unsplash.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/hudson-hintze-khL751qdW58-unsplash_2.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/chang-min-caLZjNiAHrU-unsplash_3.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/charlotte-harrison-PPJvYSh8bh4-unsplash_2.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/jamie-street-kyqfZ95P7Ec-unsplash_3.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/tamara-shchypchynska-XrfL6uKytoM-unsplash_2.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/liana-mikah-dpv12vxg_aw-unsplash_2.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/jo-sonn-_jYQCk7qR4U-unsplash_3.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/jamie-street-kyqfZ95P7Ec-unsplash.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/henry-co-S9xHSYaLmUo-unsplash.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/fanj-J3-Pofva-_w-unsplash_1.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/carolina-pimenta-ledpW0Zk2fU-unsplash_1.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/liana-mikah-dpv12vxg_aw-unsplash.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/gabriella-clare-marino-8i4kRPBPolk-unsplash_3.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/charlotte-harrison-PPJvYSh8bh4-unsplash.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/tetiana-shyshkina-GjpxfnMOPcA-unsplash_3.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/toa-heftiba-2ULkmfXjP_U-unsplash_1.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/beazy-WdYf7XFvrQE-unsplash_3.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/david-pisnoy-r1V-OtZR7XY-unsplash_1.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/jo-sonn-_jYQCk7qR4U-unsplash.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/chang-min-caLZjNiAHrU-unsplash_3.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/mykola-kolya-korzh-6UsojuihFFA-unsplash_1.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/toa-heftiba-2ULkmfXjP_U-unsplash_3.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/goran-ivos-41cnAvPFP0A-unsplash_2.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/gabriella-clare-marino-8i4kRPBPolk-unsplash_2.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/carolina-pimenta-ledpW0Zk2fU-unsplash.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/liana-mikah-dpv12vxg_aw-unsplash_3.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/fanj-J3-Pofva-_w-unsplash_2.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/tamara-shchypchynska-XrfL6uKytoM-unsplash_2.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/goran-ivos-41cnAvPFP0A-unsplash_1.png
+Using texture: /home/x_zhzhu/RoboSaGA/robosuite/robosuite/models/assets/textures/evaluation_textures/indoor/fanj-J3-Pofva-_w-unsplash_1.png
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+Created environment with name NutAssemblySquare
+Action size is 7
+
+
+===== Results for ../experiments/robosaga/square_image/diffusion_policy/overlay/ =====
+Indomain: [0.92, 0.92, 0.9], 0.91 +/- 0.01
+  data: [0.92, 0.92, 0.9]
+Off-domain for indoor: nan +/- nan
+   data: []

@@ -1,0 +1,31 @@
+Output from /home/x_zhzhu/RoboSaGA/robomimic/robomimic/scripts/eval_trained_agent.py with arguments --agent model_epoch_560.pth --n_rollouts 50 --texture_category textile --env_id textile_env_0 --video_path ../experiments/robosaga/square_image/bc_rnn/soda/20240520224952/eval/videos/textile_ckpt_model_epoch_560.mp4:
+
+Output from /home/x_zhzhu/RoboSaGA/robomimic/robomimic/scripts/eval_trained_agent.py with arguments --agent model_epoch_540.pth --n_rollouts 50 --texture_category textile --env_id textile_env_2 --video_path ../experiments/robosaga/square_image/bc_rnn/soda/20240520224952/eval/videos/textile_ckpt_model_epoch_540.mp4:
+
+Output from /home/x_zhzhu/RoboSaGA/robomimic/robomimic/scripts/eval_trained_agent.py with arguments --agent model_epoch_400_NutAssemblySquare_success_0.8.pth --n_rollouts 50 --texture_category textile --env_id textile_env_1 --video_path ../experiments/robosaga/square_image/bc_rnn/soda/20240520224952/eval/videos/textile_ckpt_model_epoch_400_NutAssemblySquare_success_0.8.mp4:
+
+Errors: Traceback (most recent call last):
+  File "/home/x_zhzhu/RoboSaGA/robomimic/robomimic/scripts/eval_trained_agent.py", line 474, in <module>
+    run_trained_agent(args)
+  File "/home/x_zhzhu/RoboSaGA/robomimic/robomimic/scripts/eval_trained_agent.py", line 247, in run_trained_agent
+    policy, ckpt_dict = FileUtils.policy_from_checkpoint(
+  File "/home/x_zhzhu/RoboSaGA/robomimic/robomimic/utils/file_utils.py", line 320, in policy_from_checkpoint
+    ckpt_dict = maybe_dict_from_checkpoint(ckpt_path=ckpt_path, ckpt_dict=ckpt_dict)
+  File "/home/x_zhzhu/RoboSaGA/robomimic/robomimic/utils/file_utils.py", line 236, in maybe_dict_from_checkpoint
+    ckpt_dict = load_dict_from_checkpoint(ckpt_path)
+  File "/home/x_zhzhu/RoboSaGA/robomimic/robomimic/utils/file_utils.py", line 216, in load_dict_from_checkpoint
+    ckpt_dict = torch.load(ckpt_path)
+  File "/home/x_zhzhu/.conda/envs/robosaga/lib/python3.8/site-packages/torch/serialization.py", line 699, in load
+    with _open_file_like(f, 'rb') as opened_file:
+  File "/home/x_zhzhu/.conda/envs/robosaga/lib/python3.8/site-packages/torch/serialization.py", line 230, in _open_file_like
+    return _open_file(name_or_buffer, mode)
+  File "/home/x_zhzhu/.conda/envs/robosaga/lib/python3.8/site-packages/torch/serialization.py", line 211, in __init__
+    super(_open_file, self).__init__(open(name, mode))
+FileNotFoundError: [Errno 2] No such file or directory: 'model_epoch_400_NutAssemblySquare_success_0.8.pth'
+
+
+===== Results for ../experiments/robosaga/square_image/bc_rnn/soda/20240520224952/ =====
+Indomain: [0.8, 0.8, 0.78], 0.79 +/- 0.01
+  data: [0.8, 0.8, 0.78]
+Off-domain for textile: nan +/- nan
+   data: []
