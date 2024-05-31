@@ -9,7 +9,6 @@
         "save_dir": "",
         "save_debug_im_every_n_batches": null,
         "background_path": "",
-        "aug_obs_pairs": null,
         "aug_strategy": null
     },
     "algo_name": "bc",

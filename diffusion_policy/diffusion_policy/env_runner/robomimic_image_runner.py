@@ -121,11 +121,15 @@ class RobomimicImageRunner(BaseImageRunner):
             rotation_transformer = RotationTransformer("axis_angle", "rotation_6d")
 
         def env_fn():
+            if rand_texture is not None:
+                rand_id = random.randint(0, 100000)
+            else:
+                rand_id = None
             robomimic_env = create_env(
                 env_meta=env_meta,
                 shape_meta=shape_meta,
                 distractors=distractors,
-                rand_texture=rand_texture,
+                rand_texture=rand_id,
             )
             # Robosuite's hard reset causes excessive memory consumption.
             # Disabled to run more envs.
@@ -161,12 +165,16 @@ class RobomimicImageRunner(BaseImageRunner):
         # a separate env_fn that does not create OpenGL context (enable_render=False)
         # is needed to initialize spaces.
         def dummy_env_fn():
+            if rand_texture is not None:
+                rand_id= random.randint(0, 100000)
+            else:
+                rand_id = None
             robomimic_env = create_env(
                 env_meta=env_meta,
                 shape_meta=shape_meta,
                 enable_render=False,
                 distractors=distractors,
-                rand_texture=rand_texture,
+                rand_texture=rand_id,
             )
             return MultiStepWrapper(
                 VideoRecordingWrapper(

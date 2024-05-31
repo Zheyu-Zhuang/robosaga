@@ -24,7 +24,7 @@ for task in all_tasks:
 
         new_lines = [f'  - task: {task}\n' if line.strip().startswith('- task:') else line for line in lines]
         if "lift" in task:
-            new_lines = [f'  num_epochs: 200\n' if "num_epochs" in line else line for line in new_lines]
+            new_lines = [f'  num_epochs: 300\n' if "num_epochs" in line else line for line in new_lines]
 
         with open(out_file, 'w') as file:
             file.writelines(new_lines)

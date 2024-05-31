@@ -96,7 +96,12 @@ if __name__ == "__main__":
     py_script = os.path.join(os.path.dirname(os.path.realpath(__file__)), "eval_trained_agent.py")
     scripts_with_args = []
 
-    mode = "shuffle_env" if args.shuffle_env else "distractors" if args.distractors else "vanilla"
+    if args.shuffle_env:
+        mode = "shuffle_env"
+    elif args.distractors:
+        mode = "distractors"
+    else:
+        mode = "vanilla"
 
     print("\n=====================")
     print(f"Running evaluation for {mode} with top {args.top_n} checkpoints")
@@ -123,7 +128,7 @@ if __name__ == "__main__":
                     + video_command,
                 )
             )
-        if args.distractors:
+        elif args.distractors:
             scripts_with_args.append(
                 (
                     py_script,
@@ -138,7 +143,19 @@ if __name__ == "__main__":
                     + video_command,
                 )
             )
-
+        else:
+            scripts_with_args.append(
+                (
+                    py_script,
+                    [
+                        "--agent",
+                        ckpt_path,
+                        "--n_rollouts",
+                        str(args.n_rollouts),
+                    ]
+                    + video_command,
+                )
+            )
     output_file = os.path.join(eval_dir, f"{mode}_stats.txt")
 
     # Execute each script with its arguments and save the output

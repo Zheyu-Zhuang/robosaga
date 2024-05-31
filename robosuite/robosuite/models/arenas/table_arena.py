@@ -9,7 +9,7 @@ from robosuite.utils.mjcf_utils import (
     string_to_array,
     xml_path_completion,
 )
-from robosuite.utils.saga_utils import get_texture_name, replace_texture
+from robosuite.utils.saga_utils import get_all_texture_paths, replace_texture
 
 
 class TableArena(Arena):
@@ -36,6 +36,7 @@ class TableArena(Arena):
         xml="arenas/table_arena.xml",
         env_id=None,
     ):
+        
         default_xml = xml_path_completion(xml)
         if env_id is not None:
             xml_temp = default_xml.replace(".xml", f"_{env_id}_temp.xml")
@@ -46,12 +47,12 @@ class TableArena(Arena):
             xml = default_xml
 
         if rand_texture is not None:
-            texture_file_name = get_texture_name(rand_texture)
-            xml_temp = xml.replace(".xml", f"_{texture_file_name}_temp.xml")
-            if os.path.exists(xml_temp):
-                xml = xml_temp
-            else:
-                xml = replace_texture(xml, rand_texture)
+            xml_temp = xml.replace(".xml", f"_{rand_texture}_temp.xml")
+            # if not os.path.exists(xml_temp):
+            print(f"Copying {xml} to {xml_temp}")
+            shutil.copy(xml, xml_temp)
+            replace_texture(xml_temp)
+            xml = xml_temp
         super().__init__(xml)
 
         self.xml = xml

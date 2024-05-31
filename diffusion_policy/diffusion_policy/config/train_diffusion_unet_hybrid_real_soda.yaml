@@ -3,7 +3,7 @@ defaults:
   - task: green_pnp_real
 
 name: train_diffusion_unet_hybrid
-exp_name: "saga"
+exp_name: "soda"
 
 _target_: diffusion_policy.workspace.train_diffusion_unet_hybrid_workspace.TrainDiffusionUnetHybridWorkspace
 

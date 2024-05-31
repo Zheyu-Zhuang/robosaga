@@ -138,7 +138,7 @@ if __name__ == "__main__":
     parser.add_argument("--top_n", type=int, default=3)
     parser.add_argument("--n_rollouts", type=int, default=50)
     args = parser.parse_args()
-    assert args.mode in ["indoor", "outdoor", "textile", "distractors"], "Invalid mode"
+    assert args.mode in ["shuffle_env", "distractors"], "Invalid mode"
 
     distractors = ["bottle", "lemon", "milk", "can"]
     distractor_command = []
@@ -160,7 +160,7 @@ if __name__ == "__main__":
     for i, ckpt_path in enumerate(top_n_checkpoints):
         ckpt_name = os.path.basename(ckpt_path).replace(".pth", "")
         eval_dir_ckpt = os.path.join(args.exp_path, "eval", args.mode, ckpt_name)
-        if args.mode in ["indoor", "outdoor", "textile"]:
+        if args.mode=='shuffle_env':
             scripts_with_args.append(
                 (
                     py_script,

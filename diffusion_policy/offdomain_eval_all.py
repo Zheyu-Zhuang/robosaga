@@ -7,7 +7,7 @@ parser.add_argument("-e", "--exp_path", type=str, default=None, required=True)
 args = parser.parse_args()
 
 
-offdomain_types = ['indoor', 'outdoor', 'textile', 'distractors']
+offdomain_types = ['shuffle_env', 'distractors']
 
 commands = []
 

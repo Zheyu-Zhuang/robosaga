@@ -219,7 +219,7 @@ def replace_texture(xml_file, wall_textures, table_textures, floor_textures):
         env_name = "_".join(env_name)
     for texture in root.iter("texture"):
         attrib_name = texture.attrib.get("name")
-        if env_name == "pegs_arena":
+        if env_name == "pegs_arena" or "table_arena" in env_name:
             if attrib_name in table_env_target_texture:
                 texture.attrib["file"] = random.choice(texture_types[attrib_name])
         elif env_name == "multi_table":
@@ -297,6 +297,9 @@ def run_trained_agent(args):
         rollout_horizon = config.experiment.rollout.horizon
 
     # create environment from saved checkpoint
+    if args.distractors:
+        args.env_id = None
+        
     env, _ = FileUtils.env_from_checkpoint(
         ckpt_dict=ckpt_dict,
         env_name=args.env,
