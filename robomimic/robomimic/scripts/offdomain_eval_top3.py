@@ -150,6 +150,8 @@ if __name__ == "__main__":
                         ckpt_path,
                         "--n_rollouts",
                         str(args.n_rollouts),
+                        "--env_id",
+                        f"{mode}_env_{999}",
                     ]
                     + video_command,
                 )
