@@ -134,17 +134,12 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser()
     parser.add_argument("-e", "--exp_path", type=str, default=None, required=True)
-    parser.add_argument("-m", "--mode", help="type of offdomain evaluation", required=True)
+    parser.add_argument("--shuffle_env", action="store_true")
+    parser.add_argument("--distractors", action="store_true")
     parser.add_argument("--top_n", type=int, default=3)
     parser.add_argument("--n_rollouts", type=int, default=50)
     args = parser.parse_args()
-    assert args.mode in ["shuffle_env", "distractors"], "Invalid mode"
 
-    distractors = ["bottle", "lemon", "milk", "can"]
-    distractor_command = []
-    for distractor in distractors:
-        distractor_command += [f"--distractors", distractor]
-    # log_file_path = os.path.join(args.exp_path, "logs/log.txt")
     eval_dir = os.path.join(args.exp_path, "eval")
     if not os.path.exists(eval_dir):
         os.makedirs(eval_dir)
@@ -155,26 +150,27 @@ if __name__ == "__main__":
     scripts_with_args = []
 
     print("\n=====================")
-    print(f"Running evaluation for {args.mode} with top {args.top_n} checkpoints")
+    mode = 'shuffle_env' if args.shuffle_env else 'distractors'
+    
+    print(f"Running evaluation for {mode} with top {args.top_n} checkpoints")
 
     for i, ckpt_path in enumerate(top_n_checkpoints):
         ckpt_name = os.path.basename(ckpt_path).replace(".pth", "")
-        eval_dir_ckpt = os.path.join(args.exp_path, "eval", args.mode, ckpt_name)
-        if args.mode=='shuffle_env':
+        eval_dir_ckpt = os.path.join(args.exp_path, "eval", mode, ckpt_name)
+        if args.shuffle_env:
             scripts_with_args.append(
                 (
                     py_script,
                     [
                         "--checkpoint",
                         ckpt_path,
-                        "--rand_texture",
-                        args.mode,
+                        "--shuffle_env",
                         "--output_dir",
                         eval_dir_ckpt,
                     ],
                 )
             )
-        else:
+        elif args.distractors:
             scripts_with_args.append(
                 (
                     py_script,
@@ -183,24 +179,24 @@ if __name__ == "__main__":
                         ckpt_path,
                         "--output_dir",
                         eval_dir_ckpt,
+                        "--distractors",
                     ]
-                    + distractor_command
                 )
             )
 
-    output_file = os.path.join(eval_dir, f"{args.mode}_stats.txt")
+    output_file = os.path.join(eval_dir, f"{mode}_stats.txt")
     # Execute each script with its arguments and save the output
     if os.path.exists(output_file):
         archive_folder = os.path.join(eval_dir, "archive")
         if not os.path.exists(archive_folder):
             os.makedirs(archive_folder)
         n_old = len(os.listdir(archive_folder))
-        shutil.move(output_file, os.path.join(archive_folder, f"{args.mode}_stats_{n_old}.txt"))
+        shutil.move(output_file, os.path.join(archive_folder, f"{mode}_stats_{n_old}.txt"))
         print('WARNING: output file already exists, moving to archive folder')
     run_scripts_sequential(scripts_with_args, output_file)
 
 
-    stats = get_results_string(output_file, top_n_success_rate, args.mode)
+    stats = get_results_string(output_file, top_n_success_rate, mode)
     print(stats)
 
     with open(output_file, "a") as f:

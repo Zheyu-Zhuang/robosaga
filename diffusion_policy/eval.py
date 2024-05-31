@@ -27,9 +27,10 @@ from diffusion_policy.workspace.base_workspace import BaseWorkspace
 @click.option("-c", "--checkpoint", required=True)
 @click.option("-o", "--output_dir", required=True)
 @click.option("-d", "--device", default="cuda:0")
-@click.option("--distractors", multiple=True, default=[])
-@click.option("--rand_texture", default=None, type=str)
-def main(checkpoint, output_dir, device, distractors, rand_texture):
+@click.option("--distractors", is_flag=True, default=False) 
+@click.option("--shuffle_env", is_flag=True, default=False)
+
+def main(checkpoint, output_dir, device, distractors, shuffle_env):
     # if os.path.exists(output_dir):
     #     click.confirm(f"Output path {output_dir} already exists! Overwrite?", abort=True)
     pathlib.Path(output_dir).mkdir(parents=True, exist_ok=True)
@@ -54,7 +55,7 @@ def main(checkpoint, output_dir, device, distractors, rand_texture):
     # run eval
     with open_dict(cfg):
         cfg.task.env_runner.distractors = distractors
-        cfg.task.env_runner.rand_texture = rand_texture
+        cfg.task.env_runner.shuffle_env = shuffle_env
     env_runner = hydra.utils.instantiate(cfg.task.env_runner, output_dir=output_dir)
     runner_log = env_runner.run(policy)
 

@@ -73,8 +73,8 @@ class RobomimicImageRunner(BaseImageRunner):
         abs_action=False,
         tqdm_interval_sec=5.0,
         n_envs=None,
-        distractors=None,
-        rand_texture=None,
+        distractors=False,
+        shuffle_env=None,
     ):
         super().__init__(output_dir)
 
@@ -121,7 +121,7 @@ class RobomimicImageRunner(BaseImageRunner):
             rotation_transformer = RotationTransformer("axis_angle", "rotation_6d")
 
         def env_fn():
-            if rand_texture is not None:
+            if shuffle_env == True:
                 rand_id = random.randint(0, 100000)
             else:
                 rand_id = None
@@ -165,7 +165,7 @@ class RobomimicImageRunner(BaseImageRunner):
         # a separate env_fn that does not create OpenGL context (enable_render=False)
         # is needed to initialize spaces.
         def dummy_env_fn():
-            if rand_texture is not None:
+            if shuffle_env == True:
                 rand_id= random.randint(0, 100000)
             else:
                 rand_id = None

@@ -14,8 +14,9 @@ commands = []
 
 scripts_dir = os.path.dirname(os.path.realpath(__file__))
 
-for m in offdomain_types:
-    commands.append(f"python {scripts_dir}/offdomain_eval_top3.py -e {args.exp_path} -m {m}")
+commands.append(f"python {scripts_dir}/offdomain_eval_top3.py -e {args.exp_path} --distractors")
+commands.append(f"python {scripts_dir}/offdomain_eval_top3.py -e {args.exp_path} --shuffle_env")
+
 commands = " && ".join(commands)
 
 os.system(commands)
