@@ -205,7 +205,7 @@ def replace_texture(xml_file, wall_textures, table_textures, floor_textures):
     root = tree.getroot()
     table_env_target_texture = ["tex-ceramic", "tex-cream-plaster", "texplane"]
     multi_table_target_texture = ["tex-ceramic", "tex-cream-plaster", "texplane"]
-    bin_env_target_texture = ["tex-light-wood", "tex-dark-wood", "texplane", "tex-ceramic"]
+    bin_env_target_texture = ["tex-light-wood", "tex-dark-wood", "texplane", "tex-ceramic", "tex-cream-plaster"]
     texture_types = {
         "tex-ceramic": table_textures,
         "tex-cream-plaster": wall_textures,
@@ -405,8 +405,8 @@ if __name__ == "__main__":
 
     parser.add_argument(
         "--distractors",
-        nargs="+",
-        default=None,
+        action="store_true",
+        help="use distractors in the environment",
     )
 
     parser.add_argument("--shuffle_env", action="store_true")

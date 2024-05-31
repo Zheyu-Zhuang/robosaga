@@ -80,8 +80,7 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    distractors = ["bottle", "lemon", "milk", "can"]
-
+    
     log_file_path = os.path.join(args.exp_path, "logs/log.txt")
     eval_dir = os.path.join(args.exp_path, "eval")
     video_dir = os.path.join(eval_dir, "videos")
@@ -139,7 +138,6 @@ if __name__ == "__main__":
                         str(args.n_rollouts),
                         "--distractors",
                     ]
-                    + distractors
                     + video_command,
                 )
             )

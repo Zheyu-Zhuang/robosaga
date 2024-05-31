@@ -23,6 +23,7 @@ from robosuite.utils.placement_samplers import (
     UniformRandomSampler,
 )
 
+from robosuite.utils.saga_utils import distractors_to_model
 
 class PickPlace(SingleArmEnv):
     """
@@ -181,7 +182,7 @@ class PickPlace(SingleArmEnv):
         camera_heights=256,
         camera_widths=256,
         camera_depths=False,
-        distractors=None,
+        distractors=False,
         rand_texture=None,
         env_id=None,
     ):
@@ -213,6 +214,14 @@ class PickPlace(SingleArmEnv):
 
         # whether to use ground-truth object states
         self.use_object_obs = use_object_obs
+        self.env_id = env_id
+        
+        default_distractors = ['bread', 'cereal', 'bottle', 'lemon']
+        if distractors == True:
+            self.distractors = distractors_to_model(default_distractors)
+        else:
+            self.distractors = []
+        self.rand_texture = rand_texture
         self.env_id = env_id
 
         super().__init__(
@@ -413,6 +422,33 @@ class PickPlace(SingleArmEnv):
         bin_y_half = self.model.mujoco_arena.table_full_size[1] / 2 - 0.05
 
         # each object should just be sampled in the bounds of the bin (with some tolerance)
+        
+        for distractor_ in self.distractors:
+            self.placement_initializer.append_sampler(
+                sampler=UniformRandomSampler(
+                    name="f{distractor_._name}ObjectSampler",
+                    x_range=[-bin_x_half, bin_x_half],
+                    y_range=[-bin_y_half, bin_y_half],
+                    rotation=0.0,
+                    rotation_axis="z",
+                    ensure_object_boundary_in_range=False,
+                    ensure_valid_placement=True,
+                    reference_pos=self.bin1_pos,
+                    z_offset=0.0,
+                    chance_of_hidden=0.5,
+                )
+            )
+
+        if self.distractors != []:
+            for distractor_ in self.distractors:
+                if isinstance(self.placement_initializer, SequentialCompositeSampler):
+                    self.placement_initializer.add_objects_to_sampler(
+                        sampler_name="f{distractor_._name}ObjectSampler",
+                        mujoco_objects=distractor_,
+                    )
+                else:
+                    self.placement_initializer.add_objects(distractor_)
+                    
         self.placement_initializer.append_sampler(
             sampler=UniformRandomSampler(
                 name="CollisionObjectSampler",
@@ -484,6 +520,7 @@ class PickPlace(SingleArmEnv):
             table_full_size=self.table_full_size,
             table_friction=self.table_friction,
             env_id=self.env_id,
+            rand_texture=self.rand_texture,
         )
 
         # Arena always gets set to zero origin
@@ -513,7 +550,7 @@ class PickPlace(SingleArmEnv):
         self.model = ManipulationTask(
             mujoco_arena=mujoco_arena,
             mujoco_robots=[robot.robot_model for robot in self.robots],
-            mujoco_objects=self.visual_objects + self.objects,
+            mujoco_objects=self.visual_objects + self.objects + self.distractors
         )
 
         # Generate placement initializer

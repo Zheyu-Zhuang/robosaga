@@ -25,8 +25,9 @@ class BinsArena(Arena):
         table_friction=(1, 0.005, 0.0001),
         rand_texture=None,
         env_id=None,
+        xml = "arenas/bins_arena.xml"
     ):
-        default_xml = xml_path_completion("arenas/bins_arena.xml")
+        default_xml = xml_path_completion(xml)
         if env_id is not None:
             xml_temp = default_xml.replace(".xml", f"_{env_id}_temp.xml")
             if not os.path.exists(xml_temp):
@@ -36,12 +37,12 @@ class BinsArena(Arena):
             xml = default_xml
 
         if rand_texture is not None:
-            texture_file_name = get_texture_name(rand_texture)
-            xml_temp = xml.replace(".xml", f"_{texture_file_name}_temp.xml")
-            if os.path.exists(xml_temp):
-                xml = xml_temp
-            else:
-                xml = replace_texture(xml, rand_texture, texture_name="texplane")
+            xml_temp = xml.replace(".xml", f"_{rand_texture}_temp.xml")
+            # if not os.path.exists(xml_temp):
+            print(f"Copying {xml} to {xml_temp}")
+            shutil.copy(xml, xml_temp)
+            replace_texture(xml_temp)
+            xml = xml_temp
 
         super().__init__(xml)
 

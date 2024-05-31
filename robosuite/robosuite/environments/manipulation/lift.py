@@ -153,7 +153,7 @@ class Lift(SingleArmEnv):
         camera_heights=256,
         camera_widths=256,
         camera_depths=False,
-        distractors=None,
+        distractors=False,
         rand_texture=None,
         env_id=None,
     ):
@@ -171,8 +171,15 @@ class Lift(SingleArmEnv):
 
         # object placement initializer
         self.placement_initializer = placement_initializer
-
-        self.distractors = distractors_to_model(distractors)
+        
+        
+        default_distractors =   ['bread', 'cereal', 'bottle', 'lemon']
+        
+        if distractors == True:
+            self.distractors = distractors_to_model(default_distractors)
+        else:
+            self.distractors = []
+            
         self.rand_texture = rand_texture
         self.env_id = env_id
 

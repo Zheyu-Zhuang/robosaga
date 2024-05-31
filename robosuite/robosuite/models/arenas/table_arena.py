@@ -9,7 +9,7 @@ from robosuite.utils.mjcf_utils import (
     string_to_array,
     xml_path_completion,
 )
-from robosuite.utils.saga_utils import get_all_texture_paths, replace_texture
+from robosuite.utils.saga_utils import replace_texture
 
 
 class TableArena(Arena):
