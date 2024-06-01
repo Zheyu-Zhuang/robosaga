@@ -116,7 +116,14 @@ class SaliencyGuidedAugmentation:
             normalizer = self.normalizer[obs_key] if self.normalizer is not None else None
             bg = self.randomise_background(self.backgrounds[rand_bg_idx], out_shape)
             bg = self.normalizer[obs_key].normalize(bg) if normalizer is not None else bg
-            smaps = torch.clip(smaps, 0, 0.8)
+            if self.aug_strategy == "erase":
+                smaps[smaps < 0.5] = 0
+                smaps[smaps >= 0.5] = 1
+            elif self.aug_strategy == "erase_blend":
+                smaps[smaps < 0.5] = 0
+                smaps[smaps >= 0.5] = 0.5
+            elif self.aug_strategy == "saga_mixup":
+                smaps = torch.clip(smaps, 0, 0.8)
             x_aug = obs_dict[obs_key][aug_inds] * smaps + bg * (1 - smaps)
             if self.batch_idx % 30 == 0:
                 idx = 0
@@ -304,6 +311,8 @@ class SaliencyGuidedAugmentation:
         assert self.aug_strategy in [
             "saga_mixup",
             "simple_overlay",
+            "erase"
+            'erase_blend',
         ], "Invalid aug_strategy"
         assert self.aug_ratio is not None, "aug_ratio is required"
         if self.aug_strategy == "simple_overlay":
