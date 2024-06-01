@@ -202,11 +202,8 @@ class NutAssembly(SingleArmEnv):
         # object placement initializer
         self.placement_initializer = placement_initializer
 
-        default_distractors = ['bread', 'cereal', 'bottle', 'lemon']
-        if distractors == True:
-            self.distractors = distractors_to_model(default_distractors)
-        else:
-            self.distractors = []
+        default_distractors = ["bread", "cereal", "bottle", "lemon"]
+        self.distractors = distractors_to_model(default_distractors) if distractors else []
         self.rand_texture = rand_texture
         self.env_id = env_id
 
@@ -464,7 +461,7 @@ class NutAssembly(SingleArmEnv):
             for distractor_ in self.distractors:
                 if isinstance(self.placement_initializer, SequentialCompositeSampler):
                     self.placement_initializer.add_objects_to_sampler(
-                        sampler_name="f{distractor_._name}ObjectSampler",
+                        sampler_name=f"{distractor_._name}ObjectSampler",
                         mujoco_objects=distractor_,
                     )
                 else:

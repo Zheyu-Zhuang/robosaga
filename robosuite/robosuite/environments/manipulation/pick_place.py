@@ -22,8 +22,8 @@ from robosuite.utils.placement_samplers import (
     SequentialCompositeSampler,
     UniformRandomSampler,
 )
-
 from robosuite.utils.saga_utils import distractors_to_model
+
 
 class PickPlace(SingleArmEnv):
     """
@@ -215,8 +215,8 @@ class PickPlace(SingleArmEnv):
         # whether to use ground-truth object states
         self.use_object_obs = use_object_obs
         self.env_id = env_id
-        
-        default_distractors = ['bread', 'cereal', 'bottle', 'lemon']
+
+        default_distractors = ["bread", "cereal", "bottle", "lemon"]
         if distractors == True:
             self.distractors = distractors_to_model(default_distractors)
         else:
@@ -422,11 +422,11 @@ class PickPlace(SingleArmEnv):
         bin_y_half = self.model.mujoco_arena.table_full_size[1] / 2 - 0.05
 
         # each object should just be sampled in the bounds of the bin (with some tolerance)
-        
+
         for distractor_ in self.distractors:
             self.placement_initializer.append_sampler(
                 sampler=UniformRandomSampler(
-                    name="f{distractor_._name}ObjectSampler",
+                    name=f"{distractor_._name}ObjectSampler",
                     x_range=[-bin_x_half, bin_x_half],
                     y_range=[-bin_y_half, bin_y_half],
                     rotation=0.0,
@@ -448,7 +448,7 @@ class PickPlace(SingleArmEnv):
                     )
                 else:
                     self.placement_initializer.add_objects(distractor_)
-                    
+
         self.placement_initializer.append_sampler(
             sampler=UniformRandomSampler(
                 name="CollisionObjectSampler",
@@ -550,7 +550,7 @@ class PickPlace(SingleArmEnv):
         self.model = ManipulationTask(
             mujoco_arena=mujoco_arena,
             mujoco_robots=[robot.robot_model for robot in self.robots],
-            mujoco_objects=self.visual_objects + self.objects + self.distractors
+            mujoco_objects=self.visual_objects + self.objects + self.distractors,
         )
 
         # Generate placement initializer

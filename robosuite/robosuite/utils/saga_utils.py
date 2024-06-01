@@ -1,4 +1,5 @@
 import os
+import random
 import shutil
 import xml.etree.ElementTree as ET
 
@@ -10,10 +11,9 @@ from robosuite.models.objects import (
     LemonObject,
     MilkObject,
 )
-import random
 
 
-def distractors_to_model(distractors):
+def distractors_to_model(distractors, postfix=""):
     if distractors is None:
         return []
     supported_distractors = {
@@ -34,7 +34,7 @@ def distractors_to_model(distractors):
                 )
             )
         else:
-            name = f"{distractor_}_{idx}"
+            name = f"{distractor_}_{idx}_{postfix}"
             models.append(supported_distractors[distractor_](name=name))
             idx += 1
     return models
@@ -78,6 +78,7 @@ def replace_texture(xml_file):
 def get_texture_name(texture_path):
     texture_file_name = os.path.basename(texture_path)
     return texture_file_name.split(".")[0]
+
 
 def get_robosuite_path():
     this_file_path = os.path.abspath(__file__)

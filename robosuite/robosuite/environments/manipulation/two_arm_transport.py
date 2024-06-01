@@ -177,7 +177,7 @@ class TwoArmTransport(TwoArmEnv):
         camera_heights=256,
         camera_widths=256,
         camera_depths=False,
-        distractors=None,
+        distractors=False,
         rand_texture=None,
         env_id=None,
     ):
@@ -205,7 +205,18 @@ class TwoArmTransport(TwoArmEnv):
         self.use_object_obs = use_object_obs
         self.env_id = env_id
         self.rand_texture = rand_texture
-        self.distractors = distractors_to_model(distractors)
+
+        payload_bin_distractors = ["lemon", "bread", "can"]
+        target_bin_distractors = ["bread", "lemon", "can"]
+        trash_bin_distractors = ["bottle", "bread", "can"]
+
+        self.distractors = {}
+        if distractors:
+            self.distractors = {
+                "start_bin": distractors_to_model(payload_bin_distractors, "start_bin"),
+                "target_bin": distractors_to_model(target_bin_distractors, "target_bin"),
+                "trash_bin": distractors_to_model(trash_bin_distractors, "trash_bin"),
+            }
 
         super().__init__(
             robots=robots,
@@ -435,45 +446,52 @@ class TwoArmTransport(TwoArmEnv):
                 )
             )
 
-        payload_bin = {"x": self.table_full_size[0] * 0.25, "table_num": 0, "name": "payload"}
+        start_bin = {"x": self.table_full_size[0] * 0.25, "table_num": 0, "name": "payload"}
         target_bin = {"x": -self.table_full_size[0] * 0.25, "table_num": 1, "name": "target_bin"}
         trash_bin = {"x": self.table_full_size[0] * 0.25, "table_num": 1, "name": "trash_bin"}
 
-        for distractor_ in self.distractors:
-            if "bottle" in distractor_._name or "milk" in distractor_._name:
-                bin_ = random.choice([trash_bin, target_bin])
-            else:
-                bin_ = random.choice([payload_bin, target_bin, trash_bin])
-            print(
-                f"Placing {distractor_._name} in bin {bin_['name']} on table {bin_['table_num']}"
-            )
-
-            self.placement_initializer.append_sampler(
-                sampler=UniformRandomSampler(
-                    name="f{distractor_._name}ObjectSampler",
-                    x_range=[bin_["x"] - pos_tol * 2, bin_["x"] + pos_tol * 2],
-                    y_range=[-pos_tol * 2, pos_tol * 2],
-                    rotation=0.0,
-                    rotation_axis="z",
-                    ensure_object_boundary_in_range=False,
-                    ensure_valid_placement=False,
-                    reference_pos=self.table_offsets[bin_["table_num"]],
-                    z_offset=0.001,
-                    # chance_of_hidden=0.5,
+        for bin_ in self.distractors:
+            if bin_ == "start_bin":
+                x = start_bin["x"]
+                table_num = start_bin["table_num"]
+            elif bin_ == "target_bin":
+                x = target_bin["x"]
+                table_num = target_bin["table_num"]
+            elif bin_ == "trash_bin":
+                x = trash_bin["x"]
+                table_num = trash_bin["table_num"]
+            for i, distractor_ in enumerate(self.distractors[bin_]):
+                self.placement_initializer.append_sampler(
+                    sampler=UniformRandomSampler(
+                        name=f"{distractor_._name}ObjectSampler",
+                        x_range=[x - 0.05, x + 0.05],
+                        y_range=[-0.05, 0.05],
+                        rotation=0.0,
+                        rotation_axis="z",
+                        ensure_object_boundary_in_range=False,
+                        ensure_valid_placement=False,
+                        reference_pos=self.table_offsets[table_num],
+                        z_offset=0.001,
+                        chance_of_hidden=0.5,
+                    )
                 )
-            )
 
         tabletop_objects = list(self.transport.objects.values())
-        if self.distractors != []:
-            for distractor_ in self.distractors:
+        distractors = []
+        for bin_ in self.distractors:
+            for distractor_ in self.distractors[bin_]:
+                distractors.append(distractor_)
+        if distractors != []:
+            for distractor_ in distractors:
                 if isinstance(self.placement_initializer, SequentialCompositeSampler):
                     self.placement_initializer.add_objects_to_sampler(
-                        sampler_name="f{distractor_._name}ObjectSampler",
+                        sampler_name=f"{distractor_._name}ObjectSampler",
                         mujoco_objects=distractor_,
                     )
                 else:
                     self.placement_initializer.add_objects(distractor_)
-            tabletop_objects = tabletop_objects + self.distractors
+
+        tabletop_objects = tabletop_objects + distractors
         return tabletop_objects
 
     def _setup_references(self):
