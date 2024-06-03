@@ -1,6 +1,10 @@
 defaults:
   - _self_
+<<<<<<< HEAD
   - task: green_pnp
+=======
+  - task: green_pnp_real
+>>>>>>> cd2e7be (plz)
 
 name: train_robomimic_image
 _target_: diffusion_policy.workspace.train_robomimic_image_workspace.TrainRobomimicImageWorkspace
@@ -17,16 +21,20 @@ dataset_obs_steps: *horizon
 past_action_visible: False
 keypoint_visible_rate: 1.0
 
-# saliency:
-#   update_ratio: 0.1  # update 10% of the buffer per training batch
-#   aug_ratio: 0.5  # 50% of the time, use augmented data
-#   debug_vis: False
-#   debug_save: True
-#   buffer_shape: [84, 84]
-#   save_dir: ""
-#   save_debug_im_every_n_batches: 5
-#   background_path: ../data/coco_5k_84x84/
-#   warmup_epochs
+# -------------------------- pay attention here !!! ------------------------- 
+
+saliency:
+  update_ratio: 0.1  # update 10% of the buffer per training batch
+  aug_ratio: 0.5  # 50% of the time, use augmented data
+  debug_vis: False
+  debug_save: True
+  buffer_shape: [84, 84]
+  save_dir: ""
+  save_debug_im_every_n_batches: 5
+  background_path: ../data/coco_5k_84x84/
+  warmup_steps: 10
+  augment_type: "saga_mixup"
+# ---------------------------------------------------------------------------- #
 
 policy:
   _target_: diffusion_policy.policy.robomimic_image_policy.RobomimicImagePolicy
@@ -37,7 +45,7 @@ policy:
   task_name: ${oc.select:task.task_name,tool_hang}
   dataset_type: ${oc.select:task.dataset_type,ph}
   crop_shape: [216, 288] # ch, cw 320x240 90%
-  # saliency: ${saliency}
+  saliency_config: ${saliency}
 
 dataloader:
   batch_size: 32
