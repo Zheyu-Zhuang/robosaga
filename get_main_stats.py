@@ -244,7 +244,7 @@ def print_latex_tables(stats_dict, policies, print_std=True):
         """\\begin{table}[ht]
     \\scriptsize
     \\centering
-    \\setlength{\\tabcolsep}{2pt} % Adjust column spacing
+    \\setlength{\\tabcolsep}{4pt} % Adjust column spacing
         \\centering
         \\begin{tabular}{cl """
         + " ".join(["cccc" for _ in policies])
