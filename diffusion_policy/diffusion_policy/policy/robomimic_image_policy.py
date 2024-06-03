@@ -96,20 +96,19 @@ class RobomimicImagePolicy(BaseImagePolicy):
         self.normalizer = LinearNormalizer()
         self.config = config
 
-        if self.normalizer is not None:
+        if self.normalizer is not None and saliency_config is not None:
             saliency_config["normalizer"] = self.normalizer
         self.saga = None
         if saliency_config is not None:
             self.saga = SaliencyGuidedAugmentation(self.nets["policy"], **saliency_config)
             print("Using SaliencyGuidedAugmentation !!!")
         else:
-            print("Not SaliencyGuidedAugmentation")   
-        
+            print("Not SaliencyGuidedAugmentation")
+
     def set_saga_buffer_depth(self, depth):
         if self.saga is not None:
             self.saga.set_buffer_depth(depth)
-            
-        
+
     def to(self, *args, **kwargs):
         device, dtype, non_blocking, convert_to_format = torch._C._nn._parse_to(*args, **kwargs)
         if device is not None:
