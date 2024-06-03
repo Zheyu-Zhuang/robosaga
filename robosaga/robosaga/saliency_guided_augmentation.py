@@ -175,7 +175,6 @@ class SaliencyGuidedAugmentation:
                 continue
             net_input_dict = None
             image_for_update = obs_dict[k][update_inds]
-            print(k)  # batch indices
             if self.mode == "full_policy":
                 net_input_dict = {k_: obs_dict[k_][update_inds] for k_ in obs_dict.keys()}
             smaps = self.extractors[k].saliency(image_for_update, net_input_dict).detach()
