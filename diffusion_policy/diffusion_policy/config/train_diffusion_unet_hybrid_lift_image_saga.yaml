@@ -37,7 +37,7 @@ saliency:
   save_dir: ""
   save_debug_im_every_n_batches: 5
   background_path: ../data/coco_5k_84x84/
-  warmup_steps: 10
+  warmup_epochs
 # ---------------------------------------------------------------------------- #
 
 policy:

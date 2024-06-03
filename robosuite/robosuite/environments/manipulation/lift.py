@@ -326,7 +326,7 @@ class Lift(SingleArmEnv):
         for distractor_ in self.distractors:
             self.placement_initializer.append_sampler(
                 sampler=UniformRandomSampler(
-                    name="f{distractor_._name}ObjectSampler",
+                    name="DistractorObjectSampler",
                     x_range=[0.10, 0.20],
                     y_range=[-0.20, 0.20],
                     rotation=0.0,
@@ -350,7 +350,7 @@ class Lift(SingleArmEnv):
             for distractor_ in self.distractors:
                 if isinstance(self.placement_initializer, SequentialCompositeSampler):
                     self.placement_initializer.add_objects_to_sampler(
-                        sampler_name="f{distractor_._name}ObjectSampler",
+                        sampler_name="DistractorObjectSampler",
                         mujoco_objects=distractor_,
                     )
                 else:

@@ -1,9 +1,9 @@
 defaults:
   - _self_
-  - task: square_image
+  - task: green_pnp_real
 
 name: train_robomimic_image
-exp_name: "square_image_saga_bc_rnn"
+exp_name: "green_pnp_real_image_bc_rnn_overlay"
 
 _target_: diffusion_policy.workspace.train_robomimic_image_workspace.TrainRobomimicImageWorkspace
 
@@ -19,8 +19,6 @@ past_action_visible: False
 keypoint_visible_rate: 1.0
 
 saliency:
-
- 
   update_ratio: 0.1  # update 10% of the buffer per training batch
   aug_ratio: 0.5  # 50% of the time, use augmented data
   debug_vis: False
@@ -30,7 +28,8 @@ saliency:
   save_debug_im_every_n_batches: 5
   background_path: "../data/coco_5k_84x84/"
   disable_during_training: False
-  disable_buffer: True
+  disable_buffer: False
+  aug_strategy: simple_overlay
 
 policy:
   _target_: diffusion_policy.policy.robomimic_image_policy.RobomimicImagePolicy
@@ -87,22 +86,22 @@ logging:
 
 checkpoint:
   topk:
-    monitor_key: test_mean_score
-    mode: max
+    monitor_key: train_loss
+    mode: min
     k: 5
-    format_str: 'epoch={epoch:04d}-test_mean_score={test_mean_score:.3f}.ckpt'
+    format_str: 'epoch={epoch:04d}-train_loss={train_loss:.3f}.ckpt'
   save_last_ckpt: True
   save_last_snapshot: False
 
 multi_run:
-  run_dir: "../experiments/robomimic/${task_name}_${exp_name}
+  run_dir: "../experiments/robomimic/${task_name}_${exp_name}"
   wandb_name_base: ${now:%Y.%m.%d-%H.%M.%S}_${name}_${task_name}
 
 hydra:
   job:
     override_dirname: ${name}
   run:
-    dir: "../experiments/robomimic/${task_name}_${exp_name}
+    dir: "../experiments/robomimic/${task_name}_${exp_name}"
   sweep:
-    dir: "../experiments/robomimic/${task_name}_${exp_name}
+    dir: "../experiments/robomimic/${task_name}_${exp_name}"
     subdir: ${hydra.job.num}

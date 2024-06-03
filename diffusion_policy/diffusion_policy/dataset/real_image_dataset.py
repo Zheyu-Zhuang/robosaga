@@ -164,9 +164,12 @@ class RealImageDataset(BaseImageDataset):
         for key in self.rgb_keys:
             # move channel last to channel first
             # T,H,W,C
+            # HACK!!!!!!!!!!!!!!!!!!!
+            if key == 'ee_rgb_camera':
+                obs_dict[key] = data[key][T_slice].transpose(0, 3, 1, 2).astype(np.float32) / 255.
             # convert uint8 image to float32
-            obs_dict[key] = np.moveaxis(data[key][T_slice],-1,1
-                ).astype(np.float32) / 255.
+            elif key == "front_rgb_camera":
+                obs_dict[key] = data[key][T_slice].astype(np.float32) / 255.
             # T,C,H,W
             # save ram
             del data[key]

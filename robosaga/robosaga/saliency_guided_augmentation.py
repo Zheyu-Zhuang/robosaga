@@ -311,7 +311,7 @@ class SaliencyGuidedAugmentation:
         assert self.aug_strategy in [
             "saga_mixup",
             "simple_overlay",
-            "erase"
+            "erase",
             'erase_blend',
         ], "Invalid aug_strategy"
         assert self.aug_ratio is not None, "aug_ratio is required"

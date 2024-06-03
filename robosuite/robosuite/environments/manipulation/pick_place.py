@@ -426,7 +426,7 @@ class PickPlace(SingleArmEnv):
         for distractor_ in self.distractors:
             self.placement_initializer.append_sampler(
                 sampler=UniformRandomSampler(
-                    name=f"{distractor_._name}ObjectSampler",
+                    name="DistractorObjectSampler",
                     x_range=[-bin_x_half, bin_x_half],
                     y_range=[-bin_y_half, bin_y_half],
                     rotation=0.0,
@@ -443,7 +443,7 @@ class PickPlace(SingleArmEnv):
             for distractor_ in self.distractors:
                 if isinstance(self.placement_initializer, SequentialCompositeSampler):
                     self.placement_initializer.add_objects_to_sampler(
-                        sampler_name="f{distractor_._name}ObjectSampler",
+                        sampler_name="DistractorObjectSampler",
                         mujoco_objects=distractor_,
                     )
                 else:
