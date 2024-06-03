@@ -17,14 +17,14 @@ except ImportError:
 import kornia as K
 
 from robosaga.fullgrad import FullGrad
-from robosaga.tensor_extractors import EncoderOnly
+from robosaga.tensor_extractors import EncoderOnly, FullPolicy
 
 
 class SaliencyGuidedAugmentation:
     def __init__(self, model, **kwargs):
         # Model and extractors
         self.model = model
-        self.extractors = self.initialise_extractors()
+        self.mode = self.get_kwarg(kwargs, "mode", "encoder_only")
 
         # Augmentation related attributes
         self.aug_ratio = self.get_kwarg(kwargs, "aug_ratio", None)
@@ -61,6 +61,7 @@ class SaliencyGuidedAugmentation:
 
         self.check_augmentation_strategy()
         self.check_required_args(print_args=True)
+        self.extractors = self.initialise_extractors()
 
     # --------------------------------------------------------------------------- #
     #                         Training Specific Functions                         #
@@ -172,8 +173,12 @@ class SaliencyGuidedAugmentation:
             if len(update_inds) == 0:
                 self.unregister_hooks()
                 continue
-            image_for_update = obs_dict[k][update_inds]  # batch indices
-            smaps = self.extractors[k].saliency(image_for_update).detach()
+            net_input_dict = None
+            image_for_update = obs_dict[k][update_inds]
+            print(k)  # batch indices
+            if self.mode == "full_policy":
+                net_input_dict = {k_: obs_dict[k_][update_inds] for k_ in obs_dict.keys()}
+            smaps = self.extractors[k].saliency(image_for_update, net_input_dict).detach()
             norm_smaps = self.normalisation(smaps)
             if not self.disable_buffer:
                 crop_inds_ = obs_meta[k]["crop_inds"]
@@ -308,11 +313,12 @@ class SaliencyGuidedAugmentation:
         return kwargs.get(key, default)
 
     def check_augmentation_strategy(self):
+        print(self.aug_strategy)
         assert self.aug_strategy in [
             "saga_mixup",
             "simple_overlay",
             "erase",
-            'erase_blend',
+            "erase_blend",
         ], "Invalid aug_strategy"
         assert self.aug_ratio is not None, "aug_ratio is required"
         if self.aug_strategy == "simple_overlay":
@@ -375,7 +381,10 @@ class SaliencyGuidedAugmentation:
         obs_encoder = self.get_obs_encoder()
         for k, v in obs_encoder.obs_nets.items():
             if isinstance(v, VisualCore):
-                extractors[k] = FullGrad(v, k, EncoderOnly)
+                if self.mode == "full_policy":
+                    extractors[k] = FullGrad(self.model, k, FullPolicy)
+                else:
+                    extractors[k] = FullGrad(v, k, EncoderOnly)
         return extractors
 
     def check_buffer(self, obs_key, buffer_shape, device="cuda"):
@@ -430,6 +439,7 @@ class SaliencyGuidedAugmentation:
             "buffer_shape",
             "backgrounds",
             "save_dir",
+            "mode",
         ]
 
         for arg in required_args:

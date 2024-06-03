@@ -40,6 +40,7 @@ class FullGrad:
 
         output_scalar = self._raw_output_to_scalar(out)
 
+        print("output_scalar", output_scalar.grad_fn)
         input_gradient, feature_gradients = self.model_ext.getFeatureGrads(x, output_scalar)
 
         # Compute feature-gradients \times bias

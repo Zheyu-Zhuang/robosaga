@@ -119,4 +119,5 @@ class BCConfig(BaseConfig):
         self.saliency.save_debug_im_every_n_batches = None
         self.saliency.background_path = ""
         self.saliency.aug_strategy = None
+        self.saliency.mode = "encoder_only"
         self.saliency.kwargs.do_not_lock_keys()
