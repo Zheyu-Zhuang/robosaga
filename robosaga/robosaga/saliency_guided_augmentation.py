@@ -127,7 +127,7 @@ class SaliencyGuidedAugmentation:
             elif self.aug_strategy == "saga_mixup":
                 smaps = torch.clip(smaps, 0, 0.8)
             x_aug = obs_dict[obs_key][aug_inds] * smaps + bg * (1 - smaps)
-            if self.batch_idx % 30 == 0:
+            if self.batch_idx % 10 == 0:
                 idx = 0
                 x_vis, x_aug_vis = obs_dict[obs_key][idx], obs_dict[obs_key][idx]
                 vis_smap, bg_vis = torch.ones_like(smaps[idx]), torch.zeros_like(bg[idx])
@@ -135,7 +135,8 @@ class SaliencyGuidedAugmentation:
                     idx_ = aug_inds.tolist().index(idx)
                     vis_smap, x_aug_vis, bg_vis = smaps[idx_], x_aug[idx_], bg[idx_]
                 x_overlay_vis = x_vis * 0.5 + bg_vis * 0.5
-                vis_ims_ = [x_vis, bg_vis, x_overlay_vis, x_aug_vis]
+                x_thresh_vis = torch.where(smaps[idx_] > 0.5, x_vis, bg_vis)
+                vis_ims_ = [x_vis, bg_vis, x_overlay_vis, x_thresh_vis, x_aug_vis]
                 vis_ims_ = [self.denormalize_image(im, obs_key) for im in vis_ims_]
                 vis_ims.append(self.compose_saga_images(vis_ims_, vis_smap))
                 #
