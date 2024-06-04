@@ -1,0 +1,103 @@
+Output from /home/zheyu/RoboSaGA/diffusion_policy/eval.py with arguments --checkpoint ../experiments/robosaga/transport_image/diffusion_policy/saga/checkpoints/epoch=0200-test_mean_score=0.917.ckpt --shuffle_env --output_dir ../experiments/robosaga/transport_image/diffusion_policy/saga/eval/shuffle_env/epoch=0200-test_mean_score=0.917.ckpt:
+
+==================== Double-check the Following Parameters ====================n
+Group Norm:  {'enable': True, 'return_fullgrad_bias': True}
+Normalize Obs:  True
+
+============= Initialized Observation Utils with Obs Spec =============
+
+using obs modality: low_dim with keys: ['robot0_gripper_qpos', 'robot1_eef_quat', 'robot0_eef_quat', 'robot0_eef_pos', 'robot1_gripper_qpos', 'robot1_eef_pos']
+using obs modality: rgb with keys: ['shouldercamera1_image', 'shouldercamera0_image', 'robot0_eye_in_hand_image', 'robot1_eye_in_hand_image']
+using obs modality: depth with keys: []
+using obs modality: scan with keys: []
+Diffusion params: 2.634825e+08
+Vision params: 4.478835e+07
+
+==================== Saliency-guided Augmentation Parameters ====================
+aug_strategy: saga_mixup
+aug_ratio: 0.5
+warmup_epochs: 10
+update_ratio: 0.1
+disable_buffer: False
+buffer_shape: [84, 84]
+backgrounds shape: [5908, 3, 84, 84]
+save_dir: 
+======================================================================
+
+Copying /home/zheyu/RoboSaGA/robosuite/robosuite/models/assets/arenas/multi_table_arena.xml to /home/zheyu/RoboSaGA/robosuite/robosuite/models/assets/arenas/multi_table_arena_83810_temp.xml
+Created environment with name TwoArmTransport
+Action size is 14
+Copying /home/zheyu/RoboSaGA/robosuite/robosuite/models/assets/arenas/multi_table_arena.xml to /home/zheyu/RoboSaGA/robosuite/robosuite/models/assets/arenas/multi_table_arena_75404_temp.xml
+Copying /home/zheyu/RoboSaGA/robosuite/robosuite/models/assets/arenas/multi_table_arena.xml to /home/zheyu/RoboSaGA/robosuite/robosuite/models/assets/arenas/multi_table_arena_98256_temp.xml
+Copying /home/zheyu/RoboSaGA/robosuite/robosuite/models/assets/arenas/multi_table_arena.xml to /home/zheyu/RoboSaGA/robosuite/robosuite/models/assets/arenas/multi_table_arena_33589_temp.xml
+Copying /home/zheyu/RoboSaGA/robosuite/robosuite/models/assets/arenas/multi_table_arena.xml to /home/zheyu/RoboSaGA/robosuite/robosuite/models/assets/arenas/multi_table_arena_72036_temp.xml
+Copying /home/zheyu/RoboSaGA/robosuite/robosuite/models/assets/arenas/multi_table_arena.xml to /home/zheyu/RoboSaGA/robosuite/robosuite/models/assets/arenas/multi_table_arena_97003_temp.xml
+Copying /home/zheyu/RoboSaGA/robosuite/robosuite/models/assets/arenas/multi_table_arena.xml to /home/zheyu/RoboSaGA/robosuite/robosuite/models/assets/arenas/multi_table_arena_79040_temp.xml
+Copying /home/zheyu/RoboSaGA/robosuite/robosuite/models/assets/arenas/multi_table_arena.xml to /home/zheyu/RoboSaGA/robosuite/robosuite/models/assets/arenas/multi_table_arena_10013_temp.xml
+Copying /home/zheyu/RoboSaGA/robosuite/robosuite/models/assets/arenas/multi_table_arena.xml to /home/zheyu/RoboSaGA/robosuite/robosuite/models/assets/arenas/multi_table_arena_50554_temp.xml
+Copying /home/zheyu/RoboSaGA/robosuite/robosuite/models/assets/arenas/multi_table_arena.xml to /home/zheyu/RoboSaGA/robosuite/robosuite/models/assets/arenas/multi_table_arena_33369_temp.xml
+Created environment with name TwoArmTransport
+Action size is 14
+Copying /home/zheyu/RoboSaGA/robosuite/robosuite/models/assets/arenas/multi_table_arena.xml to /home/zheyu/RoboSaGA/robosuite/robosuite/models/assets/arenas/multi_table_arena_7017_temp.xml
+Copying /home/zheyu/RoboSaGA/robosuite/robosuite/models/assets/arenas/multi_table_arena.xml to /home/zheyu/RoboSaGA/robosuite/robosuite/models/assets/arenas/multi_table_arena_87452_temp.xml
+Copying /home/zheyu/RoboSaGA/robosuite/robosuite/models/assets/arenas/multi_table_arena.xml to /home/zheyu/RoboSaGA/robosuite/robosuite/models/assets/arenas/multi_table_arena_27749_temp.xml
+Created environment with name TwoArmTransport
+Action size is 14
+Created environment with name TwoArmTransport
+Action size is 14
+Created environment with name TwoArmTransport
+Action size is 14
+Created environment with name TwoArmTransport
+Action size is 14
+Copying /home/zheyu/RoboSaGA/robosuite/robosuite/models/assets/arenas/multi_table_arena.xml to /home/zheyu/RoboSaGA/robosuite/robosuite/models/assets/arenas/multi_table_arena_80075_temp.xml
+Copying /home/zheyu/RoboSaGA/robosuite/robosuite/models/assets/arenas/multi_table_arena.xml to /home/zheyu/RoboSaGA/robosuite/robosuite/models/assets/arenas/multi_table_arena_18896_temp.xml
+Copying /home/zheyu/RoboSaGA/robosuite/robosuite/models/assets/arenas/multi_table_arena.xml to /home/zheyu/RoboSaGA/robosuite/robosuite/models/assets/arenas/multi_table_arena_4562_temp.xml
+Copying /home/zheyu/RoboSaGA/robosuite/robosuite/models/assets/arenas/multi_table_arena.xml to /home/zheyu/RoboSaGA/robosuite/robosuite/models/assets/arenas/multi_table_arena_96960_temp.xml
+Created environment with name TwoArmTransport
+Action size is 14
+Created environment with name TwoArmTransport
+Action size is 14
+Created environment with name TwoArmTransport
+Action size is 14
+Copying /home/zheyu/RoboSaGA/robosuite/robosuite/models/assets/arenas/multi_table_arena.xml to /home/zheyu/RoboSaGA/robosuite/robosuite/models/assets/arenas/multi_table_arena_40778_temp.xml
+Copying /home/zheyu/RoboSaGA/robosuite/robosuite/models/assets/arenas/multi_table_arena.xml to /home/zheyu/RoboSaGA/robosuite/robosuite/models/assets/arenas/multi_table_arena_27665_temp.xml
+Created environment with name TwoArmTransport
+Action size is 14
+Created environment with name TwoArmTransport
+Action size is 14
+Copying /home/zheyu/RoboSaGA/robosuite/robosuite/models/assets/arenas/multi_table_arena.xml to /home/zheyu/RoboSaGA/robosuite/robosuite/models/assets/arenas/multi_table_arena_46354_temp.xml
+Copying /home/zheyu/RoboSaGA/robosuite/robosuite/models/assets/arenas/multi_table_arena.xml to /home/zheyu/RoboSaGA/robosuite/robosuite/models/assets/arenas/multi_table_arena_66415_temp.xml
+Created environment with name TwoArmTransport
+Action size is 14
+Created environment with name TwoArmTransport
+Action size is 14
+Copying /home/zheyu/RoboSaGA/robosuite/robosuite/models/assets/arenas/multi_table_arena.xml to /home/zheyu/RoboSaGA/robosuite/robosuite/models/assets/arenas/multi_table_arena_92511_temp.xml
+Copying /home/zheyu/RoboSaGA/robosuite/robosuite/models/assets/arenas/multi_table_arena.xml to /home/zheyu/RoboSaGA/robosuite/robosuite/models/assets/arenas/multi_table_arena_25594_temp.xml
+Created environment with name TwoArmTransport
+Action size is 14
+Created environment with name TwoArmTransport
+Action size is 14
+Copying /home/zheyu/RoboSaGA/robosuite/robosuite/models/assets/arenas/multi_table_arena.xml to /home/zheyu/RoboSaGA/robosuite/robosuite/models/assets/arenas/multi_table_arena_29980_temp.xml
+Created environment with name TwoArmTransport
+Action size is 14
+Copying /home/zheyu/RoboSaGA/robosuite/robosuite/models/assets/arenas/multi_table_arena.xml to /home/zheyu/RoboSaGA/robosuite/robosuite/models/assets/arenas/multi_table_arena_62770_temp.xml
+Created environment with name TwoArmTransport
+Action size is 14
+Created environment with name TwoArmTransport
+Action size is 14
+Created environment with name TwoArmTransport
+Action size is 14
+Created environment with name TwoArmTransport
+Action size is 14
+Created environment with name TwoArmTransport
+Action size is 14
+Created environment with name TwoArmTransport
+Action size is 14
+Created environment with name TwoArmTransport
+Action size is 14
+Created environment with name TwoArmTransport
+Action size is 14
+Created environment with name TwoArmTransport
+Action size is 14
+{'test/sim_max_reward_100000': 1.0, 'test/sim_video_100000': '../experiments/robosaga/transport_image/diffusion_policy/saga/eval/shuffle_env/epoch=0200-test_mean_score=0.917.ckpt/media/4e8hrxc7.mp4', 'test/sim_max_reward_100001': 0.0, 'test/sim_video_100001': '../experiments/robosaga/transport_image/diffusion_policy/saga/eval/shuffle_env/epoch=0200-test_mean_score=0.917.ckpt/media/ev25j7t0.mp4', 'test/sim_max_reward_100002': 0.0, 'test/sim_video_100002': '../experiments/robosaga/transport_image/diffusion_policy/saga/eval/shuffle_env/epoch=0200-test_mean_score=0.917.ckpt/media/wzik4411.mp4', 'test/sim_max_reward_100003': 1.0, 'test/sim_video_100003': '../experiments/robosaga/transport_image/diffusion_policy/saga/eval/shuffle_env/epoch=0200-test_mean_score=0.917.ckpt/media/ilrwxh41.mp4', 'test/sim_max_reward_100004': 0.0, 'test/sim_max_reward_100005': 1.0, 'test/sim_max_reward_100006': 1.0, 'test/sim_max_reward_100007': 1.0, 'test/sim_max_reward_100008': 1.0, 'test/sim_max_reward_100009': 1.0, 'test/sim_max_reward_100010': 0.0, 'test/sim_max_reward_100011': 0.0, 'test/sim_max_reward_100012': 0.0, 'test/sim_max_reward_100013': 0.0, 'test/sim_max_reward_100014': 0.0, 'test/sim_max_reward_100015': 0.0, 'test/sim_max_reward_100016': 1.0, 'test/sim_max_reward_100017': 1.0, 'test/sim_max_reward_100018': 0.0, 'test/sim_max_reward_100019': 1.0, 'test/sim_max_reward_100020': 0.0, 'test/sim_max_reward_100021': 1.0, 'test/sim_max_reward_100022': 0.0, 'test/sim_max_reward_100023': 1.0, 'test/mean_score': 0.5}
+

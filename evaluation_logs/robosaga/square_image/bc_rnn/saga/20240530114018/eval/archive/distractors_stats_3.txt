@@ -1,0 +1,23 @@
+Output from /home/zheyu/RoboSaGA/robomimic/robomimic/scripts/eval_trained_agent.py with arguments --agent ../experiments/robosaga/square_image/bc_rnn/saga/20240530114018/models/model_epoch_340.pth --n_rollouts 50 --distractors --env_id null bottle lemon milk can --video_path ../experiments/robosaga/square_image/bc_rnn/saga/20240530114018/eval/videos/distractors_ckpt_model_epoch_340.mp4:
+
+Output from /home/zheyu/RoboSaGA/robomimic/robomimic/scripts/eval_trained_agent.py with arguments --agent ../experiments/robosaga/square_image/bc_rnn/saga/20240530114018/models/model_epoch_160_NutAssemblySquare_success_0.84.pth --n_rollouts 50 --distractors --env_id null bottle lemon milk can --video_path ../experiments/robosaga/square_image/bc_rnn/saga/20240530114018/eval/videos/distractors_ckpt_model_epoch_160_NutAssemblySquare_success_0.84.mp4:
+
+Output from /home/zheyu/RoboSaGA/robomimic/robomimic/scripts/eval_trained_agent.py with arguments --agent ../experiments/robosaga/square_image/bc_rnn/saga/20240530114018/models/model_epoch_240_NutAssemblySquare_success_0.88.pth --n_rollouts 50 --distractors --env_id null bottle lemon milk can --video_path ../experiments/robosaga/square_image/bc_rnn/saga/20240530114018/eval/videos/distractors_ckpt_model_epoch_240_NutAssemblySquare_success_0.88.mp4:
+
+Errors: usage: eval_trained_agent.py [-h] --agent AGENT
+                             [--distractors DISTRACTORS [DISTRACTORS ...]]
+                             [--shuffle_env] [--n_rollouts N_ROLLOUTS]
+                             [--horizon HORIZON] [--env ENV] [--render]
+                             [--video_path VIDEO_PATH]
+                             [--video_skip VIDEO_SKIP]
+                             [--camera_names CAMERA_NAMES [CAMERA_NAMES ...]]
+                             [--dataset_path DATASET_PATH] [--dataset_obs]
+                             [--seed SEED] [--env_id ENV_ID]
+eval_trained_agent.py: error: argument --distractors: expected at least one argument
+
+
+===== Results for ../experiments/robosaga/square_image/bc_rnn/saga/20240530114018 =====
+Indomain: [0.88, 0.86, 0.84], 0.86 +/- 0.02
+  data: [0.88, 0.86, 0.84]
+Off-domain for distractors: nan +/- nan
+   data: []
