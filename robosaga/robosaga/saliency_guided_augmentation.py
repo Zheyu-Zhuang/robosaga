@@ -127,7 +127,7 @@ class SaliencyGuidedAugmentation:
             elif self.aug_strategy == "saga_mixup":
                 smaps = torch.clip(smaps, 0, 0.8)
             x_aug = obs_dict[obs_key][aug_inds] * smaps + bg * (1 - smaps)
-            if self.batch_idx % 30 == 0:
+            if self.batch_idx % 1 == 0:
                 idx = 0
                 x_vis, x_aug_vis = obs_dict[obs_key][idx], obs_dict[obs_key][idx]
                 vis_smap, bg_vis = torch.ones_like(smaps[idx]), torch.zeros_like(bg[idx])
@@ -384,7 +384,7 @@ class SaliencyGuidedAugmentation:
         return x.squeeze(0) if x.shape[0] == 1 else x
 
     @staticmethod
-    def vstack_images(images, padding=10):
+    def vstack_images(images, padding=2):
         images = [
             cv2.copyMakeBorder(
                 im, padding, padding, padding, padding, cv2.BORDER_CONSTANT, value=[0, 0, 0]
@@ -493,7 +493,7 @@ class SaliencyGuidedAugmentation:
         x = [self.get_debug_image(x_, bgr_to_rgb=True) for x_ in x]
         smap = self.get_debug_image(smap)
         x.append(cv2.applyColorMap(smap, cv2.COLORMAP_JET))
-        im_pad = np.ones((x[0].shape[0], 5, 3), dtype=np.uint8)
+        im_pad = np.ones((x[0].shape[0], 4, 3), dtype=np.uint8)
         for i in range(len(x) - 1):
             x.insert(2 * i + 1, im_pad)
         vis = cv2.hconcat(x)
