@@ -6,12 +6,13 @@ Normalize Obs:  True
 
 ============= Initialized Observation Utils with Obs Spec =============
 
-using obs modality: low_dim with keys: ['robot0_eef_pos', 'robot0_eef_quat', 'robot0_gripper_qpos']
+using obs modality: low_dim with keys: ['robot0_eef_pos', 'robot0_gripper_qpos', 'robot0_eef_quat']
 using obs modality: rgb with keys: ['robot0_eye_in_hand_image', 'agentview_image']
 using obs modality: depth with keys: []
 using obs modality: scan with keys: []
 Diffusion params: 2.556013e+08
 Vision params: 2.239418e+07
+saga_mixup
 
 ==================== Saliency-guided Augmentation Parameters ====================
 aug_strategy: saga_mixup
@@ -22,6 +23,7 @@ disable_buffer: False
 buffer_shape: [84, 84]
 backgrounds shape: [5908, 3, 84, 84]
 save_dir: 
+mode: encoder_only
 ======================================================================
 
 Created environment with name PickPlaceCan
@@ -138,151 +140,9 @@ Created environment with name PickPlaceCan
 Action size is 7
 Created environment with name PickPlaceCan
 Action size is 7
-{'train/sim_max_reward_0': 0.0, 'train/sim_video_0': '../experiments/robosaga/can_image/diffusion_policy/saga/eval/distractors/epoch=0150-test_mean_score=0.980.ckpt/media/4wzfio19.mp4', 'train/sim_max_reward_1': 0.0, 'train/sim_video_1': '../experiments/robosaga/can_image/diffusion_policy/saga/eval/distractors/epoch=0150-test_mean_score=0.980.ckpt/media/y3h36gjo.mp4', 'train/sim_max_reward_2': 0.0, 'train/sim_max_reward_3': 0.0, 'train/sim_max_reward_4': 0.0, 'train/sim_max_reward_5': 0.0, 'test/sim_max_reward_100000': 1.0, 'test/sim_video_100000': '../experiments/robosaga/can_image/diffusion_policy/saga/eval/distractors/epoch=0150-test_mean_score=0.980.ckpt/media/hgy8d1oy.mp4', 'test/sim_max_reward_100001': 0.0, 'test/sim_video_100001': '../experiments/robosaga/can_image/diffusion_policy/saga/eval/distractors/epoch=0150-test_mean_score=0.980.ckpt/media/ljq6c9k8.mp4', 'test/sim_max_reward_100002': 1.0, 'test/sim_video_100002': '../experiments/robosaga/can_image/diffusion_policy/saga/eval/distractors/epoch=0150-test_mean_score=0.980.ckpt/media/urutdxij.mp4', 'test/sim_max_reward_100003': 1.0, 'test/sim_video_100003': '../experiments/robosaga/can_image/diffusion_policy/saga/eval/distractors/epoch=0150-test_mean_score=0.980.ckpt/media/kek4j3v5.mp4', 'test/sim_max_reward_100004': 1.0, 'test/sim_max_reward_100005': 1.0, 'test/sim_max_reward_100006': 1.0, 'test/sim_max_reward_100007': 1.0, 'test/sim_max_reward_100008': 1.0, 'test/sim_max_reward_100009': 1.0, 'test/sim_max_reward_100010': 0.0, 'test/sim_max_reward_100011': 1.0, 'test/sim_max_reward_100012': 1.0, 'test/sim_max_reward_100013': 1.0, 'test/sim_max_reward_100014': 1.0, 'test/sim_max_reward_100015': 1.0, 'test/sim_max_reward_100016': 1.0, 'test/sim_max_reward_100017': 1.0, 'test/sim_max_reward_100018': 1.0, 'test/sim_max_reward_100019': 1.0, 'test/sim_max_reward_100020': 1.0, 'test/sim_max_reward_100021': 1.0, 'test/sim_max_reward_100022': 1.0, 'test/sim_max_reward_100023': 1.0, 'test/sim_max_reward_100024': 1.0, 'test/sim_max_reward_100025': 1.0, 'test/sim_max_reward_100026': 1.0, 'test/sim_max_reward_100027': 1.0, 'test/sim_max_reward_100028': 0.0, 'test/sim_max_reward_100029': 1.0, 'test/sim_max_reward_100030': 0.0, 'test/sim_max_reward_100031': 1.0, 'test/sim_max_reward_100032': 1.0, 'test/sim_max_reward_100033': 1.0, 'test/sim_max_reward_100034': 1.0, 'test/sim_max_reward_100035': 1.0, 'test/sim_max_reward_100036': 0.0, 'test/sim_max_reward_100037': 0.0, 'test/sim_max_reward_100038': 0.0, 'test/sim_max_reward_100039': 1.0, 'test/sim_max_reward_100040': 1.0, 'test/sim_max_reward_100041': 1.0, 'test/sim_max_reward_100042': 1.0, 'test/sim_max_reward_100043': 0.0, 'test/sim_max_reward_100044': 1.0, 'test/sim_max_reward_100045': 0.0, 'test/sim_max_reward_100046': 1.0, 'test/sim_max_reward_100047': 1.0, 'test/sim_max_reward_100048': 1.0, 'test/sim_max_reward_100049': 1.0, 'train/mean_score': 0.0, 'test/mean_score': 0.82}
+{'train/sim_max_reward_0': 0.0, 'train/sim_video_0': '../experiments/robosaga/can_image/diffusion_policy/saga/eval/distractors/epoch=0150-test_mean_score=0.980.ckpt/media/pztbln9w.mp4', 'train/sim_max_reward_1': 0.0, 'train/sim_video_1': '../experiments/robosaga/can_image/diffusion_policy/saga/eval/distractors/epoch=0150-test_mean_score=0.980.ckpt/media/kkefppu1.mp4', 'train/sim_max_reward_2': 0.0, 'train/sim_max_reward_3': 0.0, 'train/sim_max_reward_4': 1.0, 'train/sim_max_reward_5': 0.0, 'test/sim_max_reward_100000': 1.0, 'test/sim_video_100000': '../experiments/robosaga/can_image/diffusion_policy/saga/eval/distractors/epoch=0150-test_mean_score=0.980.ckpt/media/9e9dmvda.mp4', 'test/sim_max_reward_100001': 0.0, 'test/sim_video_100001': '../experiments/robosaga/can_image/diffusion_policy/saga/eval/distractors/epoch=0150-test_mean_score=0.980.ckpt/media/x475t2rk.mp4', 'test/sim_max_reward_100002': 1.0, 'test/sim_video_100002': '../experiments/robosaga/can_image/diffusion_policy/saga/eval/distractors/epoch=0150-test_mean_score=0.980.ckpt/media/9o1h8b52.mp4', 'test/sim_max_reward_100003': 1.0, 'test/sim_video_100003': '../experiments/robosaga/can_image/diffusion_policy/saga/eval/distractors/epoch=0150-test_mean_score=0.980.ckpt/media/3vwyqwxl.mp4', 'test/sim_max_reward_100004': 1.0, 'test/sim_max_reward_100005': 1.0, 'test/sim_max_reward_100006': 1.0, 'test/sim_max_reward_100007': 1.0, 'test/sim_max_reward_100008': 1.0, 'test/sim_max_reward_100009': 1.0, 'test/sim_max_reward_100010': 0.0, 'test/sim_max_reward_100011': 1.0, 'test/sim_max_reward_100012': 1.0, 'test/sim_max_reward_100013': 1.0, 'test/sim_max_reward_100014': 1.0, 'test/sim_max_reward_100015': 0.0, 'test/sim_max_reward_100016': 1.0, 'test/sim_max_reward_100017': 1.0, 'test/sim_max_reward_100018': 1.0, 'test/sim_max_reward_100019': 1.0, 'test/sim_max_reward_100020': 1.0, 'test/sim_max_reward_100021': 1.0, 'test/sim_max_reward_100022': 1.0, 'test/sim_max_reward_100023': 0.0, 'test/sim_max_reward_100024': 1.0, 'test/sim_max_reward_100025': 1.0, 'test/sim_max_reward_100026': 1.0, 'test/sim_max_reward_100027': 1.0, 'test/sim_max_reward_100028': 1.0, 'test/sim_max_reward_100029': 0.0, 'test/sim_max_reward_100030': 0.0, 'test/sim_max_reward_100031': 1.0, 'test/sim_max_reward_100032': 1.0, 'test/sim_max_reward_100033': 1.0, 'test/sim_max_reward_100034': 1.0, 'test/sim_max_reward_100035': 1.0, 'test/sim_max_reward_100036': 0.0, 'test/sim_max_reward_100037': 1.0, 'test/sim_max_reward_100038': 1.0, 'test/sim_max_reward_100039': 1.0, 'test/sim_max_reward_100040': 1.0, 'test/sim_max_reward_100041': 1.0, 'test/sim_max_reward_100042': 1.0, 'test/sim_max_reward_100043': 0.0, 'test/sim_max_reward_100044': 1.0, 'test/sim_max_reward_100045': 1.0, 'test/sim_max_reward_100046': 1.0, 'test/sim_max_reward_100047': 1.0, 'test/sim_max_reward_100048': 1.0, 'test/sim_max_reward_100049': 1.0, 'train/mean_score': 0.16666666666666666, 'test/mean_score': 0.84}
 
 Output from /home/x_zhzhu/RoboSaGA/diffusion_policy/eval.py with arguments --checkpoint ../experiments/robosaga/can_image/diffusion_policy/saga/checkpoints/epoch=0200-test_mean_score=0.960.ckpt --output_dir ../experiments/robosaga/can_image/diffusion_policy/saga/eval/distractors/epoch=0200-test_mean_score=0.960.ckpt --distractors:
-
-==================== Double-check the Following Parameters ====================n
-Group Norm:  {'enable': True, 'return_fullgrad_bias': True}
-Normalize Obs:  True
-
-============= Initialized Observation Utils with Obs Spec =============
-
-using obs modality: low_dim with keys: ['robot0_eef_pos', 'robot0_eef_quat', 'robot0_gripper_qpos']
-using obs modality: rgb with keys: ['agentview_image', 'robot0_eye_in_hand_image']
-using obs modality: depth with keys: []
-using obs modality: scan with keys: []
-Diffusion params: 2.556013e+08
-Vision params: 2.239418e+07
-
-==================== Saliency-guided Augmentation Parameters ====================
-aug_strategy: saga_mixup
-aug_ratio: 0.5
-warmup_epochs: 10
-update_ratio: 0.1
-disable_buffer: False
-buffer_shape: [84, 84]
-backgrounds shape: [5908, 3, 84, 84]
-save_dir: 
-======================================================================
-
-Created environment with name PickPlaceCan
-Action size is 7
-Created environment with name PickPlaceCan
-Action size is 7
-Created environment with name PickPlaceCan
-Action size is 7
-Created environment with name PickPlaceCan
-Action size is 7
-Created environment with name PickPlaceCan
-Action size is 7
-Created environment with name PickPlaceCan
-Action size is 7
-Created environment with name PickPlaceCan
-Action size is 7
-Created environment with name PickPlaceCan
-Action size is 7
-Created environment with name PickPlaceCan
-Action size is 7
-Created environment with name PickPlaceCan
-Action size is 7
-Created environment with name PickPlaceCan
-Action size is 7
-Created environment with name PickPlaceCan
-Action size is 7
-Created environment with name PickPlaceCan
-Action size is 7
-Created environment with name PickPlaceCan
-Action size is 7
-Created environment with name PickPlaceCan
-Action size is 7
-Created environment with name PickPlaceCan
-Action size is 7
-Created environment with name PickPlaceCan
-Action size is 7
-Created environment with name PickPlaceCan
-Action size is 7
-Created environment with name PickPlaceCan
-Action size is 7
-Created environment with name PickPlaceCan
-Action size is 7
-Created environment with name PickPlaceCan
-Action size is 7
-Created environment with name PickPlaceCan
-Action size is 7
-Created environment with name PickPlaceCan
-Action size is 7
-Created environment with name PickPlaceCan
-Action size is 7
-Created environment with name PickPlaceCan
-Action size is 7
-Created environment with name PickPlaceCan
-Action size is 7
-Created environment with name PickPlaceCan
-Action size is 7
-Created environment with name PickPlaceCan
-Action size is 7
-Created environment with name PickPlaceCan
-Action size is 7
-Created environment with name PickPlaceCan
-Action size is 7
-Created environment with name PickPlaceCan
-Action size is 7
-Created environment with name PickPlaceCan
-Action size is 7
-Created environment with name PickPlaceCan
-Action size is 7
-Created environment with name PickPlaceCan
-Action size is 7
-Created environment with name PickPlaceCan
-Action size is 7
-Created environment with name PickPlaceCan
-Action size is 7
-Created environment with name PickPlaceCan
-Action size is 7
-Created environment with name PickPlaceCan
-Action size is 7
-Created environment with name PickPlaceCan
-Action size is 7
-Created environment with name PickPlaceCan
-Action size is 7
-Created environment with name PickPlaceCan
-Action size is 7
-Created environment with name PickPlaceCan
-Action size is 7
-Created environment with name PickPlaceCan
-Action size is 7
-Created environment with name PickPlaceCan
-Action size is 7
-Created environment with name PickPlaceCan
-Action size is 7
-Created environment with name PickPlaceCan
-Action size is 7
-Created environment with name PickPlaceCan
-Action size is 7
-Created environment with name PickPlaceCan
-Action size is 7
-Created environment with name PickPlaceCan
-Action size is 7
-Created environment with name PickPlaceCan
-Action size is 7
-Created environment with name PickPlaceCan
-Action size is 7
-Created environment with name PickPlaceCan
-Action size is 7
-Created environment with name PickPlaceCan
-Action size is 7
-Created environment with name PickPlaceCan
-Action size is 7
-Created environment with name PickPlaceCan
-Action size is 7
-Created environment with name PickPlaceCan
-Action size is 7
-Created environment with name PickPlaceCan
-Action size is 7
-{'train/sim_max_reward_0': 0.0, 'train/sim_video_0': '../experiments/robosaga/can_image/diffusion_policy/saga/eval/distractors/epoch=0200-test_mean_score=0.960.ckpt/media/q05mv90d.mp4', 'train/sim_max_reward_1': 0.0, 'train/sim_video_1': '../experiments/robosaga/can_image/diffusion_policy/saga/eval/distractors/epoch=0200-test_mean_score=0.960.ckpt/media/sigdnejt.mp4', 'train/sim_max_reward_2': 0.0, 'train/sim_max_reward_3': 0.0, 'train/sim_max_reward_4': 0.0, 'train/sim_max_reward_5': 0.0, 'test/sim_max_reward_100000': 1.0, 'test/sim_video_100000': '../experiments/robosaga/can_image/diffusion_policy/saga/eval/distractors/epoch=0200-test_mean_score=0.960.ckpt/media/et18t9uc.mp4', 'test/sim_max_reward_100001': 0.0, 'test/sim_video_100001': '../experiments/robosaga/can_image/diffusion_policy/saga/eval/distractors/epoch=0200-test_mean_score=0.960.ckpt/media/yzz8j8pk.mp4', 'test/sim_max_reward_100002': 1.0, 'test/sim_video_100002': '../experiments/robosaga/can_image/diffusion_policy/saga/eval/distractors/epoch=0200-test_mean_score=0.960.ckpt/media/3bvcfopz.mp4', 'test/sim_max_reward_100003': 1.0, 'test/sim_video_100003': '../experiments/robosaga/can_image/diffusion_policy/saga/eval/distractors/epoch=0200-test_mean_score=0.960.ckpt/media/cz2nf5tk.mp4', 'test/sim_max_reward_100004': 1.0, 'test/sim_max_reward_100005': 1.0, 'test/sim_max_reward_100006': 1.0, 'test/sim_max_reward_100007': 1.0, 'test/sim_max_reward_100008': 1.0, 'test/sim_max_reward_100009': 1.0, 'test/sim_max_reward_100010': 0.0, 'test/sim_max_reward_100011': 1.0, 'test/sim_max_reward_100012': 1.0, 'test/sim_max_reward_100013': 1.0, 'test/sim_max_reward_100014': 0.0, 'test/sim_max_reward_100015': 1.0, 'test/sim_max_reward_100016': 1.0, 'test/sim_max_reward_100017': 1.0, 'test/sim_max_reward_100018': 1.0, 'test/sim_max_reward_100019': 1.0, 'test/sim_max_reward_100020': 1.0, 'test/sim_max_reward_100021': 1.0, 'test/sim_max_reward_100022': 1.0, 'test/sim_max_reward_100023': 1.0, 'test/sim_max_reward_100024': 1.0, 'test/sim_max_reward_100025': 1.0, 'test/sim_max_reward_100026': 1.0, 'test/sim_max_reward_100027': 1.0, 'test/sim_max_reward_100028': 1.0, 'test/sim_max_reward_100029': 1.0, 'test/sim_max_reward_100030': 0.0, 'test/sim_max_reward_100031': 1.0, 'test/sim_max_reward_100032': 0.0, 'test/sim_max_reward_100033': 1.0, 'test/sim_max_reward_100034': 1.0, 'test/sim_max_reward_100035': 1.0, 'test/sim_max_reward_100036': 0.0, 'test/sim_max_reward_100037': 0.0, 'test/sim_max_reward_100038': 0.0, 'test/sim_max_reward_100039': 0.0, 'test/sim_max_reward_100040': 1.0, 'test/sim_max_reward_100041': 1.0, 'test/sim_max_reward_100042': 1.0, 'test/sim_max_reward_100043': 0.0, 'test/sim_max_reward_100044': 1.0, 'test/sim_max_reward_100045': 0.0, 'test/sim_max_reward_100046': 1.0, 'test/sim_max_reward_100047': 1.0, 'test/sim_max_reward_100048': 0.0, 'test/sim_max_reward_100049': 1.0, 'train/mean_score': 0.0, 'test/mean_score': 0.76}
-
-Output from /home/x_zhzhu/RoboSaGA/diffusion_policy/eval.py with arguments --checkpoint ../experiments/robosaga/can_image/diffusion_policy/saga/checkpoints/epoch=0100-test_mean_score=0.960.ckpt --output_dir ../experiments/robosaga/can_image/diffusion_policy/saga/eval/distractors/epoch=0100-test_mean_score=0.960.ckpt --distractors:
 
 ==================== Double-check the Following Parameters ====================n
 Group Norm:  {'enable': True, 'return_fullgrad_bias': True}
@@ -296,6 +156,7 @@ using obs modality: depth with keys: []
 using obs modality: scan with keys: []
 Diffusion params: 2.556013e+08
 Vision params: 2.239418e+07
+saga_mixup
 
 ==================== Saliency-guided Augmentation Parameters ====================
 aug_strategy: saga_mixup
@@ -306,6 +167,151 @@ disable_buffer: False
 buffer_shape: [84, 84]
 backgrounds shape: [5908, 3, 84, 84]
 save_dir: 
+mode: encoder_only
+======================================================================
+
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Created environment with name PickPlaceCan
+Action size is 7
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+Created environment with name PickPlaceCan
+Action size is 7
+{'train/sim_max_reward_0': 1.0, 'train/sim_video_0': '../experiments/robosaga/can_image/diffusion_policy/saga/eval/distractors/epoch=0200-test_mean_score=0.960.ckpt/media/kbcqwxpq.mp4', 'train/sim_max_reward_1': 0.0, 'train/sim_video_1': '../experiments/robosaga/can_image/diffusion_policy/saga/eval/distractors/epoch=0200-test_mean_score=0.960.ckpt/media/93uhsa8z.mp4', 'train/sim_max_reward_2': 0.0, 'train/sim_max_reward_3': 0.0, 'train/sim_max_reward_4': 0.0, 'train/sim_max_reward_5': 0.0, 'test/sim_max_reward_100000': 1.0, 'test/sim_video_100000': '../experiments/robosaga/can_image/diffusion_policy/saga/eval/distractors/epoch=0200-test_mean_score=0.960.ckpt/media/mxpfeywl.mp4', 'test/sim_max_reward_100001': 0.0, 'test/sim_video_100001': '../experiments/robosaga/can_image/diffusion_policy/saga/eval/distractors/epoch=0200-test_mean_score=0.960.ckpt/media/lnozjxlu.mp4', 'test/sim_max_reward_100002': 1.0, 'test/sim_video_100002': '../experiments/robosaga/can_image/diffusion_policy/saga/eval/distractors/epoch=0200-test_mean_score=0.960.ckpt/media/0u9da2f5.mp4', 'test/sim_max_reward_100003': 1.0, 'test/sim_video_100003': '../experiments/robosaga/can_image/diffusion_policy/saga/eval/distractors/epoch=0200-test_mean_score=0.960.ckpt/media/lsb0wwrj.mp4', 'test/sim_max_reward_100004': 1.0, 'test/sim_max_reward_100005': 1.0, 'test/sim_max_reward_100006': 1.0, 'test/sim_max_reward_100007': 1.0, 'test/sim_max_reward_100008': 1.0, 'test/sim_max_reward_100009': 1.0, 'test/sim_max_reward_100010': 0.0, 'test/sim_max_reward_100011': 0.0, 'test/sim_max_reward_100012': 1.0, 'test/sim_max_reward_100013': 1.0, 'test/sim_max_reward_100014': 1.0, 'test/sim_max_reward_100015': 1.0, 'test/sim_max_reward_100016': 1.0, 'test/sim_max_reward_100017': 1.0, 'test/sim_max_reward_100018': 1.0, 'test/sim_max_reward_100019': 1.0, 'test/sim_max_reward_100020': 1.0, 'test/sim_max_reward_100021': 1.0, 'test/sim_max_reward_100022': 1.0, 'test/sim_max_reward_100023': 0.0, 'test/sim_max_reward_100024': 1.0, 'test/sim_max_reward_100025': 1.0, 'test/sim_max_reward_100026': 1.0, 'test/sim_max_reward_100027': 1.0, 'test/sim_max_reward_100028': 1.0, 'test/sim_max_reward_100029': 1.0, 'test/sim_max_reward_100030': 1.0, 'test/sim_max_reward_100031': 1.0, 'test/sim_max_reward_100032': 0.0, 'test/sim_max_reward_100033': 1.0, 'test/sim_max_reward_100034': 1.0, 'test/sim_max_reward_100035': 1.0, 'test/sim_max_reward_100036': 0.0, 'test/sim_max_reward_100037': 1.0, 'test/sim_max_reward_100038': 1.0, 'test/sim_max_reward_100039': 1.0, 'test/sim_max_reward_100040': 1.0, 'test/sim_max_reward_100041': 1.0, 'test/sim_max_reward_100042': 1.0, 'test/sim_max_reward_100043': 0.0, 'test/sim_max_reward_100044': 1.0, 'test/sim_max_reward_100045': 1.0, 'test/sim_max_reward_100046': 1.0, 'test/sim_max_reward_100047': 1.0, 'test/sim_max_reward_100048': 1.0, 'test/sim_max_reward_100049': 1.0, 'train/mean_score': 0.16666666666666666, 'test/mean_score': 0.86}
+
+Output from /home/x_zhzhu/RoboSaGA/diffusion_policy/eval.py with arguments --checkpoint ../experiments/robosaga/can_image/diffusion_policy/saga/checkpoints/epoch=0100-test_mean_score=0.960.ckpt --output_dir ../experiments/robosaga/can_image/diffusion_policy/saga/eval/distractors/epoch=0100-test_mean_score=0.960.ckpt --distractors:
+
+==================== Double-check the Following Parameters ====================n
+Group Norm:  {'enable': True, 'return_fullgrad_bias': True}
+Normalize Obs:  True
+
+============= Initialized Observation Utils with Obs Spec =============
+
+using obs modality: low_dim with keys: ['robot0_eef_pos', 'robot0_gripper_qpos', 'robot0_eef_quat']
+using obs modality: rgb with keys: ['agentview_image', 'robot0_eye_in_hand_image']
+using obs modality: depth with keys: []
+using obs modality: scan with keys: []
+Diffusion params: 2.556013e+08
+Vision params: 2.239418e+07
+saga_mixup
+
+==================== Saliency-guided Augmentation Parameters ====================
+aug_strategy: saga_mixup
+aug_ratio: 0.5
+warmup_epochs: 10
+update_ratio: 0.1
+disable_buffer: False
+buffer_shape: [84, 84]
+backgrounds shape: [5908, 3, 84, 84]
+save_dir: 
+mode: encoder_only
 ======================================================================
 
 Created environment with name PickPlaceCan
@@ -422,11 +428,11 @@ Created environment with name PickPlaceCan
 Action size is 7
 Created environment with name PickPlaceCan
 Action size is 7
-{'train/sim_max_reward_0': 0.0, 'train/sim_video_0': '../experiments/robosaga/can_image/diffusion_policy/saga/eval/distractors/epoch=0100-test_mean_score=0.960.ckpt/media/xk91ksnh.mp4', 'train/sim_max_reward_1': 0.0, 'train/sim_video_1': '../experiments/robosaga/can_image/diffusion_policy/saga/eval/distractors/epoch=0100-test_mean_score=0.960.ckpt/media/qkdeac9z.mp4', 'train/sim_max_reward_2': 0.0, 'train/sim_max_reward_3': 0.0, 'train/sim_max_reward_4': 0.0, 'train/sim_max_reward_5': 0.0, 'test/sim_max_reward_100000': 1.0, 'test/sim_video_100000': '../experiments/robosaga/can_image/diffusion_policy/saga/eval/distractors/epoch=0100-test_mean_score=0.960.ckpt/media/h5xehev6.mp4', 'test/sim_max_reward_100001': 0.0, 'test/sim_video_100001': '../experiments/robosaga/can_image/diffusion_policy/saga/eval/distractors/epoch=0100-test_mean_score=0.960.ckpt/media/5duu8ui7.mp4', 'test/sim_max_reward_100002': 1.0, 'test/sim_video_100002': '../experiments/robosaga/can_image/diffusion_policy/saga/eval/distractors/epoch=0100-test_mean_score=0.960.ckpt/media/6f6jqz25.mp4', 'test/sim_max_reward_100003': 1.0, 'test/sim_video_100003': '../experiments/robosaga/can_image/diffusion_policy/saga/eval/distractors/epoch=0100-test_mean_score=0.960.ckpt/media/lt7klqb0.mp4', 'test/sim_max_reward_100004': 1.0, 'test/sim_max_reward_100005': 0.0, 'test/sim_max_reward_100006': 1.0, 'test/sim_max_reward_100007': 1.0, 'test/sim_max_reward_100008': 1.0, 'test/sim_max_reward_100009': 1.0, 'test/sim_max_reward_100010': 0.0, 'test/sim_max_reward_100011': 1.0, 'test/sim_max_reward_100012': 1.0, 'test/sim_max_reward_100013': 1.0, 'test/sim_max_reward_100014': 1.0, 'test/sim_max_reward_100015': 0.0, 'test/sim_max_reward_100016': 1.0, 'test/sim_max_reward_100017': 1.0, 'test/sim_max_reward_100018': 1.0, 'test/sim_max_reward_100019': 1.0, 'test/sim_max_reward_100020': 1.0, 'test/sim_max_reward_100021': 1.0, 'test/sim_max_reward_100022': 1.0, 'test/sim_max_reward_100023': 1.0, 'test/sim_max_reward_100024': 1.0, 'test/sim_max_reward_100025': 1.0, 'test/sim_max_reward_100026': 1.0, 'test/sim_max_reward_100027': 1.0, 'test/sim_max_reward_100028': 0.0, 'test/sim_max_reward_100029': 1.0, 'test/sim_max_reward_100030': 0.0, 'test/sim_max_reward_100031': 1.0, 'test/sim_max_reward_100032': 1.0, 'test/sim_max_reward_100033': 1.0, 'test/sim_max_reward_100034': 1.0, 'test/sim_max_reward_100035': 1.0, 'test/sim_max_reward_100036': 1.0, 'test/sim_max_reward_100037': 1.0, 'test/sim_max_reward_100038': 0.0, 'test/sim_max_reward_100039': 1.0, 'test/sim_max_reward_100040': 1.0, 'test/sim_max_reward_100041': 1.0, 'test/sim_max_reward_100042': 1.0, 'test/sim_max_reward_100043': 1.0, 'test/sim_max_reward_100044': 1.0, 'test/sim_max_reward_100045': 0.0, 'test/sim_max_reward_100046': 1.0, 'test/sim_max_reward_100047': 1.0, 'test/sim_max_reward_100048': 1.0, 'test/sim_max_reward_100049': 1.0, 'train/mean_score': 0.0, 'test/mean_score': 0.84}
+{'train/sim_max_reward_0': 0.0, 'train/sim_video_0': '../experiments/robosaga/can_image/diffusion_policy/saga/eval/distractors/epoch=0100-test_mean_score=0.960.ckpt/media/7c2m2wbp.mp4', 'train/sim_max_reward_1': 0.0, 'train/sim_video_1': '../experiments/robosaga/can_image/diffusion_policy/saga/eval/distractors/epoch=0100-test_mean_score=0.960.ckpt/media/m98dq3ko.mp4', 'train/sim_max_reward_2': 0.0, 'train/sim_max_reward_3': 0.0, 'train/sim_max_reward_4': 1.0, 'train/sim_max_reward_5': 0.0, 'test/sim_max_reward_100000': 1.0, 'test/sim_video_100000': '../experiments/robosaga/can_image/diffusion_policy/saga/eval/distractors/epoch=0100-test_mean_score=0.960.ckpt/media/ono7t9k6.mp4', 'test/sim_max_reward_100001': 1.0, 'test/sim_video_100001': '../experiments/robosaga/can_image/diffusion_policy/saga/eval/distractors/epoch=0100-test_mean_score=0.960.ckpt/media/fmxb6kdk.mp4', 'test/sim_max_reward_100002': 1.0, 'test/sim_video_100002': '../experiments/robosaga/can_image/diffusion_policy/saga/eval/distractors/epoch=0100-test_mean_score=0.960.ckpt/media/pgyr6ljs.mp4', 'test/sim_max_reward_100003': 1.0, 'test/sim_video_100003': '../experiments/robosaga/can_image/diffusion_policy/saga/eval/distractors/epoch=0100-test_mean_score=0.960.ckpt/media/yhjtvkxz.mp4', 'test/sim_max_reward_100004': 1.0, 'test/sim_max_reward_100005': 1.0, 'test/sim_max_reward_100006': 1.0, 'test/sim_max_reward_100007': 1.0, 'test/sim_max_reward_100008': 1.0, 'test/sim_max_reward_100009': 1.0, 'test/sim_max_reward_100010': 0.0, 'test/sim_max_reward_100011': 1.0, 'test/sim_max_reward_100012': 1.0, 'test/sim_max_reward_100013': 1.0, 'test/sim_max_reward_100014': 1.0, 'test/sim_max_reward_100015': 1.0, 'test/sim_max_reward_100016': 1.0, 'test/sim_max_reward_100017': 1.0, 'test/sim_max_reward_100018': 1.0, 'test/sim_max_reward_100019': 1.0, 'test/sim_max_reward_100020': 1.0, 'test/sim_max_reward_100021': 1.0, 'test/sim_max_reward_100022': 1.0, 'test/sim_max_reward_100023': 0.0, 'test/sim_max_reward_100024': 1.0, 'test/sim_max_reward_100025': 1.0, 'test/sim_max_reward_100026': 1.0, 'test/sim_max_reward_100027': 1.0, 'test/sim_max_reward_100028': 1.0, 'test/sim_max_reward_100029': 0.0, 'test/sim_max_reward_100030': 0.0, 'test/sim_max_reward_100031': 1.0, 'test/sim_max_reward_100032': 1.0, 'test/sim_max_reward_100033': 1.0, 'test/sim_max_reward_100034': 1.0, 'test/sim_max_reward_100035': 1.0, 'test/sim_max_reward_100036': 0.0, 'test/sim_max_reward_100037': 1.0, 'test/sim_max_reward_100038': 1.0, 'test/sim_max_reward_100039': 1.0, 'test/sim_max_reward_100040': 1.0, 'test/sim_max_reward_100041': 1.0, 'test/sim_max_reward_100042': 1.0, 'test/sim_max_reward_100043': 0.0, 'test/sim_max_reward_100044': 1.0, 'test/sim_max_reward_100045': 1.0, 'test/sim_max_reward_100046': 1.0, 'test/sim_max_reward_100047': 1.0, 'test/sim_max_reward_100048': 1.0, 'test/sim_max_reward_100049': 1.0, 'train/mean_score': 0.16666666666666666, 'test/mean_score': 0.88}
 
 
 ===== Results for ../experiments/robosaga/can_image/diffusion_policy/saga/ =====
 Indomain: [0.98, 0.96, 0.96], 0.97 +/- 0.01
   data: [0.98, 0.96, 0.96]
-Off-domain for distractors: 0.81 +/- 0.03
-   data: [0.82, 0.76, 0.84]
+Off-domain for distractors: 0.86 +/- 0.02
+   data: [0.84, 0.86, 0.88]

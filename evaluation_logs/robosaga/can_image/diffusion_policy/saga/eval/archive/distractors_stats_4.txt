@@ -1,0 +1,6 @@
+
+===== Results for ../experiments/robosaga/can_image/diffusion_policy/saga/ =====
+Indomain: [0.98, 0.96, 0.96], 0.97 +/- 0.01
+  data: [0.98, 0.96, 0.96]
+Off-domain for distractors: nan +/- nan
+   data: []
