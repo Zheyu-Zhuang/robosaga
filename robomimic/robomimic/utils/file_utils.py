@@ -77,7 +77,7 @@ def resume_from_checkpoint(device=None, ckpt_path=None, ckpt_dict=None, verbose=
         device=device,
     )
     model.nets.load_state_dict(ckpt_dict["model"])
-    return model, ckpt_dict
+    return model, ckpt_dict, config
 
 
 def create_hdf5_filter_key(hdf5_path, demo_keys, key_name):

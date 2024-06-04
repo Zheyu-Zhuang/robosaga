@@ -50,6 +50,7 @@ class SaliencyGuidedAugmentation:
         self.debug_save = self.get_kwarg(kwargs, "debug_save", True)
         self.save_dir = self.get_kwarg(kwargs, "save_dir", None)
         self.normalizer = self.get_kwarg(kwargs, "normalizer", None)
+        self.vis_out_dir = self.get_kwarg(kwargs, "vis_out_dir", None)
 
         # Indexes
         self.epoch_idx = 0  # epoch index
@@ -103,6 +104,7 @@ class SaliencyGuidedAugmentation:
             return obs_dict
         vis_ims = []
         for i, obs_key in enumerate(obs_meta["visual_modalities"]):
+            out_shape = obs_meta[obs_key]["input_shape"][-2:]
             if self.disable_buffer:
                 aug_inds = update_dict[obs_key]["updates"]
                 smaps = update_dict[obs_key]["smaps"]
@@ -111,7 +113,6 @@ class SaliencyGuidedAugmentation:
                 aug_inds = torch.arange(int(obs_meta["n_samples"] * self.aug_ratio))
                 global_ids = buffer_ids[aug_inds]
                 crop_inds = obs_meta[obs_key]["crop_inds"][aug_inds]
-                out_shape = obs_meta[obs_key]["input_shape"][-2:]
                 smaps = self.fetch_saliency_from_buffer(obs_key, global_ids, crop_inds, out_shape)
             rand_bg_idx = random.sample(range(self.backgrounds.shape[0]), len(aug_inds))
             normalizer = self.normalizer[obs_key] if self.normalizer is not None else None
@@ -133,20 +134,33 @@ class SaliencyGuidedAugmentation:
                 if idx in aug_inds:
                     idx_ = aug_inds.tolist().index(idx)
                     vis_smap, x_aug_vis, bg_vis = smaps[idx_], x_aug[idx_], bg[idx_]
-                vis_ims_ = [x_vis, x_aug_vis, bg_vis]
+                x_overlay_vis = x_vis * 0.5 + bg_vis * 0.5
+                vis_ims_ = [x_vis, bg_vis, x_overlay_vis, x_aug_vis]
                 vis_ims_ = [self.denormalize_image(im, obs_key) for im in vis_ims_]
                 vis_ims.append(self.compose_saga_images(vis_ims_, vis_smap))
+                #
             obs_dict[obs_key][aug_inds] = x_aug
         if len(vis_ims) >= 1:
+            if self.vis_out_dir is not None:
+                if not os.path.exists(self.vis_out_dir):
+                    os.makedirs(self.vis_out_dir)
+                cv2.imwrite(
+                    os.path.join(self.vis_out_dir, f"batch_{self.batch_idx}_saliency.jpg"),
+                    self.vstack_images(vis_ims),
+                )
             cv2.imwrite("augmentation_vis.jpg", self.vstack_images(vis_ims))
         return obs_dict
 
     def sample_update_indices(self, n_samples, buffer_ids, obs_key, mode="frequency"):
         n_augs = int(n_samples * self.aug_ratio)
         n_updates = int(n_samples * self.update_ratio)
+        if n_updates > n_augs:
+            n_augs = n_updates
         n_updates = n_augs if n_updates > n_augs else n_updates
         if n_updates == 0:
             return torch.tensor([]), torch.tensor([])
+        if self.disable_buffer:
+            mode = "random"
         if mode == "random":
             aug_batch_inds = torch.randperm(n_samples)[:n_augs]
             update_batch_inds = aug_batch_inds[:n_updates]
@@ -340,6 +354,8 @@ class SaliencyGuidedAugmentation:
         return bg
 
     def save_debug_images(self, obs_dict, obs_meta, sample_idx=0):
+        if self.save_dir is None:
+            return
         if not self.debug_save:
             return
         save_on_this_batch = self.batch_idx % self.save_debug_im_every_n_batches == 0
@@ -354,7 +370,9 @@ class SaliencyGuidedAugmentation:
             vis_ims.append(self.compose_saga_images(vis_ims_, vis_smap))
         im_name = f"batch_{self.batch_idx}_saliency.jpg"
         im_name = os.path.join(self.save_dir, f"epoch_{self.epoch_idx}", im_name)
-        self.create_saliency_dir()
+        saliency_dir = os.path.join(self.save_dir, f"epoch_{self.epoch_idx}")
+        if not os.path.exists(saliency_dir):
+            os.makedirs(saliency_dir)
         cv2.imwrite(im_name, self.vstack_images(vis_ims))
 
     def denormalize_image(self, x, obs_key):
@@ -454,11 +472,6 @@ class SaliencyGuidedAugmentation:
                 else:
                     print(f"{arg}: {self.__dict__[arg]}")
             print("======================================================================\n")
-
-    def create_saliency_dir(self):
-        saliency_dir = os.path.join(self.save_dir, f"epoch_{self.epoch_idx}")
-        if not os.path.exists(saliency_dir):
-            os.makedirs(saliency_dir)
 
     @staticmethod
     def restore_obs_dict_shape(obs_dict, obs_meta):
