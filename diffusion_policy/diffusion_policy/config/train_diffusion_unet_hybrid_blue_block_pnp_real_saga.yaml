@@ -1,6 +1,6 @@
 defaults:
   - _self_
-  - task: green_pnp_real
+  - task: blue_block_pnp_real
 
 name: train_diffusion_unet_hybrid
 exp_name: "saga"
@@ -37,6 +37,7 @@ saliency:
   save_dir: ""
   save_debug_im_every_n_batches: 5
   background_path: ../data/coco_5k_84x84/
+  warmup_epochs: 10
 # ---------------------------------------------------------------------------- #
 
 policy:

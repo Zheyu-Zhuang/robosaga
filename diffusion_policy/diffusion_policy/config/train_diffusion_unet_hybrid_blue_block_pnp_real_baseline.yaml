@@ -1,15 +1,16 @@
 defaults:
   - _self_
-  - task: green_pnp_real
+  - task: blue_block_pnp_real
 
 name: train_diffusion_unet_hybrid
-exp_name: "saga"
+exp_name: "baseline"
 
-_target_: diffusion_policy.workspace.train_saga_diffusion_unet_hybrid_workspace.TrainDiffusionUnetHybridWorkspace
+_target_: diffusion_policy.workspace.train_diffusion_unet_hybrid_workspace.TrainDiffusionUnetHybridWorkspace
+
+
 
 task_name: ${task.name}
 shape_meta: ${task.shape_meta}
-# exp_name: "default"
 
 horizon: 16
 n_obs_steps: 2
@@ -20,27 +21,9 @@ past_action_visible: False
 keypoint_visible_rate: 1.0
 obs_as_global_cond: True
 
-# -------------------------- pay attention here !!! ------------------------- #
-use_ema: True
-normalize_obs: True
-group_norm:
-  enable: True
-  return_fullgrad_bias: True
-
-
-saliency:
-  update_ratio: 0.1  # update 10% of the buffer per training batch
-  aug_ratio: 0.5  # 50% of the time, use augmented data
-  debug_vis: False
-  debug_save: True
-  buffer_shape: [84, 84]
-  save_dir: ""
-  save_debug_im_every_n_batches: 5
-  background_path: ../data/coco_5k_84x84/
-# ---------------------------------------------------------------------------- #
 
 policy:
-  _target_: diffusion_policy.policy.diffusion_unet_hybrid_image_policy_saga.DiffusionUnetHybridImagePolicySaGA
+  _target_: diffusion_policy.policy.diffusion_unet_hybrid_image_policy.DiffusionUnetHybridImagePolicy
 
   shape_meta: ${shape_meta}
   
@@ -57,6 +40,7 @@ policy:
     steps_offset: 0
     prediction_type: epsilon # or sample
 
+
   horizon: ${horizon}
   n_action_steps: ${eval:'${n_action_steps}+${n_latency_steps}'}
   n_obs_steps: ${n_obs_steps}
@@ -69,10 +53,8 @@ policy:
   kernel_size: 5
   n_groups: 8
   cond_predict_scale: True
-  normalize_obs: ${normalize_obs}
+  obs_encoder_group_norm: True
   eval_fixed_crop: True
-  group_norm: ${group_norm}
-  saliency_config: ${saliency}
 
   # scheduler.step params
   # predict_epsilon: True
@@ -118,7 +100,7 @@ training:
   gradient_accumulate_every: 1
   # EMA destroys performance when used with BatchNorm
   # replace BatchNorm with GroupNorm.
-  use_ema: ${use_ema}
+  use_ema: True
   # training loop control
   # in epochs
   rollout_every: 50
@@ -141,7 +123,6 @@ logging:
   group: null
   allow_val_change: True
 
-
 checkpoint:
   topk:
     monitor_key: train_loss
@@ -163,3 +144,4 @@ hydra:
   sweep:
     dir: ../experiments/robosaga/${task_name}/diffusion_policy/${exp_name}
     subdir: ${hydra.job.num}
+

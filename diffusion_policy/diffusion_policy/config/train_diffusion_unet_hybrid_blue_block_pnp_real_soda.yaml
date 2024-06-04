@@ -1,11 +1,11 @@
 defaults:
   - _self_
-  - task: green_pnp_real
+  - task: blue_block_pnp_real
 
 name: train_diffusion_unet_hybrid
-exp_name: "saga"
+exp_name: "soda"
 
-_target_: diffusion_policy.workspace.train_saga_diffusion_unet_hybrid_workspace.TrainDiffusionUnetHybridWorkspace
+_target_: diffusion_policy.workspace.train_diffusion_unet_hybrid_workspace.TrainDiffusionUnetHybridWorkspace
 
 task_name: ${task.name}
 shape_meta: ${task.shape_meta}
@@ -25,22 +25,15 @@ use_ema: True
 normalize_obs: True
 group_norm:
   enable: True
-  return_fullgrad_bias: True
+  return_fullgrad_bias: False
 
 
-saliency:
-  update_ratio: 0.1  # update 10% of the buffer per training batch
-  aug_ratio: 0.5  # 50% of the time, use augmented data
-  debug_vis: False
-  debug_save: True
-  buffer_shape: [84, 84]
-  save_dir: ""
-  save_debug_im_every_n_batches: 5
+soda:
   background_path: ../data/coco_5k_84x84/
 # ---------------------------------------------------------------------------- #
 
 policy:
-  _target_: diffusion_policy.policy.diffusion_unet_hybrid_image_policy_saga.DiffusionUnetHybridImagePolicySaGA
+  _target_: diffusion_policy.policy.diffusion_unet_hybrid_image_policy_soda.DiffusionUnetHybridImagePolicySODA
 
   shape_meta: ${shape_meta}
   
@@ -72,7 +65,7 @@ policy:
   normalize_obs: ${normalize_obs}
   eval_fixed_crop: True
   group_norm: ${group_norm}
-  saliency_config: ${saliency}
+  soda_config: ${soda}
 
   # scheduler.step params
   # predict_epsilon: True
