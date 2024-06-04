@@ -160,7 +160,7 @@ def train(device):
         config.saliency.disable_buffer = True
         config.saliency.update_ratio = 1
         config.saliency.aug_ratio = 1
-        config.saliency.vis_out_dir = "../saliency_images/lift"
+        config.saliency.vis_out_dir = "../saliency_images/{args.task}"
         saga = SaliencyGuidedAugmentation(model.nets["policy"], **config.saliency)
         saga.unregister_hooks()
 
@@ -218,6 +218,12 @@ if __name__ == "__main__":
         type=str,
         default=None,
         help="(optional) if provided, override the experiment name defined in the config",
+    )
+
+    parser.add_argument(
+        "--task",
+        type=str,
+        required=True,
     )
 
     # Dataset path, to override the one in the config
