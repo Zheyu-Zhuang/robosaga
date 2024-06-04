@@ -127,7 +127,7 @@ class SaliencyGuidedAugmentation:
             elif self.aug_strategy == "saga_mixup":
                 smaps = torch.clip(smaps, 0, 0.8)
             x_aug = obs_dict[obs_key][aug_inds] * smaps + bg * (1 - smaps)
-            if self.batch_idx % 1 == 0:
+            if self.batch_idx % 30 == 0:
                 idx = 0
                 x_vis, x_aug_vis = obs_dict[obs_key][idx], obs_dict[obs_key][idx]
                 vis_smap, bg_vis = torch.ones_like(smaps[idx]), torch.zeros_like(bg[idx])

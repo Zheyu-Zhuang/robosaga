@@ -120,4 +120,5 @@ class BCConfig(BaseConfig):
         self.saliency.background_path = ""
         self.saliency.aug_strategy = None
         self.saliency.mode = "encoder_only"
+        self.saliency.disable_buffer = False
         self.saliency.kwargs.do_not_lock_keys()

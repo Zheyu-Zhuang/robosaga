@@ -252,6 +252,9 @@ def print_latex_tables(stats_dict, print_std=False):
         output.append("".join(line))
     output.append("\\bottomrule")
     output.append("\\end{tabular}")
+    caption = """\\vspace{1mm}
+    \\caption{\\textbf{Off-domain performance of Overlay, Guided-Erase and RoboSaGA with BC-MLP}. The off-domain success rates for three augmentation methods—Guided Erase, Random Overlay, and RoboSaGA—across three simulated robotic manipulation tasks (Lift, Can, and Square). Success rate are shown for original settings, under texture variation, and with distractors.}"""
+    output.append(caption)
     output.append("\\end{table}")
 
     return "\n".join(output)

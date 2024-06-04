@@ -100,12 +100,19 @@ def format_mean_std(
 def process_all_experiments(base_path):
     tasks = ["can", "lift", "square", "transport"]
     task_dict = {}
+    methods = ["no_aug", "overlay", "soda", "saga"]
+    method_dict = {method: [] for method in methods}
     for task in tasks:
         task_path = os.path.join(base_path, f"{task}_image")
         if os.path.exists(task_path):
             results = process_directory(task_path)
-            stats = further_process_results(results)
+            stats, raw_data = further_process_results(results)
             task_dict[task] = stats
+            for method in methods:
+                method_dict[method] += raw_data[method]
+    for key, value in method_dict.items():
+        method_dict[key] = np.around(np.mean(value), 2)
+    print(method_dict)
     return task_dict
 
 
@@ -155,13 +162,13 @@ def further_process_results(exp_data):
         highscores = defaultdict(float)
         for aug_method, results in exp_data[policy].items():
             indomain = []
-            average = []
+            raw_data = []
             for experiment in results.keys():
                 if experiment == "indomain":
                     indomain.append(results[experiment])
                     continue
                 else:
-                    average += results[experiment]
+                    raw_data += results[experiment]
 
                 exp_mean = np.around(np.mean(results[experiment]), 2)
                 if exp_mean > highscores[experiment]:
@@ -182,12 +189,13 @@ def further_process_results(exp_data):
                     np.around(np.mean(indomain), 2),
                     np.around(np.std(indomain), 2),
                 ]
-            if len(average) == 0 or "No data" in average:
+            exp_stats[policy][aug_method]["raw_data"] = raw_data
+            if len(raw_data) == 0 or "No data" in raw_data:
                 exp_stats[policy][aug_method]["average"] = [None, None]
             else:
                 exp_stats[policy][aug_method]["average"] = [
-                    np.around(np.mean(average), 2),
-                    np.around(np.std(average), 2),
+                    np.around(np.mean(raw_data), 2),
+                    np.around(np.std(raw_data), 2),
                 ]
             if (
                 exp_stats[policy][aug_method]["indomain"][0] is not None
@@ -201,7 +209,15 @@ def further_process_results(exp_data):
                 highscores["average"] = exp_stats[policy][aug_method]["average"][0]
         exp_stats[policy]["highscores"] = highscores
 
-    return exp_stats
+    methods = ["no_aug", "overlay", "soda", "saga"]
+    raw_success = {method: [] for method in methods}
+    for policy in exp_stats.keys():
+        for method in methods:
+            try:
+                raw_success[method] += exp_stats[policy][method]["raw_data"]
+            except KeyError:
+                print(f"Error: {policy} {method}")
+    return exp_stats, raw_success
 
 
 def print_latex_tables(stats_dict, policies, print_std=True):
@@ -300,6 +316,9 @@ def print_latex_tables(stats_dict, policies, print_std=True):
 
     output.append("\\bottomrule")
     output.append("\\end{tabular}")
+    caption = """\\vspace{1mm}
+    \\caption{\\textbf{Off-domain performance of Overlay, Guided-Erase and RoboSaGA with BC-MLP}. The off-domain success rates for three augmentation methods—Guided Erase, Random Overlay, and RoboSaGA—across three simulated robotic manipulation tasks (Lift, Can, and Square). Success rate are shown for original settings, under texture variation, and with distractors.}"""
+    output.append(caption)
     output.append("\\end{table}")
 
     return "\n".join(output)
