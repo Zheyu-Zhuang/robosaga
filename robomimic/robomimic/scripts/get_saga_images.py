@@ -160,7 +160,7 @@ def train(device):
         config.saliency.disable_buffer = True
         config.saliency.update_ratio = 1
         config.saliency.aug_ratio = 1
-        config.saliency.vis_out_dir = "../saliency_images/{args.task}"
+        config.saliency.vis_out_dir = f"../saliency_images/{args.task}"
         saga = SaliencyGuidedAugmentation(model.nets["policy"], **config.saliency)
         saga.unregister_hooks()
 
