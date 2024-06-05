@@ -1,0 +1,77 @@
+Output from /home/x_zhzhu/RoboSaGA/robomimic/robomimic/scripts/eval_trained_agent.py with arguments --agent ../experiments/robosaga/can_image/bc/saga/20240531105947/models/model_epoch_150_PickPlaceCan_success_1.0.pth --n_rollouts 5 --distractors --video_path ../experiments/robosaga/can_image/bc/saga/20240531105947/eval/videos/distractors_ckpt_model_epoch_150_PickPlaceCan_success_1.0.mp4:
+
+============= Initialized Observation Utils with Obs Spec =============
+
+using obs modality: low_dim with keys: ['robot0_eef_pos', 'robot0_eef_quat', 'robot0_gripper_qpos']
+using obs modality: rgb with keys: ['agentview_image', 'robot0_eye_in_hand_image']
+using obs modality: depth with keys: []
+using obs modality: scan with keys: []
+Created environment with name PickPlaceCan
+Action size is 7
+Found 8 GPUs for rendering. Using device 0.
+Average Rollout Stats for ../experiments/robosaga/can_image/bc/saga/20240531105947/models/model_epoch_150_PickPlaceCan_success_1.0.pth:
+{
+    "Return": 0.4,
+    "Horizon": 285.4,
+    "Success_Rate": 0.4,
+    "Num_Success": 2.0
+}
+
+Output from /home/x_zhzhu/RoboSaGA/robomimic/robomimic/scripts/eval_trained_agent.py with arguments --agent ../experiments/robosaga/can_image/bc/saga/20240531105947/models/model_epoch_250.pth --n_rollouts 5 --distractors --video_path ../experiments/robosaga/can_image/bc/saga/20240531105947/eval/videos/distractors_ckpt_model_epoch_250.mp4:
+
+============= Initialized Observation Utils with Obs Spec =============
+
+using obs modality: low_dim with keys: ['robot0_eef_pos', 'robot0_gripper_qpos', 'robot0_eef_quat']
+using obs modality: rgb with keys: ['robot0_eye_in_hand_image', 'agentview_image']
+using obs modality: depth with keys: []
+using obs modality: scan with keys: []
+Created environment with name PickPlaceCan
+Action size is 7
+Found 8 GPUs for rendering. Using device 0.
+Average Rollout Stats for ../experiments/robosaga/can_image/bc/saga/20240531105947/models/model_epoch_250.pth:
+{
+    "Return": 0.4,
+    "Horizon": 284.2,
+    "Success_Rate": 0.4,
+    "Num_Success": 2.0
+}
+
+Output from /home/x_zhzhu/RoboSaGA/robomimic/robomimic/scripts/eval_trained_agent.py with arguments --agent ../experiments/robosaga/can_image/bc/saga/20240531105947/models/model_epoch_500.pth --n_rollouts 5 --distractors --video_path ../experiments/robosaga/can_image/bc/saga/20240531105947/eval/videos/distractors_ckpt_model_epoch_500.mp4:
+
+============= Initialized Observation Utils with Obs Spec =============
+
+using obs modality: low_dim with keys: ['robot0_gripper_qpos', 'robot0_eef_pos', 'robot0_eef_quat']
+using obs modality: rgb with keys: ['agentview_image', 'robot0_eye_in_hand_image']
+using obs modality: depth with keys: []
+using obs modality: scan with keys: []
+Created environment with name PickPlaceCan
+Action size is 7
+Found 8 GPUs for rendering. Using device 0.
+Average Rollout Stats for ../experiments/robosaga/can_image/bc/saga/20240531105947/models/model_epoch_500.pth:
+{
+    "Return": 0.6,
+    "Horizon": 226.2,
+    "Success_Rate": 0.6,
+    "Num_Success": 3.0
+}
+
+Errors: 
+  0%|          | 0/5 [00:00<?, ?it/s]
+  0%|          | 0/5 [00:12<?, ?it/s, Success Rate=1]
+ 20%|██        | 1/5 [00:12<00:51, 12.75s/it, Success Rate=1]
+ 20%|██        | 1/5 [00:20<00:51, 12.75s/it, Success Rate=1]
+ 40%|████      | 2/5 [00:20<00:28,  9.59s/it, Success Rate=1]
+ 40%|████      | 2/5 [00:38<00:28,  9.59s/it, Success Rate=0.667]
+ 60%|██████    | 3/5 [00:38<00:27, 13.66s/it, Success Rate=0.667]
+ 60%|██████    | 3/5 [00:57<00:27, 13.66s/it, Success Rate=0.5]  
+ 80%|████████  | 4/5 [00:57<00:15, 15.53s/it, Success Rate=0.5]
+ 80%|████████  | 4/5 [01:04<00:15, 15.53s/it, Success Rate=0.6]
+100%|██████████| 5/5 [01:04<00:00, 12.52s/it, Success Rate=0.6]
+100%|██████████| 5/5 [01:04<00:00, 12.85s/it, Success Rate=0.6]
+
+
+===== Results for ../experiments/robosaga/can_image/bc/saga/20240531105947/ =====
+Indomain: [1.0, 1.0, 0.95], 0.98 +/- 0.02
+  data: [1.0, 1.0, 0.95]
+Off-domain for distractors: 0.47 +/- 0.09
+   data: [0.4, 0.4, 0.6]

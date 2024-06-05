@@ -3,7 +3,7 @@ defaults:
   - task: green_pnp_real
 
 name: train_robomimic_image
-exp_name: "green_pnp_real_image_bc_rnn_saga"
+exp_name: "green_pnp_real_image_bc_rnn_baseline"
 
 _target_: diffusion_policy.workspace.train_robomimic_image_workspace.TrainRobomimicImageWorkspace
 

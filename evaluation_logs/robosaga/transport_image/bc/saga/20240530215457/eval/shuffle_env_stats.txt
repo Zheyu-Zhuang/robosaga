@@ -1,0 +1,207 @@
+Output from /home/x_zhzhu/RoboSaGA/robomimic/robomimic/scripts/eval_trained_agent.py with arguments --agent ../experiments/robosaga/transport_image/bc/saga/20240530215457/models/model_epoch_250_TwoArmTransport_success_0.55.pth --n_rollouts 50 --shuffle_env --env_id shuffle_env_env_1 --video_path ../experiments/robosaga/transport_image/bc/saga/20240530215457/eval/videos/shuffle_env_ckpt_model_epoch_250_TwoArmTransport_success_0.55.mp4:
+
+============= Initialized Observation Utils with Obs Spec =============
+
+using obs modality: low_dim with keys: ['robot0_gripper_qpos', 'robot1_gripper_qpos', 'robot1_eef_quat', 'robot0_eef_quat', 'robot1_eef_pos', 'robot0_eef_pos']
+using obs modality: rgb with keys: ['shouldercamera0_image', 'robot0_eye_in_hand_image', 'robot1_eye_in_hand_image', 'shouldercamera1_image']
+using obs modality: depth with keys: []
+using obs modality: scan with keys: []
+Created environment with name TwoArmTransport
+Action size is 14
+Found 8 GPUs for rendering. Using device 0.
+
+Output from /home/x_zhzhu/RoboSaGA/robomimic/robomimic/scripts/eval_trained_agent.py with arguments --agent ../experiments/robosaga/transport_image/bc/saga/20240530215457/models/model_epoch_450.pth --n_rollouts 50 --shuffle_env --env_id shuffle_env_env_2 --video_path ../experiments/robosaga/transport_image/bc/saga/20240530215457/eval/videos/shuffle_env_ckpt_model_epoch_450.mp4:
+
+============= Initialized Observation Utils with Obs Spec =============
+
+using obs modality: low_dim with keys: ['robot1_eef_quat', 'robot1_eef_pos', 'robot0_eef_quat', 'robot1_gripper_qpos', 'robot0_eef_pos', 'robot0_gripper_qpos']
+using obs modality: rgb with keys: ['shouldercamera0_image', 'shouldercamera1_image', 'robot1_eye_in_hand_image', 'robot0_eye_in_hand_image']
+using obs modality: depth with keys: []
+using obs modality: scan with keys: []
+Created environment with name TwoArmTransport
+Action size is 14
+Found 8 GPUs for rendering. Using device 0.
+
+Output from /home/x_zhzhu/RoboSaGA/robomimic/robomimic/scripts/eval_trained_agent.py with arguments --agent ../experiments/robosaga/transport_image/bc/saga/20240530215457/models/model_epoch_500_TwoArmTransport_success_0.7.pth --n_rollouts 50 --shuffle_env --env_id shuffle_env_env_0 --video_path ../experiments/robosaga/transport_image/bc/saga/20240530215457/eval/videos/shuffle_env_ckpt_model_epoch_500_TwoArmTransport_success_0.7.mp4:
+
+============= Initialized Observation Utils with Obs Spec =============
+
+using obs modality: low_dim with keys: ['robot1_eef_pos', 'robot1_eef_quat', 'robot0_eef_quat', 'robot1_gripper_qpos', 'robot0_eef_pos', 'robot0_gripper_qpos']
+using obs modality: rgb with keys: ['robot1_eye_in_hand_image', 'robot0_eye_in_hand_image', 'shouldercamera1_image', 'shouldercamera0_image']
+using obs modality: depth with keys: []
+using obs modality: scan with keys: []
+Created environment with name TwoArmTransport
+Action size is 14
+Found 8 GPUs for rendering. Using device 0.
+Average Rollout Stats for ../experiments/robosaga/transport_image/bc/saga/20240530215457/models/model_epoch_500_TwoArmTransport_success_0.7.pth:
+{
+    "Return": 0.08,
+    "Horizon": 688.26,
+    "Success_Rate": 0.08,
+    "Num_Success": 4.0
+}
+
+Errors: 
+  0%|          | 0/50 [00:00<?, ?it/s]
+  0%|          | 0/50 [00:56<?, ?it/s, Success Rate=0]
+  2%|▏         | 1/50 [00:56<46:01, 56.36s/it, Success Rate=0]
+  2%|▏         | 1/50 [01:49<46:01, 56.36s/it, Success Rate=0]
+  4%|▍         | 2/50 [01:49<43:21, 54.20s/it, Success Rate=0]
+  4%|▍         | 2/50 [02:42<43:21, 54.20s/it, Success Rate=0]
+  6%|▌         | 3/50 [02:42<42:09, 53.81s/it, Success Rate=0]
+  6%|▌         | 3/50 [03:34<42:09, 53.81s/it, Success Rate=0]
+  8%|▊         | 4/50 [03:34<40:47, 53.21s/it, Success Rate=0]
+  8%|▊         | 4/50 [04:27<40:47, 53.21s/it, Success Rate=0]
+ 10%|█         | 5/50 [04:27<39:52, 53.17s/it, Success Rate=0]
+ 10%|█         | 5/50 [05:22<39:52, 53.17s/it, Success Rate=0]
+ 12%|█▏        | 6/50 [05:22<39:22, 53.69s/it, Success Rate=0]
+ 12%|█▏        | 6/50 [06:15<39:22, 53.69s/it, Success Rate=0]
+ 14%|█▍        | 7/50 [06:15<38:22, 53.54s/it, Success Rate=0]
+ 14%|█▍        | 7/50 [07:08<38:22, 53.54s/it, Success Rate=0]
+ 16%|█▌        | 8/50 [07:08<37:23, 53.40s/it, Success Rate=0]
+ 16%|█▌        | 8/50 [08:02<37:23, 53.40s/it, Success Rate=0]
+ 18%|█▊        | 9/50 [08:02<36:31, 53.45s/it, Success Rate=0]
+ 18%|█▊        | 9/50 [08:57<36:31, 53.45s/it, Success Rate=0]
+ 20%|██        | 10/50 [08:57<35:55, 53.89s/it, Success Rate=0]
+ 20%|██        | 10/50 [09:51<35:55, 53.89s/it, Success Rate=0]
+ 22%|██▏       | 11/50 [09:51<35:01, 53.88s/it, Success Rate=0]
+ 22%|██▏       | 11/50 [10:44<35:01, 53.88s/it, Success Rate=0]
+ 24%|██▍       | 12/50 [10:44<34:03, 53.79s/it, Success Rate=0]
+ 24%|██▍       | 12/50 [11:38<34:03, 53.79s/it, Success Rate=0]
+ 26%|██▌       | 13/50 [11:38<33:11, 53.84s/it, Success Rate=0]
+ 26%|██▌       | 13/50 [12:31<33:11, 53.84s/it, Success Rate=0]
+ 28%|██▊       | 14/50 [12:31<32:10, 53.64s/it, Success Rate=0]
+ 28%|██▊       | 14/50 [13:25<32:10, 53.64s/it, Success Rate=0]
+ 30%|███       | 15/50 [13:25<31:22, 53.78s/it, Success Rate=0]
+ 30%|███       | 15/50 [14:18<31:22, 53.78s/it, Success Rate=0]
+ 32%|███▏      | 16/50 [14:18<30:21, 53.57s/it, Success Rate=0]
+ 32%|███▏      | 16/50 [14:58<30:21, 53.57s/it, Success Rate=0.0588]
+ 34%|███▍      | 17/50 [14:58<27:11, 49.45s/it, Success Rate=0.0588]
+ 34%|███▍      | 17/50 [15:51<27:11, 49.45s/it, Success Rate=0.0556]
+ 36%|███▌      | 18/50 [15:51<26:48, 50.27s/it, Success Rate=0.0556]
+ 36%|███▌      | 18/50 [18:13<26:48, 50.27s/it, Success Rate=0.0526]
+ 38%|███▊      | 19/50 [18:13<40:13, 77.85s/it, Success Rate=0.0526]
+ 38%|███▊      | 19/50 [19:04<40:13, 77.85s/it, Success Rate=0.05]  
+ 40%|████      | 20/50 [19:04<34:53, 69.78s/it, Success Rate=0.05]
+ 40%|████      | 20/50 [19:54<34:53, 69.78s/it, Success Rate=0.0476]
+ 42%|████▏     | 21/50 [19:54<30:52, 63.88s/it, Success Rate=0.0476]
+ 42%|████▏     | 21/50 [20:44<30:52, 63.88s/it, Success Rate=0.0455]
+ 44%|████▍     | 22/50 [20:44<27:54, 59.79s/it, Success Rate=0.0455]
+ 44%|████▍     | 22/50 [21:27<27:54, 59.79s/it, Success Rate=0.087] 
+ 46%|████▌     | 23/50 [21:27<24:41, 54.87s/it, Success Rate=0.087]
+ 46%|████▌     | 23/50 [22:21<24:41, 54.87s/it, Success Rate=0.0833]
+ 48%|████▊     | 24/50 [22:21<23:34, 54.40s/it, Success Rate=0.0833]
+ 48%|████▊     | 24/50 [23:12<23:34, 54.40s/it, Success Rate=0.08]  
+ 50%|█████     | 25/50 [23:12<22:16, 53.45s/it, Success Rate=0.08]
+ 50%|█████     | 25/50 [23:56<22:16, 53.45s/it, Success Rate=0.115]
+ 52%|█████▏    | 26/50 [23:56<20:14, 50.62s/it, Success Rate=0.115]
+ 52%|█████▏    | 26/50 [24:46<20:14, 50.62s/it, Success Rate=0.111]
+ 54%|█████▍    | 27/50 [24:46<19:20, 50.47s/it, Success Rate=0.111]
+ 54%|█████▍    | 27/50 [25:38<19:20, 50.47s/it, Success Rate=0.107]
+ 56%|█████▌    | 28/50 [25:38<18:38, 50.86s/it, Success Rate=0.107]
+ 56%|█████▌    | 28/50 [26:29<18:38, 50.86s/it, Success Rate=0.103]
+ 58%|█████▊    | 29/50 [26:29<17:48, 50.87s/it, Success Rate=0.103]
+ 58%|█████▊    | 29/50 [27:21<17:48, 50.87s/it, Success Rate=0.1]  
+ 60%|██████    | 30/50 [27:21<17:07, 51.38s/it, Success Rate=0.1]
+ 60%|██████    | 30/50 [28:14<17:07, 51.38s/it, Success Rate=0.0968]
+ 62%|██████▏   | 31/50 [28:14<16:23, 51.75s/it, Success Rate=0.0968]
+ 62%|██████▏   | 31/50 [29:06<16:23, 51.75s/it, Success Rate=0.0938]
+ 64%|██████▍   | 32/50 [29:06<15:34, 51.94s/it, Success Rate=0.0938]
+ 64%|██████▍   | 32/50 [29:55<15:34, 51.94s/it, Success Rate=0.0909]
+ 66%|██████▌   | 33/50 [29:55<14:25, 50.93s/it, Success Rate=0.0909]
+ 66%|██████▌   | 33/50 [30:49<14:25, 50.93s/it, Success Rate=0.0882]
+ 68%|██████▊   | 34/50 [30:49<13:48, 51.78s/it, Success Rate=0.0882]
+ 68%|██████▊   | 34/50 [31:39<13:48, 51.78s/it, Success Rate=0.0857]
+ 70%|███████   | 35/50 [31:39<12:49, 51.32s/it, Success Rate=0.0857]
+ 70%|███████   | 35/50 [32:29<12:49, 51.32s/it, Success Rate=0.0833]
+ 72%|███████▏  | 36/50 [32:29<11:52, 50.88s/it, Success Rate=0.0833]
+ 72%|███████▏  | 36/50 [33:20<11:52, 50.88s/it, Success Rate=0.0811]
+ 74%|███████▍  | 37/50 [33:20<11:03, 51.07s/it, Success Rate=0.0811]
+ 74%|███████▍  | 37/50 [34:12<11:03, 51.07s/it, Success Rate=0.0789]
+ 76%|███████▌  | 38/50 [34:12<10:14, 51.24s/it, Success Rate=0.0789]
+ 76%|███████▌  | 38/50 [35:01<10:14, 51.24s/it, Success Rate=0.0769]
+ 78%|███████▊  | 39/50 [35:01<09:17, 50.67s/it, Success Rate=0.0769]
+ 78%|███████▊  | 39/50 [35:53<09:17, 50.67s/it, Success Rate=0.075] 
+ 80%|████████  | 40/50 [35:53<08:29, 51.00s/it, Success Rate=0.075]
+ 80%|████████  | 40/50 [36:43<08:29, 51.00s/it, Success Rate=0.0732]
+ 82%|████████▏ | 41/50 [36:43<07:36, 50.78s/it, Success Rate=0.0732]
+ 82%|████████▏ | 41/50 [37:21<07:36, 50.78s/it, Success Rate=0.0952]
+ 84%|████████▍ | 42/50 [37:21<06:14, 46.77s/it, Success Rate=0.0952]
+ 84%|████████▍ | 42/50 [38:10<06:14, 46.77s/it, Success Rate=0.093] 
+ 86%|████████▌ | 43/50 [38:10<05:32, 47.54s/it, Success Rate=0.093]
+ 86%|████████▌ | 43/50 [39:02<05:32, 47.54s/it, Success Rate=0.0909]
+ 88%|████████▊ | 44/50 [39:02<04:52, 48.81s/it, Success Rate=0.0909]
+ 88%|████████▊ | 44/50 [39:52<04:52, 48.81s/it, Success Rate=0.0889]
+ 90%|█████████ | 45/50 [39:52<04:06, 49.32s/it, Success Rate=0.0889]
+ 90%|█████████ | 45/50 [40:44<04:06, 49.32s/it, Success Rate=0.087] 
+ 92%|█████████▏| 46/50 [40:44<03:20, 50.04s/it, Success Rate=0.087]
+ 92%|█████████▏| 46/50 [41:34<03:20, 50.04s/it, Success Rate=0.0851]
+ 94%|█████████▍| 47/50 [41:34<02:30, 50.12s/it, Success Rate=0.0851]
+ 94%|█████████▍| 47/50 [42:25<02:30, 50.12s/it, Success Rate=0.0833]
+ 96%|█████████▌| 48/50 [42:25<01:40, 50.40s/it, Success Rate=0.0833]
+ 96%|█████████▌| 48/50 [43:18<01:40, 50.40s/it, Success Rate=0.0816]
+ 98%|█████████▊| 49/50 [43:18<00:51, 51.13s/it, Success Rate=0.0816]
+ 98%|█████████▊| 49/50 [44:08<00:51, 51.13s/it, Success Rate=0.08]  
+100%|██████████| 50/50 [44:08<00:00, 50.61s/it, Success Rate=0.08]
+100%|██████████| 50/50 [44:08<00:00, 52.96s/it, Success Rate=0.08]
+
+
+Output from /home/x_zhzhu/RoboSaGA/robomimic/robomimic/scripts/eval_trained_agent.py with arguments --agent ../experiments/robosaga/transport_image/bc/saga/20240530215457/models/model_epoch_250_TwoArmTransport_success_0.55.pth --n_rollouts 50 --shuffle_env --env_id shuffle_env_env_1:
+
+============= Initialized Observation Utils with Obs Spec =============
+
+using obs modality: low_dim with keys: ['robot0_eef_pos', 'robot1_eef_pos', 'robot0_eef_quat', 'robot0_gripper_qpos', 'robot1_gripper_qpos', 'robot1_eef_quat']
+using obs modality: rgb with keys: ['robot0_eye_in_hand_image', 'shouldercamera0_image', 'robot1_eye_in_hand_image', 'shouldercamera1_image']
+using obs modality: depth with keys: []
+using obs modality: scan with keys: []
+
+============= Initialized Observation Utils with Obs Spec =============
+
+using obs modality: low_dim with keys: ['robot1_eef_pos', 'robot0_eef_pos', 'robot0_gripper_qpos', 'robot1_eef_quat', 'robot1_gripper_qpos', 'robot0_eef_quat']
+using obs modality: rgb with keys: ['shouldercamera0_image', 'robot1_eye_in_hand_image', 'robot0_eye_in_hand_image', 'shouldercamera1_image']
+using obs modality: depth with keys: []
+using obs modality: scan with keys: []
+Created environment with name TwoArmTransport
+Action size is 14
+Found 8 GPUs for rendering. Using device 0.
+Average Rollout Stats for ../experiments/robosaga/transport_image/bc/saga/20240530215457/models/model_epoch_500_TwoArmTransport_success_0.7.pth:
+{
+    "Return": 0.06,
+    "Horizon": 689.42,
+    "Success_Rate": 0.06,
+    "Num_Success": 3.0
+}
+
+
+============= Initialized Observation Utils with Obs Spec =============
+
+using obs modality: low_dim with keys: ['robot0_eef_quat', 'robot1_eef_quat', 'robot1_eef_pos', 'robot0_eef_pos', 'robot1_gripper_qpos', 'robot0_gripper_qpos']
+using obs modality: rgb with keys: ['shouldercamera1_image', 'robot0_eye_in_hand_image', 'shouldercamera0_image', 'robot1_eye_in_hand_image']
+using obs modality: depth with keys: []
+using obs modality: scan with keys: []
+
+Output from /home/x_zhzhu/RoboSaGA/robomimic/robomimic/scripts/eval_trained_agent.py with arguments --agent ../experiments/robosaga/transport_image/bc/saga/20240530215457/models/model_epoch_500_TwoArmTransport_success_0.7.pth --n_rollouts 50 --shuffle_env --env_id shuffle_env_env_0:
+
+============= Initialized Observation Utils with Obs Spec =============
+
+using obs modality: low_dim with keys: ['robot0_eef_quat', 'robot1_eef_pos', 'robot1_gripper_qpos', 'robot0_eef_pos', 'robot1_eef_quat', 'robot0_gripper_qpos']
+using obs modality: rgb with keys: ['robot1_eye_in_hand_image', 'robot0_eye_in_hand_image', 'shouldercamera1_image', 'shouldercamera0_image']
+using obs modality: depth with keys: []
+using obs modality: scan with keys: []
+Created environment with name TwoArmTransport
+Action size is 14
+Found 8 GPUs for rendering. Using device 0.
+Average Rollout Stats for ../experiments/robosaga/transport_image/bc/saga/20240530215457/models/model_epoch_500_TwoArmTransport_success_0.7.pth:
+{
+    "Return": 0.02,
+    "Horizon": 698.36,
+    "Success_Rate": 0.02,
+    "Num_Success": 1.0
+}
+
+
+===== Results for ../experiments/robosaga/transport_image/bc/saga/20240530215457/ =====
+Indomain: [0.7, 0.55, 0.5], 0.58 +/- 0.08
+  data: [0.7, 0.55, 0.5]
+Off-domain for shuffle_env: 0.05 +/- 0.02
+   data: [0.08, 0.06, 0.02]
