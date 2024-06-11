@@ -112,6 +112,8 @@ def process_all_experiments(base_path):
             task_dict[task] = stats
             for method in methods:
                 method_dict[method] += raw_data[method]
+    diff = np.array(method_dict["soda"]) - np.array(method_dict["overlay"])
+    print(np.mean(diff), np.std(diff))
     for key, value in method_dict.items():
         method_dict[key] = f"{np.around(np.mean(value), 3)} +/- {np.around(np.std(value), 3)}"
     print(method_dict)
@@ -343,4 +345,8 @@ if __name__ == "__main__":
         output = print_latex_tables(stats, ["bc", "bc_rnn", "diffusion_policy"], print_std=False)
         # output = print_latex_tables(stats, ["diffusion_policy"], print_std=True)
         # Copy the output to the clipboard
-        pyperclip.copy(output)
+        try:
+            pyperclip.copy(output)
+        except pyperclip.PyperclipException:
+            print("Error copying to clipboard. Printing to console instead.")   
+            print(output)

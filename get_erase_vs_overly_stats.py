@@ -277,4 +277,7 @@ if __name__ == "__main__":
         # Call the function and store its output
         output = print_latex_tables(stats, print_std=True)
         # Copy the output to the clipboard
-        pyperclip.copy(output)
+        try:
+            pyperclip.copy(output)
+        except Exception as e:
+            print(output)
