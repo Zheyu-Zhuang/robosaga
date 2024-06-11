@@ -1,6 +1,0 @@
-
-===== Results for ../experiments/robosaga/can_image/diffusion_policy/overlay/ =====
-Indomain: [0.98, 0.98, 0.98], 0.98 +/- 0.0
-  data: [0.98, 0.98, 0.98]
-Off-domain for distractors: nan +/- nan
-   data: []

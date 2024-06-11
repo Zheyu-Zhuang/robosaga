@@ -1,6 +1,0 @@
-
-===== Results for ../experiments/robosaga/lift_image/bc/saga/20240524001300/ =====
-Indomain: [1.0, 1.0, 1.0], 1.0 +/- 0.0
-  data: [1.0, 1.0, 1.0]
-Off-domain for textile: 0.95 +/- 0.02
-   data: [0.94, 0.92, 0.98]
