@@ -68,8 +68,10 @@ def parse_stats_from_text(text, file_path=None):
             except ValueError:
                 print(f"Error parsing raw data from {file_path}")
                 raw_data = []
-            if len(raw_data) <= 2:
-                print(f"Warning: Raw data has less than 3 elements in {file_path}")
+            if len(raw_data) != 3:
+                print(
+                    f"Warning: Raw data needs three data points. Found {len(raw_data)} in {file_path}"
+                )
             stats[current_domain]["raw_data"] = raw_data
 
     return stats
@@ -111,7 +113,7 @@ def process_all_experiments(base_path):
             for method in methods:
                 method_dict[method] += raw_data[method]
     for key, value in method_dict.items():
-        method_dict[key] = np.around(np.mean(value), 2)
+        method_dict[key] = f"{np.around(np.mean(value), 3)} +/- {np.around(np.std(value), 3)}"
     print(method_dict)
     return task_dict
 
@@ -317,10 +319,10 @@ def print_latex_tables(stats_dict, policies, print_std=True):
     output.append("\\bottomrule")
     output.append("\\end{tabular}")
     caption = """\\vspace{1mm}
-    \\caption{\\textbf{Off-domain performance of Overlay, Guided-Erase and RoboSaGA with BC-MLP}. The off-domain success rates for three augmentation methods—Guided Erase, Random Overlay, and RoboSaGA—across three simulated robotic manipulation tasks (Lift, Can, and Square). Success rate are shown for original settings, under texture variation, and with distractors.}"""
+\\caption{\\textbf{Off-domain performance of Random Overlay, SODA and RoboSaGA.} Each is evaluated with BC-MLP, BC-RNN, Diffusion Policy across four simulated tasks against distractors and background variations.\\textit{\\textcolor{red}{Full table with standard deviations are included in the Appendix.}}}"""
     output.append(caption)
     output.append("\\end{table}")
-
+    output.append("\\label{tab:main_results}")
     return "\n".join(output)
 
 
